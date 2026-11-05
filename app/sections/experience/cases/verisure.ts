@@ -2,7 +2,7 @@ import type { Case } from '../../types';
 
 export default {
   slug: 'verisure',
-  logo: '/assets/verisure-logo.png',
+  logo: '/assets/verisure-logo.webp',
   tag: 'VERISURE · APPRENTICESHIP WITH EFREI · 2025–PRESENT',
   title: 'Analytics Engineer',
   summary: 'From a request for Data tests to a Data Quality and Observability platform.',

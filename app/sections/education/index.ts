@@ -32,7 +32,7 @@ const section: Section = {
       phase: 2.8,
     },
     visual: {
-      image: '/assets/esa/galileo/galileo-in-orbit.jpg',
+      image: '/assets/esa/galileo/galileo-in-orbit.webp',
       alt: 'ESA rendering of a Galileo navigation satellite above Europe',
       credit: 'Galileo rendering: ESA / P. Carril',
     },

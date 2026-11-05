@@ -27,7 +27,7 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
         <section className="cockpit" id="cockpit" aria-labelledby="opening-title">
           <img
             className="cockpit-image"
-            src="/assets/cockpit-center-seat.png"
+            src="/assets/cockpit-center-seat.webp"
             alt="View from the middle seat of a spacecraft cockpit with four windows ahead, hands and legs visible"
           />
           <div className="cockpit-shade" aria-hidden="true"></div>

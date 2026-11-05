@@ -26,7 +26,7 @@ const section: Section = {
     look: [4.15, 1.7, 0.45],
     device: {
       kind: 'billboard',
-      image: '/assets/nasa/sentinel-6-render.png',
+      image: '/assets/nasa/sentinel-6-render.webp',
       aspect: 3000 / 1688,
       mapScale: 3,
       chapterScale: 2.05,
@@ -34,7 +34,7 @@ const section: Section = {
       phase: 1.6,
     },
     visual: {
-      image: '/assets/nasa/sentinel-6-render.png',
+      image: '/assets/nasa/sentinel-6-render.webp',
       alt: 'Detailed Sentinel-6 spacecraft rendering showing the satellite bus, instruments and solar array',
       credit: 'Sentinel-6 rendering: NASA',
     },

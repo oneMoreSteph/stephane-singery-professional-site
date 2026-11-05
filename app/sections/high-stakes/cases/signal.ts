@@ -2,7 +2,7 @@ import type { Case } from '../../types';
 
 export default {
   slug: 'signal',
-  logo: '/assets/verisure-logo.png',
+  logo: '/assets/verisure-logo.webp',
   tag: 'VERISURE · DATA QUALITY & OBSERVABILITY',
   title: 'Signal or noise',
   summary: 'Governed overrides: harmless alerts stop flooding the teams, nothing is silenced for good.',

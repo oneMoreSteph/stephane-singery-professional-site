@@ -27,7 +27,7 @@ const section: Section = {
     look: [-2.65, 1.65, 0.6],
     device: {
       kind: 'billboard',
-      image: '/assets/nasa/iss-render.png',
+      image: '/assets/nasa/iss-render.webp',
       aspect: 3000 / 1569,
       mapScale: 2.85,
       chapterScale: 2.25,
@@ -35,7 +35,7 @@ const section: Section = {
       phase: 0,
     },
     visual: {
-      image: '/assets/nasa/iss-photograph.jpg',
+      image: '/assets/nasa/iss-photograph.webp',
       alt: 'The International Space Station photographed in orbit, with its modules and solar arrays visible',
       credit: 'ISS photograph: NASA',
     },

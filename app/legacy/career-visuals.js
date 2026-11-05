@@ -113,7 +113,7 @@ function orbitMarkup(suffix) {
   return `<defs><radialGradient id="orbitEarth${suffix}" cx=".5" cy=".12" r=".95"><stop stop-color="#4b93ae"/><stop offset=".4" stop-color="#143f55"/><stop offset="1" stop-color="#04131f"/></radialGradient><radialGradient id="orbitShade${suffix}" cx=".38" cy=".32" r=".75"><stop offset=".45" stop-color="#04131f" stop-opacity="0"/><stop offset="1" stop-color="#04131f" stop-opacity=".88"/></radialGradient></defs>
     <circle cx="${cx}" cy="${cy}" r="${earth + 7}" class="orbit-atmo"/>
     <clipPath id="orbitClip${suffix}"><circle cx="${cx}" cy="${cy}" r="${earth}"/></clipPath>
-    <image href="/assets/nasa/blue-marble-2048.png" x="${cx - 418}" y="${cy - 121}" width="792" height="396" preserveAspectRatio="none" clip-path="url(#orbitClip${suffix})" class="orbit-earth-img"/>
+    <image href="/assets/nasa/blue-marble-2048.webp" x="${cx - 418}" y="${cy - 121}" width="792" height="396" preserveAspectRatio="none" clip-path="url(#orbitClip${suffix})" class="orbit-earth-img"/>
     <circle cx="${cx}" cy="${cy}" r="${earth}" fill="url(#orbitShade${suffix})" class="orbit-earth"/>
     <text class="orbit-earth-label" x="${cx}" y="${cy - earth + 34}">WORK ON EARTH</text>
     ${transfer(150, 205, -152, -138)}${transfer(205, 260, -28, -42)}${groups}`;

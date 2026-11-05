@@ -24,7 +24,7 @@ const section: Section = {
     look: [-2.65, -1.75, -0.6],
     device: {
       kind: 'billboard',
-      image: '/assets/nasa/juice-render.png',
+      image: '/assets/nasa/juice-render.webp',
       aspect: 691 / 649,
       mapScale: 2.4,
       chapterScale: 1.6,
@@ -32,7 +32,7 @@ const section: Section = {
       phase: 4.2,
     },
     visual: {
-      image: '/assets/esa/juice/juice-deployed.jpg',
+      image: '/assets/esa/juice/juice-deployed.webp',
       alt: 'ESA rendering of the Juice spacecraft with its deployed solar arrays and antennas',
       credit: 'Juice rendering: ESA / ATG Medialab',
     },

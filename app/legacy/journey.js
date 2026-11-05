@@ -547,7 +547,7 @@ async function initWorld() {
       sun = new THREE.DirectionalLight(0xfff2dc, 3.1); sun.position.set(-6, 5, 10); scene.add(sun);
       const fill = new THREE.DirectionalLight(0x3c94ba, .68); fill.position.set(6, -3, -7); scene.add(fill);
       makeStars(); makeOrbit(3.65, 2.9, .28, .28); makeOrbit(4.12, 3.22, -.31, .17); makeOrbit(4.7, 3.76, .52, .12);
-      const texture = await new THREE.TextureLoader().loadAsync('/assets/nasa/blue-marble-2048.png');
+      const texture = await new THREE.TextureLoader().loadAsync('/assets/nasa/blue-marble-2048.webp');
       texture.colorSpace = THREE.SRGBColorSpace; texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
       earth = new THREE.Mesh(new THREE.SphereGeometry(2.65, 96, 64), new THREE.MeshStandardMaterial({ map: texture, roughness: 1 })); earth.rotation.set(globeTilt, globeAngle, 0); scene.add(earth);
       makeAtmosphere();
