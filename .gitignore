@@ -1,0 +1,12 @@
+# macOS and editors
+.DS_Store
+.idea/
+.vscode/
+
+# Dependencies and builds
+node_modules/
+dist/
+
+# Local notes and retired files stay out of the public repository
+docs/
+archive/
