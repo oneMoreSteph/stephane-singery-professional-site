@@ -1,0 +1,20 @@
+/* Design tokens for new components. The legacy journey styles keep their own values until Phase 2. */
+:root {
+  --color-bg: #061018;
+  --color-surface: #0b1f2b;
+  --color-line: rgba(184, 230, 238, 0.28);
+  --color-text: #eaf3f4;
+  --color-text-muted: #abc4cd;
+  --color-accent: #a9e7f1;
+  --color-gold: #f6d77a;
+  --font-sans: Inter, 'Avenir Next', Avenir, Helvetica, Arial, sans-serif;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+  --radius: 4px;
+  --target: 24px;
+  /* Breakpoints (media queries cannot read variables): mobile ≤ 767px, tablet 768–1023px, desktop ≥ 1024px. */
+}
