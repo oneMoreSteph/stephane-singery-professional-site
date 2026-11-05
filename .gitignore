@@ -10,3 +10,10 @@ dist/
 # Local notes and retired files stay out of the public repository
 docs/
 archive/
+
+# Visual baselines and test output (local only)
+tests/__screens__/
+test-results/
+playwright-report/
+.react-router/
+build/
