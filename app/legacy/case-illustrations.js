@@ -75,50 +75,6 @@ export function illustrationKit({ text, hint, ops, caseChip, france }) {
   }
 
   // ---------- 3.3 · One Data system: the real architecture at each layer ----------
-  function stackScene() {
-    const access = `<g class="state-layer" data-states="0">
-      ${lab(40, 110, 'LAYER 1 · ACCESS · FOODCHÉRI', 'strong')}
-      ${hint('s-red', 'Redshift', '', `<g>${lab(100, 235, 'REDSHIFT', 'center')}${db(100, 250, 120, 130)}${sub(100, 402, 'Raw Data', 'center')}</g>`)}
-      ${arrow(164, 315, 212, 315)}
-      ${hint('s-pump', 'Ingestion tool', '', `<g>${lab(270, 235, 'INGESTION', 'center')}<path class="tx-conn" d="M270 268L312 292V340L270 364 228 340V292Z"/><g class="tx-icon" transform="translate(270 316)"><path d="M-10-14V-4M10-14V-4M-16-4H16V4C16 12 8 16 0 16S-16 12-16 4ZM0 16V24"/></g>${sub(270, 402, 'Ready-made tool', 'center')}</g>`)}
-      ${arrow(316, 315, 362, 315)}
-      ${hint('s-plant', 'SQL models', '', win(368, 222, 212, 188, 'SQL MODELS', code(384, 272, ['SELECT order_id,', '  SUM(amount) AS total', 'FROM raw.orders', 'GROUP BY 1'], 24)))}
-      ${arrow(584, 315, 626, 315)}
-      ${hint('s-tower', 'BigQuery', '', `<g>${lab(690, 235, 'BIGQUERY', 'center')}${db(690, 250, 120, 130)}${sub(690, 402, 'Curated tables', 'center')}</g>`)}
-      ${arrow(754, 315, 790, 315)}
-      ${hint('s-tap', 'Metabase', '', `${win(796, 222, 170, 188, 'METABASE', bars(812, 262, 138, 130, [.4, .7, .5, .9, .65]))}`)}
-      ${arrow(880, 416, 880, 486)}
-      ${hint('s-users', 'Business teams', '', `<g>${user(800, 548)}${user(850, 548)}${user(900, 548)}${user(950, 548)}${lab(875, 576, 'BUSINESS TEAMS', 'center')}${sub(875, 596, 'Self-service BI', 'center')}</g>`)}</g>`;
-    const inflow = [['NEW', 'New records'], ['UPDATED', 'Updated records'], ['LATE', 'Late arrivals']];
-    const nodes = [[376, 300], [376, 360], [376, 420], [470, 330], [470, 410], [564, 370]];
-    const transformation = `<g class="state-layer" data-states="1">
-      ${lab(40, 110, 'LAYER 2 · TRANSFORMATION · HEETCH', 'strong')}
-      ${inflow.map(([t], i) => `${hint(`s-in-${i}`, t.charAt(0) + t.slice(1).toLowerCase() + ' records', '', `<g>${lab(40, 265 + i * 60, t)}</g>`)}${arrow(112, 260 + i * 60, 168, 315)}`).join('')}
-      ${hint('s-raw', 'BigQuery · raw', '', `<g>${lab(230, 235, 'BIGQUERY · RAW', 'center')}${db(230, 255, 110, 120)}</g>`)}
-      ${arrow(288, 315, 322, 315)}
-      ${hint('s-orch', 'Orchestration and tags', '', `<g>${lab(330, 150, 'ORCHESTRATION · TAG POLICY')}<path class="tx-axis" d="M330 165H630"/>${[0, 1, 2, 3, 4].map(i => `<path class="tx-tick" d="M${345 + i * 66} 158V172"/>`).join('')}${move('<circle class="tx-alert" r="6"/>', 'M345 165H615', 6, 0)}</g>`)}
-      ${hint('s-df', 'Dataform', '', win(328, 186, 306, 300, 'DATAFORM · INCREMENTAL SQL MODELS', graph(nodes, [[0, 3], [1, 3], [1, 4], [2, 4], [3, 5], [4, 5]])))}
-      ${hint('s-tests', 'Reusable tests in Dataform', '', `<g>${check(470, 330)}${check(470, 410)}${check(564, 370)}${lab(345, 472, 'REUSABLE DATA TESTS')}</g>`)}
-      ${arrow(638, 315, 662, 315)}
-      ${hint('s-cur', 'BigQuery · curated', '', `<g>${lab(722, 235, 'BIGQUERY · CURATED', 'center')}${db(722, 255, 110, 120)}${sub(722, 398, 'Daily toward hourly', 'center')}</g>`)}
-      ${arrow(780, 290, 812, 240)}${arrow(780, 340, 812, 405)}
-      ${hint('s-looker', 'Looker', '', win(816, 160, 150, 145, 'LOOKER · BI', bars(830, 198, 122, 92, [.4, .75, .55, .9])))}
-      ${hint('s-vertex', 'Vertex AI', '', win(816, 340, 150, 145, 'VERTEX AI · AI', graph([[840, 385], [840, 440], [890, 370], [890, 412], [890, 455], [940, 412]], [[0, 2], [0, 3], [0, 4], [1, 2], [1, 3], [1, 4], [2, 5], [3, 5], [4, 5]])))}</g>`;
-    const marts = [370, 475, 580];
-    const observability = `<g class="state-layer" data-states="2">
-      ${lab(40, 110, 'LAYER 3 · OBSERVABILITY · VERISURE', 'strong')}
-      ${hint('o-dbt', 'dbt Core', '', win(40, 210, 225, 210, 'DBT CORE · MODELS', graph([[75, 275], [75, 335], [75, 395], [155, 305], [155, 375], [230, 340]], [[0, 3], [1, 3], [1, 4], [2, 4], [3, 5], [4, 5]])))}
-      ${arrow(270, 315, 308, 315)}
-      ${hint('o-marts', 'Snowflake marts', '', `<g>${lab(475, 205, 'SNOWFLAKE MARTS', 'center')}${marts.map(x => db(x, 245, 90, 110)).join('')}</g>`)}
-      ${hint('o-sensors', 'Elementary tests', '', `<g>${marts.map(x => check(x, 228)).join('')}${lab(475, 392, 'ELEMENTARY TESTS', 'center')}${sub(475, 412, '525 a day', 'center')}</g>`)}
-      ${hint('o-leak', 'An anomaly, caught early', '', `<g><circle class="tx-ping" cx="580" cy="300" r="24"/><circle class="tx-alert" cx="580" cy="300" r="7"/>${lab(585, 378, 'ANOMALY', 'center warm')}</g>`)}
-      ${arrow(632, 315, 672, 315)}
-      ${hint('o-room', 'Shared model', '', win(678, 195, 288, 225, 'SHARED OBSERVABILITY MODEL', ['DETECT', 'QUALIFY', 'PRIORITISE'].map((t, i) => `<circle class="tx-stage" style="--i:${i}" cx="705" cy="${252 + i * 56}" r="13"/>${lab(730, 257 + i * 56, t)}`).join('')))}
-      ${arrow(822, 426, 822, 480)}
-      ${hint('o-teams', 'Data teams', '', `<g>${user(735, 545)}${user(785, 545)}${user(835, 545)}${user(885, 545)}${lab(810, 574, 'DATA TEAMS', 'center')}${sub(810, 594, 'Alerts worth acting on', 'center')}</g>`)}</g>`;
-    return `${ops.opsDefs}${ops.header('ONE DATA SYSTEM · THREE LAYERS, THREE ROLES')}${access}${transformation}${observability}`;
-  }
-
   // ---------- 4.1 · Logistics and transport ----------
   function logisticsScene() {
     const modes = [
@@ -353,5 +309,5 @@ export function illustrationKit({ text, hint, ops, caseChip, france }) {
     return `${ops.opsDefs}${ops.header('WHAT I BRING · FROM MY WORK TO EUROPEAN SPACE')}${net}${access}${beneath}${next}`;
   }
 
-  return { needScene, stackScene, logisticsScene, learningScene, educationScene, spaceLayers, transferScene };
+  return { needScene, logisticsScene, learningScene, educationScene, spaceLayers, transferScene };
 }
