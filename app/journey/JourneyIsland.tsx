@@ -1,11 +1,18 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { ABOUT_SLUG, findStopByKey, stopSections } from '~/content';
+import type { mountCase as MountCase } from '~/cases/mountCase';
 import type { Journey, startJourney as StartJourney } from '~/legacy/journey.js';
+
+type Loaded = { startJourney: typeof StartJourney; mountCase: typeof MountCase };
 import { JourneyMarkup } from './JourneyMarkup';
 
 // The 3D journey and Three.js load only when needed: never for the cockpit alone.
-const loadJourney = () => import('~/legacy/journey.js');
+const loadJourney = () =>
+  Promise.all([import('~/legacy/journey.js'), import('~/cases/mountCase')]).then(([journey, cases]) => ({
+    startJourney: journey.startJourney,
+    mountCase: cases.mountCase,
+  }));
 
 /** Old "#earth?case=rail" addresses become "/experience/rail". */
 function fromOldHash(hash: string): string | null {
@@ -30,8 +37,9 @@ export function JourneyIsland() {
 
   /** Creates the journey once its code has loaded. Returns null if this island has gone meanwhile. */
   const create = useCallback(
-    (startJourney: typeof StartJourney) => {
+    ({ startJourney, mountCase }: Loaded) => {
       journey.current ??= startJourney({
+        mountCase,
         stops: stopSections,
         aboutSlug: ABOUT_SLUG,
         // The journey reports its own moves, so they are not replayed when the address changes.
@@ -52,8 +60,8 @@ export function JourneyIsland() {
     if (redirect) navigate(redirect, { replace: true });
     else if (window.location.pathname !== '/') {
       const { pathname, search } = window.location;
-      loadJourney().then(({ startJourney }) => {
-        if (!gone) create(startJourney).start(pathname, search);
+      loadJourney().then((loaded) => {
+        if (!gone) create(loaded).start(pathname, search);
       });
     }
     return () => {
@@ -78,7 +86,7 @@ export function JourneyIsland() {
     if (journey.current) journey.current.goTo(location.pathname, location.search);
     else if (location.pathname !== '/') {
       const { pathname, search } = location;
-      loadJourney().then(({ startJourney }) => create(startJourney).goTo(pathname, search));
+      loadJourney().then((loaded) => create(loaded).goTo(pathname, search));
     }
   }, [location, create]);
 
@@ -86,8 +94,8 @@ export function JourneyIsland() {
   const onStart = useCallback(
     (path: string) => {
       if (journey.current) return;
-      loadJourney().then(({ startJourney }) => {
-        create(startJourney);
+      loadJourney().then((loaded) => {
+        create(loaded);
         navigate(path);
       });
     },

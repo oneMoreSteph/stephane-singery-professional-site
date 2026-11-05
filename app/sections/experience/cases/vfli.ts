@@ -38,4 +38,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'vfli',
+    labels: ['A promised arrival', 'Obtain it', 'Next'],
+    note: 'Schematic rail links, France at true proportions. The route and shift times are illustrative.',
+  },
 } satisfies Case;

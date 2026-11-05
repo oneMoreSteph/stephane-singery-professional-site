@@ -66,4 +66,16 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'system-verisure',
+    labels: [
+      'Why Verisure',
+      'The starting point',
+      'What I understood',
+      'The platform',
+      'In operation',
+      'Result',
+    ],
+    note: 'Illustrative signal and operating model. Portfolio scope: Data quality and observability.',
+  },
 } satisfies Case;

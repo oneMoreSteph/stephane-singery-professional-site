@@ -39,4 +39,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'need',
+    labels: ['FoodChéri', 'Ligne C', 'Verisure'],
+    note: 'Illustrative views. Figures from each role.',
+  },
 } satisfies Case;

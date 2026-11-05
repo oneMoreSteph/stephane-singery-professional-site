@@ -49,4 +49,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'deadline',
+    labels: ['The clock', 'The way', 'The build', 'Delivered'],
+    note: 'Dashboard wall and week-by-week sequence are illustrative; figures and the order of the work are from my account.',
+  },
 } satisfies Case;

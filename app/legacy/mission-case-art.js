@@ -18,7 +18,6 @@ const building = (x,y,s=1,kind='hub') => `<g transform="translate(${x} ${y}) sca
 const bike = (x,y,s=1) => `<g transform="translate(${x} ${y}) scale(${s})" class="bike"><circle cx="-15" cy="9" r="10"/><circle cx="18" cy="9" r="10"/><path d="M-15 9l9-20L4 9h-19L8-7l10 16M8-7l-3-8h7"/><circle class="bike-rider" cx="2" cy="-24" r="5"/><rect class="bike-box" x="-21" y="-23" width="12" height="11" rx="1"/></g>`;
 const desk = (x,y,label,s=1) => `<g transform="translate(${x} ${y}) scale(${s})" class="console"><rect class="console-screen" x="-30" y="-46" width="60" height="38" rx="3"/><path class="console-lines" d="M-21-35h26M-21-27h36M-21-19h18"/><path class="console-desk" d="M-42 0h84"/>${crew(0,24,.8)}${text(0,74,label,'center label')}</g>`;
 const packet = (path,delay=0,colour='#b2f0ea') => `<rect x="-4" y="-3" width="8" height="6" rx="1" fill="${colour}" class="moving-packet"><animateMotion dur="7s" begin="-${delay}s" repeatCount="indefinite" path="${path}"/></rect>`;
-const paletteDefs = `<defs><linearGradient id="sceneLand" x2=".6" y2="1"><stop stop-color="#274c58"/><stop offset="1" stop-color="#102b39"/></linearGradient><linearGradient id="sceneFloor" x2="1" y2="1"><stop stop-color="#143847"/><stop offset="1" stop-color="#071722"/></linearGradient><pattern id="sceneGrid" width="42" height="42" patternUnits="userSpaceOnUse"><path d="M42 0H0V42" fill="none" stroke="#87c9d6" stroke-opacity=".045"/></pattern><filter id="sceneGlow"><feGaussianBlur stdDeviation="3"/></filter></defs>`;
 const cities={Lille:[3.06,50.63],Paris:[2.35,48.86],Rouen:[1.1,49.44],Rennes:[-1.68,48.11],Nantes:[-1.55,47.22],Bordeaux:[-.58,44.84],Toulouse:[1.44,43.60],Lyon:[4.84,45.76],Marseille:[5.37,43.30],Dijon:[5.04,47.32],Strasbourg:[7.75,48.58],Metz:[6.18,49.12],Mulhouse:[7.34,47.75],Geneva:[6.14,46.20],Basel:[7.59,47.56],Turin:[7.69,45.07],Milan:[9.19,45.46]};
 // Longitude is narrowed by cos(46.5°) so France keeps its true proportions; country outlines get the same correction.
 const SQUASH=.795, MID=365;
@@ -186,27 +185,6 @@ function verisureLayers(){
  <g class="state-layer" data-states="4">${bigReadout('525','TESTS EVERY DAY','About 60,000 executions so far.')}<g transform="translate(390 492)" class="issue-card"><rect width="270" height="100" rx="3"/>${text(14,24,'AUTOMATIC ALERT','mini-label warm')}${text(14,50,'Qualified · prioritised','chip-label strong')}${text(14,72,'Teams respond quickly','chip-label')}</g><g transform="translate(690 492)"><rect class="ind" width="270" height="100" rx="3"/>${text(14,24,'MONITORING · TRENDS','mini-label')}${line('M14 84L70 70 126 76 182 56 256 44','spark')}</g></g>
  <g class="state-layer" data-states="5">${bigReadout('Trust','IN DATA, ACROSS THE COMPANY','Fewer manual controls.',true)}${['ISSUES SURFACE EARLIER','FEWER MANUAL CONTROLS','TRUST AT EVERY LEVEL'].map((t,i)=>`<g transform="translate(390 ${494+i*34})"><rect class="tag-box" width="270" height="26" rx="2"/>${text(12,18,t,'chip-label strong')}</g>`).join('')}<g class="case-link" transform="translate(690 494)" data-open-case="signal" tabindex="0" role="button" aria-label="Open the signal or noise case"><rect width="270" height="58" rx="3"/>${text(16,24,'HIGH-STAKES · SIGNAL OR NOISE','mini-label')}${text(16,44,'Governed alert exceptions','label small')}${text(252,36,'↗','chip-arrow end')}</g></g>`;
 }
-const configs={
- vfli:{scene:'vfli',labels:['A promised arrival','Obtain it','Next'],note:'Schematic rail links, France at true proportions. The route and shift times are illustrative.'},
- rail:{scene:'rff',labels:['A contested network','My customers','The long missions','Next'],note:'Schematic rail links, France at true proportions. Routes and timings are illustrative; customer rows beyond the named one are illustrative.'},
- toyota:{scene:'toyota',labels:['The stakes','One afternoon','Next morning','Afterwards'],note:'Sequence and roles from my account. Trains and timings are illustrative.'},
- tour:{scene:'crossing',labels:['The meeting point','Every stage, five years','At the crossing'],note:'Illustrative stages, crossings and timings. Not a specific edition or a signalling procedure.'},
- 'ligne-c':{scene:'station',labels:['Why this role','The plans','On the ground','The measure'],note:'Schematic line: 42 station marks, two named as examples. The station and the measures drawn on it are illustrative. Indicators are shown without values.'},
- hubs:{scene:'paris',labels:['Why','The hubs','What it opened'],note:'Real Paris arrondissement boundaries. Hub positions and rounds are illustrative.'},
- 'food-data':{scene:'system-food',labels:['The audit','The conclusion','The platform','The BI migration','Adoption','Next'],note:'Platform reconstruction. Data examples illustrate the architecture, not company records.'},
- signal:{scene:'signal',labels:['The stakes','Why an override','What it brings','The result'],note:'Alert examples are illustrative; figures and governance fields are from my Verisure work.'},
- 'food-deadline':{scene:'deadline',labels:['The clock','The way','The build','Delivered'],note:'Dashboard wall and week-by-week sequence are illustrative; figures and the order of the work are from my account.'},
- heetch:{scene:'system-heetch',labels:['Why Heetch','The starting point','The platform','The models','Operational workflows','Result and next'],note:'Representative transformation flow, not a reproduction of production code or company data.'},
- verisure:{scene:'system-verisure',labels:['Why Verisure','The starting point','What I understood','The platform','In operation','Result'],note:'Illustrative signal and operating model. Portfolio scope: Data quality and observability.'},
- 'find-a-way':{scene:'find-way',labels:['VFLI','SNCF Réseau','Tour de France','FoodChéri'],note:'Each step: one constraint and the way through it. Positions illustrative.'},
- 'need-behind':{scene:'need',labels:['FoodChéri','Ligne C','Verisure'],note:'Illustrative views. Figures from each role.'},
- 'data-system':{scene:'stack',labels:['Access','Transformation','Observability'],note:'Simplified architecture. Tools named where they belong to the role; table names and code are illustrative.'},
- 'study-logistics':{scene:'logistics',labels:['The discipline','The maturity','What it still gives me'],note:'Illustrative views. Programme content as taught in logistics and transport DUTs; pipeline times are examples.'},
- 'study-data':{scene:'learning',labels:['Self-taught','Jedha','The maturity','Where it led'],note:'Illustrative views and code. Programme blocks as described by Jedha; hours approximate.'},
- 'study-efrei':{scene:'education',labels:['Why engineering','EFREI alongside work','The foundation'],note:'Illustrative view. Year 2 of 3, graduation expected in 2028.'},
- transfer:{scene:'transfer',labels:['Live operations','Shared Data capability','Dependable information','European space'],note:'Professional experience and the contribution I aim to bring to European space. Team names are examples.'},
- horizon:{scene:'ambition',labels:['The pull','The systems','Why Europe'],note:'My professional direction: Europe’s technological sovereignty.'}
-};
 const ops=opsKit({text,line,hint,crew,esc,project,cities,connections,readoutChip,squash,countryMap});
 const path=pathKit({text,line,hint,crew,readoutChip,squash},ops);
 const ill=illustrationKit({text,hint,ops,caseChip,france:{map:`<g class="country-map">${squash(countries.filter(c=>c.name==='France').map(c=>`<path d="${c.d}" class="country country--france"/>`).join(''))}</g><g class="rail-links">${connections.filter(c=>!c.some(n=>['Geneva','Basel','Turin','Milan'].includes(n))).map(c=>line(route(c),'rail-bed')+line(route(c),'rail-sleeper')).join('')}</g>`,route,at:n=>project(cities[n]),mid:(a,b)=>{const [x1,y1]=project(cities[a]),[x2,y2]=project(cities[b]);return [(x1+x2)/2,(y1+y2)/2];}}});
@@ -249,59 +227,5 @@ function findWayScene(){
 }
 const scenes={logistics:ill.logisticsScene,'find-way':findWayScene,need:ill.needScene,vfli:vfliScene,rff:rffScene,signal:ops.signalScene,toyota:ops.toyotaScene,crossing:ops.tourScene,station:ops.ligneCScene,deadline:ops.deadlineScene,paris:parisScene,'system-food':()=>systemScene('food'),'system-heetch':()=>systemScene('heetch'),'system-verisure':()=>systemScene('verisure'),education:ill.educationScene,learning:ill.learningScene,flows:path.flowsScene,practice:path.practiceScene,ambition:()=>path.ambitionScene(ill.spaceLayers()),transfer:ill.transferScene,stack:ill.stackScene};
 
-export function renderCaseExperience(key, beats){
- const config=configs[key]; if(!config)return null;
- const el=document.createElement('section');el.className='case-experience';el.dataset.case=key;
- el.innerHTML=`<nav class="case-stages" aria-label="Explore this experience">${config.labels.map((label,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><span>${String(i+1).padStart(2,'0')}</span>${esc(label)}</button>`).join('')}</nav>
- <div class="case-layout"><div class="case-visual-column"><div class="case-scene"><svg class="story-svg" viewBox="0 0 1000 730" role="group" aria-label="Interactive illustration of the work">${paletteDefs}<rect width="1000" height="730" fill="url(#sceneGrid)"/><g class="scene-camera"></g></svg><div class="scene-tools" aria-label="Illustration controls"><button type="button" data-zoom="in" aria-label="Zoom into illustration">+</button><button type="button" data-zoom="out" aria-label="Zoom out of illustration">−</button><button type="button" data-zoom="reset" aria-label="Reset illustration view">↺</button><button type="button" data-motion aria-pressed="false" aria-label="Pause illustration motion">Ⅱ</button></div><span class="scene-interaction-hint">Highlights move every 2 s · click any element to inspect it</span></div><p class="scene-note">${esc(config.note)} ${['rail','toyota','paris','crossing'].includes(config.scene)?'<a href="/assets/geography/README.md" target="_blank" rel="noopener">Map sources ↗</a>':''}</p></div>
- <div class="case-story" aria-live="polite"><span class="story-counter"></span><h3></h3><ul class="story-body bullets"></ul><div class="story-navigation"><button type="button" data-prev aria-label="Previous part of this experience">← Previous</button><button type="button" data-next>Next part →</button></div><div class="story-progress" aria-hidden="true"></div><div class="scene-inspection" aria-live="polite"><strong>Explore the work</strong><p class="ins-def">Click an element in the illustration: what it is, and why it matters.</p><p class="ins-why" hidden></p></div></div></div>`;
- let step=0,currentScene='',zoom=1,view=[0,0,1000,730];
- const camera=el.querySelector('.scene-camera'), svg=el.querySelector('svg');
- const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- let paused=reduced;
- function updateCamera(){const [x,y,w,h]=view;const scale=1000/w*zoom;const cx=x+w/2,cy=y+h/2;camera.style.transform=`translate(${500-cx*scale}px,${365-cy*scale}px) scale(${scale})`;}
- // The tour only names what lights up. A click gives what it is and why it matters.
- function showInfo(title,body,clicked){const [what,why]=body.split('|');const box=el.querySelector('.scene-inspection');box.classList.toggle('has-why',Boolean(clicked&&why));box.querySelector('strong').textContent=title;box.querySelector('.ins-def').textContent=why&&!clicked?'Click to see what it is and why it matters.':what;const w=box.querySelector('.ins-why');w.hidden=!(clicked&&why);w.textContent=why||'';}
- function inspect(target){camera.dataset.focus=target.dataset.inspect;showInfo(target.dataset.title,target.dataset.body,true);el.querySelectorAll('.is-inspected').forEach(n=>n.classList.remove('is-inspected'));target.classList.add('is-inspected');}
- function update(){
-  const name=config.scenes?.[step]||config.scene;
-  if(name!==currentScene){
-   camera.innerHTML=scenes[name]();currentScene=name;
-   if(!reduced)camera.animate([{opacity:0},{opacity:1}],{duration:420,easing:'ease-out'});
-   requestAnimationFrame(()=>{
-    if(!el.isConnected)return;
-    camera.querySelectorAll('[data-inspect]').forEach(obj=>{
-     const bounds=obj.getBBox();const hit=document.createElementNS('http://www.w3.org/2000/svg','rect');
-     for(const [attr,value] of Object.entries({x:bounds.x-7,y:bounds.y-7,width:bounds.width+14,height:bounds.height+14,fill:'transparent','pointer-events':'all'}))hit.setAttribute(attr,String(value));
-     obj.prepend(hit);
-    });
-   });
-  }
-  const state=config.states?.[step]??step;
-  camera.dataset.stage=String(state);delete camera.dataset.pick;delete camera.dataset.focus;
-  const sys=camera.querySelector('.sys[data-focus]');
-  if(sys){const focus=(JSON.parse(sys.dataset.focus)[state]||'').split(' ');sys.querySelectorAll('[data-id]').forEach(m=>m.classList.toggle('is-focus',focus.includes(m.dataset.id)));}
-  camera.querySelectorAll('[data-states]').forEach(n=>{const shown=n.dataset.states.split(' ').includes(String(state));n.classList.toggle('layer-hidden',!shown);n.setAttribute('aria-hidden',String(!shown));n.querySelectorAll('[tabindex]').forEach(o=>o.setAttribute('tabindex',shown?'0':'-1'));});
-  // Restart every cycling highlight of the visible step together, so labels and lit elements stay in step and start at the first one.
-  const now=document.timeline.currentTime;camera.querySelectorAll('[data-states]:not(.layer-hidden) :is(.seq3,.seq4,.seq5,.seq6,.seq-b,.cap3,.cap4,.cap5,.trigger,.cover-case)').forEach(n=>n.getAnimations().forEach(a=>{a.startTime=now;}));
-  el.querySelectorAll('[data-step]').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===step)));
-  if(!reduced)el.querySelector('.case-story').animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:380,easing:'cubic-bezier(.2,.72,.16,1)'});
-  const [label,title,body]=beats[step];el.querySelector('.story-counter').textContent=label;el.querySelector('.case-story h3').textContent=title;el.querySelector('.story-body').replaceChildren(...(Array.isArray(body)?body:body.split(/(?<=[.!?])\s+(?=[A-Z0-9À-Ý‘“])/)).map(t=>{const li=document.createElement('li');li.textContent=t;return li;}));
-  el.querySelector('[data-prev]').disabled=step===0;el.querySelector('[data-next]').disabled=step===beats.length-1;el.querySelector('[data-next]').textContent=step===beats.length-1?'End of this story ✓':'Next part →';
-  el.querySelector('.story-progress').style.setProperty('--progress',`${(step+1)/beats.length*100}%`);
-  view=config.views?.[step]||[0,0,1000,730];zoom=1;updateCamera();
-  showInfo('Explore the work','Click an element in the illustration: what it is, and why it matters.',false);
-  setMotion();
-  buildTour();tourStep();
- }
- function openOther(key){el.dispatchEvent(new CustomEvent('portfolio:open-case',{bubbles:true,detail:{key}}));}
- // Tour: every 2 s the next element of the visible step lights up in gold and explains itself in the panel. A click takes over for a while.
- let tourList=[],tourIndex=-1,tourHold=0;
- function buildTour(){tourList=[...camera.querySelectorAll('[data-inspect]')].filter(n=>!n.closest('.layer-hidden')&&!n.closest('[data-states]:has(.seq3,.seq4,.seq5,.seq6,.seq-b)'));const only=tourList.filter(n=>n.closest('[data-tour-only]'));if(only.length)tourList=only;else{const focus=tourList.filter(n=>n.closest('.is-focus')||n.querySelector('.is-focus'));if(focus.length>1)tourList=focus;}tourIndex=-1;el.querySelector('.scene-interaction-hint').hidden=!tourList.length&&!camera.querySelector('[data-states]:not(.layer-hidden) [data-pick]');camera.classList.toggle('is-touring',tourList.length>1);}
- function tourStep(){if(!el.isConnected){if(el.dataset.mounted)clearInterval(tourTimer);return;}el.dataset.mounted='1';if(paused||!tourList.length||Date.now()<tourHold)return;tourIndex=(tourIndex+1)%tourList.length;const t=tourList[tourIndex];camera.querySelectorAll('.is-toured').forEach(n=>n.classList.remove('is-toured'));t.classList.add('is-toured');camera.dataset.focus=t.dataset.inspect;showInfo(t.dataset.title,t.dataset.body,false);}
- const tourTimer=setInterval(tourStep,2000);
- function setMotion(){if(paused)svg.pauseAnimations();else svg.unpauseAnimations();el.classList.toggle('motion-paused',paused);const b=el.querySelector('[data-motion]');b.setAttribute('aria-pressed',String(paused));b.setAttribute('aria-label',paused?'Play illustration motion':'Pause illustration motion');b.textContent=paused?'▷':'Ⅱ';}
- el.addEventListener('click',e=>{const chip=e.target.closest('[data-open-case]');if(chip){openOther(chip.dataset.openCase);return;}const pick=e.target.closest('[data-pick]');if(pick){camera.dataset.pick=pick.dataset.pick;return;}const b=e.target.closest('button');const obj=e.target.closest('[data-inspect]');if(obj){inspect(obj);tourHold=Date.now()+25000;tourIndex=Math.max(-1,tourList.indexOf(obj));camera.querySelectorAll('.is-toured').forEach(n=>n.classList.remove('is-toured'));return;}if(!b)return;if(b.hasAttribute('data-step'))step=Number(b.dataset.step);else if(b.hasAttribute('data-next'))step=Math.min(beats.length-1,step+1);else if(b.hasAttribute('data-prev'))step=Math.max(0,step-1);else if(b.hasAttribute('data-motion')){paused=!paused;setMotion();return;}else if(b.hasAttribute('data-zoom')){zoom=b.dataset.zoom==='reset'?1:Math.max(.75,Math.min(2,zoom+(b.dataset.zoom==='in'?.2:-.2)));updateCamera();return;}else return;update();});
- el.addEventListener('keydown',e=>{const chip=e.target.closest('[data-open-case]');if(chip&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openOther(chip.dataset.openCase);return;}const pk=e.target.closest('[data-pick]');if(pk&&(e.key==='Enter'||e.key===' ')){e.preventDefault();camera.dataset.pick=pk.dataset.pick;return;}const obj=e.target.closest('[data-inspect]');if(obj&&(e.key==='Enter'||e.key===' ')){e.preventDefault();inspect(obj);tourHold=Date.now()+25000;}});
- update();return el;
-}
+// The case window engine moved to app/cases/CaseWindow.tsx. Drawings not yet converted are read from here.
+export function sceneMarkup(name){return scenes[name]?.()??'';}

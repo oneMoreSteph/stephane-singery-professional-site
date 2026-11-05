@@ -67,4 +67,9 @@ export default {
       ['Drawn toward what happens beneath Data analysis.', 'August 2022: Data Engineering at Heetch.'],
     ],
   ],
+  drawing: {
+    scene: 'system-food',
+    labels: ['The audit', 'The conclusion', 'The platform', 'The BI migration', 'Adoption', 'Next'],
+    note: 'Platform reconstruction. Data examples illustrate the architecture, not company records.',
+  },
 } satisfies Case;

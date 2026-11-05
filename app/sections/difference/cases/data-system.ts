@@ -40,4 +40,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'stack',
+    labels: ['Access', 'Transformation', 'Observability'],
+    note: 'Simplified architecture. Tools named where they belong to the role; table names and code are illustrative.',
+  },
 } satisfies Case;

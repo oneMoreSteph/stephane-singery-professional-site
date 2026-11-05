@@ -52,4 +52,10 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'toyota',
+    labels: ['The stakes', 'One afternoon', 'Next morning', 'Afterwards'],
+    note: 'Sequence and roles from my account. Trains and timings are illustrative.',
+    mapSources: true,
+  },
 } satisfies Case;

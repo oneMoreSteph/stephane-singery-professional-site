@@ -212,3 +212,8 @@ body.page-body {
   position: absolute;
   inset: -6px -3px;
 }
+
+/* Mount point of the React case window inside the journey detail panel: adds no box of its own. */
+.case-host {
+  display: contents;
+}

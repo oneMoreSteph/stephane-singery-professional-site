@@ -38,4 +38,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'education',
+    labels: ['Why engineering', 'EFREI alongside work', 'The foundation'],
+    note: 'Illustrative view. Year 2 of 3, graduation expected in 2028.',
+  },
 } satisfies Case;

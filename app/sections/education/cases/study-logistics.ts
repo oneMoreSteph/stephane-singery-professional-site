@@ -42,4 +42,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'logistics',
+    labels: ['The discipline', 'The maturity', 'What it still gives me'],
+    note: 'Illustrative views. Programme content as taught in logistics and transport DUTs; pipeline times are examples.',
+  },
 } satisfies Case;

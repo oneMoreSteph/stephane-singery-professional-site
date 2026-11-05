@@ -48,4 +48,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'station',
+    labels: ['Why this role', 'The plans', 'On the ground', 'The measure'],
+    note: 'Schematic line: 42 station marks, two named as examples. The station and the measures drawn on it are illustrative. Indicators are shown without values.',
+  },
 } satisfies Case;

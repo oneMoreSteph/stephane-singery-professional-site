@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import { renderCaseExperience } from './mission-case-art.js';
 import { renderCareerTimeline, renderStudyOrbit, renderTrackView, renderOrbitView } from './career-visuals.js';
 
 // Started by app/journey/JourneyIsland.tsx. All content comes from the section list.
-export function startJourney({ stops, navigate, aboutSlug }) {
+export function startJourney({ stops, navigate, aboutSlug, mountCase }) {
+let unmountCase = null;
+const releaseCase = () => { unmountCase?.(); unmountCase = null; };
 const listeners = [];
 const listen = (target, type, handler, options) => { target.addEventListener(type, handler, options); listeners.push(() => target.removeEventListener(type, handler, options)); };
 const vec = a => new THREE.Vector3(...a);
@@ -86,7 +87,13 @@ function detailContent(title, category, beats, caseKey = null, url = null, takea
   const lede = document.getElementById('detail-lede');
   lede.textContent = takeaway;
   lede.hidden = !takeaway;
-  const experience = caseKey ? renderCaseExperience(caseKey, beats) : null;
+  releaseCase();
+  let experience = null;
+  if (caseKey) {
+    const host = document.createElement('div'); host.className = 'case-host';
+    unmountCase = mountCase(host, caseKey);
+    if (unmountCase) experience = host;
+  }
   detail.querySelector('.detail-panel').classList.toggle('detail-panel--experience', !!experience);
   const beatContainer = document.getElementById('detail-beats');
   if (experience) beatContainer.replaceChildren(experience);
@@ -134,11 +141,13 @@ function closeDetail(withHistory = true) {
   const trip = withHistory && returnTrip && returnTrip.linked === activeCase ? returnTrip : null;
   if (trip) {
     returnTrip = null;
+    releaseCase();
     detail.hidden = true; activeCase = null; viewHost.inert = false; detailHasHistoryEntry = false;
     approach(trip.dest).then(() => { if (trip.caseKey) restoreFromHash(null, trip.caseKey, true); });
     return;
   }
   const returnThroughHistory = withHistory && detailHasHistoryEntry;
+  releaseCase();
   detail.hidden = true; activeCase = null; chapter.inert = activeScene !== 'chapter' || !!activeView; viewHost.inert = false;
   detailHasHistoryEntry = false;
   if (returnThroughHistory) history.back();
@@ -695,6 +704,7 @@ function start(pathname, search) {
 }
 
 function destroy() {
+  releaseCase();
   cancelAnimationFrame(frameId);
   stopSweep();
   listeners.forEach(off => off());

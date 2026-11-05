@@ -46,4 +46,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'learning',
+    labels: ['Self-taught', 'Jedha', 'The maturity', 'Where it led'],
+    note: 'Illustrative views and code. Programme blocks as described by Jedha; hours approximate.',
+  },
 } satisfies Case;

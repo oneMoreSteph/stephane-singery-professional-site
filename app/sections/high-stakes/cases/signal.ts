@@ -50,4 +50,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'signal',
+    labels: ['The stakes', 'Why an override', 'What it brings', 'The result'],
+    note: 'Alert examples are illustrative; figures and governance fields are from my Verisure work.',
+  },
 } satisfies Case;

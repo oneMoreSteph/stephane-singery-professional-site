@@ -30,4 +30,10 @@ export default {
       ['My first experience inside a food-tech company.', 'Where I joined the Data team, in February 2021.'],
     ],
   ],
+  drawing: {
+    scene: 'paris',
+    labels: ['Why', 'The hubs', 'What it opened'],
+    note: 'Real Paris arrondissement boundaries. Hub positions and rounds are illustrative.',
+    mapSources: true,
+  },
 } satisfies Case;

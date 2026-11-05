@@ -41,4 +41,9 @@ export default {
       ['Next: the systems that generate, move and use Data.', 'For Europe’s technological sovereignty.'],
     ],
   ],
+  drawing: {
+    scene: 'transfer',
+    labels: ['Live operations', 'Shared Data capability', 'Dependable information', 'European space'],
+    note: 'Professional experience and the contribution I aim to bring to European space. Team names are examples.',
+  },
 } satisfies Case;

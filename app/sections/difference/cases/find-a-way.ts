@@ -44,4 +44,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'find-way',
+    labels: ['VFLI', 'SNCF Réseau', 'Tour de France', 'FoodChéri'],
+    note: 'Each step: one constraint and the way through it. Positions illustrative.',
+  },
 } satisfies Case;

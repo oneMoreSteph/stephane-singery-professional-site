@@ -41,4 +41,9 @@ export default {
       ['November 2016: a role on the passenger side of the railway.', 'Transilien Ligne C.'],
     ],
   ],
+  drawing: {
+    scene: 'rff',
+    labels: ['A contested network', 'My customers', 'The long missions', 'Next'],
+    note: 'Schematic rail links, France at true proportions. Routes and timings are illustrative; customer rows beyond the named one are illustrative.',
+  },
 } satisfies Case;

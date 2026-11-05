@@ -36,4 +36,9 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'ambition',
+    labels: ['The pull', 'The systems', 'Why Europe'],
+    note: 'My professional direction: Europe’s technological sovereignty.',
+  },
 } satisfies Case;

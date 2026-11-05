@@ -66,4 +66,16 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'system-heetch',
+    labels: [
+      'Why Heetch',
+      'The starting point',
+      'The platform',
+      'The models',
+      'Operational workflows',
+      'Result and next',
+    ],
+    note: 'Representative transformation flow, not a reproduction of production code or company data.',
+  },
 } satisfies Case;

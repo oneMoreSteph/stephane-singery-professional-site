@@ -57,6 +57,18 @@ export interface Stop {
   instrument?: 'track' | 'orbit';
 }
 
+/** The interactive drawing of a case: one scene, one label per step. */
+export interface Drawing {
+  /** Scene name, e.g. "system-verisure". */
+  scene: string;
+  /** Step buttons, one per beat. */
+  labels: string[];
+  /** Line under the drawing: what is illustrative. */
+  note: string;
+  /** Adds the link to the map data sources. */
+  mapSources?: boolean;
+}
+
 export interface Case {
   /** Address segment and drawing key, e.g. "verisure". */
   slug: string;
@@ -69,6 +81,7 @@ export interface Case {
   category: string;
   takeaway: string;
   beats: Beat[];
+  drawing?: Drawing;
 }
 
 export interface Section {

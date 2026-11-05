@@ -37,4 +37,10 @@ export default {
       ],
     ],
   ],
+  drawing: {
+    scene: 'crossing',
+    labels: ['The meeting point', 'Every stage, five years', 'At the crossing'],
+    note: 'Illustrative stages, crossings and timings. Not a specific edition or a signalling procedure.',
+    mapSources: true,
+  },
 } satisfies Case;
