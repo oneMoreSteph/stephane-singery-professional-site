@@ -1,35 +1,66 @@
 # Stéphane Singery — portfolio
 
-My professional portfolio: from live rail operations to Data Platforms and observability, and my goal of contributing to European space.
+My professional portfolio: from live rail operations to Data Platforms and observability, and my goal of
+contributing to European space.
 
-A static website: HTML, CSS and JavaScript, with Three.js for the 3D. No backend.
+A static website built with React, React Router and TypeScript. Every page is rendered to HTML at build time,
+so it needs no server, reads without JavaScript and works on any static host such as GitHub Pages.
 
-## Run it locally
+## Tools
 
-Requirements: Python 3 (any recent version), to serve the files.
+| Tool    | Version used                                      |
+| ------- | ------------------------------------------------- |
+| Node.js | 22 or later (developed with 25.6)                 |
+| npm     | 10 or later                                       |
+| Chrome  | Any recent version, for the screenshot comparison |
+
+## Commands
 
 ```bash
-python3 -m http.server 8901 --bind 127.0.0.1 --directory web
+npm install          # once
+npm run dev          # development server with live reload
+npm run build        # production site in build/client
+npm run preview      # serves build/client like GitHub Pages, at http://127.0.0.1:8901
+npm run check        # types, lint and formatting
+npm run images       # rebuilds the web images from assets-src/
 ```
-
-Then open http://127.0.0.1:8901/. A server is needed because browsers block JavaScript modules on a file opened directly.
 
 ## Structure
 
-| Path | Content |
-|---|---|
-| `web/` | The site. `web/index.html` redirects to `web/mission-journey.html` |
-| `web/assets/` | Images, 3D model, CV. Credits are in the `README.md` files under it |
-| `web/vendor/three/` | Three.js |
-| `scripts/` | Cache version script and map builders |
+| Path                    | Content                                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------------------- |
+| `app/sections/`         | **The content.** One folder per section; `index.ts` lists them in order                     |
+| `app/sections/types.ts` | The content model: section, stop, case                                                      |
+| `app/content.ts`        | Everything derived from the section list: addresses, numbering, lookups                     |
+| `app/routes.ts`         | Pages, generated from the section list                                                      |
+| `app/routes/`           | Page components: home, section, case, "why this destination", 404                           |
+| `app/journey/`          | The cockpit and 3D map markup, and the island that starts the journey                       |
+| `app/legacy/`           | The journey and drawing code from the previous version, wrapped as is until it is converted |
+| `app/components/`       | Shared parts: navigation, footer, contact links                                             |
+| `app/styles/`           | Design tokens and page styles                                                               |
+| `app/site.ts`           | Name, role, contact details, public address                                                 |
+| `public/`               | Images (WebP), 3D model, CV, favicons. Credits in the `README.md` files under `assets/`     |
+| `assets-src/`           | Original images, used by `npm run images`                                                   |
+| `scripts/`              | Image optimisation, 404 page, local server, map builders                                    |
+| `tests/`                | Screenshot capture and comparison                                                           |
 
-## After editing
+## Add a section
+
+1. Create `app/sections/<slug>/index.ts` exporting a `Section` (see `types.ts`), with its cases in `cases/`.
+2. Add it to the list in `app/sections/index.ts`.
+
+Its pages, title, navigation entry and, for a journey stop, its map position and buttons follow from the list.
+A page-only section (`kind: 'page'`) also provides `page.tsx` in its folder, like `contact/`.
+
+## Check visual changes
 
 ```bash
-python3 scripts/bump-version.py
+npm run build && npm run preview                                   # in one terminal
+node tests/capture.mjs http://127.0.0.1:8901 tests/__screens__/after new
+node tests/compare.mjs tests/__screens__/before tests/__screens__/after tests/__screens__/diff
 ```
 
-This gives the files a new version, so browsers fetch them instead of cached copies.
+The capture covers the cockpit, the map, every chapter, both wide views and every step of every case.
 
 ## Commits
 

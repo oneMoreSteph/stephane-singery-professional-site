@@ -36,7 +36,8 @@ export function metaForPath(pathname: string): MetaDescriptor[] {
   const section = findSection(slug);
   if (!section) return tags(named('Page not found'), site.description, pathname);
   if (!sub) return tags(named(section.title), section.description, pathname);
-  if (sub === ABOUT_SLUG && section.stop) return tags(named(section.stop.about.title), section.description, pathname);
+  if (sub === ABOUT_SLUG && section.stop)
+    return tags(named(section.stop.about.title), section.description, pathname);
   const found = findCase(sub);
   if (!found) return tags(named('Page not found'), site.description, pathname);
   return tags(named(`${found.item.title} · ${section.title}`), found.item.takeaway, pathname);

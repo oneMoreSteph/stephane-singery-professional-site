@@ -46,8 +46,8 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
               <em>people rely on.</em>
             </h1>
             <p>
-              From live rail operations to Data Platforms and observability: I design for production and think for
-              operations. My next step: contributing to Europe’s technological sovereignty.
+              From live rail operations to Data Platforms and observability: I design for production and think
+              for operations. My next step: contributing to Europe’s technological sovereignty.
             </p>
           </div>
           <button
@@ -65,9 +65,15 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
           <div className="cockpit-bottom">
             <span>01 / COCKPIT</span>
             <span>
-              {stopsWord} · FROM {first.stop.name.toUpperCase()} TO {last.title.replace(/^Why /, '').toUpperCase()}
+              {stopsWord} · FROM {first.stop.name.toUpperCase()} TO{' '}
+              {last.title.replace(/^Why /, '').toUpperCase()}
             </span>
-            <button className="text-link" id="quick-work" type="button" onClick={() => onStart(`/${first.slug}`)}>
+            <button
+              className="text-link"
+              id="quick-work"
+              type="button"
+              onClick={() => onStart(`/${first.slug}`)}
+            >
               VIEW {first.title.toUpperCase()} ↗
             </button>
             <Link className="text-link" to="/contact">
@@ -93,7 +99,8 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
             <h2 id="map-title">Follow the route.</h2>
             <p>
               Start on {first.stop.name} with every role, then fly out stop by stop to the next step:{' '}
-              {last.title.replace(/^Why /, '').replace(/^./, (c) => c.toUpperCase())}. Any stop opens on its own.
+              {last.title.replace(/^Why /, '').replace(/^./, (c) => c.toUpperCase())}. Any stop opens on its
+              own.
             </p>
           </div>
           <div className="orbit-label orbit-label-inner" aria-hidden="true">
@@ -146,7 +153,12 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
               <button className="primary-action" id="brief-action" type="button">
                 {first.stop.action} <span aria-hidden="true">↗</span>
               </button>
-              <button className="brief-step brief-step--next" id="brief-next" type="button" aria-label="Next stop">
+              <button
+                className="brief-step brief-step--next"
+                id="brief-next"
+                type="button"
+                aria-label="Next stop"
+              >
                 NEXT STOP ›
               </button>
             </div>
@@ -158,7 +170,10 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
             PREPARING THE EXPERIENCE MAP<span aria-hidden="true">···</span>
           </div>
           <div className="map-fallback" id="map-fallback" hidden>
-            <p>3D view unavailable. All {countWord(stopCount)} portfolio sections remain available through their labels.</p>
+            <p>
+              3D view unavailable. All {countWord(stopCount)} portfolio sections remain available through
+              their labels.
+            </p>
           </div>
         </section>
 

@@ -21,14 +21,20 @@ const images = [
 
 for (const [from, to, options] of images) {
   await mkdir(out(to).replace(/\/[^/]+$/, ''), { recursive: true });
-  const info = await sharp(src(from)).webp({ effort: 6, ...options }).toFile(out(to));
+  const info = await sharp(src(from))
+    .webp({ effort: 6, ...options })
+    .toFile(out(to));
   console.log(`${to}  ${Math.round(info.size / 1024)} KB`);
 }
 
 // Favicons from one SVG.
 await copyFile(src('favicon.svg'), out('favicon.svg'));
 await sharp(src('favicon.svg'), { density: 300 }).resize(32, 32).png().toFile(out('favicon-32.png'));
-await sharp(src('favicon.svg'), { density: 300 }).resize(180, 180).flatten({ background: '#061018' }).png().toFile(out('apple-touch-icon.png'));
+await sharp(src('favicon.svg'), { density: 300 })
+  .resize(180, 180)
+  .flatten({ background: '#061018' })
+  .png()
+  .toFile(out('apple-touch-icon.png'));
 
 // Link preview image, 1200 × 630: the cockpit with the name and the line from the opening screen.
 const text = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">

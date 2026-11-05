@@ -8,7 +8,13 @@ const links = [
 ];
 
 /** Email, LinkedIn, GitHub and CV, as a list of links. */
-export function ContactLinks({ className = 'contact-links', withText = false }: { className?: string; withText?: boolean }) {
+export function ContactLinks({
+  className = 'contact-links',
+  withText = false,
+}: {
+  className?: string;
+  withText?: boolean;
+}) {
   return (
     <ul className={className}>
       {links.map((l) => {

@@ -5,3 +5,6 @@ web/
 app/legacy/
 package-lock.json
 tests/__screens__/
+public/assets/
+assets-src/
+.claude/

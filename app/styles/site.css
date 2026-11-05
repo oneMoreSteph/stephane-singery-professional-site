@@ -1,11 +1,18 @@
 /* Styles for document pages (contact, 404) and for the page text read without JavaScript. Mobile first. */
 
 /* With JavaScript, the journey replaces the page text; without it, the page text replaces the journey. */
-html.js .page-text { display: none; }
+html.js .page-text {
+  display: none;
+}
 html:not(.js) .experience,
-html:not(.js) .skip-link { display: none; }
+html:not(.js) .skip-link {
+  display: none;
+}
 html:not(.js) body,
-body.page-body { height: auto; overflow: auto; }
+body.page-body {
+  height: auto;
+  overflow: auto;
+}
 
 .page-text,
 .page {
@@ -17,48 +24,191 @@ body.page-body { height: auto; overflow: auto; }
   line-height: 1.7;
 }
 .page-text__main,
-.page__main { max-width: 760px; margin: 0 auto; padding: var(--space-5) var(--space-3) var(--space-6); }
+.page__main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3) var(--space-6);
+}
 .page-text h1,
-.page h1 { color: var(--color-text); font-size: 34px; line-height: 1.15; margin: 0 0 var(--space-3); }
-.page-text h3 { color: var(--color-text); margin: var(--space-2) 0; }
+.page h1 {
+  color: var(--color-text);
+  font-size: 34px;
+  line-height: 1.15;
+  margin: 0 0 var(--space-3);
+}
+.page-text h3 {
+  color: var(--color-text);
+  margin: var(--space-2) 0;
+}
 .page-text a,
-.page a { color: var(--color-accent); }
+.page a {
+  color: var(--color-accent);
+}
 .page-text a:hover,
-.page a:hover { color: #fff; }
-:is(.page-text, .page) .eyebrow { color: var(--color-accent); font-size: 11px; font-weight: 790; letter-spacing: 0.16em; text-transform: uppercase; }
-:is(.page-text, .page) .lede { color: var(--color-text); font-size: 18px; }
-.text-list { list-style: none; padding: 0; }
-.text-list li { padding: var(--space-3) 0; border-top: 1px solid var(--color-line); }
-.text-list small { display: block; font-size: 12px; letter-spacing: 0.08em; }
-.text-list p { margin: var(--space-1) 0 0; }
-.text-beat { padding-top: var(--space-4); }
-.text-beat__label { font-size: 12px; letter-spacing: 0.14em; margin: 0; }
+.page a:hover {
+  color: #fff;
+}
+:is(.page-text, .page) .eyebrow {
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 790;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+:is(.page-text, .page) .lede {
+  color: var(--color-text);
+  font-size: 18px;
+}
+.text-list {
+  list-style: none;
+  padding: 0;
+}
+.text-list li {
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--color-line);
+}
+.text-list small {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.text-list p {
+  margin: var(--space-1) 0 0;
+}
+.text-beat {
+  padding-top: var(--space-4);
+}
+.text-beat__label {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  margin: 0;
+}
 
 /* Header and footer of document pages */
-.site-header { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-3); border-bottom: 1px solid var(--color-line); }
-.site-header__name { color: var(--color-text); font-weight: 760; letter-spacing: 0.12em; text-decoration: none; text-transform: uppercase; font-size: 13px; }
-.site-header__name small { display: block; color: var(--color-text-muted); font-size: 11px; letter-spacing: 0.14em; }
-.site-header ul { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-3); list-style: none; margin: 0; padding: 0; }
-.site-header nav a { display: inline-block; min-height: var(--target); padding: 2px 0; font-size: 14px; }
-.site-footer { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4) var(--space-3); border-top: 1px solid var(--color-line); color: var(--color-text-muted); font-size: 14px; }
-.site-footer p { margin: 0; }
+.site-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-line);
+}
+.site-header__name {
+  color: var(--color-text);
+  font-weight: 760;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.site-header__name small {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+.site-header ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.site-header nav a {
+  display: inline-block;
+  min-height: var(--target);
+  padding: 2px 0;
+  font-size: 14px;
+}
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-3);
+  border-top: 1px solid var(--color-line);
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+.site-footer p {
+  margin: 0;
+}
 
-.contact-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); list-style: none; margin: 0; padding: 0; }
-.contact-links a { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--target); color: var(--color-accent); }
-.contact-links--large { flex-direction: column; gap: var(--space-3); margin-top: var(--space-4); }
-.contact-links--large a { flex-direction: column; align-items: flex-start; gap: 0; font-size: 18px; }
-.contact-links--large .contact-links__label { color: var(--color-text-muted); font-size: 11px; font-weight: 790; letter-spacing: 0.16em; text-transform: uppercase; }
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target);
+  color: var(--color-accent);
+}
+.contact-links--large {
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+.contact-links--large a {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  font-size: 18px;
+}
+.contact-links--large .contact-links__label {
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 790;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
 
 @media (min-width: 768px) {
-  .site-header { flex-direction: row; align-items: center; justify-content: space-between; padding: var(--space-3) var(--space-4); }
-  .site-footer { flex-direction: row; justify-content: space-between; align-items: center; padding: var(--space-4); }
+  .site-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+  }
+  .site-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4);
+  }
   .page-text h1,
-  .page h1 { font-size: 46px; }
+  .page h1 {
+    font-size: 46px;
+  }
 }
 
 /* Contact links added to the journey */
-.chapter-links { display: inline-flex; gap: 18px; }
-.cockpit-bottom .text-link { text-decoration: none; }
+.chapter-links {
+  display: inline-flex;
+  gap: 18px;
+}
+.cockpit-bottom .text-link {
+  text-decoration: none;
+}
 @media (max-width: 767px) {
-  .cockpit-bottom .text-link + .text-link { margin-left: 0; }
+  .cockpit-bottom .text-link + .text-link {
+    margin-left: 0;
+  }
+}
+
+/* Larger click areas on the small journey controls, without changing how they look (WCAG 2.2: 24 × 24 px). */
+.brief-stop::before {
+  inset: -11px 0;
+}
+:is(.brief-step, .primary-action, .route-step, .hardware-info, .chapter-next a, .text-link) {
+  position: relative;
+}
+:is(.brief-step, .primary-action, .route-step, .hardware-info, .chapter-next a, .text-link)::after {
+  content: '';
+  position: absolute;
+  inset: -6px -3px;
 }

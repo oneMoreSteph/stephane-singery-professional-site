@@ -12,8 +12,8 @@ export default function Home() {
     <>
       <h1>{site.name}</h1>
       <p className="lede">
-        {site.role}. From live rail operations to Data Platforms and observability: I design for production and
-        think for operations. My next step: contributing to Europe’s technological sovereignty.
+        {site.role}. From live rail operations to Data Platforms and observability: I design for production
+        and think for operations. My next step: contributing to Europe’s technological sovereignty.
       </p>
       <ul className="text-list">
         {sections.map((s) => (

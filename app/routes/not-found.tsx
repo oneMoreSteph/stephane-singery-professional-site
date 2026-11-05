@@ -4,7 +4,10 @@ import { SiteNav } from '~/components/SiteNav';
 import { site } from '~/site';
 import type { Route } from './+types/not-found';
 
-export const meta: Route.MetaFunction = () => [{ title: `Page not found | ${site.name}` }, { name: 'robots', content: 'noindex' }];
+export const meta: Route.MetaFunction = () => [
+  { title: `Page not found | ${site.name}` },
+  { name: 'robots', content: 'noindex' },
+];
 
 export default function NotFound() {
   return (

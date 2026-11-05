@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "images": "node scripts/optimize-images.mjs",
     "test:visual": "playwright test",
-    "postbuild": "node scripts/postbuild.mjs"
+    "postbuild": "node scripts/postbuild.mjs",
+    "format": "prettier --write .",
+    "check": "react-router typegen && tsc && eslint . && prettier --check ."
   },
   "engines": {
     "node": ">=22"
@@ -24,6 +26,7 @@
     "three": "0.186.1"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.1",
     "@react-router/dev": "8.5.1",
     "@types/node": "22.20.5",

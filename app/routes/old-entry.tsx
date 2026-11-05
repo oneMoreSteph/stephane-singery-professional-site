@@ -8,6 +8,8 @@ export const meta = () => [{ title: site.name }, { name: 'robots', content: 'noi
 
 export default function OldEntry() {
   const navigate = useNavigate();
-  useEffect(() => navigate(`/${window.location.hash}`, { replace: true }), [navigate]);
+  useEffect(() => {
+    navigate(`/${window.location.hash}`, { replace: true });
+  }, [navigate]);
   return null;
 }

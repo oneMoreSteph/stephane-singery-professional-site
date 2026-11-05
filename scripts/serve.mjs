@@ -7,9 +7,20 @@ import { extname, join, normalize } from 'node:path';
 const root = new URL('../build/client/', import.meta.url).pathname;
 const port = Number(process.argv[2] || 8901);
 const types = {
-  '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.pdf': 'application/pdf',
-  '.obj': 'text/plain', '.ico': 'image/x-icon', '.txt': 'text/plain', '.xml': 'application/xml', '.data': 'text/x-script',
+  '.html': 'text/html; charset=utf-8',
+  '.js': 'text/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.pdf': 'application/pdf',
+  '.obj': 'text/plain',
+  '.ico': 'image/x-icon',
+  '.txt': 'text/plain',
+  '.xml': 'application/xml',
+  '.data': 'text/x-script',
 };
 
 async function file(path) {
@@ -27,6 +38,9 @@ createServer(async (req, res) => {
   if (!target.startsWith(root)) return res.writeHead(403).end();
   const found = await file(target);
   const path = found ?? join(root, '404.html');
-  res.writeHead(found ? 200 : 404, { 'content-type': types[extname(path)] ?? 'application/octet-stream', 'cache-control': 'no-cache' });
+  res.writeHead(found ? 200 : 404, {
+    'content-type': types[extname(path)] ?? 'application/octet-stream',
+    'cache-control': 'no-cache',
+  });
   res.end(await readFile(path));
 }).listen(port, '127.0.0.1', () => console.log(`http://127.0.0.1:${port}`));
