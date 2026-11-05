@@ -7,6 +7,7 @@
   --color-text-muted: #abc4cd;
   --color-accent: #a9e7f1;
   --color-gold: #f6d77a;
+  /* No web font is loaded, by choice (5 Nov 2026): each machine uses the first of these it has. */
   --font-sans: Inter, 'Avenir Next', Avenir, Helvetica, Arial, sans-serif;
   --space-1: 4px;
   --space-2: 8px;
