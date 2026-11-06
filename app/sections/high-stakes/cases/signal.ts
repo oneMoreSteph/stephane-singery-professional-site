@@ -6,10 +6,10 @@ export default {
   tag: 'VERISURE · DATA QUALITY & OBSERVABILITY',
   title: 'Signal or noise',
   summary:
-    'Governed severity operational measures: harmless alerts stop flooding the teams, nothing is silenced for good.',
+    'Governed severity operational measurements: harmless alerts stop flooding the teams, nothing is silenced for good.',
   category: 'SIGNAL OR NOISE',
   takeaway:
-    'I made severity operational measures a governed part of the platform: harmless alerts stop flooding the teams, nothing is silenced for good, and the alerts that remain are trusted.',
+    'I made severity operational measurements a governed part of the platform: harmless alerts stop flooding the teams, nothing is silenced for good, and the alerts that remain are trusted.',
   beats: [
     [
       '01 / THE STAKES',
@@ -21,20 +21,20 @@ export default {
       ],
     ],
     [
-      '02 / WHY A SEVERITY OPERATIONAL MEASURE',
+      '02 / WHY A SEVERITY OPERATIONAL MEASUREMENT',
       'Separate detection from qualification.',
       [
         'Requalifying an alert became a capability of the common layer.',
         'Available to every observability domain, not a workaround for only one of them.',
         'The test keeps running and detecting.',
-        'The severity operational measure only changes how its alert is qualified.',
+        'The severity operational measurement only changes how its alert is qualified.',
       ],
     ],
     [
       '03 / WHAT IT BRINGS',
       'An exception that is owned, reviewed and visible.',
       [
-        'Each severity operational measure: a justification, an owner, a review date, a duration.',
+        'Each severity operational measurement: a justification, an owner, a review date, a duration.',
         'Always traceable.',
         'When the duration ends, the alert returns to its normal qualification.',
         'Nothing silenced for good.',
@@ -53,7 +53,7 @@ export default {
   ],
   drawing: {
     scene: 'signal',
-    labels: ['The stakes', 'Severity operational measure', 'What it brings', 'The result'],
+    labels: ['The stakes', 'Severity operational measurement', 'What it brings', 'The result'],
     note: 'Alert examples are illustrative; figures and governance fields are from my Verisure work.',
   },
 } satisfies Case;
