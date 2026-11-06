@@ -20,6 +20,12 @@ export function CaseWindow({ item, onOpenCase }: { item: Case; onOpenCase: (key:
   const drawing = item.drawing!;
   const Scene = scenes[drawing.scene];
   const [step, setStep] = useState(0);
+  // Every step button press replays the step, even the current one, as the previous engine did.
+  const [visit, setVisit] = useState(0);
+  const go = (next: number) => {
+    setStep(next);
+    setVisit((v) => v + 1);
+  };
   const [zoom, setZoom] = useState(1);
   const [paused, setPaused] = useState(reducedMotion);
   const [inspectedId, setInspectedId] = useState<string | null>(null);
@@ -71,7 +77,7 @@ export function CaseWindow({ item, onOpenCase }: { item: Case; onOpenCase: (key:
           easing: 'cubic-bezier(.2,.72,.16,1)',
         },
       );
-  }, [step]);
+  }, [step, visit]);
 
   useEffect(() => {
     if (paused) svg.current?.pauseAnimations();
@@ -117,7 +123,7 @@ export function CaseWindow({ item, onOpenCase }: { item: Case; onOpenCase: (key:
     <section className={`case-experience${paused ? ' motion-paused' : ''}`} data-case={item.slug}>
       <nav className="case-stages" aria-label="Explore this experience">
         {drawing.labels.map((l, i) => (
-          <button key={l} type="button" data-step={i} aria-pressed={i === step} onClick={() => setStep(i)}>
+          <button key={l} type="button" data-step={i} aria-pressed={i === step} onClick={() => go(i)}>
             <span>{pad(i + 1)}</span>
             {l}
           </button>
@@ -203,15 +209,11 @@ export function CaseWindow({ item, onOpenCase }: { item: Case; onOpenCase: (key:
               type="button"
               aria-label="Previous part of this experience"
               disabled={step === 0}
-              onClick={() => setStep((s) => Math.max(0, s - 1))}
+              onClick={() => go(Math.max(0, step - 1))}
             >
               ← Previous
             </button>
-            <button
-              type="button"
-              disabled={step === last}
-              onClick={() => setStep((s) => Math.min(last, s + 1))}
-            >
+            <button type="button" disabled={step === last} onClick={() => go(Math.min(last, step + 1))}>
               {step === last ? 'End of this story ✓' : 'Next part →'}
             </button>
           </div>

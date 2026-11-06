@@ -1,14 +1,16 @@
 import { useContext } from 'react';
 import { LayerVisible, useDrawing } from './context';
 
-/** Part of a drawing shown only at some steps (0-based). */
+/** Part of a drawing shown only at some steps (0-based). `bare` leaves out the standard layer styling. */
 export function Layer({
   steps,
   className = '',
+  bare = false,
   children,
 }: {
   steps: number[];
   className?: string;
+  bare?: boolean;
   children: React.ReactNode;
 }) {
   const { step } = useDrawing();
@@ -17,7 +19,9 @@ export function Layer({
   return (
     <LayerVisible.Provider value={parentVisible && shown}>
       <g
-        className={['state-layer', className, shown ? '' : 'layer-hidden'].filter(Boolean).join(' ')}
+        className={[bare ? '' : 'state-layer', className, shown ? '' : 'layer-hidden']
+          .filter(Boolean)
+          .join(' ')}
         data-states={steps.join(' ')}
         aria-hidden={!shown}
       >

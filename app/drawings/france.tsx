@@ -57,6 +57,9 @@ export const Squash = ({ children }: { children: React.ReactNode }) => (
 );
 
 type Country = { name: string; d: string };
+/** Outline of France, in raw coordinates (use inside Squash). */
+export const franceOutline = (countries as Country[]).find((c) => c.name === 'France')!.d;
+
 const slug = (name: string) => name.toLowerCase().replaceAll(' ', '-');
 
 /** France and its neighbours. */

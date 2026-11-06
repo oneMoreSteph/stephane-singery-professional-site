@@ -225,7 +225,7 @@ function findWayScene(){
   ${caseChip(600,560,320,'food-deadline','HIGH-STAKES · SIX WEEKS','The full case')}</g>`;
  return `${ops.opsDefs}${ops.header('FIND A WAY · WHATEVER THE CONSTRAINT')}${strip}${vfli}${rff}${tour}${food}`;
 }
-const scenes={'find-way':findWayScene,vfli:vfliScene,rff:rffScene,signal:ops.signalScene,toyota:ops.toyotaScene,crossing:ops.tourScene,station:ops.ligneCScene,deadline:ops.deadlineScene,paris:parisScene,'system-food':()=>systemScene('food'),'system-heetch':()=>systemScene('heetch'),'system-verisure':()=>systemScene('verisure'),ambition:()=>path.ambitionScene(ill.spaceLayers())};
+const scenes={'find-way':findWayScene,vfli:vfliScene,rff:rffScene,paris:parisScene,'system-food':()=>systemScene('food'),'system-heetch':()=>systemScene('heetch'),'system-verisure':()=>systemScene('verisure'),ambition:()=>path.ambitionScene(ill.spaceLayers())};
 
 // The case window engine moved to app/cases/CaseWindow.tsx. Drawings not yet converted are read from here.
 export function sceneMarkup(name){return scenes[name]?.()??'';}

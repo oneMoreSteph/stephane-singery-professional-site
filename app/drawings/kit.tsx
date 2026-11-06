@@ -456,3 +456,6 @@ export function CaseChip({
     </g>
   );
 }
+
+/** Position of an item in a cycling sequence (seq3–6, cap3–5, trigger, cover-case): sets --n for timing and data-n for styles. */
+export const seqN = (n: number) => ({ style: vars({ '--n': n }), 'data-n': n });

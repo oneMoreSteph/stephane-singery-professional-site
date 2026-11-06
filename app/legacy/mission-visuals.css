@@ -596,7 +596,7 @@
 @keyframes plan-cycle{0%,30%{opacity:1}33.3%,97%{opacity:0}100%{opacity:1}}
 .story-svg .trigger{animation-name:trigger-cycle}
 @keyframes trigger-cycle{0%,30%{opacity:1}33.3%,97%{opacity:.35}100%{opacity:1}}
-@media(prefers-reduced-motion:reduce){.story-svg .trigger,.story-svg .cover-case{animation:none}.story-svg .cover-case[style*="--n:0"],.story-svg .trigger[style*="--n:0"]{opacity:1}}
+@media(prefers-reduced-motion:reduce){.story-svg .trigger,.story-svg .cover-case{animation:none}.story-svg .cover-case:is([style*="--n:0"],[data-n="0"]),.story-svg .trigger:is([style*="--n:0"],[data-n="0"]){opacity:1}}
 .story-svg .cov-safety{fill:url(#opsHatch);stroke:#f0a868;stroke-opacity:.7}
 .story-svg .cov-route{fill:none;stroke:var(--data);stroke-width:2.4}
 .story-svg .cov-closed{stroke:#f0a868;stroke-width:3;stroke-linecap:round}
@@ -654,7 +654,7 @@
 .story-svg .cap4{animation:cap4 8s infinite both;animation-delay:calc(var(--n)*2s - 8s)}
 .story-svg .seq5 .contact-ring{fill:none;stroke:currentColor;stroke-opacity:.5;stroke-width:1.5}
 
-@media(prefers-reduced-motion:reduce){.story-svg .seq5,.story-svg .seq4{animation:none}.story-svg .cap5,.story-svg .cap4{animation:none;opacity:0}.story-svg .cap5[style*="--n:0"],.story-svg .cap4[style*="--n:0"]{opacity:1}}
+@media(prefers-reduced-motion:reduce){.story-svg .seq5,.story-svg .seq4{animation:none}.story-svg .cap5,.story-svg .cap4{animation:none;opacity:0}.story-svg .cap5:is([style*="--n:0"],[data-n="0"]),.story-svg .cap4:is([style*="--n:0"],[data-n="0"]){opacity:1}}
 /* One highlight colour for whatever is in focus; everything else greys out. */
 @keyframes focus5c{0%,18%{opacity:1;color:#f6d77a;filter:drop-shadow(0 0 7px rgba(246,215,122,.85))}20%,98%{opacity:.28;color:#6f8a94;filter:grayscale(1)}100%{opacity:1;color:#f6d77a;filter:drop-shadow(0 0 7px rgba(246,215,122,.85))}}
 @keyframes focus4c{0%,23%{opacity:1;filter:drop-shadow(0 0 6px rgba(246,215,122,.95))}25%,98%{opacity:.14;filter:grayscale(1)}100%{opacity:1;filter:drop-shadow(0 0 6px rgba(246,215,122,.95))}}
@@ -674,7 +674,7 @@
 .story-svg .seq3 .name-tag rect{stroke:currentColor}
 .story-svg .seq3 .tag-text{fill:currentColor}
 .story-svg .seq3 .step-box,.story-svg .seq3 .ind{stroke:currentColor}
-@media(prefers-reduced-motion:reduce){.story-svg .seq3{animation:none}.story-svg .cap3{animation:none;opacity:0}.story-svg .cap3[style*="--n:0"]{opacity:1}}
+@media(prefers-reduced-motion:reduce){.story-svg .seq3{animation:none}.story-svg .cap3{animation:none;opacity:0}.story-svg .cap3:is([style*="--n:0"],[data-n="0"]){opacity:1}}
 /* Tour: the element in focus glows gold; the other clickable elements step back */
 .scene-camera [data-inspect]{cursor:pointer;transition:opacity .4s,filter .4s}
 .scene-camera.is-touring [data-inspect]{opacity:.55}
@@ -834,7 +834,7 @@
 .scene-camera[data-pick] .trigger,.scene-camera[data-pick] .cover-case{animation:none}
 .scene-camera[data-pick] .cover-case{opacity:0}
 .scene-camera[data-pick] .trigger{opacity:.4}
-.scene-camera[data-pick="0"] .cover-case[style*="--n:0"],.scene-camera[data-pick="1"] .cover-case[style*="--n:1"],.scene-camera[data-pick="2"] .cover-case[style*="--n:2"]{opacity:1}
+.scene-camera[data-pick="0"] .cover-case:is([style*="--n:0"],[data-n="0"]),.scene-camera[data-pick="1"] .cover-case:is([style*="--n:1"],[data-n="1"]),.scene-camera[data-pick="2"] .cover-case:is([style*="--n:2"],[data-n="2"]){opacity:1}
 .scene-camera[data-pick="0"] .trigger[data-pick="0"],.scene-camera[data-pick="1"] .trigger[data-pick="1"],.scene-camera[data-pick="2"] .trigger[data-pick="2"]{opacity:1}
 .scene-camera[data-pick] .trigger[data-pick] rect{transition:stroke .2s}
 .scene-camera[data-pick="0"] .trigger[data-pick="0"] rect,.scene-camera[data-pick="1"] .trigger[data-pick="1"] rect,.scene-camera[data-pick="2"] .trigger[data-pick="2"] rect{stroke:#f6d77a;fill:rgba(246,215,122,.12)}
