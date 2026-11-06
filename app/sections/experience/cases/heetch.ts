@@ -35,7 +35,7 @@ export default {
         'I built most of the new platform, on Google Cloud.',
         'Sources, including GCS object storage, loaded into BigQuery, the Data warehouse: raw and curated Data (ELT).',
         'SQL transformations in Dataform, the equivalent of dbt.',
-        'Orchestration.',
+        'Orchestration with Dataform schedules.',
         'BI access through Looker, AI access through Vertex AI.',
       ],
     ],

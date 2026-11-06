@@ -106,8 +106,8 @@ export const groups: StackGroup[] = [
         cases: ['verisure'],
       },
       {
-        name: 'Orchestration and a tag policy',
-        what: 'Every step in the right order, at the right time; logic safer to change.',
+        name: 'Orchestration · Dataform schedules',
+        what: 'Every step in the right order, at the right time, with a tag policy: logic safer to change.',
         cases: ['heetch'],
       },
       {
@@ -160,19 +160,39 @@ export const groups: StackGroup[] = [
     ],
   },
   {
-    title: 'Cloud and production',
+    title: 'Cloud',
     items: [
       {
         name: 'Google Cloud',
         what: 'BigQuery, GCS, Dataform, Looker, Vertex AI, App Engine.',
         cases: ['heetch', 'food-data'],
       },
+      { name: 'AWS', what: 'Redshift and S3, in the stacks I worked with.', cases: ['food-data', 'heetch'] },
+    ],
+  },
+  {
+    title: 'Engineering practices',
+    items: [
       {
-        name: 'Google App Engine',
-        what: 'I deployed and maintained Metabase on it, in production.',
+        name: 'Git and code review',
+        what: 'Versioned code, reviewed by colleagues before it ships, in my Data roles.',
+        cases: [],
+      },
+      {
+        name: 'Dev and prod environments',
+        what: 'Changes tested in development before they reach production.',
+        cases: [],
+      },
+      {
+        name: 'Documentation',
+        what: 'Models, pipelines and tools documented, for users and for the engineers after me.',
         cases: ['food-data'],
       },
-      { name: 'AWS', what: 'Redshift and S3, in the stacks I worked with.', cases: ['food-data', 'heetch'] },
+      {
+        name: 'Deployment and maintenance',
+        what: 'Metabase deployed and maintained on Google App Engine, in production.',
+        cases: ['food-data'],
+      },
       {
         name: 'Production support',
         what: 'Operational workflows owned end to end, from requirements to production support.',
@@ -190,7 +210,7 @@ export const groups: StackGroup[] = [
       },
       {
         name: 'Python',
-        what: 'Self-taught from 2019, then the Jedha Data Science programme.',
+        what: 'In production in my Data roles; self-taught from 2019, then the Jedha Data Science programme.',
         cases: ['study-data'],
       },
       {

@@ -156,7 +156,7 @@ export const concepts: Record<string, [what: string, why: string]> = {
     'The same control is not rewritten each time. This was my first step into observability.',
   ],
   's-orch': [
-    'Orchestration runs models in the right order. A tag policy groups the ones managed together.',
+    'Orchestration with Dataform schedules runs models in the right order. A tag policy groups the ones managed together.',
     'The logic becomes safer to change and easier to maintain.',
   ],
   's-cur': [

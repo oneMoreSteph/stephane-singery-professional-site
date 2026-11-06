@@ -264,10 +264,10 @@ function ThePlatform() {
       </Inspectable>
       <Inspectable
         id="ht-orch"
-        title="Orchestration"
-        body="Orchestration runs every step in the right order, at the right time.|Hour after hour, without manual runs."
+        title="Orchestration · Dataform schedules"
+        body="Dataform schedules run every step in the right order, at the right time.|Hour after hour, without manual runs."
       >
-        <Win x={390} y={140} w={280} h={84} title="ORCHESTRATION">
+        <Win x={390} y={140} w={306} h={84} title="ORCHESTRATION · DATAFORM SCHEDULES">
           {[0, 1, 2].map((i) => (
             <rect
               key={i}
@@ -426,7 +426,7 @@ function TheModels() {
       </Inspectable>
       <Inspectable
         id="ht-tags"
-        title="Orchestration and a tag policy"
+        title="Dataform schedules and a tag policy"
         body="Each model carries tags that say when and with what it runs.|Logic safer to change, easier to maintain."
       >
         <g>
