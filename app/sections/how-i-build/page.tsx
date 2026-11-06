@@ -8,6 +8,13 @@ import { chain, groups, proofLabel } from './stack';
 
 export const meta: Route.MetaFunction = ({ location }) => metaForPath(location.pathname);
 
+/** An id-safe version of a group title: lower case, words joined by hyphens. */
+const slug = (t: string) =>
+  t
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
 /** A link to the case that shows a skill. */
 function Proof({ slug }: { slug: string }) {
   const found = findCase(slug);
@@ -29,7 +36,7 @@ export default function HowIBuildPage() {
         <p className="lede">
           The skills and tools behind my Data work, each linked to the case that shows it.
         </p>
-        <p className="stack-chain" aria-label={`The Data chain: ${chain.join(', then ')}`}>
+        <p className="stack-chain">
           {chain.map((c, i) => (
             <span key={c} className="stack-chain__part">
               {i > 0 && (
@@ -44,8 +51,8 @@ export default function HowIBuildPage() {
         <p className="stack-types">Structured, semi-structured and unstructured Data.</p>
         <div className="stack-grid">
           {groups.map((g) => (
-            <section key={g.title} className="stack-card" aria-labelledby={`g-${g.title}`}>
-              <h2 id={`g-${g.title}`}>{g.title}</h2>
+            <section key={g.title} className="stack-card" aria-labelledby={`g-${slug(g.title)}`}>
+              <h2 id={`g-${slug(g.title)}`}>{g.title}</h2>
               <ul>
                 {g.items.map((it) => (
                   <li key={it.name}>
