@@ -10,3 +10,4 @@ assets-src/
 .claude/
 app/drawings/data/geography.ts
 app/drawings/data/geography-eu.ts
+app/drawings/data/rfn.ts

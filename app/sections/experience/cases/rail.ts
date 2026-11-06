@@ -44,7 +44,8 @@ export default {
   drawing: {
     scene: 'rff',
     labels: ['A contested network', 'My customers', 'The long missions', 'Next'],
-    note: 'Schematic rail links, France at true proportions. Routes and timings are illustrative; customer rows beyond the named one are illustrative.',
+    note: 'Real network: lines in operation, SNCF Réseau open data. Train routes are schematic links between cities; timings and customer rows beyond the named one are illustrative.',
+    mapSources: true,
   },
   timeline: {
     lane: 'ops',

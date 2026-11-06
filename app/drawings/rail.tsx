@@ -1,14 +1,40 @@
 // The France rail map shared by the two SNCF freight roles. Everything drawn over it sits in a solid panel.
 import { Fragment } from 'react';
+import { rfnNetwork } from './data/rfn';
+import { useDrawing } from './context';
 import { cities, connections, CountryMap, project, route } from './france';
+import { Inspectable } from './Inspectable';
 import { OpsDefs, T } from './kit';
 import { Line } from './ops';
 
-export function RailBase() {
+/** The real lines in operation of the national rail network, from SNCF Réseau open data. Clickable at the `focus` steps. */
+export function RfnNetwork({ focus }: { focus: number[] }) {
+  const { step } = useDrawing();
+  const lines = <path d={rfnNetwork} className="rfn-line" fill="none" />;
+  return (
+    <g className="rfn-network">
+      {focus.includes(step) ? (
+        <Inspectable
+          id="rfn"
+          title="The national rail network"
+          body="The lines in operation of the French national rail network, from SNCF Réseau open data.|Every request I built had to fit on these lines, shared by every operator."
+        >
+          {lines}
+        </Inspectable>
+      ) : (
+        lines
+      )}
+    </g>
+  );
+}
+
+/** `network`: the steps at which the real network is clickable; without it, the map keeps only the schematic links. */
+export function RailBase({ network }: { network?: number[] }) {
   return (
     <>
       <OpsDefs />
       <CountryMap />
+      {network && <RfnNetwork focus={network} />}
       <T x={292} y={345} className="country-name">
         F R A N C E
       </T>

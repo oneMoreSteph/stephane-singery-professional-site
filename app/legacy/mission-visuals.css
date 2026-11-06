@@ -445,7 +445,7 @@
 .story-svg .state-layer:not(.layer-hidden) .clock-path{animation:clock-draw 2.4s var(--ease) .2s forwards}
 @keyframes clock-draw{to{stroke-dashoffset:0}}
 .story-svg .clock-node{fill:#071923;stroke:var(--data);stroke-width:2}
-.scene-camera[data-stage="1"] .country-map,.scene-camera[data-stage="1"] .rail-links{opacity:.45;transition:opacity .6s}
+.scene-camera[data-stage="1"] .country-map,.scene-camera[data-stage="1"] .rail-links,.scene-camera[data-stage="1"] .rfn-network{opacity:.45;transition:opacity .6s}
 
 
 .story-svg .case-link rect{fill:#0a2231;stroke:#3f6b79;transition:stroke .2s,fill .2s}
@@ -515,7 +515,7 @@
 .story-svg .promise-ring{fill:rgba(232,183,126,.12);stroke:var(--ops);stroke-width:1.6}
 .story-svg .promise-hand{stroke:var(--ops);stroke-width:2;stroke-linecap:round}
 .story-svg .partner-ring{fill:rgba(232,183,126,.1);stroke:var(--ops);stroke-dasharray:4 3}
-.scene-camera[data-stage="3"] .country-map,.scene-camera[data-stage="3"] .rail-links,.scene-camera[data-stage="3"] .city-layer,.scene-camera[data-stage="3"] .active-route,.scene-camera[data-stage="3"] .route-glow{opacity:.1;transition:opacity .6s}
+.scene-camera[data-stage="3"] .country-map,.scene-camera[data-stage="3"] .rail-links,.scene-camera[data-stage="3"] .rfn-network,.scene-camera[data-stage="3"] .city-layer,.scene-camera[data-stage="3"] .active-route,.scene-camera[data-stage="3"] .route-glow{opacity:.1;transition:opacity .6s}
 
 
 .story-svg .chain-step rect{fill:#0a2231;stroke:#3f6b79}
@@ -679,6 +679,10 @@
 .scene-camera [data-inspect]{cursor:pointer;transition:opacity .4s,filter .4s}
 .scene-camera.is-touring [data-inspect]{opacity:.55}
 .scene-camera [data-inspect].is-toured,.scene-camera [data-inspect].is-inspected,.scene-camera [data-inspect]:hover{opacity:1;filter:drop-shadow(0 0 7px rgba(246,215,122,.9))}
+/* The real rail network covers the whole map: its highlight is a gold line colour, not a glow. */
+.scene-camera.is-touring .rfn-network [data-inspect]{opacity:1}
+.scene-camera .rfn-network [data-inspect].is-toured,.scene-camera .rfn-network [data-inspect].is-inspected,.scene-camera .rfn-network [data-inspect]:hover{filter:none}
+.scene-camera .rfn-network .is-toured .rfn-line,.scene-camera .rfn-network .is-inspected .rfn-line,.scene-camera .rfn-network [data-inspect]:hover .rfn-line{stroke:#f6d77a;stroke-opacity:.7}
 /* Toyota: the line from the Dutch border to the south-west, and the coordination around it */
 .story-svg .small-city{font-size:12px}
 .story-svg .sw-zone{fill:rgba(240,168,104,.14);stroke:#f0a868;stroke-width:1.6;stroke-dasharray:4 4}

@@ -203,7 +203,7 @@ function LongClock() {
 export default function RffScene() {
   return (
     <>
-      <RailBase />
+      <RailBase network={[0, 1, 2]} />
       <SharedNetwork />
       <Customers />
       <Layer steps={[2]}>
