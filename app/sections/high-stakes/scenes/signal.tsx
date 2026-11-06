@@ -1,4 +1,4 @@
-// ISS · Verisure, signal or noise: the stakes, why an override, what it brings, the result.
+// ISS · Verisure, signal or noise: the stakes, why a severity operational measure, what it brings, the result.
 // Queue contents, names and dates are illustrative.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
@@ -79,7 +79,7 @@ function Stakes() {
   );
 }
 
-function WhyOverride() {
+function WhySeverityMeasure() {
   return (
     <Layer steps={[1]}>
       <Inspectable
@@ -108,15 +108,15 @@ function WhyOverride() {
       <Arrow from={[408, 195]} to={[468, 195]} />
       <Inspectable
         id="sg-qualify"
-        title="Qualification, with the override"
-        body="The override only changes how the alert is qualified.|Detection and qualification, separated."
+        title="Qualification, with the severity operational measure"
+        body="The severity operational measure only changes how the alert is qualified.|Detection and qualification, separated."
       >
         <g>
           <circle className="tx-stage on" cx={530} cy={195} r="34" />
           <Lab x={530} y={256} t="QUALIFICATION" c="center warm" />
-          <rect className="tx-ticket" x="478" y="96" width="104" height="30" rx="4" />
+          <rect className="tx-ticket" x="420" y="96" width="220" height="30" rx="4" />
           <T x={530} y={116} className="center tx-win-t dark">
-            OVERRIDE
+            SEVERITY OPERATIONAL MEASURE
           </T>
           <path className="tx-link" d="M530 126V160" />
         </g>
@@ -142,7 +142,7 @@ function WhyOverride() {
       >
         <g>
           <rect className="tx-layer top" x="40" y="380" width="920" height="60" rx="4" />
-          <Lab x={60} y={416} t="COMMON LAYER · OVERRIDES FOR EVERY DOMAIN" c="warm" />
+          <Lab x={60} y={416} t="COMMON LAYER · SEVERITY OPERATIONAL MEASURES FOR EVERY DOMAIN" c="warm" />
           {['DOMAIN 1 · DBT TESTS', 'NEXT DOMAIN', 'NEXT DOMAIN'].map((t, i) => (
             <Fragment key={i}>
               <rect
@@ -176,10 +176,10 @@ function WhatItBrings() {
     <Layer steps={[2]}>
       <Inspectable
         id="sg-record"
-        title="An override record"
-        body="Each override: a justification, an owner, a review date, a duration.|Always traceable."
+        title="A severity operational measure record"
+        body="Each severity operational measure: a justification, an owner, a review date, a duration.|Always traceable."
       >
-        <Win x={40} y={96} w={440} h={340} title="OVERRIDE · ONE ALERT, REQUALIFIED">
+        <Win x={40} y={96} w={440} h={340} title="SEVERITY OPERATIONAL MEASURE · ONE ALERT">
           {fields.map(([k, v], i) => (
             <Fragment key={k}>
               <rect className="tx-table-row" x="58" y={132 + i * 58} width="404" height="46" rx="3" />
@@ -193,7 +193,7 @@ function WhatItBrings() {
       <Inspectable
         id="sg-owner"
         title="Owned"
-        body="Every override has an owner.|Someone answers for each exception."
+        body="Every severity operational measure has an owner.|Someone answers for each exception."
       >
         <g>
           <User x={600} y={170} s={1.3} c="on" />
@@ -301,7 +301,7 @@ export default function SignalScene() {
       <OpsDefs />
       <Header kicker="VERISURE · SIGNAL OR NOISE" />
       <Stakes />
-      <WhyOverride />
+      <WhySeverityMeasure />
       <WhatItBrings />
       <Result />
     </>

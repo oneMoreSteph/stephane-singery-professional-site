@@ -141,7 +141,7 @@ export const groups: StackGroup[] = [
         cases: ['verisure'],
       },
       {
-        name: 'Governed overrides',
+        name: 'Governed severity operational measures',
         what: 'Harmless alerts requalified with an owner, a review date and a duration; nothing silenced for good.',
         cases: ['signal'],
       },
