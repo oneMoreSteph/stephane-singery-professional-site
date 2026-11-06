@@ -35,7 +35,7 @@ export default {
       'A Data Platform, block by block.',
       [
         'FoodChéri’s first end-to-end Data Platform, designed block by block: source, ELT, Data warehouse, BI.',
-        'Raw Data from FoodChéri’s Redshift and Seazon’s MongoDB (NoSQL), ingested with a ready-made tool chosen after an audit.',
+        'Structured Data from FoodChéri’s Redshift and semi-structured Data from Seazon’s MongoDB (NoSQL), ingested with a ready-made tool chosen after an audit.',
         'SQL transformations into curated tables in BigQuery, the Data warehouse.',
         'I built the pipelines and the models.',
       ],

@@ -218,24 +218,25 @@ function Platform() {
       <Inspectable
         id="fd-redshift"
         title="FoodChéri · Redshift"
-        body="Redshift: Amazon’s cloud Data warehouse, holding FoodChéri’s raw Data in SQL tables.|One of the two sources of the platform."
+        body="Redshift: Amazon’s cloud Data warehouse, holding FoodChéri’s raw Data in SQL tables: structured Data.|One of the two sources of the platform."
       >
         <g>
           <Lab x={40} y={170} t="FOODCHÉRI · REDSHIFT" />
           <Db cx={90} y={184} w={92} h={84} />
-          <Sub x={90} y={292} t="SQL tables" c="center" />
+          <Sub x={90} y={292} t="Structured · SQL tables" c="center" />
         </g>
       </Inspectable>
       <Inspectable
         id="fd-mongo"
         title="Seazon · MongoDB"
-        body="MongoDB: a NoSQL database storing Seazon’s Data as documents.|The second source: same company, a different structure to bring in."
+        body="MongoDB: a NoSQL database storing Seazon’s Data as JSON documents: semi-structured Data.|The second source: same company, a different structure to bring in."
       >
         <g>
           <Lab x={40} y={320} t="SEAZON · MONGODB" />
-          <Win x={40} y={334} w={150} h={104} title="NOSQL DOCUMENTS">
+          <Win x={40} y={334} w={150} h={104} title="NOSQL · JSON">
             <Code x={52} y={376} lh={18} lines={['{ "meal": "…",', '  "qty": 2,', '  "tags": […] }']} />
           </Win>
+          <Sub x={40} y={458} t="Semi-structured" />
         </g>
       </Inspectable>
       <Link d="M140 226C200 226 200 300 252 300" />
@@ -243,7 +244,7 @@ function Platform() {
       <Inspectable
         id="fd-ingest"
         title="Ingestion"
-        body="A ready-made ingestion tool, chosen after an audit.|It brings both sources, SQL and NoSQL, into the Data warehouse on schedule."
+        body="A ready-made ingestion tool, chosen after an audit.|It brings structured (SQL) and semi-structured (NoSQL) Data into the Data warehouse, on schedule."
       >
         <g>
           <Lab x={306} y={244} t="INGESTION" c="center" />

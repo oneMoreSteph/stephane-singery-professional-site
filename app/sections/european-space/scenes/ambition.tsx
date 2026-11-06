@@ -121,7 +121,7 @@ function Systems() {
       <Inspectable
         id="bigdata"
         title="Big Data · where my path goes"
-        body="Big Data: Data whose volume, velocity and variety exceed ordinary tools.|The environment my path leads to: the field of my engineering degree, and the Data space systems produce."
+        body="Big Data: Data whose volume, velocity and variety exceed ordinary tools. Variety: structured tables, semi-structured documents, unstructured files, images and signals.|The environment my path leads to: the field of my engineering degree, and the Data space systems produce."
       >
         <g>
           <Lab x={580} y={120} t="BIG DATA · WHERE MY PATH GOES" c="warm" />
@@ -133,7 +133,8 @@ function Systems() {
               </T>
             </Fragment>
           ))}
-          <Sub x={580} y={190} t="My degree’s field · the Data space systems produce" />
+          <Sub x={580} y={190} t="Variety: structured, semi-structured, unstructured" />
+          <Sub x={580} y={212} t="My degree’s field · the Data space systems produce" />
         </g>
       </Inspectable>
       <path className="tx-earth" d="M0 600Q500 470 1000 600V730H0Z" />

@@ -21,6 +21,7 @@ export default {
       '02 / THE STARTING POINT',
       'A daily analytical stack.',
       [
+        'Raw Data in S3, Amazon’s object storage.',
         'Raw and curated Data mixed in Redshift.',
         'Transformations mostly in Dataiku, where I developed a lot.',
         'Looker dashboards refreshed once a day.',

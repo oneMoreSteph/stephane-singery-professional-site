@@ -119,63 +119,83 @@ function StartingPoint() {
     <Layer steps={[1]}>
       <Lab x={40} y={100} t="BEFORE · A DAILY ANALYTICAL STACK" c="strong" />
       <Inspectable
-        id="ht-redshift"
-        title="Redshift · the Data warehouse"
-        body="Redshift: Amazon’s cloud Data warehouse, where all the Data was stored.|Raw and curated Data were mixed in it."
+        id="ht-s3"
+        title="S3 · raw storage"
+        body="S3: Amazon’s object storage, where raw Data arrived as files.|The first stop of the Data before the warehouse."
       >
         <g>
-          <Lab x={40} y={160} t="REDSHIFT · DATA WAREHOUSE" />
-          <Db cx={130} y={176} w={150} h={150} />
-          {[0, 1, 2, 3].map((i) => (
-            <rect
-              key={i}
-              className={`tx-gantt${i % 2 ? ' late' : ''}`}
-              x={82}
-              y={232 + i * 18}
-              width="96"
-              height="10"
-              rx="2"
-            />
+          <Lab x={40} y={160} t="S3 · RAW" />
+          <path className="tx-bucket" d="M44 182H164L154 252H54Z" />
+          {[0, 1, 2].map((i) => (
+            <g key={i} transform={`translate(${62 + i * 32} 196)`}>
+              <path className="tx-doc" d="M0 0H18L24 6V30H0Z" />
+              <path className="tx-grid" d="M4 12H20M4 19H20M4 26H14" />
+            </g>
           ))}
-          <Sub x={40} y={350} t="Raw and curated, mixed" />
+          <Sub x={40} y={276} t="Object storage" />
         </g>
       </Inspectable>
-      <Arrow from={[212, 250]} to={[268, 250]} />
-      <Inspectable
-        id="ht-dataiku"
-        title="Dataiku"
-        body="Dataiku: a Data science platform used for most transformations.|Where I developed a lot."
-      >
-        <Win x={274} y={160} w={240} h={180} title="DATAIKU · TRANSFORMATIONS">
-          <Graph
-            nodes={[
-              [310, 220],
-              [310, 290],
-              [390, 255],
-              [470, 220],
-              [470, 290],
-            ]}
-            edges={[
-              [0, 2],
-              [1, 2],
-              [2, 3],
-              [2, 4],
-            ]}
-          />
-          <Sub x={290} y={330} t="Where I developed a lot" />
-        </Win>
-      </Inspectable>
-      <Arrow from={[520, 250]} to={[576, 250]} />
-      <Inspectable
-        id="ht-looker"
-        title="Looker, refreshed once a day"
-        body="Looker: the BI tool for dashboards.|Its Data was refreshed once a day."
-      >
-        <Win x={582} y={160} w={200} h={180} title="LOOKER · DASHBOARDS">
-          <Bars x={600} y={196} w={164} h={110} vals={[0.4, 0.6, 0.5, 0.75, 0.7]} />
-          <Sub x={600} y={330} t="Refreshed once a day" />
-        </Win>
-      </Inspectable>
+      <Arrow from={[168, 250]} to={[220, 250]} />
+      <g transform="translate(170 0)">
+        <Inspectable
+          id="ht-redshift"
+          title="Redshift · the Data warehouse"
+          body="Redshift: Amazon’s cloud Data warehouse, where all the Data was stored.|Raw and curated Data were mixed in it."
+        >
+          <g>
+            <Lab x={40} y={160} t="REDSHIFT · DATA WAREHOUSE" />
+            <Db cx={130} y={176} w={150} h={150} />
+            {[0, 1, 2, 3].map((i) => (
+              <rect
+                key={i}
+                className={`tx-gantt${i % 2 ? ' late' : ''}`}
+                x={82}
+                y={232 + i * 18}
+                width="96"
+                height="10"
+                rx="2"
+              />
+            ))}
+            <Sub x={40} y={350} t="Raw and curated, mixed" />
+          </g>
+        </Inspectable>
+        <Arrow from={[212, 250]} to={[268, 250]} />
+        <Inspectable
+          id="ht-dataiku"
+          title="Dataiku"
+          body="Dataiku: a Data science platform used for most transformations.|Where I developed a lot."
+        >
+          <Win x={274} y={160} w={240} h={180} title="DATAIKU · TRANSFORMATIONS">
+            <Graph
+              nodes={[
+                [310, 220],
+                [310, 290],
+                [390, 255],
+                [470, 220],
+                [470, 290],
+              ]}
+              edges={[
+                [0, 2],
+                [1, 2],
+                [2, 3],
+                [2, 4],
+              ]}
+            />
+            <Sub x={290} y={330} t="Where I developed a lot" />
+          </Win>
+        </Inspectable>
+        <Arrow from={[520, 250]} to={[576, 250]} />
+        <Inspectable
+          id="ht-looker"
+          title="Looker, refreshed once a day"
+          body="Looker: the BI tool for dashboards.|Its Data was refreshed once a day."
+        >
+          <Win x={582} y={160} w={200} h={180} title="LOOKER · DASHBOARDS">
+            <Bars x={600} y={196} w={164} h={110} vals={[0.4, 0.6, 0.5, 0.75, 0.7]} />
+            <Sub x={600} y={330} t="Refreshed once a day" />
+          </Win>
+        </Inspectable>
+      </g>
       <Inspectable
         id="ht-daily"
         title="One refresh a day"
@@ -226,7 +246,7 @@ function ThePlatform() {
       <Inspectable
         id="ht-gcs"
         title="GCS · object storage"
-        body="Google Cloud Storage: object storage, where Data arrives as files (objects) in buckets.|A source loaded into the raw layer of the Data warehouse."
+        body="Google Cloud Storage: object storage, where Data arrives as files (objects) in buckets, whatever its structure: structured, semi-structured or unstructured.|A source loaded into the raw layer of the Data warehouse."
       >
         <g>
           <Lab x={60} y={150} t="SOURCE · GCS" />
@@ -237,7 +257,8 @@ function ThePlatform() {
               <path className="tx-grid" d="M4 12H20M4 19H20M4 26H14" />
             </g>
           ))}
-          <Sub x={214} y={206} t="Object storage · files" />
+          <Sub x={214} y={198} t="Object storage" />
+          <Sub x={214} y={218} t="Any structure" />
           <Arrow from={[140, 242]} to={[140, 298]} />
         </g>
       </Inspectable>
