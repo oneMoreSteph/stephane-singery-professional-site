@@ -1022,3 +1022,5 @@
 .story-svg .tx-tile-s{fill:#1f6a80;stroke:#97e0e8;animation:tx-pulse 4s ease-in-out infinite;animation-delay:calc(var(--i)*.08s)}
 .story-svg .tx-gates{fill:none;stroke:#97e0e8;stroke-width:3;stroke-linecap:round}
 .story-svg .tx-exit{fill:#123847;stroke:#7fe0b0;stroke-width:1.5}
+.story-svg .tx-gantt.evening{fill:#f0a868}
+.story-svg .hub-mark rect,.story-svg .hub-mark path{fill:#123847}

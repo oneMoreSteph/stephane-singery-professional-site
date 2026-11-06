@@ -1,40 +1,12 @@
-// Earth · FoodChéri hubs: six delivery hubs on real Paris arrondissements, the service, and each order to the right hub.
+// Earth · FoodChéri hubs: six delivery hubs on real Paris arrondissements; my week, the service, what it opened.
+// Hub, stock and order positions are illustrative.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
-import { Packet, T, vars, type Pt } from '~/drawings/kit';
+import { CaseChip, Db, Lab, OpsDefs, Packet, Sub, T, vars, Win, Bars, type Pt } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
-import { Crew, Line } from '~/drawings/ops';
+import { Line } from '~/drawings/ops';
 import { arrondissements } from '~/drawings/data/geography';
-import { SvgButton } from '~/drawings/spokenName';
 
-/** An isometric building: a hub, or a plain building. */
-function Building({
-  x,
-  y,
-  s = 1,
-  kind = 'hub',
-}: {
-  x: number;
-  y: number;
-  s?: number;
-  kind?: 'hub' | 'other';
-}) {
-  return (
-    <g transform={`translate(${x} ${y}) scale(${s})`}>
-      <path d="M-40 12L5 30l39-22V-28L0-43l-40 20Z" fill="#172d3b" />
-      <path d="M-40-23L0-43l44 15L1-6Z" fill="#517c87" />
-      <path d="M1-6l43-22V8L5 30Z" fill="#244654" />
-      <path d="M-40-23L1-6v34l-41-16Z" fill="#355764" />
-      <path d="M-30-10l22 8v20l-22-8z" fill="#a6d9dc" />
-      <path d="M10-1l24-13v20L10 19z" fill="#0a2635" />
-      {kind === 'hub' ? (
-        <path d="M-32-22l22 8M12-13l21-11" stroke="#ffd29d" strokeWidth="4" />
-      ) : (
-        <path d="M-31-6l21 8m-21 8l21 8" stroke="#dcbb79" strokeWidth="3" />
-      )}
-    </g>
-  );
-}
 function Bike({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`} className="bike">
@@ -46,17 +18,25 @@ function Bike({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
     </g>
   );
 }
-const Person = ({
-  x,
-  y,
-  color = '#8ad9de',
-  scale = 1,
-}: {
-  x: number;
-  y: number;
-  color?: string;
-  scale?: number;
-}) => <Crew x={x} y={y} s={scale * 1.15} color={color} />;
+/** A delivery hub, seen from above. */
+const Hub = ({ x, y }: { x: number; y: number }) => (
+  <g className="tx-icon hub-mark" transform={`translate(${x} ${y})`}>
+    <rect x="-15" y="-11" width="30" height="24" rx="2" />
+    <path d="M-15-11L0-21 15-11M-6 13V3H6V13" />
+  </g>
+);
+/** Stacked crates: the food stock. */
+const Crates = ({ x, y }: { x: number; y: number }) => (
+  <g transform={`translate(${x} ${y})`}>
+    {[
+      [-22, 0],
+      [2, 0],
+      [-10, -20],
+    ].map(([cx, cy], i) => (
+      <rect key={i} className="tx-crate" x={cx} y={cy} width="22" height="18" rx="2" />
+    ))}
+  </g>
+);
 
 const hubs: Pt[] = [
   [270, 235],
@@ -99,17 +79,186 @@ const orders: Pt[] = [
 const near = ([x, y]: Pt) =>
   hubs.reduce((b, h) => (Math.hypot(h[0] - x, h[1] - y) < Math.hypot(b[0] - x, b[1] - y) ? h : b));
 const seine = 'M170 310C240 270 220 425 320 421S350 320 430 330S490 410 560 370S620 340 690 400';
-const homes: Pt[] = [
-  [330, 280],
-  [370, 330],
-  [560, 310],
-  [550, 390],
-  [470, 330],
+
+// The right-hand column, clear of the map.
+const X = 756;
+const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+function MyWeek() {
+  return (
+    <Layer steps={[0]}>
+      <rect className="map-panel" x={X - 16} y={86} width="240" height="440" rx="4" />
+      <Inspectable
+        id="hb-week"
+        title="Evenings and weekends"
+        body="SNCF in the day; FoodChéri’s hubs in the evenings and at weekends.|From 2016 to 2019."
+      >
+        <g>
+          <Lab x={X} y={116} t="MY WEEK · 2016–2019" c="warm" />
+          {days.map((d, i) => {
+            const weekend = i > 4;
+            return (
+              <Fragment key={d}>
+                <T x={X} y={158 + i * 34} className="tx-win-t">
+                  {d}
+                </T>
+                {!weekend && (
+                  <rect className="tx-gantt" x={X + 44} y={146 + i * 34} width="96" height="16" rx="2" />
+                )}
+                <rect
+                  className="tx-gantt evening"
+                  x={weekend ? X + 44 : X + 144}
+                  y={146 + i * 34}
+                  width={weekend ? 156 : 56}
+                  height="16"
+                  rx="2"
+                />
+              </Fragment>
+            );
+          })}
+          <rect className="tx-gantt" x={X} y={404} width="16" height="12" rx="2" />
+          <Sub x={X + 24} y={415} t="SNCF" />
+          <rect className="tx-gantt evening" x={X} y={428} width="16" height="12" rx="2" />
+          <Sub x={X + 24} y={439} t="FoodChéri hubs" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="hb-goal"
+        title="A second job, for a personal goal"
+        body="A second job alongside SNCF.|Taken to reach a personal goal."
+      >
+        <g>
+          <Lab x={X} y={480} t="A SECOND JOB" />
+          <Sub x={X} y={502} t="For a personal goal" />
+        </g>
+      </Inspectable>
+    </Layer>
+  );
+}
+
+const service: [string, string, string, string, React.ReactNode][] = [
+  [
+    'hb-stock',
+    'FOOD STOCK',
+    'Six Paris hubs',
+    'The food stock held in each hub.|Each order needs the right stock in the right hub.',
+    <Crates key="c" x={X + 22} y={150} />,
+  ],
+  [
+    'hb-orders',
+    'ORDERS → RIGHT HUB',
+    'Each one dispatched',
+    'Every order, sent to the hub that serves it.|The first step of every delivery.',
+    <g key="o">
+      <circle className="order-pin" cx={X + 8} cy={224} r="5" />
+      <path className="order-link" d={`M${X + 8} 224L${X + 34} 206`} />
+      <Hub x={X + 40} y={206} />
+    </g>,
+  ],
+  [
+    'hb-rides',
+    'MULTI-ORDER RIDES',
+    'Bicycles and motorbikes',
+    'Several orders grouped into one ride for a rider.|More deliveries per ride, on time.',
+    <Bike key="b" x={X + 22} y={300} s={0.7} />,
+  ],
+  [
+    'hb-care',
+    'CUSTOMER CARE',
+    'With customers',
+    'Questions and issues from customers about their orders.|Handled during the service.',
+    <path key="k" className="tx-bubble" d={`M${X} 370h46v28H${X + 18}l-8 9v-9H${X}z`} />,
+  ],
 ];
+
+function TheHubs() {
+  return (
+    <Layer steps={[1]}>
+      {hubs.map(([x, y]) => (
+        <Fragment key={x}>
+          <Line d={`M82 510Q${x - 100} ${y + 100} ${x} ${y}`} c="stock-flow" />
+          <Packet path={`M82 510Q${x - 100} ${y + 100} ${x} ${y}`} delay={x / 100} colour="#f3c88c" />
+        </Fragment>
+      ))}
+      {orders.map((o, i) => {
+        const [hx, hy] = near(o);
+        return (
+          <Fragment key={i}>
+            <Line d={`M${o[0]} ${o[1]}L${hx} ${hy}`} c="order-link" />
+            <circle className="order-pin" cx={o[0]} cy={o[1]} r="5" style={vars({ '--i': i })} />
+          </Fragment>
+        );
+      })}
+      {rounds.map((d) => (
+        <Fragment key={d}>
+          <Line d={d} c="delivery-route" />
+          <Packet path={d} delay={1} />
+        </Fragment>
+      ))}
+      <Bike x={345} y={307} s={0.7} />
+      <Bike x={590} y={350} s={0.7} />
+      <Bike x={444} y={397} s={0.7} />
+      <rect className="map-panel" x={X - 16} y={86} width="240" height="350" rx="4" />
+      <Lab x={X} y={116} t="EACH SERVICE" c="warm" />
+      {service.map(([id, t, s, body, icon], i) => (
+        <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+          <g>
+            {icon}
+            <Lab x={X + 64} y={150 + i * 76} t={t} />
+            <Sub x={X + 64} y={170 + i * 76} t={s} />
+          </g>
+        </Inspectable>
+      ))}
+    </Layer>
+  );
+}
+
+function WhatItOpened() {
+  return (
+    <Layer steps={[2]}>
+      <rect className="map-panel" x={X - 16} y={86} width="240" height="330" rx="4" />
+      <Inspectable
+        id="hb-inside"
+        title="Inside a food-tech company"
+        body="My first experience inside a food-tech company.|I saw how its teams used Data every day."
+      >
+        <g>
+          <Lab x={X} y={116} t="2016 · THE HUBS" />
+          <Sub x={X} y={138} t="Inside a food-tech company" />
+          <path className="tx-route" d={`M${X + 6} 156V236`} />
+          <circle className="tx-stage" cx={X + 6} cy={156} r="6" />
+          <circle className="tx-stage on" cx={X + 6} cy={250} r="9" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="hb-data"
+        title="February 2021: the Data team"
+        body="I joined FoodChéri’s Data team in February 2021.|The door the hubs had opened."
+      >
+        <g>
+          <Lab x={X + 24} y={256} t="FEB 2021 · DATA TEAM" c="warm" />
+          <Win x={X + 24} y={276} w={180} h={100} title="DATA">
+            <Db cx={X + 66} y={306} w={50} h={58} />
+            <Bars x={X + 108} y={310} w={84} h={52} vals={[0.4, 0.7, 0.55, 0.9]} />
+          </Win>
+        </g>
+      </Inspectable>
+      <CaseChip
+        x={X - 10}
+        y={440}
+        w={240}
+        to="food-data"
+        kicker="NEXT · FOODCHÉRI DATA"
+        sub="Where I started in Data"
+      />
+    </Layer>
+  );
+}
 
 export default function ParisScene() {
   return (
     <g className="paris-map">
+      <OpsDefs />
       {arrondissements.map((a) => (
         <Fragment key={a.number}>
           <path d={a.d} className="paris-arr" />
@@ -126,126 +275,33 @@ export default function ParisScene() {
       <T x={368} y={350} className="sea-label">
         SEINE
       </T>
-      <Layer steps={[1]}>
-        {hubs.map(([x, y]) => (
-          <Fragment key={x}>
-            <Line d={`M82 510Q${x - 100} ${y + 100} ${x} ${y}`} c="stock-flow" />
-            <Packet path={`M82 510Q${x - 100} ${y + 100} ${x} ${y}`} delay={x / 100} colour="#f3c88c" />
-          </Fragment>
-        ))}
-      </Layer>
-      <Layer steps={[1]}>
-        <g transform="translate(860 470)" className="care-bubble">
-          <path d="M0 0h96v34H24l-10 10V34H0z" />
-          <T x={48} y={22} className="center chip-label strong">
-            CUSTOMER CARE
-          </T>
-        </g>
-        {rounds.map((d) => (
-          <Fragment key={d}>
-            <Line d={d} c="delivery-route" />
-            <Packet path={d} delay={1} />
-          </Fragment>
-        ))}
-        <Bike x={345} y={307} s={0.8} />
-        <Bike x={590} y={350} s={0.8} />
-        <Bike x={444} y={397} s={0.8} />
-        {homes.map(([x, y]) => (
-          <Fragment key={`${x}${y}`}>
-            <Building x={x} y={y} s={0.22} />
-            <Person x={x + 12} y={y + 5} color="#e7ba88" scale={0.4} />
-          </Fragment>
-        ))}
-      </Layer>
-      <Layer steps={[0]}>
-        <rect className="map-panel" x="300" y="596" width="420" height="80" rx="4" />
-        <T x={320} y={626} className="mini-label warm">
-          EVENINGS AND WEEKENDS · 2016–2019
-        </T>
-        <T x={320} y={654} className="card-title">
-          Alongside my days at SNCF
-        </T>
-      </Layer>
-      <Layer steps={[2]}>
-        <SvgButton
-          className="case-link"
-          transform="translate(330 600)"
-          data-open-case="food-data"
-          purpose="open the FoodChéri Data role"
-        >
-          <rect width="380" height="58" rx="3" />
-          <T x={16} y={24} className="mini-label">
-            FEB 2021 · FOODCHÉRI / SEAZON
-          </T>
-          <T x={16} y={44} className="label small">
-            Where I later started in Data
-          </T>
-          <T x={362} y={36} className="chip-arrow end">
-            ↗
-          </T>
-        </SvgButton>
-      </Layer>
-      <Layer steps={[1]}>
-        {orders.map((o, i) => {
-          const [hx, hy] = near(o);
-          return (
-            <Fragment key={i}>
-              <Line d={`M${o[0]} ${o[1]}L${hx} ${hy}`} c="order-link" />
-              <circle className="order-pin" cx={o[0]} cy={o[1]} r="5" style={vars({ '--i': i })} />
-            </Fragment>
-          );
-        })}
-        <T x={330} y={640} className="mini-label">
-          EACH ORDER → THE RIGHT HUB
-        </T>
-      </Layer>
-      {hubs.map(([x, y], i) => (
-        <Inspectable
-          key={i}
-          id={`hub${i}`}
-          title={`Delivery hub ${i + 1}`}
-          body="One of the six FoodChéri hubs in Paris. Positions are illustrative."
-        >
-          <Building x={x} y={y} s={0.65} />
-          <T x={x} y={y + 44} className="center label">{`HUB ${i + 1}`}</T>
-        </Inspectable>
-      ))}
       <Inspectable
-        id="stock"
-        title="Supply and stock"
-        body="The supply point feeding the hubs. Illustrative position."
+        id="hb-hubs"
+        title="Six delivery hubs"
+        body="Six FoodChéri hubs across Paris, which I ran.|Positions are illustrative."
       >
-        <Building x={85} y={510} s={1.05} />
-        <T x={85} y={578} className="center label">
-          STOCK / SUPPLY
-        </T>
+        <g>
+          {hubs.map(([x, y], i) => (
+            <Fragment key={i}>
+              <Hub x={x} y={y} />
+              <Lab x={x} y={y + 34} t={`HUB ${i + 1}`} c="center" />
+            </Fragment>
+          ))}
+        </g>
       </Inspectable>
-      <g transform="translate(750 160)">
-        <T x={0} y={0} className="mini-label">
-          THE SERVICE
-        </T>
-        <Inspectable
-          id="Hub team"
-          title="Hub team"
-          body="Every order depends on stock, allocation and a prepared handover."
-        >
-          <g transform="translate(70 70)">
-            <Person x={0} y={-5} color="#a8e1e0" scale={1.1} />
-            <T x={0} y={55} className="center label">
-              Hub team
-            </T>
-          </g>
-        </Inspectable>
-        <Bike x={70} y={220} s={1.35} />
-        <T x={70} y={269} className="center label">
-          Delivery rider
-        </T>
-        <Person x={70} y={360} color="#d6b584" scale={1.6} />
-        <T x={70} y={416} className="center label">
-          Customer
-        </T>
-        <Line d="M70 145v30M70 290v40" c="handover" />
-      </g>
+      <Inspectable
+        id="hb-supply"
+        title="Supply"
+        body="The supply point that feeds the hubs’ stock.|Position illustrative."
+      >
+        <g>
+          <Crates x={92} y={512} />
+          <Lab x={82} y={560} t="SUPPLY" c="center" />
+        </g>
+      </Inspectable>
+      <MyWeek />
+      <TheHubs />
+      <WhatItOpened />
     </g>
   );
 }
