@@ -1086,3 +1086,9 @@
 /* Ligne C: the four parts of the role, lit in turn */
 .story-svg .lc-mode .tx-stage{animation:fd-loop 8s ease-in-out infinite;animation-delay:calc(var(--i)*2s)}
 @media(prefers-reduced-motion:reduce){.story-svg .lc-mode .tx-stage{animation:none}}
+.story-svg .lc-gauge{fill:none;stroke:#123847;stroke-width:12;stroke-linecap:round}
+.story-svg .lc-gauge-on{fill:none;stroke:#57b4d6;stroke-width:12;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:tx-draw 6s ease-in-out infinite}
+.story-svg .lc-needle{stroke:#f6d77a;stroke-width:3;stroke-linecap:round}
+.story-svg .lc-station{fill:#0d2a36;stroke:#97e0e8;stroke-width:2;animation:lc-station 8.4s linear infinite;animation-delay:calc(var(--i)*.2s)}
+@keyframes lc-station{0%,4%{fill:#f6d77a;stroke:#f6d77a}10%,100%{fill:#2f7f97;stroke:#97e0e8}}
+@media(prefers-reduced-motion:reduce){.story-svg .lc-gauge-on{animation:none;stroke-dashoffset:.35}.story-svg .lc-station{animation:none}}

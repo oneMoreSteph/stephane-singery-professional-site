@@ -2,22 +2,7 @@
 // Station layout, plan content and indicator values are illustrative.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
-import {
-  Arrow,
-  Bars,
-  CaseChip,
-  Lab,
-  Move,
-  OpsDefs,
-  Packet,
-  Spark,
-  Sub,
-  T,
-  User,
-  vars,
-  Win,
-  type Pt,
-} from '~/drawings/kit';
+import { Arrow, CaseChip, Lab, Move, OpsDefs, Packet, Sub, T, User, vars, type Pt } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 import { Line } from '~/drawings/ops';
 
@@ -585,76 +570,161 @@ function OnTheGround() {
   );
 }
 
-const rows: [string, number, number][] = [
-  ['Saint-Michel N.-D.', 0.9, 0.8],
-  ['Austerlitz', 0.75, 0.95],
-  ['Station 3', 0.6, 0.7],
-  ['Station 4', 0.85, 0.55],
+// Step 4: plans → indicators → assessment → follow-up; two gauges and the 42 stations; the question met again in Data.
+const mx = [130, 370, 610, 850];
+const measureIcon = {
+  plans: <path d="M-11-15H6L12-9V15H-11ZM6-15V-9H12M-6-3H7M-6 3H7M-6 9H3" />,
+  gauge: (
+    <>
+      <path d="M-15 8A15 15 0 0 1 15 8" />
+      <path d="M0 8L8-5" />
+    </>
+  ),
+  check: (
+    <>
+      <circle r="14" />
+      <path d="M-6 0L-2 5 7-5" />
+    </>
+  ),
+  chart: (
+    <>
+      <path d="M-15-14V13H15" />
+      <path d="M-10 6L-3-2 3 3 13-9" />
+    </>
+  ),
+};
+const chain: [string, string, React.ReactNode][] = [
+  ['THE PLANS', '42 stations', measureIcon.plans],
+  ['INDICATORS', 'Defined and monitored', measureIcon.gauge],
+  ['ASSESSMENT', 'Station by station', measureIcon.check],
+  ['FOLLOW-UP', 'Île-de-France Mobilités', measureIcon.chart],
 ];
+const gauges: [string, string, number, string][] = [
+  ['STAFF WORK', 'On the ground', 250, '-50;20;-10;35;-50'],
+  ['FIXED EQUIPMENT', 'In the stations', 490, '30;-20;40;0;30'],
+];
+const GY = 440;
 
 function Measure() {
   return (
     <Layer steps={[3]}>
+      <Lab x={40} y={92} t="THE FIRST MECHANISM TO ASSESS THE PLANS" c="strong" />
+      {[0, 1, 2].map((k) => (
+        <Arrow key={k} from={[mx[k] + 52, 200]} to={[mx[k + 1] - 54, 200]} />
+      ))}
+      <Move path="M130 200H850" dur={8}>
+        <circle className="tx-alert" r="6" />
+      </Move>
+      <Inspectable
+        id="lc-plans-in"
+        title="The plans"
+        body="The passenger-care plans of 42 Ligne C stations.|What the mechanism assesses."
+      >
+        <g>
+          <circle className="tx-stage" cx={mx[0]} cy={200} r="44" />
+          <g className="tx-icon" transform={`translate(${mx[0]} 200) scale(1.3)`}>
+            {chain[0][2]}
+          </g>
+          <Lab x={mx[0]} y={138} t={chain[0][0]} c="center" />
+          <Sub x={mx[0]} y={272} t={chain[0][1]} c="center" />
+        </g>
+      </Inspectable>
       <Inspectable
         id="lc-indicators"
         title="Indicators for each station"
-        body="Two indicators per station: staff work, and fixed equipment doing its job.|The first mechanism to assess the plans."
+        body="Two indicators, defined and monitored: staff work, and fixed equipment.|The first mechanism to assess the plans."
       >
-        <Win x={40} y={186} w={520} h={300} title="INDICATORS · FIRST ASSESSMENT">
-          <Lab x={250} y={232} t="STAFF WORK" c="center" />
-          <Lab x={430} y={232} t="FIXED EQUIPMENT" c="center" />
-          {rows.map(([t, a, b], i) => (
+        <g>
+          <circle className="tx-stage vs-on" cx={mx[1]} cy={200} r="44" />
+          <g className="tx-icon" transform={`translate(${mx[1]} 200) scale(1.3)`}>
+            {chain[1][2]}
+          </g>
+          <Lab x={mx[1]} y={138} t={chain[1][0]} c="center warm" />
+          <Sub x={mx[1]} y={272} t={chain[1][1]} c="center" />
+          <Arrow from={[mx[1], 290]} to={[mx[1], 340]} />
+          {gauges.map(([t, sub, x, vals]) => (
             <Fragment key={t}>
-              <Sub x={58} y={272 + i * 52} t={t} />
-              {[a, b].map((v, j) => (
-                <Fragment key={j}>
-                  <rect
-                    className="tx-gauge"
-                    x={180 + j * 180}
-                    y={260 + i * 52}
-                    width="140"
-                    height="14"
-                    rx="3"
-                  />
-                  <rect
-                    className="tx-gauge-on"
-                    x={180 + j * 180}
-                    y={260 + i * 52}
-                    width={140 * v}
-                    height="14"
-                    rx="3"
-                  />
-                </Fragment>
-              ))}
+              <path className="lc-gauge" d={`M${x - 80} ${GY}A80 80 0 0 1 ${x + 80} ${GY}`} />
+              <path
+                className="lc-gauge-on"
+                pathLength={1}
+                d={`M${x - 80} ${GY}A80 80 0 0 1 ${x + 80} ${GY}`}
+              />
+              <path className="lc-needle" d={`M${x} ${GY}V${GY - 62}`}>
+                <animateTransform
+                  attributeName="transform"
+                  type="rotate"
+                  values={vals
+                    .split(';')
+                    .map((v) => `${v} ${x} ${GY}`)
+                    .join(';')}
+                  dur="10s"
+                  repeatCount="indefinite"
+                />
+              </path>
+              <circle className="tx-stop" cx={x} cy={GY} r="6" />
+              <Lab x={x} y={GY + 34} t={t} c="center" />
+              <Sub x={x} y={GY + 56} t={sub} c="center" />
             </Fragment>
           ))}
-          <Sub x={58} y={470} t="… for each of the 42 stations · illustrative values" />
-        </Win>
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="lc-assess"
+        title="Each of the 42 stations"
+        body="Every station assessed against the same indicators.|One comparable view across the line."
+      >
+        <g>
+          <circle className="tx-stage" cx={mx[2]} cy={200} r="44" />
+          <g className="tx-icon" transform={`translate(${mx[2]} 200) scale(1.3)`}>
+            {chain[2][2]}
+          </g>
+          <Lab x={mx[2]} y={138} t={chain[2][0]} c="center" />
+          <Sub x={mx[2]} y={272} t={chain[2][1]} c="center" />
+          <Arrow from={[mx[2], 290]} to={[mx[2], 340]} />
+          {Array.from({ length: 42 }, (_, i) => (
+            <circle
+              key={i}
+              className="lc-station"
+              style={vars({ '--i': i })}
+              cx={610 + (i % 14) * 24}
+              cy={370 + Math.floor(i / 14) * 32}
+              r="7"
+            />
+          ))}
+          <Lab x={610} y={GY + 34} t="EACH OF THE 42 STATIONS" />
+          <Sub x={610} y={GY + 56} t="Assessed in turn · illustrative" />
+        </g>
       </Inspectable>
       <Inspectable
         id="lc-idfm"
         title="Measures required by Île-de-France Mobilités"
         body="The transport authority requires and incentivises some measures.|The indicators let us follow them."
       >
-        <Win x={600} y={186} w={360} h={190} title="ÎLE-DE-FRANCE MOBILITÉS · FOLLOW-UP">
-          <Bars x={620} y={226} w={150} h={120} vals={[0.55, 0.62, 0.7, 0.78]} />
-          <Spark x={790} y={230} w={150} h={110} vals={[0.3, 0.45, 0.5, 0.7, 0.82]} c="on" />
-        </Win>
+        <g>
+          <circle className="tx-stage" cx={mx[3]} cy={200} r="44" />
+          <g className="tx-icon" transform={`translate(${mx[3]} 200) scale(1.3)`}>
+            {chain[3][2]}
+          </g>
+          <Lab x={mx[3]} y={138} t={chain[3][0]} c="center" />
+          <Sub x={mx[3]} y={272} t={chain[3][1]} c="center" />
+        </g>
       </Inspectable>
+      <path className="tx-div" d="M40 566H960" />
       <Inspectable
         id="lc-question"
         title="Does the system do its job?"
         body="Measuring whether a system does its job.|A question I met again in Data."
       >
         <g>
-          <Lab x={600} y={420} t="DOES THE SYSTEM DO ITS JOB?" c="warm" />
-          <Sub x={600} y={442} t="A question I met again in Data" />
+          <Lab x={40} y={600} t="DOES THE SYSTEM DO ITS JOB?" c="warm" />
+          <Sub x={40} y={624} t="A question I met again in Data." />
         </g>
       </Inspectable>
       <CaseChip
-        x={40}
-        y={560}
-        w={560}
+        x={560}
+        y={578}
+        w={400}
         to="verisure"
         kicker="THE SAME QUESTION, LATER IN DATA"
         sub="Data Quality and Observability at Verisure"
@@ -672,7 +742,7 @@ export default function StationScene() {
           <rect x="40" y="170" width="920" height="320" />
         </clipPath>
       </defs>
-      <Layer steps={[1, 2, 3]} bare>
+      <Layer steps={[1, 2]} bare>
         <Line42 />
       </Layer>
       <WhyThisRole />
