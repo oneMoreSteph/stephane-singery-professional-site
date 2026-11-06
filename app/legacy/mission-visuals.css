@@ -1027,3 +1027,12 @@
 .story-svg .tx-app.dashed{stroke-dasharray:6 5;stroke:#5d8795}
 .story-svg .tx-run{fill:#1f6a80}.story-svg .tx-run.ko{fill:#f07a68}
 .story-svg .tx-big.small{font-size:24px}
+.story-svg .st-train rect{fill:#d8eef2;stroke:#071923;stroke-width:1.5}
+.story-svg .st-building{fill:#10303d;stroke:#2f5e70}
+.story-svg .st-stop{fill:none;stroke:#97e0e8;stroke-width:2}
+.story-svg .st-stairs{fill:none;stroke:#5d8795;stroke-width:2}
+.story-svg .st-hall{fill:#0b2230;stroke:#3f6b79}
+.story-svg .st-rail{fill:none;stroke:#7f9ba6;stroke-width:3;stroke-dasharray:2 4}
+.story-svg .st-platform{fill:#1a4a5c;stroke:#97e0e8;stroke-width:1.5}
+.story-svg .st-edge{fill:none;stroke:#f6d77a;stroke-width:2;stroke-dasharray:8 6}
+.story-svg .tx-win-t.dim{fill:#5d8795}

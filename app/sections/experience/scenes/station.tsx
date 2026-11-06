@@ -2,7 +2,20 @@
 // Station layout, plan content and indicator values are illustrative.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
-import { Arrow, Bars, CaseChip, Lab, OpsDefs, Spark, Sub, T, User, vars, Win, type Pt } from '~/drawings/kit';
+import {
+  Bars,
+  CaseChip,
+  Lab,
+  OpsDefs,
+  Packet,
+  Spark,
+  Sub,
+  T,
+  User,
+  vars,
+  Win,
+  type Pt,
+} from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 import { Line } from '~/drawings/ops';
 
@@ -91,22 +104,10 @@ const Radio = ({ x, y }: { x: number; y: number }) => (
     <path d="M-4-14V-26M-4-6H4M-4 0H4" />
   </g>
 );
-const Phone = ({ x, y }: { x: number; y: number }) => (
-  <g className="tx-icon" transform={`translate(${x} ${y})`}>
-    <rect x="-10" y="-17" width="20" height="34" rx="4" />
-    <path d="M-3 11H3" />
-  </g>
-);
 const Speaker = ({ x, y }: { x: number; y: number }) => (
   <g className="tx-icon" transform={`translate(${x} ${y})`}>
     <path d="M-12-6H-5L5-14V14L-5 6H-12Z" />
     <path d="M10-8C14-4 14 4 10 8M14-13C21-6 21 6 14 13" />
-  </g>
-);
-const TownHall = ({ x, y }: { x: number; y: number }) => (
-  <g className="tx-icon" transform={`translate(${x} ${y})`}>
-    <path d="M-18-6L0-18 18-6Z" />
-    <path d="M-15-6V14M-5-6V14M5-6V14M15-6V14M-19 14H19" />
   </g>
 );
 const Sheet = ({ x, y }: { x: number; y: number }) => (
@@ -116,37 +117,162 @@ const Sheet = ({ x, y }: { x: number; y: number }) => (
   </g>
 );
 
-const internal: [string, string, React.ReactNode][] = [
-  ['Radio', 'Station staff', <Radio key="r" x={70} y={276} />],
-  ['Phone', 'SNCF teams', <Phone key="p" x={70} y={344} />],
-  [
-    'Briefing',
-    'Before each shift',
-    <g key="b" transform="translate(58 398)">
-      <rect className="tx-doc" width="26" height="32" rx="2" />
-      <path className="tx-grid" d="M5 9H21M5 16H21M5 23H16" />
-    </g>,
-  ],
-];
+// ---------- The station in cross-section: street, ticket hall, platforms ----------
+// Levels, in scene units.
+const ST = {
+  street: 236,
+  hallTop: 262,
+  hallBottom: 336,
+  t1: 386,
+  platTop: 398,
+  platBottom: 446,
+  t2: 458,
+  bottom: 482,
+};
+
+/** A suburban train moving along a track. `mode`: stops at the platform, or is held short of it. */
+function StationTrain({ y, mode, begin = 0 }: { y: number; mode: 'stop' | 'held'; begin?: number }) {
+  const path = `M-300 ${y}H1300`;
+  const timing =
+    mode === 'stop'
+      ? { keyPoints: '0;0.45;0.45;1', keyTimes: '0;0.35;0.65;1' }
+      : { keyPoints: '0;0.27;0.27;0', keyTimes: '0;0.35;0.8;1' };
+  return (
+    <g className="st-train" clipPath="url(#stClip)">
+      <g>
+        {[0, 1, 2, 3].map((i) => (
+          <rect key={i} x={-260 + i * 66} y="-9" width="62" height="18" rx="3" />
+        ))}
+        <animateMotion
+          dur="12s"
+          begin={`-${begin}s`}
+          repeatCount="indefinite"
+          calcMode="linear"
+          path={path}
+          {...timing}
+        />
+      </g>
+    </g>
+  );
+}
+
+/** An information screen; `alert` shows a disruption message. */
+const Screen = ({ x, y, alert }: { x: number; y: number; alert?: string }) => (
+  <g transform={`translate(${x} ${y})`}>
+    <rect className="tx-app" width="128" height="30" rx="3" />
+    <T x={8} y={19} className={`tx-win-t${alert ? ' late' : ''}`}>
+      {alert ?? 'C · ON TIME'}
+    </T>
+  </g>
+);
+
+function StationSection({ closed = false }: { closed?: boolean }) {
+  return (
+    <g>
+      <rect className="tx-layer" x="40" y="170" width="920" height="320" rx="4" />
+      {/* Street */}
+      <T x={56} y={192} className="tx-win-t">
+        STREET
+      </T>
+      {[
+        [300, 196, 40],
+        [350, 208, 28],
+        [400, 190, 46],
+      ].map(([x, y, w]) => (
+        <rect key={x} className="st-building" x={x} y={y} width={w} height={ST.street - y} />
+      ))}
+      <path className="tx-route" d={`M40 ${ST.street}H960`} />
+      <path className="st-stop" d={`M890 ${ST.street}V200M876 200H904V214H876Z`} />
+      <T x={890} y={ST.street + 16} className="center tx-win-t">
+        BUS STOP
+      </T>
+      {/* Exits and stairs */}
+      {[
+        [170, 'A'],
+        [720, 'B'],
+      ].map(([x, t]) => (
+        <Fragment key={t}>
+          <path className="st-stairs" d={`M${x} ${ST.street}l12 8h12l0 8h12l0 8h12V${ST.hallTop}`} />
+          <T x={(x as number) - 12} y={ST.street - 6} className="tx-win-t">
+            {t as string}
+          </T>
+        </Fragment>
+      ))}
+      {/* Ticket hall */}
+      <rect
+        className="st-hall"
+        x="150"
+        y={ST.hallTop}
+        width="660"
+        height={ST.hallBottom - ST.hallTop}
+        rx="3"
+      />
+      <T x={796} y={ST.hallTop + 18} className="end tx-win-t">
+        TICKET HALL
+      </T>
+      <path className="tx-gates" d="M440 326V300M458 326V300M476 326V300M494 326V300" />
+      <Screen x={250} y={ST.hallTop + 14} alert={closed ? 'TRACK 2 · BUS' : undefined} />
+      <path className="st-stairs" d={`M600 ${ST.hallBottom}l12 10h12l0 10h12V${ST.platTop - 12}`} />
+      {/* Platform level */}
+      <path className="st-rail" d={`M40 ${ST.t1}H960`} />
+      <rect
+        className="st-platform"
+        x="140"
+        y={ST.platTop}
+        width="700"
+        height={ST.platBottom - ST.platTop}
+        rx="2"
+      />
+      <path className="st-edge" d={`M140 ${ST.platTop + 4}H840M140 ${ST.platBottom - 4}H840`} />
+      <T x={152} y={ST.platTop + 30} className="tx-win-t">
+        PLATFORM
+      </T>
+      <Screen x={250} y={ST.platTop + 9} alert={closed ? 'NO TRAIN · BUS' : undefined} />
+      <path className="st-rail" d={`M40 ${ST.t2}H960`} />
+      <T x={950} y={ST.t1 - 6} className="end tx-win-t">
+        TRACK 1
+      </T>
+      <T x={950} y={ST.t2 + 18} className="end tx-win-t">
+        TRACK 2
+      </T>
+      <T x={56} y={ST.bottom + 2} className="tx-win-t dim">
+        ILLUSTRATIVE STATION
+      </T>
+    </g>
+  );
+}
+
+/** A person in the station, with a name tag. */
+function Actor({ x, y, label, sheet }: { x: number; y: number; label?: string; sheet?: boolean }) {
+  return (
+    <g>
+      <User x={x} y={y} s={0.7} c="on" />
+      {sheet && <Sheet x={x + 10} y={y - 24} />}
+      {label && (
+        <T x={x} y={y - 30} className="center tx-win-t">
+          {label}
+        </T>
+      )}
+    </g>
+  );
+}
 
 function WhyThisRole() {
   return (
     <Layer steps={[0]}>
-      <Lab x={40} y={200} t="AFTER CAPACITY PLANNING · A ROLE BUILT ON COMMUNICATION" c="strong" />
+      <StationSection />
+      <StationTrain y={ST.t1} mode="stop" />
+      <StationTrain y={ST.t2} mode="stop" begin={6} />
       <Inspectable
         id="lc-internal"
         title="Internal communication"
-        body="Radio, phone and briefings with the station staff and SNCF teams.|Everyone on the line acts on the same information."
+        body="Radio, phone and briefings with the station staff and SNCF teams.|Everyone in the station acts on the same information."
       >
         <g>
-          <Lab x={40} y={236} t="INTERNAL" c="warm" />
-          {internal.map(([t, s, icon], i) => (
-            <Fragment key={t}>
-              {icon}
-              <Lab x={110} y={272 + i * 68} t={t.toUpperCase()} />
-              <Sub x={110} y={292 + i * 68} t={s} />
-            </Fragment>
-          ))}
+          <Actor x={560} y={322} label="STATION STAFF" />
+          <Actor x={680} y={322} label="SNCF TEAMS" />
+          <Radio x={586} y={308} />
+          <Actor x={480} y={440} label="STAFF" />
         </g>
       </Inspectable>
       <Inspectable
@@ -155,27 +281,12 @@ function WhyThisRole() {
         body="Information screens, announcements, local authorities and welcome providers.|Passengers know what happens and where to go."
       >
         <g>
-          <Lab x={520} y={236} t="EXTERNAL" c="warm" />
-          <Win x={520} y={250} w={200} h={110} title="NEXT TRAINS">
-            {['C · 14:02 · On time', 'C · 14:09 · Delayed', 'C · 14:17 · On time'].map((t, i) => (
-              <Fragment key={t}>
-                <rect className="tx-table-row" x="532" y={284 + i * 24} width="176" height="18" rx="2" />
-                <T x={540} y={297 + i * 24} className={`tx-win-t${i === 1 ? ' late' : ''}`}>
-                  {t}
-                </T>
-              </Fragment>
-            ))}
-          </Win>
-          <Speaker x={760} y={280} />
-          <Sub x={786} y={285} t="Announcements" />
-          <TownHall x={760} y={334} />
-          <Sub x={786} y={339} t="Local authorities" />
-          <User x={760} y={402} s={0.8} c="on" />
-          <Sub x={786} y={393} t="Welcome providers" />
-          <Sub x={520} y={384} t="Passenger information" />
+          <Actor x={520} y={230} label="LOCAL AUTHORITIES" />
+          <Actor x={800} y={230} label="WELCOME PROVIDERS" />
+          <Speaker x={380} y={290} />
         </g>
       </Inspectable>
-      <Lab x={40} y={500} t="EVERY DAY" />
+      <Lab x={40} y={540} t="AFTER CAPACITY PLANNING · A ROLE BUILT ON COMMUNICATION" c="strong" />
       {(
         [
           ['ACTION', 'Act on what happens now'],
@@ -183,17 +294,17 @@ function WhyThisRole() {
           ['PLANNING', 'Prepare known events'],
           ['COORDINATION', 'Bring every team together'],
         ] as const
-      ).map(([t, s], i) => (
+      ).map(([t, sub], i) => (
         <Inspectable
           key={t}
           id={`lc-mode-${i}`}
           title={t.charAt(0) + t.slice(1).toLowerCase()}
-          body={`${s}.|One of the four parts of the role, every day.`}
+          body={`${sub}.|One of the four parts of the role, every day.`}
         >
           <g>
-            <circle className="tx-stage" cx={70 + i * 230} cy={556} r="14" />
-            <Lab x={96 + i * 230} y={552} t={t} />
-            <Sub x={96 + i * 230} y={574} t={s} />
+            <circle className="tx-stage" cx={56 + i * 230} cy={590} r="12" />
+            <Lab x={78 + i * 230} y={586} t={t} />
+            <Sub x={78 + i * 230} y={608} t={sub} />
           </g>
         </Inspectable>
       ))}
@@ -201,204 +312,130 @@ function WhyThisRole() {
   );
 }
 
+const redirect = `M520 ${ST.platTop + 24}H610V${ST.hallBottom + 8}L600 ${ST.hallBottom}H200L182 ${ST.street}H860`;
+
 function Plans() {
   return (
     <Layer steps={[1]}>
-      <Inspectable
-        id="lc-plan"
-        title="A passenger-care plan"
-        body="One plan per station: what happens for passengers when an event hits it.|I built the plans of 42 Ligne C stations."
-      >
-        <Win x={40} y={186} w={460} h={330} title="CARE PLAN · SAINT-MICHEL NOTRE-DAME">
-          {(
-            [
-              ['SAFETY', 'Passengers’ safety', 'M-10-12L0-16 10-12V0C10 8 0 14 0 14S-10 8-10 0Z'],
-              ['REDIRECTION', 'Where passengers go instead', 'M-12 0H8M2-7L9 0 2 7M-12-12V12'],
-              [
-                'EXPERIENCE',
-                'Their experience in our stations',
-                'M-8-4A8 8 0 1 1 8-4M-12 12C-12 4 12 4 12 12',
-              ],
-            ] as const
-          ).map(([t, s, d], i) => (
-            <Fragment key={t}>
-              <rect className="tx-table-row" x="58" y={226 + i * 90} width="424" height="74" rx="3" />
-              <g className="tx-icon" transform={`translate(90 ${263 + i * 90})`}>
-                <path d={d} />
-              </g>
-              <Lab x={126} y={256 + i * 90} t={t} />
-              <Sub x={126} y={278 + i * 90} t={s} />
-            </Fragment>
-          ))}
-        </Win>
-      </Inspectable>
-      <Lab x={580} y={200} t="FOR PLANNED EVENTS" c="warm" />
-      <Inspectable
-        id="lc-festive"
-        title="Festive public events"
-        body="Large public events near a station.|The plan prepares the crowd flows in advance."
-      >
-        <g>
-          <g className="tx-icon" transform="translate(600 246)">
-            <path d="M0-14V14M-14 0H14M-10-10L10 10M10-10L-10 10" />
-          </g>
-          <Lab x={630} y={244} t="FESTIVE PUBLIC EVENTS" />
-        </g>
-      </Inspectable>
+      <StationSection closed />
+      <StationTrain y={ST.t1} mode="stop" />
+      <StationTrain y={ST.t2} mode="held" begin={3} />
       <Inspectable
         id="lc-works"
-        title="Engineering works"
-        body="Works that close tracks or entrances for a period.|The plan redirects passengers before they arrive."
+        title="Track 2 closed for works"
+        body="Planned engineering works close a track for a period.|Its train does not come: the plan takes over."
       >
         <g>
-          <rect className="works-mark" x="586" y="282" width="28" height="16" rx="2" />
-          <Lab x={630} y={296} t="ENGINEERING WORKS" />
+          <rect className="works-window" x="140" y={ST.t2 - 9} width="700" height="18" rx="2" />
+          <Lab x={490} y={ST.t2 + 5} t="CLOSED FOR WORKS · NO TRAIN" c="center warm" />
         </g>
       </Inspectable>
-      <Lab x={580} y={360} t="FOR THE UNEXPECTED" c="warm" />
       <Inspectable
-        id="lc-incident"
-        title="Incidents affecting circulation"
-        body="An incident that stops or slows trains.|The plan says who does what, at once."
+        id="lc-redirect"
+        title="Redirection"
+        body="Passengers are guided out of the station, to the replacement bus.|Planned in advance, station by station."
       >
         <g>
-          <path className="tx-alert" d="M600 388L614 412H586Z" />
-          <Lab x={630} y={406} t="INCIDENTS ON THE LINE" />
-        </g>
-      </Inspectable>
-      <Arrow from={[572, 260]} to={[508, 300]} />
-      <Arrow from={[572, 400]} to={[508, 380]} />
-      <Inspectable
-        id="lc-42"
-        title="42 stations, one plan each"
-        body="Every station in my scope had its own plan.|Each station has its own exits, flows and partners."
-      >
-        <g>
-          <Lab x={40} y={560} t="42 STATIONS · ONE PLAN EACH" c="strong" />
-          {Array.from({ length: 42 }, (_, i) => (
-            <rect
-              key={i}
-              className="tx-tile-s"
-              x={40 + i * 21}
-              y={578}
-              width="16"
-              height="20"
-              rx="2"
-              style={vars({ '--i': i })}
-            />
+          <path className="tx-link" d={redirect} />
+          <path className="tx-flow" d={redirect} />
+          {[0, 1, 2].map((i) => (
+            <Packet key={i} path={redirect} delay={i * 2} />
           ))}
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="lc-train-ok"
+        title="Track 1: the train comes"
+        body="On the open track, trains run as planned.|The plan only changes what the event touches."
+      >
+        <g>
+          <Lab x={46} y={ST.t1 - 8} t="COMES" c="warm" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="lc-plan"
+        title="A plan for each station"
+        body="Passenger-care plans for 42 Ligne C stations: safety, redirection, experience.|For planned events and unexpected incidents."
+      >
+        <g>
+          <Lab x={40} y={530} t="A PLAN FOR EACH STATION" c="strong" />
+          {(
+            [
+              ['SAFETY', 'Passengers’ safety'],
+              ['REDIRECTION', 'Where passengers go instead'],
+              ['EXPERIENCE', 'Their experience in our stations'],
+            ] as const
+          ).map(([t, sub], i) => (
+            <Fragment key={t}>
+              <Lab x={40 + i * 310} y={566} t={t} c="warm" />
+              <Sub x={40 + i * 310} y={588} t={sub} />
+            </Fragment>
+          ))}
+          <Sub
+            x={40}
+            y={624}
+            t="For planned events (festive public events, works) and unexpected incidents"
+          />
         </g>
       </Inspectable>
     </Layer>
   );
 }
 
-// The station from above: platforms, hall, exits, street.
-function StationPlan() {
-  return (
-    <g>
-      <rect className="tx-layer" x="40" y="200" width="620" height="300" rx="4" />
-      {[236, 296].map((y) => (
-        <rect key={y} className="tx-layer top" x="70" y={y} width="560" height="36" rx="2" />
-      ))}
-      <T x={80} y={258} className="tx-win-t">
-        PLATFORM · TRACK 1
-      </T>
-      <T x={80} y={318} className="tx-win-t">
-        PLATFORM · TRACK 2
-      </T>
-      <rect className="tx-layer" x="200" y="360" width="300" height="90" rx="3" />
-      <T x={210} y={380} className="tx-win-t">
-        TICKET HALL
-      </T>
-      <path className="tx-gates" d="M260 440V420M280 440V420M300 440V420M320 440V420" />
-      {[
-        [120, 'EXIT A'],
-        [580, 'EXIT B'],
-      ].map(([x, t]) => (
-        <Fragment key={t}>
-          <rect className="tx-exit" x={(x as number) - 30} y="476" width="60" height="22" rx="2" />
-          <T x={x} y={491} className="center tx-win-t">
-            {t}
-          </T>
-        </Fragment>
-      ))}
-      <path className="tx-route" d="M40 540H960" />
-      <T x={48} y={532} className="tx-win-t">
-        STREET
-      </T>
-      <rect className="tx-exit" x="860" y="548" width="70" height="22" rx="2" />
-      <T x={895} y={563} className="center tx-win-t">
-        BUS STOP
-      </T>
-    </g>
-  );
-}
-
-const actors: [string, string, string, string, Pt[]][] = [
+const ground: [string, string, string, [number, number, string][]][] = [
   [
     'lc-staff',
-    'STATION STAFF',
-    'Coordinated',
-    'The station staff concerned, on the platforms and at the gates.|I coordinated them, each with the tools and information to act.',
+    'Station staff',
+    'The station staff concerned, at the gates and on the platforms.|I coordinated them, each with the tools and information to act.',
     [
-      [380, 270],
-      [440, 330],
-      [340, 430],
+      [580, 322, 'STATION STAFF'],
+      [470, 440, 'STATION STAFF'],
+      [760, 440, ''],
     ],
   ],
   [
     'lc-welcome',
-    'WELCOME PROVIDERS',
-    'What each would do, negotiated',
+    'Welcome providers',
     'Teams who greet and guide passengers at the entrances.|I negotiated what each would do and obtained their commitment.',
     [
-      [120, 466],
-      [580, 466],
+      [130, 230, 'WELCOME'],
+      [760, 230, 'WELCOME'],
     ],
   ],
   [
     'lc-authorities',
-    'LOCAL AUTHORITIES',
-    'Commitment obtained',
+    'Local authorities',
     'The town authorities around the station.|I obtained their commitment, or coordinated an existing arrangement.',
-    [[760, 590]],
+    [[560, 230, 'LOCAL AUTHORITIES']],
   ],
 ];
 
 function OnTheGround() {
   return (
     <Layer steps={[2]}>
-      <StationPlan />
-      {actors.map(([id, t, s, body, pts], i) => (
-        <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+      <StationSection />
+      <StationTrain y={ST.t1} mode="stop" begin={2} />
+      {ground.map(([id, title, body, people]) => (
+        <Inspectable key={id} id={id} title={title} body={body}>
           <g>
-            {pts.map(([x, y], j) =>
-              id === 'lc-authorities' ? (
-                <TownHall key={j} x={x} y={y} />
-              ) : (
-                <Fragment key={j}>
-                  <User x={x} y={y} s={0.75} c="on" />
-                  <Sheet x={x + 12} y={y - 26} />
-                </Fragment>
-              ),
-            )}
-            <Lab x={700} y={226 + i * 92} t={t} />
-            <Sub x={700} y={248 + i * 92} t={s} />
+            {people.map(([x, y, label], j) => (
+              <Actor key={j} x={x} y={y} label={label || undefined} sheet />
+            ))}
           </g>
         </Inspectable>
       ))}
       <Inspectable
         id="lc-tools"
-        title="The tools and information to act"
-        body="Each person got the plan’s part that concerned them.|They could act without waiting for instructions."
+        title="In everyone’s hands"
+        body="The plan I built, with the tools and information to act.|Each person knew their part."
       >
         <g>
-          <Sheet x={700} y={490} />
-          <Lab x={726} y={506} t="EACH WITH THE TOOLS" c="warm" />
-          <Sub x={726} y={526} t="And the information to act" />
+          <Sheet x={40} y={522} />
+          <Lab x={66} y={538} t="IN EVERYONE’S HANDS" c="warm" />
+          <Sub x={66} y={560} t="The plan I built, with the tools and information to act" />
         </g>
       </Inspectable>
+      <Lab x={40} y={612} t="NEGOTIATED · COMMITMENT OBTAINED · COORDINATED" />
     </Layer>
   );
 }
@@ -485,6 +522,11 @@ export default function StationScene() {
   return (
     <>
       <OpsDefs />
+      <defs>
+        <clipPath id="stClip">
+          <rect x="40" y="170" width="920" height="320" />
+        </clipPath>
+      </defs>
       <Line42 />
       <WhyThisRole />
       <Plans />
