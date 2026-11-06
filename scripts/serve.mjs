@@ -3,8 +3,10 @@
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const root = new URL('../build/client/', import.meta.url).pathname;
+// fileURLToPath decodes the path, so folders with spaces (such as Google Drive's "My Drive") work.
+const root = fileURLToPath(new URL('../build/client/', import.meta.url));
 const port = Number(process.argv[2] || 8901);
 const types = {
   '.html': 'text/html; charset=utf-8',

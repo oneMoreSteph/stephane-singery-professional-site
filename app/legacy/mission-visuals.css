@@ -910,6 +910,7 @@
 .story-svg .tx-big{font:700 38px var(--mono);fill:#f6d77a}
 .story-svg .tx-code{font:500 13px var(--mono);fill:#a8ecc6;white-space:pre}
 .story-svg .tx-win-t{font:700 11px var(--mono);letter-spacing:.5px;fill:#d8eef2}
+.story-svg .tx-win-t.dark{fill:#071923}
 .story-svg .tx-win-bg{fill:#071923;stroke:#7fa9b6;stroke-width:1.5}
 .story-svg .tx-win-bar{fill:none;stroke:#3f6b79}
 .story-svg .tx-win>circle{fill:#3f6b79}
