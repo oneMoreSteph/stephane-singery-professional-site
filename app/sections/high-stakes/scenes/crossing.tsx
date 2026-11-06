@@ -2,19 +2,9 @@
 import { Fragment } from 'react';
 import { at, cities, connections, franceOutline, project, RfnLines, Squash } from '~/drawings/france';
 import { Inspectable } from '~/drawings/Inspectable';
-import { Header, OpsDefs, T, vars, type Pt, seqN } from '~/drawings/kit';
+import { Arrow, Header, Lab, OpsDefs, Sub, T, vars, Win, type Pt, seqN } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
-import {
-  Actor,
-  CrossingSign,
-  crossings,
-  FlowArrow,
-  Line,
-  Peloton,
-  ReadoutChip,
-  sample,
-  smooth,
-} from '~/drawings/ops';
+import { Console, CrossingSign, crossings, Line, Peloton, sample, smooth } from '~/drawings/ops';
 
 // ---------- Step 1: one illustrative stage meets three rail lines in two regulation areas ----------
 const road: Pt[] = [
@@ -85,68 +75,67 @@ function HeldTrain({ a, b }: { a: Pt; b: Pt }) {
   );
 }
 
-const captions: [string, string][] = [
-  ['THE STAGE ROUTE', 'Set by the race organiser, new every stage'],
-  ['RAIL LINES IN SERVICE', 'Trains keep running on the day of the stage'],
-  ['TWO REGULATION AREAS', 'Each one runs the trains on its own lines'],
-  ['LEVEL CROSSINGS', 'The race and the trains need the same point'],
-];
-
 function MeetingPoint() {
   return (
     <Layer steps={[0]}>
-      <g className="seq4" {...seqN(2)}>
-        <rect className="area area-a" x="40" y="82" width="470" height="558" />
-        <rect className="area area-b" x="510" y="82" width="450" height="558" />
-        <Line d="M510 82V640" c="area-edge" />
-        <T x={56} y={106} className="mini-label area-label">
-          REGULATION AREA A
-        </T>
-        <T x={944} y={106} className="mini-label area-label end">
-          REGULATION AREA B
-        </T>
-      </g>
-      <g className="seq4" {...seqN(1)}>
-        {rails.map(([a, b], i) => (
-          <Fragment key={i}>
-            <Line d={`M${a.join(' ')}L${b.join(' ')}`} c="track-bed" />
-            <Line d={`M${a.join(' ')}L${b.join(' ')}`} c="track-ties" />
-            <HeldTrain a={a} b={b} />
-          </Fragment>
-        ))}
-      </g>
-      <g className="seq4" {...seqN(0)}>
-        <Line d={roadPath} c="race-road" />
-        <Line d={roadPath} c="race-line" />
-        <g className="peloton-move">
-          <Peloton n={5} />
-          <animateMotion dur={`${LAP}s`} repeatCount="indefinite" rotate="0" path={roadPath} />
+      <Inspectable
+        id="tr-areas"
+        title="Two regulation areas"
+        body="Each regional regulation area runs the trains on its own lines.|A stage often crosses more than one."
+      >
+        <g className="seq4" {...seqN(2)}>
+          <rect className="area area-a" x="40" y="82" width="470" height="558" />
+          <rect className="area area-b" x="510" y="82" width="450" height="558" />
+          <Line d="M510 82V640" c="area-edge" />
+          <Lab x={56} y={108} t="REGULATION AREA A" />
+          <Lab x={944} y={108} t="REGULATION AREA B" c="end" />
         </g>
-      </g>
+      </Inspectable>
+      <Inspectable
+        id="tr-rails"
+        title="Rail lines in service"
+        body="Trains keep running on the day of the stage.|Each line belongs to the area it crosses."
+      >
+        <g className="seq4" {...seqN(1)}>
+          {rails.map(([a, b], i) => (
+            <Fragment key={i}>
+              <Line d={`M${a.join(' ')}L${b.join(' ')}`} c="track-bed" />
+              <Line d={`M${a.join(' ')}L${b.join(' ')}`} c="track-ties" />
+              <HeldTrain a={a} b={b} />
+            </Fragment>
+          ))}
+          <Lab x={600} y={600} t="RAIL LINES IN SERVICE" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="tr-route"
+        title="The stage route"
+        body="Set by the race organiser, new for every stage.|It crosses active rail lines at level crossings."
+      >
+        <g className="seq4" {...seqN(0)}>
+          <Line d={roadPath} c="race-road" />
+          <Line d={roadPath} c="race-line" />
+          <g className="peloton-move">
+            <Peloton n={5} />
+            <animateMotion dur={`${LAP}s`} repeatCount="indefinite" rotate="0" path={roadPath} />
+          </g>
+          <Lab x={56} y={600} t="THE STAGE ROUTE" c="warm" />
+          <Sub x={56} y={622} t="Set by the race organiser, new every stage" />
+        </g>
+      </Inspectable>
       <g className="seq4" {...seqN(3)}>
         {hits.map(([x, y], i) => (
           <Inspectable
             key={i}
             id={`lc-${i}`}
             title="Level crossing"
-            body="Where the stage route crosses an active line, the race and the trains need the same point at different moments. The regulation area that owns the line holds its trains until the race has passed."
+            body="Where the stage route crosses an active line: the race and the trains need the same point at different moments.|The area that owns the line holds its trains until the race has passed."
           >
             <g className="lc" transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
               <circle className="lc-ring" r="17" />
               <circle className="lc-dot" r="5" />
             </g>
           </Inspectable>
-        ))}
-      </g>
-      <g className="seq-caption">
-        {captions.map(([t, sub], i) => (
-          <g key={t} className="cap4" {...seqN(i)}>
-            <rect className="map-panel" x="560" y="560" width="384" height="64" rx="3" />
-            <T x={578} y={584} className="mini-label seq-head">{`${i + 1} / 4 · ${t}`}</T>
-            <T x={578} y={608} className="label tiny">
-              {sub}
-            </T>
-          </g>
         ))}
       </g>
     </Layer>
@@ -220,57 +209,90 @@ function YearPanel({ segs, i }: { segs: [string, string][]; i: number }) {
   );
 }
 
+const crossingRows: [string, string, string][] = [
+  ['Stage 1 · crossing 1', 'Line A', '14:20'],
+  ['Stage 1 · crossing 2', 'Line B', '14:55'],
+  ['Stage 1 · crossing 3', 'Line C', '15:40'],
+];
+
 function FiveYears() {
   return (
     <Layer steps={[1]}>
       {years.map((segs, i) => (
         <YearPanel key={i} segs={segs} i={i} />
       ))}
-      <T x={52} y={322} className="label">
-        Each stage brings new places, new crossings and new regional teams.
-      </T>
-      <g transform="translate(0 0)">
-        <Actor
-          id="aso"
-          x={210}
-          y={448}
-          title="ASO"
-          sub="Race organiser"
-          body="ASO sets the stage route and the timing of the race. It is the event organiser, the collaborator in this work."
-        />
-        <Actor
-          id="me-tour"
-          x={500}
-          y={448}
-          title="Rail coordination"
-          sub="My role"
-          body="One counterpart for the race organiser, many regional teams on the railway: I was the link between them."
-          kind="console"
-          c="is-me"
-        />
-        <Actor
-          id="regions"
-          x={790}
-          y={448}
-          title="Regional regulation"
-          sub="One team per area crossed"
-          body="Each regional team adjusts the trains on its lines while the race passes."
-          kind="console"
-        />
-        <FlowArrow d="M262 420H440" />
-        <T x={351} y={408} className="center flow-label">
-          stage route + timing
-        </T>
-        <FlowArrow d="M560 420H730" />
-        <T x={645} y={408} className="center flow-label">
-          crossings to protect
-        </T>
-        <FlowArrow d="M790 530C790 600 210 600 210 530" c="loop-arrow" />
-        <T x={500} y={616} className="center mini-label race-label">
-          REPEATED FOR EVERY STAGE, EVERY YEAR
-        </T>
-      </g>
-      <ReadoutChip x={730} y={640} value="5 years" label="OF TOUR DE FRANCE EDITIONS" w={230} />
+      <Sub x={52} y={318} t="Each stage brings new places, new crossings and new regional teams." />
+      <Inspectable
+        id="tr-aso"
+        title="ASO · the race organiser"
+        body="ASO sets each stage route and the race timing.|Five years working with them."
+      >
+        <Win x={40} y={350} w={250} h={160} title="ASO · STAGE ROUTE + TIMING">
+          <Line d="M60 470C100 400 150 460 190 410S250 420 270 390" c="race-line" />
+          {[
+            [100, 430, '13:50'],
+            [190, 410, '14:30'],
+          ].map(([x, y, t]) => (
+            <Fragment key={t as string}>
+              <circle className="tx-stop" cx={x} cy={y} r="5" />
+              <T x={(x as number) - 10} y={(y as number) + 22} className="tx-win-t">
+                {t as string}
+              </T>
+            </Fragment>
+          ))}
+        </Win>
+      </Inspectable>
+      <Arrow from={[296, 430]} to={[346, 430]} />
+      <Inspectable
+        id="tr-identified"
+        title="Crossings identified, stage by stage"
+        body="For each stage, I identified every level crossing on the route and when the race would reach it.|The input each region needed."
+      >
+        <Win x={352} y={350} w={300} h={160} title="CROSSINGS TO PROTECT">
+          {crossingRows.map(([c, l, t], i) => (
+            <Fragment key={c}>
+              <rect className="tx-table-row" x="366" y={384 + i * 38} width="272" height="30" rx="2" />
+              <T x={376} y={404 + i * 38} className="tx-win-t">
+                {c}
+              </T>
+              <T x={540} y={404 + i * 38} className="tx-win-t">
+                {l}
+              </T>
+              <T x={626} y={404 + i * 38} className="end tx-win-t late">
+                {t}
+              </T>
+            </Fragment>
+          ))}
+        </Win>
+      </Inspectable>
+      <Arrow from={[658, 430]} to={[708, 430]} />
+      <Inspectable
+        id="tr-regions"
+        title="Every regulation team crossed"
+        body="I orchestrated the regulation teams of every area the route crossed.|Each one adjusted the trains on its lines."
+      >
+        <g>
+          {[0, 1, 2].map((i) => (
+            <Console key={i} x={750 + i * 80} y={450} s={0.8} />
+          ))}
+          <Lab x={830} y={500} t="ONE TEAM PER AREA" c="center" />
+        </g>
+      </Inspectable>
+      <path className="tx-link" d="M830 520C830 600 165 600 165 520" />
+      <path className="tx-head" transform="translate(165 520) rotate(-90)" d="M2 0L-9-6V6Z" />
+      <Lab x={420} y={628} t="REPEATED FOR EVERY STAGE, EVERY YEAR" c="center warm" />
+      <Inspectable
+        id="tr-years"
+        title="Five years"
+        body="Five Tour de France editions, with ASO.|Every stage, every year."
+      >
+        <g>
+          <T x={760} y={660} className="tx-big">
+            5 YEARS
+          </T>
+          <Sub x={760} y={684} t="Of Tour de France editions" />
+        </g>
+      </Inspectable>
     </Layer>
   );
 }
@@ -292,29 +314,13 @@ const phase = (i: number, on = '1', off = '0') => {
   );
 };
 const phases: [string, string][] = [
-  ['1 · THE PLAN', 'Regional regulation knows when the race reaches this crossing'],
-  ['2 · THE TRAIN IS HELD', 'Stopped at the signal, short of the crossing'],
-  ['3 · THE RACE PASSES', 'Riders cross undisturbed'],
-  ['4 · THE TRAIN IS RELEASED', 'The signal clears; the train continues'],
+  ['1 · THE PLAN', 'Known in advance'],
+  ['2 · TRAIN HELD', 'At the signal'],
+  ['3 · RACE PASSES', 'Undisturbed'],
+  ['4 · TRAIN RELEASED', 'Signal clears'],
 ];
 const ROAD_Y = 400;
 const RAIL_X = 560;
-const chain: [string, string, number, string][] = [
-  ['ASO', 'Race organiser', 200, 'The race organiser’s schedule says when the race reaches each crossing.'],
-  [
-    'Rail coordination',
-    'My role',
-    500,
-    'I turned the stage timing into crossing-by-crossing needs for each region concerned.',
-  ],
-  [
-    'Regional regulation',
-    'Live trains',
-    800,
-    'The regional team holds, then releases, the trains in service.',
-  ],
-];
-
 function AtTheCrossing() {
   return (
     <Layer steps={[2]}>
@@ -384,45 +390,36 @@ function AtTheCrossing() {
           />
         </g>
       </Inspectable>
-      <g className="phase-caps">
-        {phases.map(([t, sub], i) => (
-          <g key={t} opacity="0">
-            <animate attributeName="opacity" {...phase(i)} />
-            <rect className="map-panel cap-gold" x="56" y="156" width="400" height="62" rx="3" />
-            <T x={74} y={180} className="mini-label seq-head">
-              {t}
-            </T>
-            <T x={74} y={204} className="label tiny">
-              {sub}
-            </T>
-          </g>
-        ))}
-      </g>
-      <T x={944} y={548} className="end mini-label muted-label">
-        ONE CROSSING · ILLUSTRATIVE TIMING
-      </T>
-      {chain.map(([t, sub, x, body], i) => (
-        <g key={t} className="chain-actor">
-          <Actor
-            id={`chain-${i}`}
-            x={x}
-            y={630}
-            title={t}
-            sub={sub}
-            body={body}
-            kind={i ? 'console' : 'crew'}
-            c={i === 1 ? 'is-me' : ''}
-          />
-          <circle className="chain-glow" cx={x} cy="622" r="44" opacity="0">
-            <animate
-              attributeName="opacity"
-              {...(i < 2 ? phase(0) : kt('0;0;1;1;0;0;1;1', '0;.249;.25;.499;.5;.749;.75;1'))}
-            />
-          </circle>
+      <Lab x={944} y={548} t="ONE CROSSING · ILLUSTRATIVE TIMING" c="end" />
+      <Inspectable
+        id="tr-live"
+        title="The plan reached live traffic"
+        body="Each year, I asked each region concerned to hold or retime its trains.|The plan reached the teams running live traffic, at the right crossing, at the right moment."
+      >
+        <g>
+          <Console x={760} y={250} s={1} />
+          <Lab x={800} y={210} t="REGIONAL REGULATION" />
+          <Sub x={800} y={232} t="Running live traffic" />
+          <path className="tx-beam" d={`M740 260C700 270 640 280 ${RAIL_X + 40} 280`} />
         </g>
+      </Inspectable>
+      {phases.map(([t, sub], i) => (
+        <Inspectable
+          key={t}
+          id={`tr-phase-${i}`}
+          title={t.slice(4).charAt(0) + t.slice(5).toLowerCase()}
+          body={`${sub}.|Phase ${i + 1} of the crossing.`}
+        >
+          <g>
+            <circle className="tx-stage" cx={60 + i * 228} cy={622} r="12" />
+            <circle className="tx-stage on" cx={60 + i * 228} cy={622} r="12" opacity="0">
+              <animate attributeName="opacity" {...phase(i)} />
+            </circle>
+            <Lab x={80 + i * 228} y={618} t={t} />
+            <Sub x={80 + i * 228} y={640} t={sub} />
+          </g>
+        </Inspectable>
       ))}
-      <FlowArrow d="M252 610H440" />
-      <FlowArrow d="M560 610H740" />
     </Layer>
   );
 }
