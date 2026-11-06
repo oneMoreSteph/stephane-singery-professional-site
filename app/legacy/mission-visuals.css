@@ -1070,3 +1070,11 @@
 .story-svg .vs-ok{animation:vs-ok 6s ease-in-out infinite;animation-delay:calc(var(--i)*.6s)}
 @keyframes vs-ok{0%{opacity:.2}20%,100%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.story-svg .vs-site,.story-svg .vs-grow,.story-svg .vs-lag,.story-svg .vs-pulse,.story-svg .vs-need .tx-stage,.story-svg .vs-tick,.story-svg .vs-ok{animation:none}.story-svg .vs-pulse{stroke-dashoffset:0}}
+.story-svg .vs-track{fill:#123847}
+.story-svg .vs-fill{fill:#57b4d6;transform-box:fill-box;transform-origin:left;animation:vs-fill 6s ease-in-out infinite;animation-delay:calc(var(--i)*.4s)}
+@keyframes vs-fill{0%{transform:scaleX(.1)}35%,100%{transform:scaleX(1)}}
+.story-svg .vs-pass{fill:#2f7f97}.story-svg .vs-warn{fill:#f6d77a}.story-svg .vs-ko{fill:#f07a68}
+.story-svg .vs-dot.ok{fill:#7fe0b0}.story-svg .vs-dot.warn{fill:#f6d77a}.story-svg .vs-dot.ko{fill:#f07a68}
+.story-svg .vs-col{transform-box:fill-box;transform-origin:bottom;animation:vs-grow 6s ease-in-out infinite;animation-delay:calc(var(--i)*.25s)}
+@media(prefers-reduced-motion:reduce){.story-svg .vs-fill,.story-svg .vs-col{animation:none}}
+.story-svg .tx-link.vs-back{stroke:#f6d77a}.story-svg .tx-head.vs-back{fill:#f6d77a}

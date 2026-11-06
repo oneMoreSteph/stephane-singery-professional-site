@@ -132,7 +132,12 @@ export const groups: StackGroup[] = [
       },
       {
         name: 'Automated tests in production',
-        what: '525 tests a day, about 60,000 executions so far; qualification, prioritisation, alerts.',
+        what: '525 tests a day, about 60,000 executions so far; qualification, prioritisation, alerts, fixes.',
+        cases: ['verisure'],
+      },
+      {
+        name: 'Observability dashboards',
+        what: 'Two dashboards on Data health: Data test deployment, and Data test results in operation.',
         cases: ['verisure'],
       },
       {

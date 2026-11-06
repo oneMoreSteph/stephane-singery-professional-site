@@ -33,7 +33,7 @@ export default {
       'Tests are one signal among others.',
       [
         'Tests are one signal among others.',
-        'The need: observe Data health. Detect, qualify, prioritise, keep the history, notify, govern.',
+        'The need: observe Data health. Detect, qualify, prioritise, notify, fix, keep the history, govern.',
         'The more decisions depend on Data, the more an undetected anomaly costs.',
       ],
     ],
@@ -45,6 +45,7 @@ export default {
         'A common alert model in a transverse layer.',
         'dbt tests as the first observability domain, room for others without redesign.',
         'Built with dbt Core, Snowflake (the Data warehouse) and Elementary.',
+        'Observability: two dashboards on the Data health of the platform.',
       ],
     ],
     [
@@ -53,11 +54,20 @@ export default {
       [
         'Tests industrialised and automated: 525 a day, about 60,000 executions so far.',
         'Qualification, prioritisation and automatic alerts: teams treat each anomaly quickly.',
-        'Monitoring: what is happening, the trends, where to focus effort.',
+        'An alert is worth its fix: each anomaly is fixed, then confirmed by the next run.',
       ],
     ],
     [
-      '06 / RESULT',
+      '06 / OBSERVABILITY',
+      'Two dashboards on Data health.',
+      [
+        'Two dashboards walk the Analytics Engineer through the Data health of the platform.',
+        'Data test deployment monitoring: the tests deployed across the platform.',
+        'Data test results, operational monitoring: what passed, what failed, the trends, where to focus effort.',
+      ],
+    ],
+    [
+      '07 / RESULT',
       'Trust in Data, across the company.',
       [
         'Issues surface earlier, with fewer manual controls.',
@@ -74,6 +84,7 @@ export default {
       'What I understood',
       'The platform',
       'In operation',
+      'Observability',
       'Result',
     ],
     note: 'Illustrative signal and operating model. Portfolio scope: Data quality and observability.',

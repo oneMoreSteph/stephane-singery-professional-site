@@ -1,4 +1,4 @@
-// Earth · Verisure: why Verisure, errors found by the business first, what I understood, the platform, in operation, the result.
+// Earth · Verisure: why Verisure, errors found by the business first, what I understood, the platform, in operation, observability, the result.
 // Locations, days, the run's anomalies and trends are illustrative.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
@@ -10,7 +10,6 @@ import {
   Lab,
   Move,
   OpsDefs,
-  Spark,
   Sub,
   T,
   User,
@@ -87,6 +86,7 @@ const icon = {
     </>
   ),
   growth: <path d="M-15 13H15M-11 13V5M-3 13V-1M5 13V-6M13 13V-13" />,
+  wrench: <path d="M9-15A8 8 0 0 0-1-5L-14 8A3.5 3.5 0 0 0-9 13L4 0A8 8 0 0 0 14-10L9-5 3-6 4-11Z" />,
   chart: (
     <>
       <path d="M-15-14V13H15" />
@@ -338,8 +338,9 @@ const needs: [string, React.ReactNode][] = [
   ['DETECT', icon.lens],
   ['QUALIFY', icon.tag],
   ['PRIORITISE', icon.flag],
-  ['HISTORY', icon.clock],
   ['NOTIFY', icon.bell],
+  ['FIX', icon.wrench],
+  ['HISTORY', icon.clock],
   ['GOVERN', icon.shield],
 ];
 const signals: [string, string, boolean][] = [
@@ -392,12 +393,13 @@ function Understood() {
       </Inspectable>
       <Inspectable
         id="vs-needs"
-        title="Six needs"
-        body="Detect, qualify, prioritise, keep the history, notify, govern.|More than a test that passes or fails."
+        title="Seven needs"
+        body="Detect, qualify, prioritise, notify, fix, keep the history, govern.|An alert only matters once it leads to a fix."
       >
         <g>
           {needs.map(([t, i], k) => {
-            const a = (k / needs.length) * Math.PI * 2 - Math.PI / 2;
+            // Rotated so the signals enter through the gap at the left.
+            const a = (k / needs.length) * Math.PI * 2 - Math.PI / 2 - Math.PI / (2 * needs.length);
             const x = H.x + H.r * Math.cos(a);
             const y = H.y + H.r * Math.sin(a);
             const c = Math.cos(a);
@@ -491,14 +493,14 @@ function ThePlatform() {
       </Inspectable>
       <Inspectable
         id="vs-out"
-        title="To the teams, and monitoring"
-        body="Qualified alerts reach the team concerned; monitoring shows the trends.|Each anomaly reaches the people who can act."
+        title="Alerts and dashboards"
+        body="Qualified alerts reach the team concerned; two dashboards show the Data health.|Each anomaly reaches the people who can act."
       >
         <g>
           <Arrow from={[850, 352]} to={[850, 300]} />
           <Medal x={850} y={210} i={icon.bell} />
-          <Lab x={850} y={148} t="TEAMS · MONITORING" c="center" />
-          <Sub x={850} y={282} t="Alerts and trends" c="center" />
+          <Lab x={850} y={148} t="ALERTS · DASHBOARDS" c="center" />
+          <Sub x={850} y={282} t="To the teams" c="center" />
         </g>
       </Inspectable>
       <Inspectable
@@ -541,8 +543,9 @@ const flow: [string, string, React.ReactNode][] = [
   ['QUALIFY', 'What failed, where', icon.tag],
   ['PRIORITISE', 'High, medium, low', icon.flag],
   ['NOTIFY', 'The team concerned', icon.bell],
+  ['FIX', 'Then the next run confirms', icon.wrench],
 ];
-const fy = (k: number) => 140 + k * 106;
+const fy = (k: number) => 132 + k * 90;
 
 function InOperation() {
   return (
@@ -603,45 +606,149 @@ function InOperation() {
         body="Each anomaly is detected, qualified, prioritised, then sent to the team concerned.|Teams treat each anomaly quickly."
       >
         <g>
-          {flow.map(([t, s, i], k) => (
+          {flow.slice(0, 4).map(([t, s, i], k) => (
             <Fragment key={t}>
-              <Medal x={580} y={fy(k)} r={36} i={i} on={k === 3} />
-              <Lab x={632} y={fy(k) - 4} t={t} c={k === 3 ? 'warm' : ''} />
-              <Sub x={632} y={fy(k) + 18} t={s} />
-              {k < 3 && <Arrow from={[580, fy(k) + 40]} to={[580, fy(k + 1) - 42]} />}
+              <Medal x={580} y={fy(k)} r={32} i={i} />
+              <Lab x={628} y={fy(k) - 4} t={t} />
+              <Sub x={628} y={fy(k) + 18} t={s} />
+              <Arrow from={[580, fy(k) + 35]} to={[580, fy(k + 1) - 37]} />
             </Fragment>
           ))}
-          <Move path={`M580 ${fy(0)}V${fy(3)}H880`} dur={8}>
+          <Move path={`M580 ${fy(0)}V${fy(3)}H880V${fy(4)}H580`} dur={10}>
             <circle className="vs-anom" r="7" />
           </Move>
-          <Arrow from={[800, fy(3)]} to={[866, fy(3)]} />
-          <User x={905} y={fy(3) + 18} c="on" />
-          <Sub x={905} y={fy(3) + 52} t="Team" c="center" />
+          <Arrow from={[800, fy(3)]} to={[876, fy(3) + 26]} />
+          <User x={905} y={fy(3) + 62} c="on" />
+          <Sub x={940} y={fy(3) + 50} t="Team" />
         </g>
       </Inspectable>
       <Inspectable
-        id="vs-monitor"
-        title="Monitoring"
-        body="What is happening, the trends, where to focus effort.|One view for the teams and their managers."
+        id="vs-fix"
+        title="An alert is worth its fix"
+        body="Each anomaly is fixed, then the next run confirms the fix.|Alerts without fixes bring almost nothing."
       >
-        <Close t="MONITORING" s="What is happening, the trends, where to focus effort.">
-          <Win x={600} y={578} w={360} h={70} title="TRENDS · ILLUSTRATIVE">
-            <Spark
-              x={616}
-              y={604}
-              w={328}
-              h={36}
-              vals={[0.7, 0.55, 0.62, 0.45, 0.4, 0.3, 0.32, 0.22]}
-              c="on"
-            />
-          </Win>
-        </Close>
+        <g>
+          <Arrow from={[876, fy(4) - 6]} to={[800, fy(4)]} />
+          <Medal x={580} y={fy(4)} r={32} i={flow[4][2]} on />
+          <Lab x={628} y={fy(4) - 4} t={flow[4][0]} c="warm" />
+          <Sub x={628} y={fy(4) + 18} t={flow[4][1]} />
+          <Arrow from={[546, fy(4)]} c="vs-back" to={[392, 420]} />
+          <Sub x={410} y={fy(4) + 30} t="Next run" />
+        </g>
       </Inspectable>
+      <Close t="AN ALERT IS WORTH ITS FIX" s="Each anomaly fixed, then confirmed by the next run." />
     </Layer>
   );
 }
 
-// ---------- 6 · Result ----------
+// ---------- 6 · Observability ----------
+const domains: [string, number][] = [
+  ['Domain A', 0.92],
+  ['Domain B', 0.74],
+  ['Domain C', 0.58],
+  ['Domain D', 0.36],
+];
+const days7 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+function Observability() {
+  return (
+    <Layer steps={[5]}>
+      <Lab x={40} y={92} t="OBSERVABILITY · TWO DASHBOARDS ON DATA HEALTH" c="strong" />
+      <Inspectable
+        id="vs-deploy"
+        title="Data test deployment monitoring"
+        body="A dashboard on the deployment of Data tests across the platform.|Shows where the tests are deployed, and where coverage can grow."
+      >
+        <Win x={40} y={120} w={440} h={300} title="1 · DATA TEST DEPLOYMENT · MONITORING">
+          <Lab x={60} y={176} t="TESTS DEPLOYED" />
+          <path className="tx-axis" d="M60 190V392H300" />
+          <path
+            className="tx-draw"
+            pathLength={1}
+            d="M60 384H94V362H128V346H162V318H196V290H230V262H264V230H298V206"
+          />
+          <circle className="tx-stop" cx={298} cy={206} r="5" />
+          <Lab x={290} y={192} t="525" c="end warm" />
+          <Lab x={336} y={176} t="BY DOMAIN" />
+          {domains.map(([d, v], k) => (
+            <Fragment key={d}>
+              <Sub x={336} y={210 + k * 46} t={d} />
+              <rect className="vs-track" x={336} y={220 + k * 46} width="124" height="9" rx="4" />
+              <rect
+                className="vs-fill"
+                style={vars({ '--i': k })}
+                x={336}
+                y={220 + k * 46}
+                width={(124 * v).toFixed(0)}
+                height="9"
+                rx="4"
+              />
+            </Fragment>
+          ))}
+          <Sub x={60} y={410} t="Illustrative" />
+        </Win>
+      </Inspectable>
+      <Inspectable
+        id="vs-results"
+        title="Data test results, operational monitoring"
+        body="A dashboard describing the Data test results, run after run.|What passed, what failed, the trends, where to focus effort."
+      >
+        <Win x={520} y={120} w={440} h={300} title="2 · DATA TEST RESULTS · OPERATIONS">
+          {(
+            [
+              ['PASSED', 'ok'],
+              ['WARNINGS', 'warn'],
+              ['FAILED', 'ko'],
+            ] as const
+          ).map(([t, k], i) => (
+            <Fragment key={t}>
+              <rect className="tx-table-row" x={540 + i * 136} y={160} width="124" height="44" rx="4" />
+              <circle className={`vs-dot ${k}`} cx={558 + i * 136} cy={182} r="6" />
+              <Lab x={572 + i * 136} y={187} t={t} />
+            </Fragment>
+          ))}
+          <path className="tx-axis" d="M540 392H940" />
+          {days7.map((d) => {
+            const h = 110 + ((d * 37) % 50);
+            const ko = d === 3 || d === 7 ? 14 : 0;
+            const warn = d % 3 === 1 ? 10 : 0;
+            const x = 548 + d * 39;
+            return (
+              <g key={d} className="vs-col" style={vars({ '--i': d })}>
+                <rect className="vs-pass" x={x} y={390 - h} width="24" height={h} rx="2" />
+                {warn > 0 && (
+                  <rect className="vs-warn" x={x} y={388 - h - warn} width="24" height={warn} rx="2" />
+                )}
+                {ko > 0 && (
+                  <rect className="vs-ko" x={x} y={386 - h - warn - ko} width="24" height={ko} rx="2" />
+                )}
+              </g>
+            );
+          })}
+          <Sub x={540} y={410} t="Run after run · illustrative" />
+        </Win>
+      </Inspectable>
+      <Inspectable
+        id="vs-ae"
+        title="The Analytics Engineer, walked through Data health"
+        body="The two dashboards walk the Analytics Engineer through the Data health of the platform.|From deployment to results: one path, every run."
+      >
+        <g>
+          <Arrow from={[466, 486]} to={[300, 428]} />
+          <Arrow from={[534, 486]} to={[700, 428]} />
+          <Move path="M260 424L500 492L740 424" dur={6}>
+            <circle className="tx-alert" r="6" />
+          </Move>
+          <User x={500} y={520} s={1.1} c="on" />
+          <Lab x={560} y={514} t="ANALYTICS ENGINEER" />
+        </g>
+      </Inspectable>
+      <Close t="OBSERVABILITY" s="Two dashboards, one view of the Data health of the platform." />
+    </Layer>
+  );
+}
+
+// ---------- 7 · Result ----------
 const runX = [130, 370, 610, 850];
 const runs: [string, React.ReactNode][] = [
   ['LOAD', icon.db],
@@ -657,11 +764,11 @@ const tiers: [string, number][] = [
 
 function Result() {
   return (
-    <Layer steps={[5]}>
+    <Layer steps={[6]}>
       <Inspectable
         id="vs-earlier"
         title="Issues surface earlier"
-        body="Anomalies are caught by the tests in the run, before a report shows them.|Fewer manual controls."
+        body="Anomalies are caught by the tests in the run, then fixed, before a report shows them.|Fewer manual controls."
       >
         <g>
           <Lab x={40} y={92} t="WHERE AN ISSUE IS FOUND" c="strong" />
@@ -750,6 +857,7 @@ export default function SystemVerisureScene() {
       <Understood />
       <ThePlatform />
       <InOperation />
+      <Observability />
       <Result />
     </>
   );
