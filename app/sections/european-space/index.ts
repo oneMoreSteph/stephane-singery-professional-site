@@ -17,7 +17,7 @@ const section: Section = {
     eyebrow: 'WHY SPACE · WHAT I BRING',
     titleHtml: 'Why European<br><em>space.</em>',
     intro:
-      'Where the interest comes from, the systems I want to work on, and how my experience maps onto them.',
+      'Where the interest comes from, the Big Data systems I want to work on, and how my experience maps onto them.',
     hardware: 'JUICE',
     position: [-3.55, -1.75, -0.6],
     camera: [-2.2, -1.6, 3.8],

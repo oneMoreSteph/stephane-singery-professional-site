@@ -412,6 +412,27 @@ function Migration() {
           <Lab x={498} y={446} t="THE WHOLE MIGRATION LED · FROM BENCHMARK TO DELIVERY" c="center warm" />
         </g>
       </Inspectable>
+      <Inspectable
+        id="fd-appengine"
+        title="Metabase on Google App Engine"
+        body="Google App Engine: Google Cloud’s managed hosting for applications.|I deployed Metabase on it and maintained it in production."
+      >
+        <g>
+          <Win x={520} y={486} w={440} h={130} title="GOOGLE APP ENGINE · METABASE">
+            {[0, 1].map((i) => (
+              <Fragment key={i}>
+                <rect className="tx-app" x={540 + i * 130} y={524} width="116" height="40" rx="4" />
+                <T x={598 + i * 130} y={549} className="center tx-win-t">
+                  METABASE
+                </T>
+              </Fragment>
+            ))}
+            <circle className="tx-led" cx={820} cy={540} r="5" />
+            <Sub x={834} y={545} t="Running" />
+            <Sub x={540} y={598} t="Deployed and maintained by me, in production" />
+          </Win>
+        </g>
+      </Inspectable>
       <CaseChip
         x={40}
         y={540}

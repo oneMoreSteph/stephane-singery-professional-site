@@ -118,6 +118,24 @@ function Systems() {
   return (
     <Layer steps={[1]}>
       <Lab x={40} y={88} t="THE DATA CHAIN OF A SPACE SYSTEM" c="strong" />
+      <Inspectable
+        id="bigdata"
+        title="Big Data · where my path goes"
+        body="Big Data: Data whose volume, velocity and variety exceed ordinary tools.|The environment my path leads to: the field of my engineering degree, and the Data space systems produce."
+      >
+        <g>
+          <Lab x={580} y={120} t="BIG DATA · WHERE MY PATH GOES" c="warm" />
+          {['VOLUME', 'VELOCITY', 'VARIETY'].map((t, i) => (
+            <Fragment key={t}>
+              <rect className="tx-track done" x={580 + i * 128} y={136} width="118" height="28" rx="14" />
+              <T x={639 + i * 128} y={155} className="center tx-win-t">
+                {t}
+              </T>
+            </Fragment>
+          ))}
+          <Sub x={580} y={190} t="My degree’s field · the Data space systems produce" />
+        </g>
+      </Inspectable>
       <path className="tx-earth" d="M0 600Q500 470 1000 600V730H0Z" />
       <path className="tx-earth-l" d="M0 600Q500 470 1000 600" />
       <Inspectable id="chain-0" title="Generate">

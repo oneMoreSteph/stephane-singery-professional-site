@@ -23,6 +23,7 @@ export default {
       [
         'My experience so far: where Data is processed and used.',
         'Next: further upstream.',
+        'The environment: Big Data, the field of my engineering degree.',
         'The production systems that generate, transport, process and use Data at scale.',
       ],
     ],

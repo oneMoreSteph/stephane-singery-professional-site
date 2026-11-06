@@ -47,6 +47,7 @@ export default {
         'Tableau: too complex for a company of this size.',
         'Market explored, tools benchmarked and trialled.',
         'Metabase defended before the board.',
+        'I deployed and maintained Metabase on Google App Engine, Google Cloud’s application hosting.',
         'The whole migration led, critical board dashboards delivered within six weeks.',
       ],
     ],
