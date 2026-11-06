@@ -45,10 +45,8 @@ test('a case window: steps, tour, inspection, sources, close', async ({ page }) 
   await expect(dialog.getByText('A portfolio of freight customers.')).toBeVisible();
 
   // Clicking an element explains it.
-  await dialog.locator('[data-inspect="defend"]').click();
-  await expect(dialog.locator('.scene-inspection')).toContainText(
-    'Before the entity granting the agreements',
-  );
+  await dialog.locator('[data-inspect="rr-proc-1"]').click();
+  await expect(dialog.locator('.scene-inspection')).toContainText('Defended them');
 
   await expect(dialog.getByRole('link', { name: /Map sources/ })).toHaveAttribute(
     'href',
