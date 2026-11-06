@@ -130,9 +130,22 @@ const ST = {
   bottom: 482,
 };
 
-/** A suburban train moving along a track. `mode`: stops at the platform, or is held short of it. */
-function StationTrain({ y, mode, begin = 0 }: { y: number; mode: 'stop' | 'held'; begin?: number }) {
-  const path = `M-300 ${y}H1300`;
+/**
+ * A suburban train moving along a track. `mode`: stops at the platform, or is held short of it.
+ * `dir`: east on track 1, west on track 2, as on a real double-track line.
+ */
+function StationTrain({
+  y,
+  mode,
+  begin = 0,
+  dir = 'east',
+}: {
+  y: number;
+  mode: 'stop' | 'held';
+  begin?: number;
+  dir?: 'east' | 'west';
+}) {
+  const path = dir === 'east' ? `M-300 ${y}H1300` : `M1300 ${y}H-300`;
   const timing =
     mode === 'stop'
       ? { keyPoints: '0;0.45;0.45;1', keyTimes: '0;0.35;0.65;1' }
@@ -141,7 +154,14 @@ function StationTrain({ y, mode, begin = 0 }: { y: number; mode: 'stop' | 'held'
     <g className="st-train" clipPath="url(#stClip)">
       <g>
         {[0, 1, 2, 3].map((i) => (
-          <rect key={i} x={-260 + i * 66} y="-9" width="62" height="18" rx="3" />
+          <rect
+            key={i}
+            x={dir === 'east' ? -260 + i * 66 : 4 + i * 66}
+            y="-9"
+            width="62"
+            height="18"
+            rx="3"
+          />
         ))}
         <animateMotion
           dur="12s"
@@ -262,7 +282,7 @@ function WhyThisRole() {
     <Layer steps={[0]}>
       <StationSection />
       <StationTrain y={ST.t1} mode="stop" />
-      <StationTrain y={ST.t2} mode="stop" begin={6} />
+      <StationTrain y={ST.t2} mode="stop" begin={6} dir="west" />
       <Inspectable
         id="lc-internal"
         title="Internal communication"
@@ -319,7 +339,7 @@ function Plans() {
     <Layer steps={[1]}>
       <StationSection closed />
       <StationTrain y={ST.t1} mode="stop" />
-      <StationTrain y={ST.t2} mode="held" begin={3} />
+      <StationTrain y={ST.t2} mode="held" begin={3} dir="west" />
       <Inspectable
         id="lc-works"
         title="Track 2 closed for works"
@@ -415,6 +435,7 @@ function OnTheGround() {
     <Layer steps={[2]}>
       <StationSection />
       <StationTrain y={ST.t1} mode="stop" begin={2} />
+      <StationTrain y={ST.t2} mode="stop" begin={8} dir="west" />
       {ground.map(([id, title, body, people]) => (
         <Inspectable key={id} id={id} title={title} body={body}>
           <g>

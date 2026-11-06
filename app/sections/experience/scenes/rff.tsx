@@ -306,7 +306,11 @@ function LongMissions() {
           body="The day of circulation: the train runs on its agreed path.|The end of years of work on one request."
         >
           <g>
-            <path className="tx-promise" d="M60 100H940" />
+            {/* The request’s path bends around the works and the competing demands, and holds. */}
+            <path
+              className="tx-promise"
+              d="M60 74H312C324 74 324 96 336 96H474C486 96 486 74 498 74H568C578 74 578 96 590 96H690C702 96 702 74 714 74H940"
+            />
             <Lab x={940} y={160} t="THE TRAIN RUNS" c="end warm" />
           </g>
         </Inspectable>
