@@ -39,8 +39,8 @@ const Agreement = ({ x, y }: { x: number; y: number }) => (
 function PromisedArrival() {
   return (
     <Layer steps={[0]}>
-      {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
-      <g transform="translate(0 294)">
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -56)">
         <Panel x={X - 16} y={96} w={292} h={300} />
         <Inspectable
           id="vf-order"
@@ -71,7 +71,7 @@ function PromisedArrival() {
           body="The place and hour the customer paid for.|Every disruption on the way put it at risk."
         >
           {/* Drawn on the map: undo the panel’s offset. */}
-          <g transform={`translate(${mx} ${my - 294})`}>
+          <g transform={`translate(${mx} ${my + 56})`}>
             <circle className="tx-promise" r="16" />
             <path className="tx-promise" d="M0 0V-9M0 0l7 4" />
           </g>
@@ -87,7 +87,7 @@ function PromisedArrival() {
                 key={i}
                 className="tx-ping"
                 cx={x}
-                cy={y - 294}
+                cy={y + 56}
                 r="12"
                 style={vars({ animationDelay: `${i * 0.5}s` })}
               />
@@ -162,42 +162,45 @@ function ObtainIt() {
           <Line d={d} c="active-route warm-route" />
         </Fragment>
       ))}
-      <Panel x={682} y={86} w={290} h={590} />
-      <Inspectable
-        id="vf-shifts"
-        title="3×8 shifts, day and night"
-        body="Three eight-hour shifts covered the whole day.|Trains run at any hour: so did my job."
-      >
-        <g>
-          <Lab x={X} y={114} t="3×8 · DAY AND NIGHT" c="warm" />
-          {[0, 1, 2].map((i) => {
-            const a0 = (i * 120 - 90) * (Math.PI / 180);
-            const a1 = ((i + 1) * 120 - 92) * (Math.PI / 180);
-            const [cx, cy, r] = [X + 60, 186, 46];
-            return (
-              <path
-                key={i}
-                className={`tx-arc${i === 2 ? ' night' : ''}`}
-                d={`M${cx + r * Math.cos(a0)} ${cy + r * Math.sin(a0)}A${r} ${r} 0 0 1 ${cx + r * Math.cos(a1)} ${cy + r * Math.sin(a1)}`}
-              />
-            );
-          })}
-          <circle className="tx-stop" cx={X + 60} cy={186} r="4" />
-          {['06–14', '14–22', '22–06'].map((t, i) => (
-            <Sub key={t} x={X + 140} y={160 + i * 26} t={t} />
-          ))}
-        </g>
-      </Inspectable>
-      <Lab x={X} y={270} t="WHAT I OBTAINED" c="strong" />
-      {obtained.map(([id, t, s, body, icon], i) => (
-        <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -46)">
+        <Panel x={682} y={86} w={290} h={590} />
+        <Inspectable
+          id="vf-shifts"
+          title="3×8 shifts, day and night"
+          body="Three eight-hour shifts covered the whole day.|Trains run at any hour: so did my job."
+        >
           <g>
-            <g transform={`translate(694 ${296 + i * 64}) scale(0.75) translate(${-X} 0)`}>{icon}</g>
-            <Lab x={748} y={310 + i * 64} t={t} />
-            <Sub x={748} y={332 + i * 64} t={s} />
+            <Lab x={X} y={114} t="3×8 · DAY AND NIGHT" c="warm" />
+            {[0, 1, 2].map((i) => {
+              const a0 = (i * 120 - 90) * (Math.PI / 180);
+              const a1 = ((i + 1) * 120 - 92) * (Math.PI / 180);
+              const [cx, cy, r] = [X + 60, 186, 46];
+              return (
+                <path
+                  key={i}
+                  className={`tx-arc${i === 2 ? ' night' : ''}`}
+                  d={`M${cx + r * Math.cos(a0)} ${cy + r * Math.sin(a0)}A${r} ${r} 0 0 1 ${cx + r * Math.cos(a1)} ${cy + r * Math.sin(a1)}`}
+                />
+              );
+            })}
+            <circle className="tx-stop" cx={X + 60} cy={186} r="4" />
+            {['06–14', '14–22', '22–06'].map((t, i) => (
+              <Sub key={t} x={X + 140} y={160 + i * 26} t={t} />
+            ))}
           </g>
         </Inspectable>
-      ))}
+        <Lab x={X} y={270} t="WHAT I OBTAINED" c="strong" />
+        {obtained.map(([id, t, s, body, icon], i) => (
+          <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+            <g>
+              <g transform={`translate(694 ${296 + i * 64}) scale(0.75) translate(${-X} 0)`}>{icon}</g>
+              <Lab x={748} y={310 + i * 64} t={t} />
+              <Sub x={748} y={332 + i * 64} t={s} />
+            </g>
+          </Inspectable>
+        ))}
+      </g>
     </Layer>
   );
 }
@@ -212,8 +215,8 @@ const ahead: [string, number][] = [
 function YearsBefore() {
   return (
     <Layer steps={[2]}>
-      {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
-      <g transform="translate(0 274)">
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -46)">
         <Panel x={X - 16} y={86} w={292} h={330} />
         <Inspectable
           id="vf-day"

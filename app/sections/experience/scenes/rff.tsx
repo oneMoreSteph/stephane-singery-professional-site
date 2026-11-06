@@ -75,8 +75,8 @@ function SharedNetwork() {
           ))}
         </g>
       </Inspectable>
-      {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
-      <g transform="translate(0 184)">
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -46)">
         <Panel x={X - 16} y={86} w={290} h={420} />
         <Inspectable
           id="rr-operators"
@@ -198,8 +198,8 @@ function Customers() {
           <Sub x={milanX + 6} y={milanY - 30} t="Venice" />
         </g>
       </Inspectable>
-      {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
-      <g transform="translate(0 98)">
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -46)">
         <Panel x={X - 16} y={86} w={290} h={506} />
         <Lab x={X} y={116} t="MY PORTFOLIO" c="warm" />
         {portfolio.map(([t, s, kind, body], i) => (
@@ -249,12 +249,12 @@ function LongMissions() {
       <Line d={lines[0]} c="route-glow" />
       <Line d={lines[0]} c="active-route" />
       <TrainMarker path={lines[0]} dur={24} begin={6} />
-      <Panel x={X - 16} y={86} w={290} h={200} />
-      <Lab x={X} y={116} t="MOMENTS FROM THESE YEARS" c="warm" />
-      <CaseChip x={X - 4} y={132} w={266} to="toyota" kicker="HIGH-STAKES · TOYOTA" sub="Europe, 2013" />
+      <Panel x={X - 16} y={40} w={290} h={200} />
+      <Lab x={X} y={70} t="MOMENTS FROM THESE YEARS" c="warm" />
+      <CaseChip x={X - 4} y={86} w={266} to="toyota" kicker="HIGH-STAKES · TOYOTA" sub="Europe, 2013" />
       <CaseChip
         x={X - 4}
-        y={200}
+        y={154}
         w={266}
         to="tour"
         kicker="HIGH-STAKES · TOUR"
@@ -318,8 +318,8 @@ function LongMissions() {
 function Next() {
   return (
     <Layer steps={[3]}>
-      {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
-      <g transform="translate(0 354)">
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -46)">
         <Panel x={X - 16} y={86} w={290} h={250} />
         <Inspectable
           id="rr-nov16"

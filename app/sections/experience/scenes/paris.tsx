@@ -87,8 +87,8 @@ const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 function MyWeek() {
   return (
     <Layer steps={[0]}>
-      {/* The panel sits in the map’s emptiest corner: bottom right */}
-      <g transform="translate(0 164)">
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -46)">
         <rect className="map-panel" x={X - 16} y={86} width="240" height="440" rx="4" />
         <Inspectable
           id="hb-week"
@@ -201,8 +201,8 @@ function TheHubs() {
       <Bike x={345} y={307} s={0.7} />
       <Bike x={590} y={350} s={0.7} />
       <Bike x={444} y={397} s={0.7} />
-      {/* The panel sits in the map’s emptiest corner: bottom right */}
-      <g transform="translate(0 254)">
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -46)">
         <rect className="map-panel" x={X - 16} y={86} width="240" height="350" rx="4" />
         <Lab x={X} y={116} t="EACH SERVICE" c="warm" />
         {service.map(([id, t, s, body, icon], i) => (
@@ -222,8 +222,8 @@ function TheHubs() {
 function WhatItOpened() {
   return (
     <Layer steps={[2]}>
-      {/* The panel sits in the map’s emptiest corner: bottom right */}
-      <g transform="translate(0 190)">
+      {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
+      <g transform="translate(0 -46)">
         <rect className="map-panel" x={X - 16} y={86} width="240" height="330" rx="4" />
         <Inspectable
           id="hb-inside"
