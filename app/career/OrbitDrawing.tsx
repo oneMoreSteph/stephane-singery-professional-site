@@ -89,7 +89,8 @@ export function OrbitDrawing({
               data-case={o.key}
               tabIndex={active ? (active.pinned === o.key ? 0 : -1) : -1}
               role="button"
-              aria-label={`${s.title}, ${s.period}`}
+              // Starts with the visible label, so voice control users can say what they see.
+              aria-label={`${pad(i + 1)} ${o.label} ${o.period}: ${s.title}`}
             >
               <path className="orbit-hit" d={full} />
               <path className="orbit-track" d={full} />

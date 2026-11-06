@@ -4,6 +4,7 @@ import { useDrawing } from '~/drawings/context';
 import { Inspectable } from '~/drawings/Inspectable';
 import { Packet, T, vars } from '~/drawings/kit';
 import { Corner, Crew, Line } from '~/drawings/ops';
+import { SvgButton } from '~/drawings/spokenName';
 
 export type Kind = 'food' | 'heetch' | 'verisure';
 type ModuleId = 'src' | 'ing' | 'trf' | 'sto' | 'acc' | 'ppl';
@@ -265,27 +266,30 @@ function ScopeChips({ kind }: { kind: Kind }) {
         const c = sysCopy[k];
         const current = k === kind;
         const x = 318 + i * 164;
-        return (
-          <g
-            key={k}
-            className={`scope-chip${current ? ' is-current' : ''}`}
-            transform={`translate(${x} 18)`}
-            {...(current
-              ? { 'aria-current': 'true' as const }
-              : {
-                  'data-open-case': chipCase[k],
-                  tabIndex: 0,
-                  role: 'button',
-                  'aria-label': `Open ${c.org.toLowerCase()}: ${c.layer.toLowerCase()}`,
-                })}
-          >
+        const face = (
+          <>
             <rect width="156" height="44" rx="3" />
             <T x={12} y={19} className="chip-kicker">{`${c.n} ${c.layer.toUpperCase()}`}</T>
             <T x={12} y={35} className="chip-org">{`${c.org.split(' /')[0]} ${c.years}`}</T>
             <T x={144} y={35} className="chip-arrow end">
               {current ? '●' : '↗'}
             </T>
+          </>
+        );
+        return current ? (
+          <g key={k} className="scope-chip is-current" transform={`translate(${x} 18)`} aria-current="true">
+            {face}
           </g>
+        ) : (
+          <SvgButton
+            key={k}
+            className="scope-chip"
+            transform={`translate(${x} 18)`}
+            data-open-case={chipCase[k]}
+            purpose={`open the ${c.org} case`}
+          >
+            {face}
+          </SvgButton>
         );
       })}
     </>
@@ -442,14 +446,7 @@ export function SysLink({
 }) {
   const tall = h === 58;
   return (
-    <g
-      className="case-link"
-      transform={`translate(${x} ${y})`}
-      data-open-case={to}
-      tabIndex={0}
-      role="button"
-      aria-label={label}
-    >
+    <SvgButton className="case-link" transform={`translate(${x} ${y})`} data-open-case={to} purpose={label}>
       <rect width={w} height={h} rx="3" />
       <T x={16} y={tall ? 24 : 22} className="mini-label">
         {kicker}
@@ -460,7 +457,7 @@ export function SysLink({
       <T x={w - 18} y={tall ? 36 : 32} className="chip-arrow end">
         ↗
       </T>
-    </g>
+    </SvgButton>
   );
 }
 

@@ -8,7 +8,7 @@ export function Beats({ beats }: { beats: Beat[] }) {
       {beats.map(([label, heading, body]) => (
         <section key={label} className="text-beat">
           <p className="text-beat__label">{label}</p>
-          <h3>{heading}</h3>
+          <h2>{heading}</h2>
           <ul>
             {lines(body).map((line) => (
               <li key={line}>{line}</li>

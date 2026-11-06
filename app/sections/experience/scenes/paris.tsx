@@ -5,6 +5,7 @@ import { Packet, T, vars, type Pt } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 import { Crew, Line } from '~/drawings/ops';
 import { arrondissements } from '~/drawings/data/geography';
+import { SvgButton } from '~/drawings/spokenName';
 
 /** An isometric building: a hub, or a plain building. */
 function Building({
@@ -166,13 +167,11 @@ export default function ParisScene() {
         </T>
       </Layer>
       <Layer steps={[2]}>
-        <g
+        <SvgButton
           className="case-link"
           transform="translate(330 600)"
           data-open-case="food-data"
-          tabIndex={0}
-          role="button"
-          aria-label="Open the FoodChéri Data role"
+          purpose="open the FoodChéri Data role"
         >
           <rect width="380" height="58" rx="3" />
           <T x={16} y={24} className="mini-label">
@@ -184,7 +183,7 @@ export default function ParisScene() {
           <T x={362} y={36} className="chip-arrow end">
             ↗
           </T>
-        </g>
+        </SvgButton>
       </Layer>
       <Layer steps={[1]}>
         {orders.map((o, i) => {

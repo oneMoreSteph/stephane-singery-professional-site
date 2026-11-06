@@ -5,6 +5,7 @@ import { Inspectable } from '~/drawings/Inspectable';
 import { OpsDefs, T, vars, type Pt, seqN } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 import { Crew, FlowArrow, Line, Pill } from '~/drawings/ops';
+import { SvgButton } from '~/drawings/spokenName';
 
 // ---------- The line: schematic, 42 station marks ----------
 const trunk: Pt[] = Array.from({ length: 17 }, (_, i) => [240 + (520 * (i + 1)) / 18, 100]);
@@ -392,13 +393,11 @@ function Plans() {
   return (
     <Layer steps={[1]}>
       {triggers.map(([k, t], i) => (
-        <g
+        <SvgButton
           key={t}
           className="trigger"
           data-pick={i}
-          role="button"
-          tabIndex={0}
-          aria-label={`Show the plan for ${t.toLowerCase()}`}
+          purpose={`show the plan for ${t.toLowerCase()}`}
           {...seqN(i)}
           transform={`translate(${250 + i * 168} 198)`}
         >
@@ -412,7 +411,7 @@ function Plans() {
           <T x={148} y={25} className="end trigger-cue">
             ›
           </T>
-        </g>
+        </SvgButton>
       ))}
       {situations.map((c, i) => (
         <g key={i} className="cover-case" {...seqN(i)}>
@@ -651,13 +650,11 @@ function Measure() {
       <T x={116} y={530} className="label small">
         Under each station on the line: its two indicators.
       </T>
-      <g
+      <SvgButton
         className="case-link"
         transform="translate(40 630)"
         data-open-case="verisure"
-        tabIndex={0}
-        role="button"
-        aria-label="Open the Verisure experience"
+        purpose="open the Verisure experience"
       >
         <rect width="920" height="62" rx="3" />
         <T x={18} y={24} className="mini-label">
@@ -669,7 +666,7 @@ function Measure() {
         <T x={900} y={38} className="chip-arrow end">
           ↗
         </T>
-      </g>
+      </SvgButton>
     </Layer>
   );
 }

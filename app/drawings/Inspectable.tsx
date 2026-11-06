@@ -1,6 +1,7 @@
-import { useContext, useLayoutEffect, useRef, useState } from 'react';
+import { useContext, useLayoutEffect, useState } from 'react';
 import { concepts } from '~/drawings/data/concepts';
 import { LayerVisible, useDrawing } from './context';
+import { useSpokenName } from './spokenName';
 
 interface Props {
   /** Unique within the drawing; also the key of its click text in the concepts list. */
@@ -16,7 +17,7 @@ interface Props {
 export function Inspectable({ id, title, body = '', className = '', children }: Props) {
   const { touredId, inspectedId } = useDrawing();
   const visible = useContext(LayerVisible);
-  const ref = useRef<SVGGElement>(null);
+  const [ref, name] = useSpokenName<SVGGElement>(title);
   const [hit, setHit] = useState<DOMRect | null>(null);
   const concept = concepts[id];
 
@@ -26,7 +27,7 @@ export function Inspectable({ id, title, body = '', className = '', children }: 
       if (ref.current) setHit(ref.current.getBBox());
     });
     return () => cancelAnimationFrame(frame);
-  }, []);
+  }, [ref]);
 
   const classes = [
     'scene-object',
@@ -40,7 +41,7 @@ export function Inspectable({ id, title, body = '', className = '', children }: 
       className={classes.filter(Boolean).join(' ')}
       tabIndex={visible ? 0 : -1}
       role="button"
-      aria-label={title}
+      aria-label={name}
       data-inspect={id}
       data-title={title}
       data-body={concept ? concept.join('|') : body}

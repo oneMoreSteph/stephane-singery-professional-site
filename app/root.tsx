@@ -1,9 +1,13 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useMatches } from 'react-router';
 import type { Route } from './+types/root';
+import { site } from './site';
 import './legacy/mission-journey.css';
 import './legacy/mission-visuals.css';
 import './styles/tokens.css';
 import './styles/site.css';
+
+// Every page sets its own title; this one covers the 404 fallback, rendered before any page matches.
+export const meta: Route.MetaFunction = () => [{ title: site.name }];
 
 export const links: Route.LinksFunction = () => [
   { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },

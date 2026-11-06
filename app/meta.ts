@@ -16,9 +16,11 @@ function tags(title: string, description: string, path: string): MetaDescriptor[
     { name: 'twitter:card', content: 'summary_large_image' },
   ];
   if (site.url) {
+    // GitHub Pages serves each page from a folder, at its address with a trailing slash.
+    const url = `${site.url}${path.replace(/\/?$/, '/')}`;
     list.push(
-      { tagName: 'link', rel: 'canonical', href: `${site.url}${path}` },
-      { property: 'og:url', content: `${site.url}${path}` },
+      { tagName: 'link', rel: 'canonical', href: url },
+      { property: 'og:url', content: url },
       { property: 'og:image', content: `${site.url}/assets/social-preview.jpg` },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },

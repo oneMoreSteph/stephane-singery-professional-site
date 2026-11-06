@@ -1,6 +1,7 @@
 // Drawing primitives shared by every scene: labelled domain objects (databases, windows, code, charts, people).
 // Coordinates are in the scene's 1000 × 730 units.
 import { Fragment } from 'react';
+import { SvgButton } from './spokenName';
 
 export type Pt = [number, number];
 const cx = (...c: (string | false | undefined)[]) =>
@@ -17,9 +18,12 @@ export function T({
   children: React.ReactNode;
   className?: string;
 }) {
+  // A glyph alone (↗, ●, →) is decoration: assistive technology skips it.
+  const glyph = typeof children === 'string' && !/[\p{L}\p{N}]/u.test(children);
+  // The trailing space keeps words of separate lines apart in the page text; SVG does not draw it.
   return (
-    <text x={x} y={y} className={className}>
-      {children}
+    <text x={x} y={y} className={className} aria-hidden={glyph || undefined}>
+      {children}{' '}
     </text>
   );
 }
@@ -443,13 +447,11 @@ export function CaseChip({
   sub: string;
 }) {
   return (
-    <g
+    <SvgButton
       className="case-link"
       transform={`translate(${x} ${y})`}
       data-open-case={to}
-      tabIndex={0}
-      role="button"
-      aria-label={`Open ${kicker.toLowerCase()}`}
+      purpose="open this case"
     >
       <rect width={w} height="58" rx="3" />
       <T x={16} y={24} className="mini-label">
@@ -461,7 +463,7 @@ export function CaseChip({
       <T x={w - 18} y={36} className="chip-arrow end">
         ↗
       </T>
-    </g>
+    </SvgButton>
   );
 }
 

@@ -8,11 +8,12 @@ so it needs no server, reads without JavaScript and works on any static host suc
 
 ## Tools
 
-| Tool    | Version used                                      |
-| ------- | ------------------------------------------------- |
-| Node.js | 22 or later (developed with 25.6)                 |
-| npm     | 10 or later                                       |
-| Chrome  | Any recent version, for the screenshot comparison |
+| Tool    | Version used                                                    |
+| ------- | --------------------------------------------------------------- |
+| Node.js | 22 or later (developed with 25.6)                               |
+| npm     | 10 or later                                                     |
+| Chrome  | Any recent version, for the tests and the screenshot comparison |
+| Java    | 11 or later, for the W3C HTML validation                        |
 
 ## Commands
 
@@ -24,6 +25,24 @@ npm run preview      # serves build/client like GitHub Pages, at http://127.0.0.
 npm run check        # types, lint and formatting
 npm run images       # rebuilds the web images from assets-src/
 ```
+
+## Quality gates
+
+GitHub Actions runs them on every push and pull request (`.github/workflows/quality.yml`). Locally, all at once:
+
+```bash
+npm run verify
+```
+
+| Command                 | Checks                                                                                                                                                                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run check`         | Types, lint and formatting                                                                                                                                                                  |
+| `npm run validate:html` | Every built page with the W3C Nu HTML Checker, offline; fails on errors                                                                                                                     |
+| `npm test`              | Playwright: every page's title, text and address; journey and case windows; old addresses; contact; no JavaScript; phone width; axe WCAG 2.2 AA on every kind of page and every case window |
+| `npm run lighthouse`    | Phone and desktop scores on four pages: accessibility, best practices and SEO at 95 or more; performance 85 or more on the cockpit and contact pages (desktop)                              |
+
+`npm test` and `npm run lighthouse` use the build: run `npm run build` first.
+The sitemap is written at build time once `site.url` is set in `app/site.ts`; `robots.txt` always.
 
 ## Structure
 

@@ -75,10 +75,12 @@ function historyFor(id, caseKey = null, replace = false) {
   navigate(pathFor(id, caseKey), { replace });
 }
 
+/** The image with this id, created in place the first time it is needed: an empty <img> is not valid HTML. */
+const imageIn = (parent, id, before) => document.getElementById(id) ?? parent.insertBefore(Object.assign(document.createElement('img'), { id, alt: '' }), before);
 function detailContent(title, category, beats, caseKey = null, url = null, takeaway = '') {
   document.getElementById('detail-category').textContent = category;
   document.getElementById('detail-title').textContent = title;
-  const detailLogo = document.getElementById('detail-logo');
+  const detailLogo = imageIn(document.querySelector('.detail-brand'), 'detail-logo', document.getElementById('detail-category'));
   const logo = caseKey && Object.values(destinations).flatMap(destination => destination.items).find(entry => entry.key === caseKey)?.logo;
   detailLogo.hidden = !logo;
   if (logo) detailLogo.src = logo;
@@ -199,7 +201,7 @@ function renderChapter(id) {
   const figure = document.getElementById('chapter-visual');
   figure.hidden = !visual;
   if (visual) {
-    const image = document.getElementById('chapter-visual-image');
+    const image = imageIn(figure, 'chapter-visual-image', document.getElementById('chapter-visual-credit'));
     image.src = visual.image;
     image.alt = visual.alt;
     document.getElementById('chapter-visual-credit').textContent = visual.credit;
@@ -208,7 +210,7 @@ function renderChapter(id) {
   steps.replaceChildren(...route.map((stop, i) => {
     const step = document.createElement('button'); step.type = 'button'; step.className = 'route-step';
     step.classList.toggle('is-reached', i <= here);
-    step.setAttribute('aria-label', `Stop ${i + 1} of ${route.length}: ${destinations[stop].heading}`);
+    step.setAttribute('aria-label', `${String(i + 1).padStart(2, '0')}${i === here ? ` · ${destinations[stop].heading}` : ''}: stop ${i + 1} of ${route.length}${i === here ? '' : `, ${destinations[stop].heading}`}`);
     step.innerHTML = `<i aria-hidden="true"></i><span>${String(i + 1).padStart(2, '0')}${i === here ? ` · ${destinations[stop].heading.toUpperCase()}` : ''}</span>`;
     if (i === here) step.setAttribute('aria-current', 'step'); else step.addEventListener('click', () => approach(stop));
     return step;

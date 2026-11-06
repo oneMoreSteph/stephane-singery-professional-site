@@ -21,7 +21,8 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
       <a className="skip-link" href={`/${first.slug}`} onClick={start(`/${first.slug}`)}>
         Skip to work and evidence
       </a>
-      <main className="experience" id="experience">
+      {/* The page text below holds the <main> element; only one of the two is ever shown. */}
+      <div className="experience" id="experience" role="main">
         <canvas className="world-canvas" id="world-canvas" aria-hidden="true"></canvas>
 
         <section className="cockpit" id="cockpit" aria-labelledby="opening-title">
@@ -117,12 +118,13 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
                 id={`node-${s.stop.key}`}
                 data-destination={s.stop.key}
                 type="button"
-                aria-label={`${s.stop.spokenName}: ${s.title.charAt(0).toLowerCase()}${s.title.slice(1)}`}
+                // The name starts with the visible text, so voice control users can say what they see.
+                aria-label={`${pad(i + 1)} ${s.stop.label} ${s.stop.tagline}: ${s.title.charAt(0).toLowerCase()}${s.title.slice(1)}`}
               >
-                <span className="node-index">{pad(i + 1)}</span>
+                {/* The spaces keep the words apart in the accessible text; the parts are laid out as blocks. */}
+                <span className="node-index">{pad(i + 1)}</span>{' '}
                 <span className="node-copy">
-                  <b>{s.stop.label}</b>
-                  <small>{s.stop.tagline}</small>
+                  <b>{s.stop.label}</b> <small>{s.stop.tagline}</small>
                 </span>
                 <span className="node-dot" aria-hidden="true"></span>
               </button>
@@ -188,7 +190,6 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
             </button>
           </header>
           <figure className="chapter-visual" id="chapter-visual" hidden>
-            <img id="chapter-visual-image" alt="" />
             <figcaption id="chapter-visual-credit"></figcaption>
           </figure>
           <div className="chapter-hardware">
@@ -222,10 +223,9 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
 
         <div className="detail-overlay" id="detail-overlay" hidden>
           <button className="detail-scrim" id="detail-scrim" type="button" aria-label="Close detail"></button>
-          <article className="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+          <div className="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-title">
             <header>
               <span className="detail-brand">
-                <img id="detail-logo" alt="" hidden />
                 <span id="detail-category"></span>
               </span>
               <button className="detail-close" id="detail-close" type="button" aria-label="Close detail">
@@ -241,9 +241,9 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
               <div className="detail-beats" id="detail-beats"></div>
               <p className="detail-source" id="detail-source"></p>
             </div>
-          </article>
+          </div>
         </div>
-      </main>
+      </div>
     </>
   );
 });

@@ -4,6 +4,7 @@ import { Inspectable } from '~/drawings/Inspectable';
 import { Header, OpsDefs, T, vars } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 import { Crew, FlowArrow } from '~/drawings/ops';
+import { SvgButton } from '~/drawings/spokenName';
 
 const COLS = 30;
 const ROWS = 20;
@@ -249,13 +250,11 @@ function Delivered() {
           ))}
         </g>
       </Inspectable>
-      <g
+      <SvgButton
         className="case-link"
         transform="translate(560 420)"
         data-open-case="food-data"
-        tabIndex={0}
-        role="button"
-        aria-label="Open the FoodChéri Data experience"
+        purpose="open the FoodChéri Data experience"
       >
         <rect width="380" height="58" rx="3" />
         <T x={16} y={24} className="mini-label">
@@ -267,7 +266,7 @@ function Delivered() {
         <T x={362} y={36} className="chip-arrow end">
           ↗
         </T>
-      </g>
+      </SvgButton>
     </Layer>
   );
 }

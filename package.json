@@ -9,10 +9,13 @@
     "typecheck": "react-router typegen && tsc",
     "lint": "eslint .",
     "images": "node scripts/optimize-images.mjs",
-    "test:visual": "playwright test",
     "postbuild": "node scripts/postbuild.mjs",
     "format": "prettier --write .",
-    "check": "react-router typegen && tsc && eslint . && prettier --check ."
+    "check": "react-router typegen && tsc && eslint . && prettier --check .",
+    "test": "playwright test",
+    "validate:html": "node scripts/validate-html.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "verify": "npm run check && npm run build && npm run validate:html && npm test && npm run lighthouse"
   },
   "engines": {
     "node": ">=22"
@@ -26,6 +29,7 @@
     "three": "0.186.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.1",
     "@react-router/dev": "8.5.1",
@@ -36,10 +40,12 @@
     "eslint": "10.14.0",
     "eslint-plugin-react-hooks": "7.1.1",
     "globals": "17.14.0",
+    "lighthouse": "13.5.0",
     "prettier": "3.9.10",
     "sharp": "0.35.5",
     "typescript": "5.9.3",
     "typescript-eslint": "8.72.1",
-    "vite": "8.3.6"
+    "vite": "8.3.6",
+    "vnu-jar": "26.10.12"
   }
 }

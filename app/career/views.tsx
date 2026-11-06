@@ -99,7 +99,8 @@ function TrackDrawing({
               data-case={s.key}
               tabIndex={pinned === s.key ? 0 : -1}
               role="button"
-              aria-label={`${s.org}: ${s.title}, ${s.period}`}
+              // Starts with the visible label, so voice control users can say what they see.
+              aria-label={`${s.label}: ${s.org}, ${s.title}, ${s.period}`}
               style={{ '--i': i } as React.CSSProperties}
             >
               <rect className="tl-hit" x={bx - 5} y={top - 28} width={bw + 10} height={h + 54} />

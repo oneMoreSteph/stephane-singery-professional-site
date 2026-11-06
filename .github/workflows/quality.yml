@@ -1,0 +1,48 @@
+# Quality gates, on every push and pull request: types, lint and format; build; W3C HTML validation;
+# end-to-end and accessibility tests; Lighthouse limits. Reports are kept for 14 days.
+name: Quality
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    # Ubuntu runners come with Google Chrome and Java, used by Playwright, Lighthouse and the W3C checker.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Types, lint and formatting
+        run: npm run check
+      - name: Build
+        run: npm run build
+      - name: W3C HTML validation
+        run: npm run validate:html
+      - name: End-to-end and accessibility tests
+        run: npm test
+      - name: Lighthouse limits
+        run: npm run lighthouse
+      - name: Keep the reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-reports
+          path: |
+            playwright-report/
+            test-results/
+            lighthouse-report/
+          retention-days: 14
+          if-no-files-found: ignore
