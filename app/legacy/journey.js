@@ -268,12 +268,16 @@ function preview(id) {
   });
 }
 
+// Ease in and out, cubic: slow start, slow landing.
+const smooth = t => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
 function moveCamera(toPosition, toLook, duration, done) {
   if (!worldReady || !camera) { done?.(); return; }
   cameraMove = { start: performance.now(), duration: reducedMotion ? 80 : duration, from: camera.position.clone(), fromLook: currentLook.clone(), to: toPosition.clone(), toLook: toLook.clone(), done };
 }
 
 async function openMap(push = true) {
+  const fromCockpit = activeScene === 'cockpit';
   closeDetail(false);
   if (globeMove && earth) { globeAngle = earth.rotation.y; globeTilt = earth.rotation.x; globeMove = null; }
   setScene('map');
@@ -285,7 +289,9 @@ async function openMap(push = true) {
   body.classList.remove('world-loading');
   document.getElementById('map-loading').hidden = true;
   document.querySelector('.map-status').lastChild.textContent = ' FOLLOW THE ROUTE';
-  moveCamera(mapPose.position, mapPose.look, 1100, () => { lastMapTrigger?.focus?.({ preventScroll: true }); sweepRoute(); });
+  // From the cockpit, the camera glides in from deep space onto the map.
+  if (fromCockpit && !reducedMotion && camera) { camera.position.copy(mapPose.position).multiplyScalar(2.4).add(new THREE.Vector3(0, 2.6, 0)); currentLook.copy(mapPose.look); }
+  moveCamera(mapPose.position, mapPose.look, fromCockpit ? 3000 : 1900, () => { lastMapTrigger?.focus?.({ preventScroll: true }); sweepRoute(); });
   if (push) historyFor('map');
 }
 
@@ -293,7 +299,7 @@ async function openMap(push = true) {
 function passThroughMap() {
   return new Promise(resolve => {
     setScene('approaching');
-    moveCamera(mapPose.position, mapPose.look, 1000, () => setTimeout(resolve, reducedMotion ? 0 : 220));
+    moveCamera(mapPose.position, mapPose.look, 1600, () => setTimeout(resolve, reducedMotion ? 0 : 320));
   });
 }
 
@@ -309,12 +315,12 @@ async function approach(id, push = true) {
   const data = destinations[id];
   if (id === globeKey && earth) {
     const turn = Math.atan2(Math.sin(europePose.rotationY - earth.rotation.y), Math.cos(europePose.rotationY - earth.rotation.y));
-    globeMove = { start: performance.now(), duration: reducedMotion ? 80 : 1500, fromX: earth.rotation.x, fromY: earth.rotation.y, toX: europePose.tiltX, toY: earth.rotation.y + turn };
+    globeMove = { start: performance.now(), duration: reducedMotion ? 80 : 2400, fromX: earth.rotation.x, fromY: earth.rotation.y, toX: europePose.tiltX, toY: earth.rotation.y + turn };
     globeAngle = globeMove.toY;
     globeTilt = globeMove.toX;
   }
   setScene('approaching');
-  moveCamera(data.camera, data.look, 1500, () => {
+  moveCamera(data.camera, data.look, 2400, () => {
     renderChapter(id);
     setScene('chapter');
     const title = document.getElementById('chapter-title'); title.tabIndex = -1; title.focus({ preventScroll: true });
@@ -485,9 +491,9 @@ function sweepRoute() {
   if (reducedMotion) return;
   route.forEach((id, i) => sweepTimers.push(setTimeout(() => {
     sweepStop = i; nodeButtons[id].classList.add('is-passing');
-    sweepTimers.push(setTimeout(() => nodeButtons[id].classList.remove('is-passing'), 800));
-  }, 300 + i * 620)));
-  sweepTimers.push(setTimeout(stopSweep, 300 + route.length * 620 + 600));
+    sweepTimers.push(setTimeout(() => nodeButtons[id].classList.remove('is-passing'), 1100));
+  }, 400 + i * 820)));
+  sweepTimers.push(setTimeout(stopSweep, 400 + route.length * 820 + 900));
 }
 function stopSweep() {
   sweepTimers.forEach(clearTimeout); sweepTimers = []; sweepStop = null;
@@ -504,7 +510,7 @@ function tick(time) {
   const elapsed = clock.getElapsedTime();
   for (const [id, device] of Object.entries(devices)) {
     const target = activeScene === 'map' || (activeScene === 'cockpit' && id !== activeDestination) ? device.mapUnit : device.chapterUnit;
-    const size = device.wrapper.scale.x + (target - device.wrapper.scale.x) * .08;
+    const size = device.wrapper.scale.x + (target - device.wrapper.scale.x) * .045;
     device.wrapper.scale.setScalar(size);
   }
   if (activeScene === 'map' && !reducedMotion) {
@@ -519,14 +525,14 @@ function tick(time) {
   }
   if (globeMove) {
     const t = Math.min(1, (time - globeMove.start) / globeMove.duration);
-    const ease = t * t * (3 - 2 * t);
+    const ease = smooth(t);
     earth.rotation.x = globeMove.fromX + (globeMove.toX - globeMove.fromX) * ease;
     earth.rotation.y = globeMove.fromY + (globeMove.toY - globeMove.fromY) * ease;
     if (t >= 1) globeMove = null;
   }
   if (cameraMove) {
     const t = Math.min(1, (time - cameraMove.start) / cameraMove.duration);
-    const ease = t * t * (3 - 2 * t);
+    const ease = smooth(t);
     camera.position.copy(cameraMove.from).lerp(cameraMove.to, ease);
     currentLook.copy(cameraMove.fromLook).lerp(cameraMove.toLook, ease);
     if (t >= 1) { const done = cameraMove.done; cameraMove = null; done?.(); }
