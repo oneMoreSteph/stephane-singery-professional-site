@@ -6,6 +6,12 @@ import { builtPages } from './pages';
 const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 async function audit(page: Page) {
+  // Fades and transitions must finish first: a half-faded element has a lower contrast than it will have.
+  await page.waitForFunction(() =>
+    document
+      .getAnimations()
+      .every((a) => a.playState !== 'running' || a.effect?.getComputedTiming().iterations === Infinity),
+  );
   const { violations } = await new AxeBuilder({ page }).withTags(WCAG).analyze();
   return violations.map(
     (v) =>
