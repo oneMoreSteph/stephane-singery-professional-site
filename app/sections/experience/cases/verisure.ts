@@ -8,7 +8,7 @@ export default {
   summary: 'From a request for Data tests to a Data Quality and Observability platform.',
   category: 'ANALYTICS ENGINEER · APPRENTICESHIP',
   takeaway:
-    'I turned a request for Data tests into an automated platform that watches the health of Verisure’s Data.',
+    'I turned a request for Data tests into an automated platform that watches the health of Verisure’s Data Platform.',
   beats: [
     [
       '01 / WHY VERISURE',
