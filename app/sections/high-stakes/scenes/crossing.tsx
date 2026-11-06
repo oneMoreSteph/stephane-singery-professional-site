@@ -1,6 +1,6 @@
 // ISS · Tour de France: where the race meets the railway, five years of stages, and one crossing played out.
 import { Fragment } from 'react';
-import { at, cities, connections, franceOutline, project, Squash } from '~/drawings/france';
+import { at, cities, connections, franceOutline, project, RfnLines, Squash } from '~/drawings/france';
 import { Inspectable } from '~/drawings/Inspectable';
 import { Header, OpsDefs, T, vars, type Pt, seqN } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
@@ -205,6 +205,7 @@ function YearPanel({ segs, i }: { segs: [string, string][]; i: number }) {
         <Squash>
           <path className="mini-france" d={franceOutline} />
         </Squash>
+        <RfnLines c="mini" />
         {railSegs.map(([a, b], j) => (
           <Line key={`r${j}`} d={`M${a.join(' ')}L${b.join(' ')}`} c="mini-rail" />
         ))}

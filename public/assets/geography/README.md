@@ -7,7 +7,7 @@ Paris arrondissement boundaries: Ville de Paris, Paris Data, ODbL.
 https://opendata.paris.fr/explore/dataset/arrondissements/
 Retrieved 31 October 2026. Simplified and projected into local SVG coordinates by scripts/build-portfolio-geography.py.
 
-French national rail network in the SNCF Réseau case: SNCF Réseau, "Fichier de formes des lignes du Réseau Ferré National", Open Database License (ODbL) 1.0.
+French national rail network, drawn under the rail cases (VFLI, SNCF Réseau, Toyota Europe, Tour de France level crossings, and "How my experience transfers"): SNCF Réseau, "Fichier de formes des lignes du Réseau Ferré National", Open Database License (ODbL) 1.0.
 https://ressources.data.sncf.com/explore/dataset/formes-des-lignes-du-rfn/
 Dataset last modified 24 March 2022, retrieved 6 November 2026. Only the lines in operation ("Exploitée") are kept: 766 sections. Projected and simplified by scripts/build-rfn-network.py into app/drawings/data/rfn.ts. That derived file is made available under the ODbL 1.0: https://opendatacommons.org/licenses/odbl/1-0/
 

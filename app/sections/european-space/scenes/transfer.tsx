@@ -86,7 +86,7 @@ function Network() {
       <Inspectable id="tr-net" title="A moving system">
         <g>
           <g transform="translate(-40 40) scale(.82)">
-            <FranceRail />
+            <FranceRail network />
             {trips.map((r, i) => (
               <Move key={i} path={route(r)} dur={14 + i * 3} begin={i * 3}>
                 <circle className="tx-alert" r="7" />

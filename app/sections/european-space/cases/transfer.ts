@@ -44,6 +44,7 @@ export default {
   drawing: {
     scene: 'transfer',
     labels: ['Live operations', 'Shared Data capability', 'Dependable information', 'European space'],
-    note: 'Professional experience and the contribution I aim to bring to European space. Team names are examples.',
+    note: 'Professional experience and the contribution I aim to bring to European space. Team names are examples. Rail network: SNCF Réseau open data.',
+    mapSources: true,
   },
 } satisfies Case;

@@ -1,6 +1,7 @@
 // France at true proportions, with the main rail links. Shared by the rail and network scenes.
 import { Fragment } from 'react';
 import { countries } from '~/drawings/data/geography';
+import { rfnNetwork } from '~/drawings/data/rfn';
 import type { Pt } from './kit';
 
 export const cities: Record<string, Pt> = {
@@ -75,8 +76,13 @@ export function CountryMap() {
   );
 }
 
-/** France alone, with its domestic rail links. */
-export function FranceRail() {
+/** The real lines in operation of the French national rail network (SNCF Réseau open data), in projected coordinates. */
+export const RfnLines = ({ c = '' }: { c?: string }) => (
+  <path d={rfnNetwork} className={`rfn-line ${c}`.trim()} fill="none" />
+);
+
+/** France alone, with its domestic rail links; `network` adds the real lines underneath. */
+export function FranceRail({ network = false }: { network?: boolean }) {
   return (
     <>
       <g className="country-map">
@@ -88,6 +94,11 @@ export function FranceRail() {
             ))}
         </Squash>
       </g>
+      {network && (
+        <g className="rfn-network">
+          <RfnLines />
+        </g>
+      )}
       <g className="rail-links">
         {connections
           .filter((c) => !c.some((n) => foreign.includes(n)))

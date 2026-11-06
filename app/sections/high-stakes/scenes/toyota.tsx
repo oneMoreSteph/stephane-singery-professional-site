@@ -1,6 +1,7 @@
 // ISS · Toyota Europe, summer 2013: weeks of disruption, one afternoon of coordination, the meeting, and after.
 import { Fragment } from 'react';
 import { CountryMap, project } from '~/drawings/france';
+import { RfnNetwork } from '~/drawings/rail';
 import { Inspectable } from '~/drawings/Inspectable';
 import { pad } from '~/content';
 import { Header, OpsDefs, T, vars, type Pt } from '~/drawings/kit';
@@ -69,6 +70,7 @@ function MapBase() {
   return (
     <M>
       <CountryMap />
+      <RfnNetwork />
       <Line d={routeD} c="route-glow" />
       <Line d={routeD} c="active-route" />
       {stops.map(([n], i) =>

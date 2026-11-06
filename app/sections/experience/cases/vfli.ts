@@ -41,7 +41,8 @@ export default {
   drawing: {
     scene: 'vfli',
     labels: ['A promised arrival', 'Obtain it', 'Next'],
-    note: 'Schematic rail links, France at true proportions. The route and shift times are illustrative.',
+    note: 'Real network: lines in operation, SNCF Réseau open data. Train routes are schematic links between cities; the route and shift times are illustrative.',
+    mapSources: true,
   },
   timeline: {
     lane: 'ops',

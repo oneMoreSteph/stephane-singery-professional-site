@@ -258,7 +258,7 @@ function YearsBefore() {
 export default function VfliScene() {
   return (
     <>
-      <RailBase />
+      <RailBase network={[0, 1, 2]} />
       <Line d={freight} c="route-glow" />
       <Line d={freight} c="active-route" />
       <TrainMarker path={freight} dur={24} begin={0} />
