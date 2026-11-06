@@ -187,7 +187,7 @@ function verisureLayers(){
 }
 const ops=opsKit({text,line,hint,crew,esc,project,cities,connections,readoutChip,squash,countryMap});
 const path=pathKit({text,line,hint,crew,readoutChip,squash},ops);
-const ill=illustrationKit({text,hint,ops,caseChip,france:{map:`<g class="country-map">${squash(countries.filter(c=>c.name==='France').map(c=>`<path d="${c.d}" class="country country--france"/>`).join(''))}</g><g class="rail-links">${connections.filter(c=>!c.some(n=>['Geneva','Basel','Turin','Milan'].includes(n))).map(c=>line(route(c),'rail-bed')+line(route(c),'rail-sleeper')).join('')}</g>`,route,at:n=>project(cities[n]),mid:(a,b)=>{const [x1,y1]=project(cities[a]),[x2,y2]=project(cities[b]);return [(x1+x2)/2,(y1+y2)/2];}}});
+const ill=illustrationKit({text,hint,ops,caseChip});
 // Sentinel · Find a way: each step shows one constraint and the way through it. A dot travels the way, on a loop.
 function findWayScene(){
  const strip=['THE NEED','THE CONSTRAINT','THE WAY','DELIVERED'].map((t,i)=>`<g class="seq4" style="--n:${i}" transform="translate(${40+i*232} 150)"><rect class="fw-chip" width="216" height="36" rx="3"/>${text(108,23,t,'center mini-label')}</g>`).join('');
@@ -225,7 +225,7 @@ function findWayScene(){
   ${caseChip(600,560,320,'food-deadline','HIGH-STAKES · SIX WEEKS','The full case')}</g>`;
  return `${ops.opsDefs}${ops.header('FIND A WAY · WHATEVER THE CONSTRAINT')}${strip}${vfli}${rff}${tour}${food}`;
 }
-const scenes={logistics:ill.logisticsScene,'find-way':findWayScene,need:ill.needScene,vfli:vfliScene,rff:rffScene,signal:ops.signalScene,toyota:ops.toyotaScene,crossing:ops.tourScene,station:ops.ligneCScene,deadline:ops.deadlineScene,paris:parisScene,'system-food':()=>systemScene('food'),'system-heetch':()=>systemScene('heetch'),'system-verisure':()=>systemScene('verisure'),education:ill.educationScene,learning:ill.learningScene,flows:path.flowsScene,practice:path.practiceScene,ambition:()=>path.ambitionScene(ill.spaceLayers()),transfer:ill.transferScene};
+const scenes={'find-way':findWayScene,vfli:vfliScene,rff:rffScene,signal:ops.signalScene,toyota:ops.toyotaScene,crossing:ops.tourScene,station:ops.ligneCScene,deadline:ops.deadlineScene,paris:parisScene,'system-food':()=>systemScene('food'),'system-heetch':()=>systemScene('heetch'),'system-verisure':()=>systemScene('verisure'),ambition:()=>path.ambitionScene(ill.spaceLayers())};
 
 // The case window engine moved to app/cases/CaseWindow.tsx. Drawings not yet converted are read from here.
 export function sceneMarkup(name){return scenes[name]?.()??'';}

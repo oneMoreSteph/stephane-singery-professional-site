@@ -12,8 +12,8 @@ export function T({
   children,
   className = '',
 }: {
-  x: number;
-  y: number;
+  x: number | string;
+  y: number | string;
   children: React.ReactNode;
   className?: string;
 }) {
@@ -24,13 +24,33 @@ export function T({
   );
 }
 /** Label in capitals. Extra classes: center, strong, warm… */
-export const Lab = ({ x, y, t, c = '' }: { x: number; y: number; t: string; c?: string }) => (
+export const Lab = ({
+  x,
+  y,
+  t,
+  c = '',
+}: {
+  x: number | string;
+  y: number | string;
+  t: string;
+  c?: string;
+}) => (
   <T x={x} y={y} className={`tx-label ${c}`}>
     {t}
   </T>
 );
 /** Smaller line under a label. */
-export const Sub = ({ x, y, t, c = '' }: { x: number; y: number; t: string; c?: string }) => (
+export const Sub = ({
+  x,
+  y,
+  t,
+  c = '',
+}: {
+  x: number | string;
+  y: number | string;
+  t: string;
+  c?: string;
+}) => (
   <T x={x} y={y} className={`tx-sub ${c}`}>
     {t}
   </T>
@@ -281,5 +301,158 @@ export function OpsDefs() {
         <path d="M0 0V8" stroke="#f0a868" strokeOpacity=".55" strokeWidth="2" />
       </pattern>
     </defs>
+  );
+}
+
+/** A full-width rule with a centred label, between "asked" and "built". */
+export function Divider({ y, t }: { y: number; t: string }) {
+  return (
+    <>
+      <path className="tx-div" d={`M40 ${y}H960`} />
+      <Lab x={500} y={y + 5} t={t} c="center strong" />
+    </>
+  );
+}
+/** A row heading: a strong label and its explanation. */
+export function Lane({ y, t, s }: { y: number; t: string; s: string }) {
+  return (
+    <>
+      <Lab x={40} y={y} t={t} c="strong" />
+      <Sub x={130} y={y} t={s} />
+    </>
+  );
+}
+/** Sets a CSS custom property such as --i for staggered animations. */
+export const vars = (v: Record<string, number | string>) => v as React.CSSProperties;
+
+/** Transport vehicles, drawn at the origin; place them with a transform or Move. */
+export const Plane = ({ s = 1 }: { s?: number }) => (
+  <g className="tx-veh" transform={`scale(${s})`}>
+    <path d="M-30-3L18-3C28-3 32 0 32 2S28 5 20 5H-20L-34-14H-26ZM-6-3L-22-22H-12L10-3ZM-4 5L-16 18H-7L10 5Z" />
+  </g>
+);
+export const Truck = ({ s = 1 }: { s?: number }) => (
+  <g className="tx-veh" transform={`scale(${s})`}>
+    <rect x="-60" y="-34" width="62" height="30" rx="2" />
+    <path d="M4-26H20L30-14V-4H4Z" />
+    <circle cx="-44" cy="0" r="6" />
+    <circle cx="-10" cy="0" r="6" />
+    <circle cx="18" cy="0" r="6" />
+  </g>
+);
+export const Barge = ({ s = 1 }: { s?: number }) => (
+  <g className="tx-veh" transform={`scale(${s})`}>
+    <path d="M-54-6H54L44 8H-44Z" />
+    <rect x="-44" y="-18" width="60" height="12" />
+    <rect x="26" y="-22" width="16" height="16" />
+  </g>
+);
+export const Ship = ({ s = 1 }: { s?: number }) => (
+  <g className="tx-veh" transform={`scale(${s})`}>
+    <path d="M-70-10H70L54 12H-54Z" />
+    <rect x="-52" y="-30" width="30" height="20" />
+    <rect x="-18" y="-30" width="30" height="20" />
+    <rect x="16" y="-42" width="26" height="32" />
+  </g>
+);
+
+/** A freight train: locomotive and wagons carrying containers or cars. */
+export function FreightTrain({
+  x = 0,
+  y = 0,
+  s = 1,
+  wagons = 3,
+  load = 'container',
+  id,
+}: {
+  x?: number;
+  y?: number;
+  s?: number;
+  wagons?: number;
+  load?: 'container' | 'cars';
+  id?: string;
+}) {
+  const len = 56 + wagons * 46;
+  return (
+    <g className="freight-train" transform={`translate(${x} ${y}) scale(${s})`} data-id={id}>
+      <path className="ft-rail" d={`M${-len - 8} 1H12`} />
+      {Array.from({ length: wagons }, (_, i) => {
+        const r = -56 - i * 46;
+        const l = r - 42;
+        return (
+          <Fragment key={i}>
+            <path className="ft-bed" d={`M${l} -6H${r}`} />
+            {load === 'cars' ? (
+              <>
+                <path className="ft-frame" d={`M${l} -6V-30H${r}V-6M${l} -18H${r}`} />
+                {[0, 1].flatMap((d) =>
+                  [0, 1].map((c) => (
+                    <rect
+                      key={`${d}${c}`}
+                      className="ft-car"
+                      x={l + 4 + c * 19}
+                      y={d ? -15 : -27}
+                      width="15"
+                      height="7"
+                      rx="3"
+                    />
+                  )),
+                )}
+              </>
+            ) : (
+              <rect className="ft-box" x={l + 2} y="-21" width="38" height="13" rx="1" />
+            )}
+            <circle className="ft-wheel" cx={l + 7} cy="-2.5" r="3.5" />
+            <circle className="ft-wheel" cx={r - 7} cy="-2.5" r="3.5" />
+            <path className="ft-coupler" d={`M${r} -8h6`} />
+          </Fragment>
+        );
+      })}
+      <path className="ft-loco" d="M-52 -6V-22H-16V-30H-5L0 -23V-6Z" />
+      <rect className="ft-window" x="-13" y="-28" width="7" height="5" rx="1" />
+      <path className="ft-stripe" d="M-48 -13H-18" />
+      {[-44, -33, -21, -9].map((cx) => (
+        <circle key={cx} className="ft-wheel" cx={cx} cy="-2.5" r="3.5" />
+      ))}
+    </g>
+  );
+}
+
+/** A link to another case, drawn inside a scene. The case window opens that case on click or Enter. */
+export function CaseChip({
+  x,
+  y,
+  w,
+  to,
+  kicker,
+  sub,
+}: {
+  x: number;
+  y: number;
+  w: number;
+  to: string;
+  kicker: string;
+  sub: string;
+}) {
+  return (
+    <g
+      className="case-link"
+      transform={`translate(${x} ${y})`}
+      data-open-case={to}
+      tabIndex={0}
+      role="button"
+      aria-label={`Open ${kicker.toLowerCase()}`}
+    >
+      <rect width={w} height="58" rx="3" />
+      <T x={16} y={24} className="mini-label">
+        {kicker}
+      </T>
+      <T x={16} y={44} className="label small">
+        {sub}
+      </T>
+      <T x={w - 18} y={36} className="chip-arrow end">
+        ↗
+      </T>
+    </g>
   );
 }
