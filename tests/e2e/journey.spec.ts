@@ -42,7 +42,7 @@ test('a case window: steps, tour, inspection, sources, close', async ({ page }) 
 
   await steps.nth(1).click();
   await expect(steps.nth(1)).toHaveAttribute('aria-pressed', 'true');
-  await expect(dialog.getByText('A portfolio of freight customers.')).toBeVisible();
+  await expect(dialog.getByText('A portfolio of rail customers.')).toBeVisible();
 
   // Clicking an element explains it.
   await dialog.locator('[data-inspect="rr-proc-1"]').click();
