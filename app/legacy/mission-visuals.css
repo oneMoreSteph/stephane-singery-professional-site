@@ -1047,3 +1047,26 @@
 .story-svg .tx-bucket{fill:#123847;stroke:#97e0e8;stroke-width:2}
 .story-svg .active-route.passenger-route{stroke:#c9b6f2;stroke-dasharray:7 5}
 .story-svg .tm-car.passenger,.story-svg .train-marker.passenger .tm-loco,.story-svg .train-marker.passenger .tm-car{fill:#c9b6f2}
+/* Verisure redraw */
+.story-svg .tx-stage.vs-on{fill:rgba(246,215,122,.14);stroke:#f6d77a}
+.story-svg .tx-stage.vs-dashed{stroke-dasharray:4 6;fill:rgba(13,42,54,.5)}
+.story-svg .vs-faint{opacity:.45}
+.story-svg .vs-mer{fill:none;stroke:#2f5e70;stroke-width:1.2}
+.story-svg .vs-site{fill:#0d2a36;stroke:#97e0e8;stroke-width:2;animation:vs-site 12s ease-in-out infinite;animation-delay:calc(var(--i)*1s)}
+@keyframes vs-site{0%,10%{fill:#f6d77a;stroke:#f6d77a;filter:drop-shadow(0 0 6px rgba(246,215,122,.9))}18%,100%{fill:#0d2a36;stroke:#97e0e8;filter:none}}
+.story-svg .vs-grow{fill:#2f7f97;transform-box:fill-box;transform-origin:bottom;animation:vs-grow 6s ease-in-out infinite;animation-delay:calc(var(--i)*.4s)}
+@keyframes vs-grow{0%{transform:scaleY(.15)}35%,100%{transform:scaleY(1)}}
+.story-svg .vs-anom{fill:#f07a68;filter:drop-shadow(0 0 6px rgba(240,122,104,.9))}
+.story-svg .vs-lag{fill:none;stroke:#f07a68;stroke-width:3;stroke-dasharray:6 8;animation:tx-flow 1.2s linear infinite}
+.story-svg .vs-core{fill:#123847;stroke:#97e0e8;stroke-width:2}
+.story-svg .vs-pulse{fill:none;stroke:#7fe0b0;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:tx-draw 3s ease-in-out infinite}
+.story-svg .vs-need .tx-stage{animation:vs-need 12s ease-in-out infinite;animation-delay:calc(var(--i)*2s)}
+@keyframes vs-need{0%,12%{fill:rgba(246,215,122,.18);stroke:#f6d77a}20%,100%{fill:#0d2a36;stroke:#97e0e8}}
+.story-svg .vs-tick{stroke:#2f7f97;stroke-width:1.6;animation:vs-tick 12s linear infinite;animation-delay:calc(var(--i)*12s)}
+.story-svg .vs-tick.ko{stroke:#f07a68;stroke-width:3;animation:none}
+@keyframes vs-tick{0%{stroke:#97e0e8}6%,100%{stroke:#2f7f97}}
+.story-svg .vs-hand{stroke:#f6d77a;stroke-width:2.5;stroke-linecap:round}
+.story-svg .vs-ok circle{fill:none;stroke:#7fe0b0;stroke-width:2}.story-svg .vs-ok path{fill:none;stroke:#7fe0b0;stroke-width:2.2}
+.story-svg .vs-ok{animation:vs-ok 6s ease-in-out infinite;animation-delay:calc(var(--i)*.6s)}
+@keyframes vs-ok{0%{opacity:.2}20%,100%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.story-svg .vs-site,.story-svg .vs-grow,.story-svg .vs-lag,.story-svg .vs-pulse,.story-svg .vs-need .tx-stage,.story-svg .vs-tick,.story-svg .vs-ok{animation:none}.story-svg .vs-pulse{stroke-dashoffset:0}}

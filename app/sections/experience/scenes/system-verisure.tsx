@@ -1,18 +1,14 @@
 // Earth · Verisure: why Verisure, errors found by the business first, what I understood, the platform, in operation, the result.
-// Rhythm, values and incident examples are illustrative.
+// Locations, days, the run's anomalies and trends are illustrative.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
 import {
-  DataChain,
   Arrow,
-  Bars,
   CaseChip,
-  Check,
-  Code,
-  Db,
+  DataChain,
   Header,
   Lab,
-  Link,
+  Move,
   OpsDefs,
   Spark,
   Sub,
@@ -23,255 +19,486 @@ import {
 } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 
-const Eye = ({ x, y }: { x: number; y: number }) => (
-  <g className="tx-icon" transform={`translate(${x} ${y})`}>
-    <path d="M-16 0C-8-10 8-10 16 0C8 10-8 10-16 0Z" />
-    <circle r="4" />
-  </g>
-);
-const Bell = ({ x, y }: { x: number; y: number }) => (
-  <g className="tx-icon" transform={`translate(${x} ${y})`}>
-    <path d="M-10 6V-2A10 10 0 0 1 10-2V6L13 10H-13Z" />
-    <path d="M-3 14H3" />
-  </g>
-);
-const Globe = ({ x, y, r = 46 }: { x: number; y: number; r?: number }) => (
-  <g className="tx-icon" transform={`translate(${x} ${y})`}>
-    <circle r={r} />
-    <ellipse rx={r * 0.45} ry={r} />
-    <path d={`M${-r} 0H${r}M${-r * 0.86} ${-r / 2}H${r * 0.86}M${-r * 0.86} ${r / 2}H${r * 0.86}`} />
-  </g>
-);
+// ---------- shared vocabulary: medallions with line icons, and the closing line ----------
+const icon = {
+  cap: <path d="M-16-4L0-11 16-4 0 3ZM-9 0V7C-5 11 5 11 9 7V0" />,
+  shield: (
+    <>
+      <path d="M0-17L14-11V-1C14 8 8 14 0 17C-8 14-14 8-14-1V-11Z" />
+      <path d="M-6 0L-1 5 7-5" />
+    </>
+  ),
+  db: (
+    <>
+      <ellipse cy="-11" rx="14" ry="5" />
+      <path d="M-14-11V11A14 5 0 0 0 14 11V-11M-14 0A14 5 0 0 0 14 0" />
+    </>
+  ),
+  report: (
+    <>
+      <rect x="-17" y="-14" width="34" height="23" rx="2" />
+      <path d="M-11 3L-4-4 2 0 11-9M-6 16H6M0 9V16" />
+    </>
+  ),
+  person: (
+    <>
+      <circle cy="-10" r="6" />
+      <path d="M-13 16V8A13 11 0 0 1 13 8V16" />
+    </>
+  ),
+  lens: (
+    <>
+      <circle cx="-3" cy="-3" r="10" />
+      <path d="M4 4L14 14" />
+    </>
+  ),
+  check: (
+    <>
+      <circle r="15" />
+      <path d="M-6 0L-2 5 7-5" />
+    </>
+  ),
+  tag: (
+    <>
+      <path d="M-15-15H0L15 0 0 15-15 0Z" />
+      <circle cx="-8" cy="-8" r="2" />
+    </>
+  ),
+  flag: <path d="M-11 16V-15M-11-15H11L5-7 11 1H-11" />,
+  clock: (
+    <>
+      <circle r="15" />
+      <path d="M0-9V0L7 4" />
+    </>
+  ),
+  bell: (
+    <>
+      <path d="M-11 6V-2A11 11 0 0 1 11-2V6L14 10H-14Z" />
+      <path d="M-3 15H3" />
+    </>
+  ),
+  code: <path d="M-8-11L-17 0-8 11M8-11L17 0 8 11M3-13L-3 13" />,
+  list: <path d="M-5-9H15M-5 0H15M-5 9H15M-15-9H-11M-15 0H-11M-15 9H-11" />,
+  globe: (
+    <>
+      <circle r="15" />
+      <ellipse rx="6" ry="15" />
+      <path d="M-15 0H15M-13-7H13M-13 7H13" />
+    </>
+  ),
+  growth: <path d="M-15 13H15M-11 13V5M-3 13V-1M5 13V-6M13 13V-13" />,
+  chart: (
+    <>
+      <path d="M-15-14V13H15" />
+      <path d="M-10 6L-3-2 3 3 13-9" />
+    </>
+  ),
+};
+
+function Medal({
+  x,
+  y,
+  r = 44,
+  i,
+  dashed,
+  on,
+}: {
+  x: number;
+  y: number;
+  r?: number;
+  i: React.ReactNode;
+  dashed?: boolean;
+  on?: boolean;
+}) {
+  return (
+    <>
+      <circle className={`tx-stage${dashed ? ' vs-dashed' : ''}${on ? ' vs-on' : ''}`} cx={x} cy={y} r={r} />
+      <g
+        className={`tx-icon${dashed ? ' vs-faint' : ''}`}
+        transform={`translate(${x} ${y}) scale(${(r / 44) * 1.25})`}
+      >
+        {i}
+      </g>
+    </>
+  );
+}
+
+function Close({ t, s, children }: { t: string; s: string; children?: React.ReactNode }) {
+  return (
+    <>
+      <path className="tx-div" d="M40 566H960" />
+      <Lab x={40} y={600} t={t} c="warm" />
+      <Sub x={40} y={624} t={s} />
+      {children}
+    </>
+  );
+}
+
+// ---------- 1 · Why Verisure ----------
+const G = { x: 640, y: 300, r: 170 };
+const sites: [number, number][] = [
+  [-60, -70],
+  [-30, -40],
+  [10, -60],
+  [40, -20],
+  [-80, 10],
+  [-20, 30],
+  [60, 40],
+  [100, -40],
+  [20, 90],
+  [-100, -30],
+  [120, 20],
+  [-40, 100],
+];
 
 function WhyVerisure() {
   return (
     <Layer steps={[0]}>
+      <Lab x={40} y={92} t="ANALYTICS ENGINEER · APPRENTICE" c="strong" />
       <Inspectable
-        id="vs-apprentice"
-        title="Apprentice, alongside EFREI"
-        body="Analytics Engineer apprentice at Verisure, alongside my engineering degree at EFREI.|Work and study, each feeding the other."
+        id="vs-efrei"
+        title="EFREI · engineering degree"
+        body="My engineering degree at EFREI, in apprenticeship.|School and work feed each other, week after week."
       >
         <g>
-          <Lab x={40} y={110} t="ANALYTICS ENGINEER · APPRENTICE" c="warm" />
-          <Sub x={40} y={132} t="Alongside my engineering degree" />
-          {Array.from({ length: 12 }, (_, i) => (
-            <rect
-              key={i}
-              className={`tx-gantt${i % 4 === 3 ? ' evening' : ''}`}
-              x={40 + i * 36}
-              y={156}
-              width="30"
-              height="22"
-              rx="2"
-            />
-          ))}
-          <rect className="tx-gantt" x={40} y={198} width="16" height="12" rx="2" />
-          <Sub x={64} y={209} t="Verisure" />
-          <rect className="tx-gantt evening" x={160} y={198} width="16" height="12" rx="2" />
-          <Sub x={184} y={209} t="EFREI" />
-          <Sub x={260} y={209} t="Rhythm illustrative" />
+          <Medal x={110} y={200} i={icon.cap} />
+          <Lab x={172} y={196} t="EFREI" />
+          <Sub x={172} y={218} t="Engineering degree" />
         </g>
       </Inspectable>
+      <Inspectable
+        id="vs-apprentice"
+        title="Verisure · Analytics Engineer"
+        body="Analytics Engineer apprentice at Verisure, alongside the degree.|Real Data, real stakes, from the first week."
+      >
+        <g>
+          <Medal x={110} y={400} i={icon.shield} on />
+          <Lab x={172} y={396} t="VERISURE" c="warm" />
+          <Sub x={172} y={418} t="Analytics Engineer" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="vs-rhythm"
+        title="Alternating weeks"
+        body="Weeks at school, weeks at Verisure.|Each side feeds the other."
+      >
+        <g>
+          <path className="tx-link" d="M110 250V350" />
+          <Move path="M110 252V348" dur={4}>
+            <circle className="tx-alert" r="6" />
+          </Move>
+          <Sub x={126} y={304} t="Alternating weeks" />
+        </g>
+      </Inspectable>
+      <Arrow from={[300, 400]} to={[452, 340]} />
       <Inspectable
         id="vs-scale"
         title="A company at scale"
-        body="Verisure operates worldwide and grows year after year.|Chosen for that scale: Data that matters to many."
+        body="Verisure operates worldwide and grows year after year.|I chose it for that scale: Data that many decisions rely on."
       >
         <g>
-          <Globe x={170} y={400} r={90} />
-          {[
-            [130, 360],
-            [200, 380],
-            [160, 440],
-            [220, 430],
-            [110, 410],
-          ].map(([x, y], i) => (
-            <circle key={i} className="tx-led" cx={x} cy={y} r="5" style={vars({ '--i': i })} />
+          <circle className="tx-ring" cx={G.x} cy={G.y} r={G.r} />
+          <ellipse className="vs-mer" cx={G.x} cy={G.y} rx={70} ry={G.r} />
+          <ellipse className="vs-mer" cx={G.x} cy={G.y} rx={140} ry={G.r} />
+          <path
+            className="vs-mer"
+            d={`M${G.x - G.r} ${G.y}H${G.x + G.r}M${G.x - 150} ${G.y - 80}H${G.x + 150}M${G.x - 150} ${G.y + 80}H${G.x + 150}`}
+          />
+          {sites.map(([dx, dy], i) => (
+            <circle
+              key={i}
+              className="vs-site"
+              style={vars({ '--i': i })}
+              cx={G.x + dx}
+              cy={G.y + dy}
+              r="7"
+            />
           ))}
-          <Lab x={290} y={370} t="WORLDWIDE" />
-          <Win x={520} y={280} w={300} h={200} title="GROWING YEAR AFTER YEAR">
-            <Bars x={540} y={316} w={260} h={140} vals={[0.35, 0.45, 0.55, 0.68, 0.8, 0.95]} />
-          </Win>
-          <Sub x={520} y={504} t="Illustrative" />
+          <Lab x={G.x} y={G.y - G.r - 22} t="A COMPANY AT SCALE" c="center" />
+          <Sub x={G.x} y={G.y + G.r + 30} t="Worldwide · locations illustrative" c="center" />
         </g>
       </Inspectable>
+      <Inspectable
+        id="vs-growth"
+        title="Growing year after year"
+        body="Verisure grows year after year.|More customers, more Data, more decisions on it."
+      >
+        <g>
+          {[0, 1, 2, 3].map((i) => (
+            <rect
+              key={i}
+              className="vs-grow"
+              style={vars({ '--i': i })}
+              x={850 + i * 28}
+              y={400 - 40 - i * 30}
+              width="18"
+              height={40 + i * 30}
+              rx="2"
+            />
+          ))}
+          <path className="tx-axis" d="M842 402H956" />
+          <Lab x={899} y={430} t="GROWING" c="center" />
+          <Sub x={899} y={452} t="Year after year" c="center" />
+        </g>
+      </Inspectable>
+      <Close t="CHOSEN FOR ITS SCALE" s="Data that many decisions rely on, worldwide." />
     </Layer>
   );
 }
 
+// ---------- 2 · Starting point ----------
+const chainX = [130, 370, 610, 850];
+const before: [string, string, string, string, React.ReactNode, string][] = [
+  [
+    'vs-marts',
+    'Data marts',
+    'DATA MARTS',
+    'Checked by eye',
+    icon.db,
+    'Some Data marts were checked manually, or by eye.|Slow, and easy to miss.',
+  ],
+  [
+    'vs-report',
+    'A business report',
+    'BUSINESS REPORT',
+    'An incoherent KPI',
+    icon.report,
+    'Incidents often surfaced in a business report or an incoherent KPI.|The anomaly had already reached decisions.',
+  ],
+  [
+    'vs-user',
+    'A business user',
+    'BUSINESS USER',
+    'Spots it, days later',
+    icon.person,
+    'A business user noticed the figure looked wrong.|The business found it before the Data team.',
+  ],
+  [
+    'vs-team',
+    'The Data team',
+    'DATA TEAM',
+    'Searches for the cause',
+    icon.lens,
+    'The Data team then searched for the cause.|Reactive: after the fact.',
+  ],
+];
+const days = ['DAY 1', 'DAY 3', 'DAY 5', 'DAY 6'];
+
 function StartingPoint() {
   return (
     <Layer steps={[1]}>
-      <Lab x={40} y={100} t="BEFORE · ERRORS FOUND BY THE BUSINESS FIRST" c="strong" />
+      <Lab x={40} y={92} t="BEFORE · ERRORS FOUND BY THE BUSINESS FIRST" c="strong" />
+      {before.map(([id, title, t, s, i, body], k) => (
+        <Inspectable key={id} id={id} title={title} body={body}>
+          <g>
+            <Medal x={chainX[k]} y={230} i={i} on={k === 2} />
+            <Lab x={chainX[k]} y={166} t={t} c={`center${k === 2 ? ' warm' : ''}`} />
+            <Sub x={chainX[k]} y={304} t={s} c="center" />
+          </g>
+        </Inspectable>
+      ))}
+      {[0, 1, 2].map((k) => (
+        <Arrow key={k} from={[chainX[k] + 52, 230]} to={[chainX[k + 1] - 54, 230]} />
+      ))}
+      <Move path="M130 230H850" dur={9}>
+        <circle className="vs-anom" r="8" />
+      </Move>
+      <circle className="tx-ping" cx={chainX[2]} cy={230} r="54" />
       <Inspectable
-        id="vs-marts"
-        title="Data marts checked by eye"
-        body="Some Data marts were checked manually, or by eye.|Slow, and easy to miss."
+        id="vs-lag"
+        title="Found days later"
+        body="An anomaly could travel from the load to a business report before anyone saw it.|Each day it stayed, more decisions used it."
       >
         <g>
-          {[0, 1, 2].map((i) => (
-            <Fragment key={i}>
-              <Db cx={90 + i * 120} y={160} w={80} h={90} />
-              <Eye x={90 + i * 120} y={290} />
+          <path className="tx-axis" d="M130 400H850" />
+          <path className="vs-lag" d="M130 400H850" />
+          {days.map((d, k) => (
+            <Fragment key={d}>
+              <path className="tx-tick" d={`M${chainX[k]} 392V408`} />
+              <Lab x={chainX[k]} y={436} t={d} c="center" />
             </Fragment>
           ))}
-          <Lab x={40} y={340} t="DATA MARTS" />
-          <Sub x={40} y={362} t="Checked manually or by eye" />
+          <Sub x={490} y={466} t="Days illustrative" c="center" />
         </g>
       </Inspectable>
-      <Inspectable
-        id="vs-report"
-        title="An incoherent KPI"
-        body="An anomaly often surfaced in a business report, through a KPI that made no sense.|The business found it before the Data team did."
-      >
-        <g>
-          <Win x={460} y={140} w={260} h={180} title="BUSINESS REPORT">
-            <Spark x={480} y={180} w={220} h={90} vals={[0.5, 0.55, 0.52, 0.58, 0.05, 0.6]} c="on" />
-            <circle className="tx-ping" cx={656} cy={265} r="12" />
-          </Win>
-          <User x={790} y={260} s={1.2} c="on" />
-          <path className="tx-bubble" d="M770 168h80v34h-50l-10 10v-10h-20z" />
-          <T x={810} y={190} className="center tx-big small">
-            ?
-          </T>
-          <Sub x={460} y={344} t="Found through a report" />
-        </g>
-      </Inspectable>
-      <path className="tx-link" d="M800 290C800 420 300 420 300 390" />
-      <path className="tx-head" transform="translate(300 392) rotate(-90)" d="M2 0L-9-6V6Z" />
-      <Sub x={480} y={440} t="Back to the Data team, after the fact" />
       <Inspectable
         id="vs-request"
         title="The request"
         body="A mechanism to test Data and detect anomalies proactively.|What I was asked to build."
       >
-        <g>
-          <rect className="tx-layer-q" x="40" y="500" width="920" height="90" rx="4" />
-          <Lab x={60} y={534} t="THE REQUEST" c="warm" />
-          <T x={60} y={566} className="card-title">
-            Test Data and detect anomalies, proactively
-          </T>
-        </g>
+        <Close t="THE REQUEST" s="Test Data and detect anomalies, proactively." />
       </Inspectable>
     </Layer>
   );
 }
 
-const needs = ['DETECT', 'QUALIFY', 'PRIORITISE', 'HISTORY', 'NOTIFY', 'GOVERN'];
+// ---------- 3 · What I understood ----------
+const H = { x: 620, y: 300, r: 160 };
+const needs: [string, React.ReactNode][] = [
+  ['DETECT', icon.lens],
+  ['QUALIFY', icon.tag],
+  ['PRIORITISE', icon.flag],
+  ['HISTORY', icon.clock],
+  ['NOTIFY', icon.bell],
+  ['GOVERN', icon.shield],
+];
+const signals: [string, string, boolean][] = [
+  ['DATA TESTS', 'One signal', true],
+  ['MORE SIGNALS', 'Later', false],
+  ['MORE SIGNALS', 'Later', false],
+];
 
 function Understood() {
   return (
     <Layer steps={[2]}>
+      <Lab x={40} y={92} t="THE REAL NEED · OBSERVE DATA HEALTH" c="strong" />
       <Inspectable
         id="vs-signals"
         title="Tests are one signal among others"
-        body="Data tests are one source of signals about Data health.|Other signals can join later."
+        body="Data tests are one source of signals about Data health.|The design leaves room for other signals."
       >
         <g>
-          <Lab x={40} y={110} t="SIGNALS" />
-          <rect className="tx-app" x="40" y="130" width="170" height="44" rx="4" />
-          <Lab x={58} y={158} t="DATA TESTS" c="warm" />
-          {[0, 1].map((i) => (
-            <Fragment key={i}>
-              <rect className="tx-app dashed" x="40" y={190 + i * 60} width="170" height="44" rx="4" />
-              <Sub x={58} y={218 + i * 60} t="Other signal" />
+          {signals.map(([t, s, on], k) => (
+            <Fragment key={k}>
+              <Medal x={90} y={180 + k * 120} r={34} i={icon.check} dashed={!on} />
+              <Lab x={136} y={176 + k * 120} t={t} c={on ? 'warm' : ''} />
+              <Sub x={136} y={198 + k * 120} t={s} />
+              <path
+                className={on ? 'tx-link' : 'tx-link vs-faint'}
+                d={`M286 ${180 + k * 120}L${H.x - H.r - 8} ${H.y}`}
+              />
             </Fragment>
           ))}
-          {[152, 212, 272].map((y) => (
-            <Link key={y} d={`M214 ${y}C260 ${y} 260 212 300 212`} />
-          ))}
+          <Move path={`M286 180L${H.x - H.r - 8} ${H.y}`} dur={3}>
+            <circle className="tx-alert" r="6" />
+          </Move>
         </g>
       </Inspectable>
       <Inspectable
         id="vs-health"
-        title="Observe Data health"
-        body="The real need: observe Data health, beyond running tests.|Detect, qualify, prioritise, keep the history, notify, govern."
+        title="Data health"
+        body="The real need: observe Data health, beyond running tests.|One view of whether the Data can be trusted."
       >
         <g>
-          <rect className="tx-layer" x="306" y="130" width="654" height="164" rx="4" />
-          <Lab x={326} y={160} t="THE NEED · OBSERVE DATA HEALTH" c="warm" />
-          {needs.map((t, i) => (
-            <Fragment key={t}>
-              <circle className="tx-stage" cx={350 + i * 106} cy={220} r="12" />
-              <Lab x={350 + i * 106} y={262} t={t} c="center" />
-              {i < 5 && <path className="tx-link" d={`M${364 + i * 106} 220H${442 + i * 106}`} />}
-            </Fragment>
-          ))}
+          <circle className="tx-ring" cx={H.x} cy={H.y} r={H.r} />
+          <circle className="vs-core" cx={H.x} cy={H.y} r="78" />
+          <path
+            className="vs-pulse"
+            pathLength={1}
+            d={`M${H.x - 60} ${H.y + 10}H${H.x - 28}L${H.x - 16} ${H.y - 24}L${H.x} ${H.y + 34}L${H.x + 14} ${H.y - 8}L${H.x + 22} ${H.y + 10}H${H.x + 60}`}
+          />
+          <Lab x={H.x} y={H.y - 38} t="DATA HEALTH" c="center strong" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="vs-needs"
+        title="Six needs"
+        body="Detect, qualify, prioritise, keep the history, notify, govern.|More than a test that passes or fails."
+      >
+        <g>
+          {needs.map(([t, i], k) => {
+            const a = (k / needs.length) * Math.PI * 2 - Math.PI / 2;
+            const x = H.x + H.r * Math.cos(a);
+            const y = H.y + H.r * Math.sin(a);
+            const c = Math.cos(a);
+            return (
+              <g key={t} className="vs-need" style={vars({ '--i': k })}>
+                <Medal x={x} y={y} r={28} i={i} />
+                <Lab
+                  x={x + (c > 0.3 ? 40 : 0)}
+                  y={y + (c > 0.3 ? 5 : Math.sin(a) < 0 ? -40 : 52)}
+                  t={t}
+                  c={c > 0.3 ? '' : 'center'}
+                />
+              </g>
+            );
+          })}
         </g>
       </Inspectable>
       <Inspectable
         id="vs-cost"
-        title="The cost of an undetected anomaly"
+        title="Why it matters"
         body="The more decisions depend on Data, the more an undetected anomaly costs.|The reason to observe, not only test."
       >
-        <g>
-          <Lab x={40} y={380} t="DECISIONS ON DATA → COST OF AN UNDETECTED ANOMALY" />
-          <path className="tx-axis" d="M60 410V580H600" />
-          <path className="tx-spark on" d="M60 570C220 560 380 520 590 420" />
-          <Sub x={600} y={596} t="Decisions that depend on Data" c="end" />
-          <Sub x={70} y={426} t="Cost" />
-        </g>
+        <Close
+          t="WHY IT MATTERS"
+          s="The more decisions depend on Data, the more an undetected anomaly costs."
+        />
       </Inspectable>
     </Layer>
   );
 }
+
+// ---------- 4 · The platform ----------
+const stack: [string, string, string, string, React.ReactNode, string][] = [
+  [
+    'vs-snowflake',
+    'Snowflake · the Data warehouse',
+    'SNOWFLAKE',
+    'Data warehouse · the marts',
+    icon.db,
+    'Snowflake: the cloud Data warehouse where the Data marts live.|What the platform watches.',
+  ],
+  [
+    'vs-dbt',
+    'dbt Core tests',
+    'DBT CORE',
+    'Tests on the marts',
+    icon.code,
+    'dbt Core runs the Data tests on the marts.|The first observability domain.',
+  ],
+  [
+    'vs-elementary',
+    'Elementary',
+    'ELEMENTARY',
+    'Results and history',
+    icon.list,
+    'Elementary collects every test result and keeps its history.|The base for alerts and monitoring.',
+  ],
+];
+const px = [130, 340, 550];
 
 function ThePlatform() {
   return (
     <Layer steps={[3]}>
       <DataChain id="vs-chain" steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']} on={[2]} />
-      <Lab x={40} y={100} t="DATA QUALITY AND OBSERVABILITY PLATFORM" c="strong" />
-      <Sub x={40} y={124} t="Designed within the existing tools and constraints" />
-      <Inspectable
-        id="vs-snowflake"
-        title="Snowflake · the Data warehouse"
-        body="Snowflake: the cloud Data warehouse where Verisure’s Data marts live.|What the platform watches."
-      >
-        <g>
-          <Lab x={40} y={156} t="SNOWFLAKE · DATA WAREHOUSE" c="warm" />
-          <Db cx={130} y={186} w={150} h={140} />
-          <Sub x={130} y={350} t="Data marts" c="center" />
-        </g>
-      </Inspectable>
-      <Arrow from={[212, 256]} to={[268, 256]} />
-      <Inspectable
-        id="vs-dbt"
-        title="dbt Core tests"
-        body="dbt Core runs the Data tests on the marts.|The first observability domain."
-      >
-        <Win x={274} y={170} w={220} h={170} title="DBT CORE · TESTS">
-          <Code
-            x={290}
-            y={216}
-            lh={22}
-            lines={['tests:', '  - not_null', '  - unique', '  - relationships']}
-          />
-        </Win>
-      </Inspectable>
-      <Arrow from={[500, 256]} to={[556, 256]} />
-      <Inspectable
-        id="vs-elementary"
-        title="Elementary"
-        body="Elementary collects every test result and its history.|The base for alerts and monitoring."
-      >
-        <Win x={562} y={170} w={200} h={170} title="ELEMENTARY · RESULTS">
-          {[0, 1, 2, 3].map((i) => (
-            <Fragment key={i}>
-              <Check x={584} y={212 + i * 30} ok={i !== 2} />
-              <rect className="tx-gauge" x={602} y={206 + i * 30} width="140" height="12" rx="2" />
-            </Fragment>
-          ))}
-        </Win>
-      </Inspectable>
+      <Lab x={40} y={92} t="DATA QUALITY AND OBSERVABILITY PLATFORM" c="strong" />
+      {stack.map(([id, title, t, s, i, body], k) => (
+        <Inspectable key={id} id={id} title={title} body={body}>
+          <g>
+            <Medal x={px[k]} y={210} i={i} on={k === 0} />
+            <Lab x={px[k]} y={148} t={t} c={`center${k === 0 ? ' warm' : ''}`} />
+            <Sub x={px[k]} y={282} t={s} c="center" />
+          </g>
+        </Inspectable>
+      ))}
+      {[0, 1].map((k) => (
+        <Arrow key={k} from={[px[k] + 52, 210]} to={[px[k + 1] - 54, 210]} />
+      ))}
+      <Move path="M130 210H550V360" dur={7}>
+        <circle className="tx-alert" r="6" />
+      </Move>
+      <Arrow from={[550, 300]} to={[550, 352]} />
       <Inspectable
         id="vs-layer"
         title="A common alert model, in a transverse layer"
         body="One alert model shared by every observability domain.|Alerts look and behave the same, whatever their source."
       >
         <g>
-          <rect className="tx-layer top" x="40" y="400" width="920" height="64" rx="4" />
-          <Lab x={60} y={438} t="COMMON ALERT MODEL · TRANSVERSE LAYER" c="warm" />
-          <path className="tx-link" d="M384 340V400M662 340V400" />
+          <path className="tx-operate" d="M60 360H940V406H60Z" />
+          <Lab x={500} y={388} t="COMMON ALERT MODEL · TRANSVERSE LAYER" c="center" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="vs-out"
+        title="To the teams, and monitoring"
+        body="Qualified alerts reach the team concerned; monitoring shows the trends.|Each anomaly reaches the people who can act."
+      >
+        <g>
+          <Arrow from={[850, 352]} to={[850, 300]} />
+          <Medal x={850} y={210} i={icon.bell} />
+          <Lab x={850} y={148} t="TEAMS · MONITORING" c="center" />
+          <Sub x={850} y={282} t="Alerts and trends" c="center" />
         </g>
       </Inspectable>
       <Inspectable
@@ -280,63 +507,116 @@ function ThePlatform() {
         body="dbt tests are the first observability domain.|Others plug into the same layer, without redesign."
       >
         <g>
-          <rect className="tx-app" x="40" y="500" width="280" height="60" rx="4" />
-          <Lab x={60} y={536} t="DOMAIN 1 · DBT TESTS" />
-          {[0, 1].map((i) => (
-            <Fragment key={i}>
-              <rect className="tx-app dashed" x={360 + i * 300} y="500" width="260" height="60" rx="4" />
-              <Sub x={380 + i * 300} y={536} t="Next domain · same model" />
+          {['DBT TESTS', 'NEXT DOMAIN', 'NEXT DOMAIN'].map((t, k) => (
+            <Fragment key={k}>
+              <Arrow from={[200 + k * 300, 456]} to={[200 + k * 300, 414]} />
+              <rect
+                className={k ? 'tx-app dashed' : 'tx-app'}
+                x={100 + k * 300}
+                y={462}
+                width="200"
+                height="44"
+                rx="4"
+              />
+              <Lab x={200 + k * 300} y={490} t={t} c={`center${k ? '' : ' warm'}`} />
             </Fragment>
           ))}
-          <path className="tx-link" d="M180 464V500M490 464V500M790 464V500" />
+          <Sub x={500} y={532} t="Observability domains · the first one live, room for others" c="center" />
         </g>
       </Inspectable>
+      <Close
+        t="DESIGNED WITHIN THE EXISTING TOOLS"
+        s="dbt Core, Snowflake (the Data warehouse) and Elementary."
+      />
     </Layer>
   );
 }
 
+// ---------- 5 · In operation ----------
+const D = { x: 240, y: 300, r: 150 };
+const N = 525;
+const bad = [137, 402];
+const flow: [string, string, React.ReactNode][] = [
+  ['DETECT', 'In the run, automatically', icon.lens],
+  ['QUALIFY', 'What failed, where', icon.tag],
+  ['PRIORITISE', 'High, medium, low', icon.flag],
+  ['NOTIFY', 'The team concerned', icon.bell],
+];
+const fy = (k: number) => 140 + k * 106;
+
 function InOperation() {
   return (
     <Layer steps={[4]}>
+      <Lab x={40} y={92} t="TODAY'S RUN" c="strong" />
       <Inspectable
         id="vs-525"
         title="525 tests a day"
         body="525 automated tests run every day; about 60,000 executions so far.|Industrialised: no manual run."
       >
         <g>
-          <Lab x={40} y={100} t="TODAY · 525 TESTS" c="warm" />
-          {Array.from({ length: 525 }, (_, i) => (
-            <rect
-              key={i}
-              className={`tx-run${i === 137 || i === 402 ? ' ko' : ''}`}
-              x={40 + (i % 35) * 12}
-              y={116 + Math.floor(i / 35) * 12}
-              width="9"
-              height="9"
-              rx="1"
+          {Array.from({ length: N }, (_, i) => {
+            const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+            const c = Math.cos(a);
+            const s = Math.sin(a);
+            return (
+              <path
+                key={i}
+                className={bad.includes(i) ? 'vs-tick ko' : 'vs-tick'}
+                style={vars({ '--i': i / N })}
+                d={`M${(D.x + (D.r - 18) * c).toFixed(1)} ${(D.y + (D.r - 18) * s).toFixed(1)}L${(D.x + D.r * c).toFixed(1)} ${(D.y + D.r * s).toFixed(1)}`}
+              />
+            );
+          })}
+          <path className="vs-hand" d={`M${D.x} ${D.y}V${D.y - D.r + 24}`}>
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from={`0 ${D.x} ${D.y}`}
+              to={`360 ${D.x} ${D.y}`}
+              dur="12s"
+              repeatCount="indefinite"
             />
-          ))}
-          <T x={40} y={340} className="tx-big">
-            ~60,000
+          </path>
+          <circle className="tx-stop" cx={D.x} cy={D.y} r="5" />
+          <T x={D.x} y={D.y + 52} className="tx-big center">
+            525
           </T>
-          <Sub x={40} y={366} t="Executions so far" />
+          <Sub x={D.x} y={D.y + 76} t="Tests a day" c="center" />
         </g>
       </Inspectable>
       <Inspectable
-        id="vs-alert"
-        title="Qualified, prioritised, sent"
-        body="Each anomaly is qualified and prioritised, then sent to the team concerned.|Teams treat each anomaly quickly."
+        id="vs-60k"
+        title="About 60,000 executions"
+        body="About 60,000 test executions so far.|A platform in daily use."
       >
         <g>
-          <Win x={520} y={96} w={260} h={140} title="ALERT · ILLUSTRATIVE">
-            <Lab x={536} y={140} t="QUALIFIED · HIGH PRIORITY" c="warm" />
-            <Sub x={536} y={164} t="orders_mart · unique key" />
-            <Sub x={536} y={186} t="Owner: the team concerned" />
-          </Win>
-          <Arrow from={[786, 166]} to={[836, 166]} />
-          <Bell x={866} y={160} />
-          <User x={916} y={190} s={0.9} c="on" />
-          <Sub x={842} y={226} t="Team notified" />
+          <T x={D.x} y={510} className="tx-big center">
+            ~60,000
+          </T>
+          <Sub x={D.x} y={536} t="Executions so far" c="center" />
+        </g>
+      </Inspectable>
+      <Arrow from={[400, 230]} to={[530, fy(0)]} />
+      <Inspectable
+        id="vs-flow"
+        title="Detected, qualified, prioritised, notified"
+        body="Each anomaly is detected, qualified, prioritised, then sent to the team concerned.|Teams treat each anomaly quickly."
+      >
+        <g>
+          {flow.map(([t, s, i], k) => (
+            <Fragment key={t}>
+              <Medal x={580} y={fy(k)} r={36} i={i} on={k === 3} />
+              <Lab x={632} y={fy(k) - 4} t={t} c={k === 3 ? 'warm' : ''} />
+              <Sub x={632} y={fy(k) + 18} t={s} />
+              {k < 3 && <Arrow from={[580, fy(k) + 40]} to={[580, fy(k + 1) - 42]} />}
+            </Fragment>
+          ))}
+          <Move path={`M580 ${fy(0)}V${fy(3)}H880`} dur={8}>
+            <circle className="vs-anom" r="7" />
+          </Move>
+          <Arrow from={[800, fy(3)]} to={[866, fy(3)]} />
+          <User x={905} y={fy(3) + 18} c="on" />
+          <Sub x={905} y={fy(3) + 52} t="Team" c="center" />
         </g>
       </Inspectable>
       <Inspectable
@@ -344,15 +624,36 @@ function InOperation() {
         title="Monitoring"
         body="What is happening, the trends, where to focus effort.|One view for the teams and their managers."
       >
-        <Win x={520} y={276} w={440} h={220} title="MONITORING · TRENDS">
-          <Spark x={540} y={316} w={220} h={150} vals={[0.7, 0.55, 0.6, 0.4, 0.35, 0.25]} c="on" />
-          <Bars x={780} y={316} w={160} h={150} vals={[0.9, 0.5, 0.3, 0.2]} />
-          <Sub x={540} y={486} t="Where to focus effort" />
-        </Win>
+        <Close t="MONITORING" s="What is happening, the trends, where to focus effort.">
+          <Win x={600} y={578} w={360} h={70} title="TRENDS · ILLUSTRATIVE">
+            <Spark
+              x={616}
+              y={604}
+              w={328}
+              h={36}
+              vals={[0.7, 0.55, 0.62, 0.45, 0.4, 0.3, 0.32, 0.22]}
+              c="on"
+            />
+          </Win>
+        </Close>
       </Inspectable>
     </Layer>
   );
 }
+
+// ---------- 6 · Result ----------
+const runX = [130, 370, 610, 850];
+const runs: [string, React.ReactNode][] = [
+  ['LOAD', icon.db],
+  ['TEST', icon.check],
+  ['MART', icon.list],
+  ['REPORT', icon.report],
+];
+const tiers: [string, number][] = [
+  ['LEADERSHIP', 1],
+  ['MANAGERS', 3],
+  ['TEAMS', 5],
+];
 
 function Result() {
   return (
@@ -360,23 +661,23 @@ function Result() {
       <Inspectable
         id="vs-earlier"
         title="Issues surface earlier"
-        body="Anomalies are caught by tests, before a business report shows them.|Fewer manual controls."
+        body="Anomalies are caught by the tests in the run, before a report shows them.|Fewer manual controls."
       >
         <g>
-          <Lab x={40} y={110} t="WHEN AN ISSUE SURFACES" />
-          <path className="tx-route" d="M40 160H600" />
-          {['LOAD', 'TEST', 'MART', 'REPORT'].map((t, i) => (
+          <Lab x={40} y={92} t="WHERE AN ISSUE IS FOUND" c="strong" />
+          {runs.map(([t, i], k) => (
             <Fragment key={t}>
-              <circle className="tx-stage" cx={60 + i * 170} cy={160} r="9" />
-              <T x={60 + i * 170} y={190} className="center tx-win-t">
-                {t}
-              </T>
+              <Medal x={runX[k]} y={200} r={30} i={i} on={k === 1} dashed={k === 3} />
+              <Lab x={runX[k]} y={256} t={t} c="center" />
             </Fragment>
           ))}
-          <circle className="tx-stage on" cx={230} cy={160} r="12" />
-          <Lab x={230} y={136} t="NOW" c="center warm" />
-          <Lab x={570} y={136} t="BEFORE" c="center" />
-          <path className="tx-beam" d="M560 170C460 220 330 220 240 172" />
+          {[0, 1, 2].map((k) => (
+            <Arrow key={k} from={[runX[k] + 38, 200]} to={[runX[k + 1] - 40, 200]} />
+          ))}
+          <path className="tx-promise dashed" d="M850 162C850 110 370 110 370 162" />
+          <Lab x={610} y={110} t="EARLIER" c="center warm" />
+          <Sub x={370} y={282} t="Now · in the run" c="center" />
+          <Sub x={850} y={282} t="Before · in a report" c="center" />
         </g>
       </Inspectable>
       <Inspectable
@@ -385,20 +686,17 @@ function Result() {
         body="Teams, managers and leadership rely on the same Data with more confidence.|Trust in Data improved across the company."
       >
         <g>
-          <Lab x={40} y={290} t="TRUST IN DATA · EVERY LEVEL" c="warm" />
-          {(
-            [
-              ['LEADERSHIP', 1],
-              ['MANAGERS', 3],
-              ['TEAMS', 6],
-            ] as const
-          ).map(([t, n], r) => (
+          <Lab x={40} y={334} t="TRUST AT EVERY LEVEL" />
+          {tiers.map(([t, n], r) => (
             <Fragment key={t}>
-              {Array.from({ length: n }, (_, i) => (
-                <User key={i} x={330 - (n - 1) * 22 + i * 44} y={340 + r * 60} s={0.8} c="on" />
+              {Array.from({ length: n }, (_, k) => (
+                <User key={k} x={250 - (n - 1) * 26 + k * 52} y={392 + r * 58} s={0.8} c="on" />
               ))}
-              <Check x={520} y={330 + r * 60} />
-              <Sub x={540} y={335 + r * 60} t={t.charAt(0) + t.slice(1).toLowerCase()} />
+              <g className="vs-ok" style={vars({ '--i': r })}>
+                <circle cx={430} cy={380 + r * 58} r="11" />
+                <path d={`M425 ${380 + r * 58}L429 ${385 + r * 58} 436 ${375 + r * 58}`} />
+              </g>
+              <Sub x={452} y={385 + r * 58} t={t.charAt(0) + t.slice(1).toLowerCase()} />
             </Fragment>
           ))}
         </g>
@@ -409,31 +707,35 @@ function Result() {
         body="New observability domains plug into the same layer.|Ready as Data usage grows."
       >
         <g>
-          <Lab x={680} y={290} t="READY FOR NEW DOMAINS" />
-          {[0, 1, 2].map((i) => (
-            <rect
-              key={i}
-              className={`tx-app${i ? ' dashed' : ''}`}
-              x={680}
-              y={310 + i * 54}
-              width="260"
-              height="42"
-              rx="4"
-            />
+          <Lab x={600} y={334} t="READY AS DATA USAGE GROWS" />
+          <path className="tx-operate" d="M600 356H960V396H600Z" />
+          <Lab x={780} y={381} t="COMMON ALERT MODEL" c="center" />
+          {[0, 1, 2].map((k) => (
+            <Fragment key={k}>
+              <Arrow from={[660 + k * 120, 446]} to={[660 + k * 120, 404]} />
+              <rect
+                className={k ? 'tx-app dashed' : 'tx-app'}
+                x={608 + k * 120}
+                y={452}
+                width="104"
+                height="40"
+                rx="4"
+              />
+              <Lab x={660 + k * 120} y={477} t={k ? 'NEXT' : 'DBT TESTS'} c={`center${k ? '' : ' warm'}`} />
+            </Fragment>
           ))}
-          <Sub x={698} y={336} t="dbt tests" />
-          <Sub x={698} y={390} t="Next domain" />
-          <Sub x={698} y={444} t="Next domain" />
         </g>
       </Inspectable>
-      <CaseChip
-        x={40}
-        y={560}
-        w={460}
-        to="signal"
-        kicker="HIGH-STAKES · SIGNAL OR NOISE"
-        sub="Governed alert exceptions"
-      />
+      <Close t="TRUST IN DATA" s="Across the company.">
+        <CaseChip
+          x={560}
+          y={578}
+          w={400}
+          to="signal"
+          kicker="HIGH-STAKES · SIGNAL OR NOISE"
+          sub="Governed alert exceptions"
+        />
+      </Close>
     </Layer>
   );
 }
