@@ -446,112 +446,153 @@ function Migration() {
   );
 }
 
-const kit: [string, string, string, React.ReactNode][] = [
+// Adoption: a learning loop around Metabase, repeated with each team, then 2 → 25 producers.
+const loop = { x: 230, y: 330, r: 140 };
+const loopIcon = {
+  docs: <path d="M-11-15H6L12-9V15H-11ZM6-15V-9H12M-6-3H7M-6 3H7M-6 9H3" />,
+  video: (
+    <>
+      <rect x="-15" y="-11" width="30" height="22" rx="3" />
+      <path d="M-4-5L6 0-4 5Z" />
+    </>
+  ),
+  training: (
+    <>
+      <rect x="-15" y="-15" width="30" height="16" rx="2" />
+      <circle cx="-8" cy="7" r="3" />
+      <circle cx="8" cy="7" r="3" />
+      <path d="M-13 16A5 4 0 0 1-3 16M3 16A5 4 0 0 1 13 16" />
+    </>
+  ),
+  chart: (
+    <>
+      <path d="M-15-14V13H15" />
+      <path d="M-10 6L-3-2 3 3 13-9" />
+    </>
+  ),
+};
+const learn: [string, string, string, string, number, React.ReactNode][] = [
   [
     'fd-docs',
     'DOCUMENTATION',
-    'What each table and figure means|Anyone finds the right figure without asking.',
-    <g>
-      <rect className="tx-doc" x="56" y="120" width="64" height="82" rx="3" />
-      <path className="tx-grid" d="M66 140H110M66 156H110M66 172H110M66 188H96" />
-    </g>,
+    'What each table and figure means',
+    'What each table and figure means.|Anyone finds the right figure without asking.',
+    -90,
+    loopIcon.docs,
   ],
   [
     'fd-videos',
     'HOW-TO VIDEOS',
-    'Short videos for common tasks|Teams watch them again when they need to.',
-    <g>
-      <rect className="tx-app" x="56" y="268" width="96" height="64" rx="4" />
-      <path className="tx-head" d="M96 286L118 300 96 314Z" />
-    </g>,
+    'Common tasks',
+    'Short videos for common tasks.|Teams watch them again when they need to.',
+    45,
+    loopIcon.video,
   ],
   [
     'fd-training',
-    'TRAINING · EACH TEAM',
-    'Sessions with each team|Pedagogy is the art of repetition.',
-    <g>
-      <rect className="tx-app" x="56" y="404" width="100" height="26" rx="3" />
-      {[0, 1, 2].map((i) => (
-        <User key={i} x={72 + i * 34} y={470} s={0.8} c="on" />
-      ))}
-    </g>,
+    'TRAINING',
+    'With each team',
+    'Sessions with each team.|Pedagogy is the art of repetition.',
+    135,
+    loopIcon.training,
   ],
+];
+const axisY = (i: number) => 176 + i * 58;
+const axisVals = [
+  [0.2, 0.5, 0.4, 0.8],
+  [0.6, 0.5, 0.7, 0.75],
+  [0.7, 0.4, 0.5, 0.3],
+  [0.3, 0.6, 0.5, 0.9],
+  [0.4, 0.45, 0.7, 0.65],
+  [0.8, 0.6, 0.55, 0.4],
 ];
 
 function Adoption() {
   return (
     <Layer steps={[4]}>
-      {kit.map(([id, t, body, icon], i) => (
-        <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
-          <g>
-            {icon}
-            <Lab x={176} y={160 + i * 145} t={t} />
-            <Sub x={176} y={182 + i * 145} t={body.split('|')[0]} />
-          </g>
-        </Inspectable>
-      ))}
+      <Lab x={40} y={92} t="ADOPTION · REPEATED WITH EACH TEAM" c="strong" />
+      <circle className="tx-ring" cx={loop.x} cy={loop.y} r={loop.r} />
+      <Move
+        path={`M${loop.x} ${loop.y - loop.r}A${loop.r} ${loop.r} 0 1 1 ${loop.x - 0.1} ${loop.y - loop.r}Z`}
+        dur={9}
+      >
+        <circle className="tx-alert" r="6" />
+      </Move>
+      {learn.map(([id, t, s, body, deg, icon], i) => {
+        const a = (deg * Math.PI) / 180;
+        const x = +(loop.x + loop.r * Math.cos(a)).toFixed(1);
+        const y = +(loop.y + loop.r * Math.sin(a)).toFixed(1);
+        const top = deg < 0;
+        return (
+          <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+            <g className="fd-loop" style={vars({ '--i': i })}>
+              <circle className="tx-stage" cx={x} cy={y} r="36" />
+              <g className="tx-icon" transform={`translate(${x} ${y}) scale(1.15)`}>
+                {icon}
+              </g>
+              <Lab x={x} y={top ? y - 68 : y + 62} t={t} c="center" />
+              <Sub x={x} y={top ? y - 48 : y + 84} t={s} c="center" />
+            </g>
+          </Inspectable>
+        );
+      })}
       <Inspectable
         id="fd-metabase"
         title="Metabase"
         body="The new BI tool, usable after a short training.|Teams build their own analysis on the curated tables."
       >
-        <Win x={440} y={96} w={270} h={240} title="METABASE · NEW QUESTION">
-          {(['Orders', 'by hub', 'per week'] as const).map((t, i) => (
-            <Fragment key={t}>
-              <rect className="tx-ticket" x={456 + i * 82} y="134" width="74" height="22" rx="3" />
-              <T x={493 + i * 82} y={149} className="center tx-win-t dark">
-                {t}
-              </T>
-            </Fragment>
-          ))}
-          <Bars x={462} y={180} w={226} h={136} vals={[0.3, 0.45, 0.4, 0.6, 0.75, 0.7, 0.9]} />
-        </Win>
+        <g>
+          <circle className="fd-core" cx={loop.x} cy={loop.y} r="64" />
+          <g className="tx-icon" transform={`translate(${loop.x} ${loop.y - 16}) scale(1.1)`}>
+            {loopIcon.chart}
+          </g>
+          <Lab x={loop.x} y={loop.y + 22} t="METABASE" c="center warm" />
+          <Sub x={loop.x} y={loop.y + 42} t="Short training" c="center" />
+        </g>
       </Inspectable>
+      <Arrow from={[380, loop.y]} to={[462, loop.y]} />
       <Inspectable
         id="fd-axes"
         title="New analysis axes"
-        body="New ways to slice the Data, added with the teams.|Each team monitors its own activity."
+        body="New ways to slice the Data, added with each team.|Each team monitors its own activity."
       >
         <g>
-          <Lab x={440} y={380} t="NEW ANALYSIS AXES" />
-          {[0, 1, 2].map((i) => (
-            <Win key={i} x={440 + i * 92} y={396} w={82} h={62} title="">
-              <Spark
-                x={452 + i * 92}
-                y={426}
-                w={58}
-                h={22}
-                vals={
-                  [
-                    [0.2, 0.6, 0.4, 0.9],
-                    [0.7, 0.5, 0.6, 0.3],
-                    [0.3, 0.4, 0.7, 0.8],
-                  ][i]
-                }
-                c="on"
-              />
-            </Win>
+          <Lab x={470} y={124} t="NEW ANALYSIS AXES" />
+          <Sub x={470} y={146} t="Each team monitors its activity" />
+          {teams.map((t, i) => (
+            <Fragment key={t}>
+              <circle className="tx-stage" cx={490} cy={axisY(i)} r="18" />
+              <g className="tx-icon" transform={`translate(490 ${axisY(i)}) scale(.62)`}>
+                {loopIcon.chart}
+              </g>
+              <Sub x={518} y={axisY(i) + 5} t={t} />
+              <Spark x={606} y={axisY(i) - 12} w={66} h={22} vals={axisVals[i]} c="on" />
+            </Fragment>
           ))}
         </g>
       </Inspectable>
+      <Arrow from={[690, loop.y]} to={[752, loop.y]} />
       <Inspectable
         id="fd-producers"
         title="From 2 to 25 active analysis producers"
         body="People who build their own analysis, beyond reading it.|From 2 to 25 after the migration and the training."
       >
         <g>
-          <T x={770} y={132} className="tx-big">
+          <T x={772} y={148} className="tx-big">
             2 → 25
           </T>
-          <Lab x={770} y={160} t="ACTIVE ANALYSIS PRODUCERS" />
+          <Lab x={772} y={176} t="ACTIVE ANALYSIS" />
+          <Lab x={772} y={196} t="PRODUCERS" />
           {Array.from({ length: 25 }, (_, i) => (
             <g key={i} className={i < 2 ? '' : 'tx-lit-seq'} style={vars({ '--i': i - 2 })}>
-              <User x={786 + (i % 5) * 38} y={222 + Math.floor(i / 5) * 46} s={0.7} c={i < 2 ? 'on' : ''} />
+              <User x={786 + (i % 5) * 40} y={246 + Math.floor(i / 5) * 52} s={0.75} c={i < 2 ? 'on' : ''} />
             </g>
           ))}
         </g>
       </Inspectable>
-      <Lab x={176} y={520} t="REPEATED WITH EACH TEAM" c="warm" />
+      <path className="tx-div" d="M40 566H960" />
+      <Lab x={40} y={600} t="PEDAGOGY IS THE ART OF REPETITION" c="warm" />
+      <Sub x={40} y={624} t="Documentation, videos and training, repeated with each team." />
     </Layer>
   );
 }
