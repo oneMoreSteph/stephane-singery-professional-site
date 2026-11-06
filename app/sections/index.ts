@@ -6,6 +6,15 @@ import highStakes from './high-stakes';
 import difference from './difference';
 import education from './education';
 import europeanSpace from './european-space';
+import howIBuild from './how-i-build';
 import contact from './contact';
 
-export const sections: Section[] = [experience, highStakes, difference, education, europeanSpace, contact];
+export const sections: Section[] = [
+  experience,
+  highStakes,
+  difference,
+  education,
+  europeanSpace,
+  howIBuild,
+  contact,
+];

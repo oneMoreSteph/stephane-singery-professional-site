@@ -213,6 +213,7 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
                 <a href={site.cv} target="_blank" rel="noopener">
                   OPEN CV ↗
                 </a>
+                <Link to="/how-i-build">HOW I BUILD ↗</Link>
                 <Link to="/contact">CONTACT ↗</Link>
               </span>
             </div>

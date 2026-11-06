@@ -40,6 +40,7 @@ const views: [string, string, (page: Page) => Promise<void>][] = [
     '/education?view=orbit',
     async (page) => void (await expect(page.locator('.tv-panel')).toBeVisible({ timeout: 30_000 })),
   ],
+  ['how I build', '/how-i-build', async (page) => void (await expect(page.locator('h1')).toBeVisible())],
   ['contact', '/contact', async (page) => void (await expect(page.locator('h1')).toBeVisible())],
   ['404', '/no-such-page', async (page) => void (await expect(page.locator('h1')).toBeVisible())],
 ];
