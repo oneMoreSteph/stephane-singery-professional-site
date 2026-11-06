@@ -51,7 +51,7 @@ export const concepts: Record<string, [what: string, why: string]> = {
   ],
 
   'nb-platform': [
-    'A Data Platform: the place where a company’s Data is collected, modelled and made available.',
+    'A Data Platform: the place where a company’s Data is collected into a Data warehouse, modelled and made available.',
     'Teams cannot build their own analyses without prepared Data to start from.',
   ],
   'nb-metabase': [
@@ -144,7 +144,7 @@ export const concepts: Record<string, [what: string, why: string]> = {
     'Ignored, they silently falsify past figures.',
   ],
   's-raw': [
-    'Raw layer: Data as it arrives, untransformed.',
+    'Raw layer of the BigQuery Data warehouse: Data as it arrives, untransformed.',
     'Kept apart from curated Data, so any model can be rebuilt from the source.',
   ],
   's-df': [
@@ -160,7 +160,7 @@ export const concepts: Record<string, [what: string, why: string]> = {
     'The logic becomes safer to change and easier to maintain.',
   ],
   's-cur': [
-    'Curated layer: cleaned, modelled Data, ready to be read.',
+    'Curated layer of the Data warehouse: cleaned, modelled Data, ready to be read.',
     'It is what BI and AI consume. I moved its availability from daily toward hourly.',
   ],
   's-looker': [
@@ -176,7 +176,7 @@ export const concepts: Record<string, [what: string, why: string]> = {
     'The tests plug into the models where they already live: no redesign.',
   ],
   'o-marts': [
-    'A data mart: tables shaped for one business use, here in Snowflake.',
+    'A data mart: tables shaped for one business use, in the Snowflake Data warehouse.',
     'It is what the business reads, so it is what must be protected.',
   ],
   'o-sensors': [

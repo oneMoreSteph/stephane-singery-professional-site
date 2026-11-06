@@ -32,7 +32,7 @@ export default {
       'A new platform on BigQuery.',
       [
         'I built most of the new platform, on Google Cloud.',
-        'Raw and curated Data, both in BigQuery.',
+        'Sources, including GCS object storage, loaded into BigQuery, the Data warehouse: raw and curated Data (ELT).',
         'SQL transformations in Dataform, the equivalent of dbt.',
         'Orchestration.',
         'BI access through Looker, AI access through Vertex AI.',

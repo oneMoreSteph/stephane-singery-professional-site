@@ -70,6 +70,7 @@ function FoodCheri() {
           <Lab x={120} y={428} t="DATA PLATFORM" c="center" />
           <Db cx={120} y={440} w={130} h={110} />
           <Sub x={120} y={572} t="Curated tables" c="center" />
+          <Sub x={120} y={592} t="In a Data warehouse" c="center" />
         </g>
       </Inspectable>
       <Arrow from={[190, 495]} to={[278, 495]} />

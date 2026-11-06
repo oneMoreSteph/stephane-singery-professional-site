@@ -317,7 +317,7 @@ function WhereItLed() {
       <Inspectable id="led-food" title="FoodChéri’s Data team">
         <g>
           <Lab x={40} y={280} t="FOODCHÉRI DATA TEAM · WITH REAL USERS" c="strong" />
-          <Lab x={130} y={335} t="INGESTION" c="center" />
+          <Lab x={130} y={335} t="DATA WAREHOUSE" c="center" />
           <Db cx={130} y={350} w={110} h={110} />
           <Arrow from={[190, 405]} to={[278, 405]} />
           <Win x={285} y={330} w={210} h={150} title="SQL MODELS">

@@ -2,6 +2,7 @@
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
 import {
+  DataChain,
   Arrow,
   Bars,
   CaseChip,
@@ -207,12 +208,17 @@ function Bottleneck() {
 function Platform() {
   return (
     <Layer steps={[2]}>
+      <DataChain
+        id="fd-chain"
+        steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']}
+        on={[0, 1, 2, 3]}
+      />
       <Lab x={40} y={100} t="FOODCHÉRI’S FIRST END-TO-END DATA PLATFORM" c="strong" />
       <Sub x={40} y={124} t="Designed block by block · one company, two brands" />
       <Inspectable
         id="fd-redshift"
         title="FoodChéri · Redshift"
-        body="Redshift: the SQL database holding FoodChéri’s raw Data.|One of the two sources of the platform."
+        body="Redshift: Amazon’s cloud Data warehouse, holding FoodChéri’s raw Data in SQL tables.|One of the two sources of the platform."
       >
         <g>
           <Lab x={40} y={170} t="FOODCHÉRI · REDSHIFT" />
@@ -531,6 +537,11 @@ function Adoption() {
 function Beneath() {
   return (
     <Layer steps={[5]}>
+      <DataChain
+        id="fd-chain-b"
+        steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']}
+        on={[0, 1, 2]}
+      />
       <Inspectable
         id="fd-surface"
         title="Data analysis"

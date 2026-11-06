@@ -3,6 +3,7 @@
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
 import {
+  DataChain,
   Arrow,
   Bars,
   CaseChip,
@@ -218,6 +219,7 @@ function Understood() {
 function ThePlatform() {
   return (
     <Layer steps={[3]}>
+      <DataChain id="vs-chain" steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']} on={[2]} />
       <Lab x={40} y={100} t="DATA QUALITY AND OBSERVABILITY PLATFORM" c="strong" />
       <Sub x={40} y={124} t="Designed within the existing tools and constraints" />
       <Inspectable

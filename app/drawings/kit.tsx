@@ -1,6 +1,7 @@
 // Drawing primitives shared by every scene: labelled domain objects (databases, windows, code, charts, people).
 // Coordinates are in the scene's 1000 × 730 units.
 import { Fragment } from 'react';
+import { Inspectable } from './Inspectable';
 import { SvgButton } from './spokenName';
 
 export type Pt = [number, number];
@@ -484,3 +485,43 @@ export const Packet = ({
     <animateMotion dur="7s" begin={`-${delay}s`} repeatCount="indefinite" path={path} />
   </rect>
 );
+
+/**
+ * The Data chain as keywords, top right of a scene: Source → ELT → Data warehouse → BI / Analytics.
+ * `on` lights the parts the step covers. Clickable, with what each keyword means.
+ */
+export function DataChain({ id, steps, on }: { id: string; steps: string[]; on: number[] }) {
+  const widths = steps.map((s) => 20 + s.length * 7.8);
+  const gap = 22;
+  const total = widths.reduce((a, b) => a + b, 0) + gap * (steps.length - 1);
+  // Left edge of each chip, right-aligned at x = 960.
+  const lefts = widths.map((_, i) => 960 - total + widths.slice(0, i).reduce((a, b) => a + b, 0) + gap * i);
+  const body =
+    steps[1] === 'ETL'
+      ? 'The Data chain: sources, ETL (extract, transform, then load), and where the Data is used.|The lit part is what this step covers.'
+      : 'The Data chain: Source → ELT (extract and load the raw Data, then transform it inside the Data warehouse) → Data warehouse → BI / Analytics.|The lit part is what this step covers.';
+  return (
+    <Inspectable id={id} title={steps.join(' → ')} body={body}>
+      <g className="data-chain">
+        {steps.map((s, i) => (
+          <Fragment key={s}>
+            <rect
+              className={`dc-chip${on.includes(i) ? ' on' : ''}`}
+              x={lefts[i]}
+              y="26"
+              width={widths[i]}
+              height="28"
+              rx="14"
+            />
+            <T x={lefts[i] + widths[i] / 2} y={45} className={`center dc-t${on.includes(i) ? ' on' : ''}`}>
+              {s}
+            </T>
+            {i < steps.length - 1 && (
+              <path className="dc-arrow" d={`M${lefts[i] + widths[i] + 4} 40H${lefts[i + 1] - 4}`} />
+            )}
+          </Fragment>
+        ))}
+      </g>
+    </Inspectable>
+  );
+}

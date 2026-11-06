@@ -2,6 +2,7 @@
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
 import {
+  DataChain,
   Arrow,
   Bars,
   Check,
@@ -44,6 +45,11 @@ function Users({ xs, y }: { xs: number[]; y: number }) {
 function Access() {
   return (
     <Layer steps={[0]}>
+      <DataChain
+        id="s-chain-1"
+        steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']}
+        on={[0, 1, 2, 3]}
+      />
       <Lab x={40} y={110} t="LAYER 1 · ACCESS · FOODCHÉRI" c="strong" />
       <Inspectable id="s-red" title="Redshift">
         <g>
@@ -79,7 +85,7 @@ function Access() {
         <g>
           <Lab x={690} y={235} t="BIGQUERY" c="center" />
           <Db cx={690} y={250} w={120} h={130} />
-          <Sub x={690} y={402} t="Curated tables" c="center" />
+          <Sub x={690} y={402} t="Data warehouse · curated" c="center" />
         </g>
       </Inspectable>
       <Arrow from={[754, 315]} to={[790, 315]} />
@@ -103,6 +109,7 @@ function Access() {
 function Transformation() {
   return (
     <Layer steps={[1]}>
+      <DataChain id="s-chain-2" steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']} on={[1, 2]} />
       <Lab x={40} y={110} t="LAYER 2 · TRANSFORMATION · HEETCH" c="strong" />
       {inflow.map((t, i) => (
         <Fragment key={t}>
@@ -118,6 +125,7 @@ function Transformation() {
         <g>
           <Lab x={230} y={235} t="BIGQUERY · RAW" c="center" />
           <Db cx={230} y={255} w={110} h={120} />
+          <Sub x={230} y={398} t="Data warehouse" c="center" />
         </g>
       </Inspectable>
       <Arrow from={[288, 315]} to={[322, 315]} />
@@ -203,6 +211,7 @@ function Transformation() {
 function Observability() {
   return (
     <Layer steps={[2]}>
+      <DataChain id="s-chain-3" steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']} on={[2]} />
       <Lab x={40} y={110} t="LAYER 3 · OBSERVABILITY · VERISURE" c="strong" />
       <Inspectable id="o-dbt" title="dbt Core">
         <Win x={40} y={210} w={225} h={210} title="DBT CORE · MODELS">
@@ -229,7 +238,7 @@ function Observability() {
       <Arrow from={[270, 315]} to={[308, 315]} />
       <Inspectable id="o-marts" title="Snowflake marts">
         <g>
-          <Lab x={475} y={205} t="SNOWFLAKE MARTS" c="center" />
+          <Lab x={475} y={205} t="SNOWFLAKE · DATA WAREHOUSE" c="center" />
           {marts.map((x) => (
             <Db key={x} cx={x} y={245} w={90} h={110} />
           ))}

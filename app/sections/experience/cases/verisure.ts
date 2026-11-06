@@ -44,7 +44,7 @@ export default {
         'Designed within the existing tools and constraints.',
         'A common alert model in a transverse layer.',
         'dbt tests as the first observability domain, room for others without redesign.',
-        'Built with dbt Core, Snowflake and Elementary.',
+        'Built with dbt Core, Snowflake (the Data warehouse) and Elementary.',
       ],
     ],
     [

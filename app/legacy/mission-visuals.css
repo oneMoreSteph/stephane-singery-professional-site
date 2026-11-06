@@ -1041,3 +1041,7 @@
 .story-svg .tx-table-row.top{stroke:#f6d77a}
 .story-svg .sg-alert{fill:#2a4651;stroke:#3f6b79}.story-svg .sg-alert.critical{fill:rgba(240,122,104,.55);stroke:#f07a68}
 .story-svg .sg-cross{stroke:#f07a68;stroke-width:2.5}
+.story-svg .dc-chip{fill:#0b2230;stroke:#3f6b79}.story-svg .dc-chip.on{fill:#123847;stroke:#97e0e8}
+.story-svg .dc-t{font:700 12px var(--mono);letter-spacing:.5px;fill:#5d8795}.story-svg .dc-t.on{fill:#d8eef2}
+.story-svg .dc-arrow{fill:none;stroke:#5d8795;stroke-width:1.5}
+.story-svg .tx-bucket{fill:#123847;stroke:#97e0e8;stroke-width:2}

@@ -3,6 +3,7 @@
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
 import {
+  DataChain,
   Arrow,
   Bars,
   CaseChip,
@@ -207,6 +208,11 @@ function StartingPoint() {
 function ThePlatform() {
   return (
     <Layer steps={[2]}>
+      <DataChain
+        id="ht-chain"
+        steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']}
+        on={[0, 1, 2, 3]}
+      />
       <Inspectable
         id="ht-gcp"
         title="On Google Cloud"
@@ -218,18 +224,36 @@ function ThePlatform() {
         </g>
       </Inspectable>
       <Inspectable
+        id="ht-gcs"
+        title="GCS · object storage"
+        body="Google Cloud Storage: object storage, where Data arrives as files (objects) in buckets.|A source loaded into the raw layer of the Data warehouse."
+      >
+        <g>
+          <Lab x={60} y={150} t="SOURCE · GCS" />
+          <path className="tx-bucket" d="M76 166H204L194 236H86Z" />
+          {[0, 1, 2].map((i) => (
+            <g key={i} transform={`translate(${96 + i * 34} 180)`}>
+              <path className="tx-doc" d="M0 0H18L24 6V30H0Z" />
+              <path className="tx-grid" d="M4 12H20M4 19H20M4 26H14" />
+            </g>
+          ))}
+          <Sub x={214} y={206} t="Object storage · files" />
+          <Arrow from={[140, 242]} to={[140, 298]} />
+        </g>
+      </Inspectable>
+      <Inspectable
         id="ht-orch"
         title="Orchestration"
         body="Orchestration runs every step in the right order, at the right time.|Hour after hour, without manual runs."
       >
-        <Win x={250} y={140} w={300} h={84} title="ORCHESTRATION">
+        <Win x={390} y={140} w={280} h={84} title="ORCHESTRATION">
           {[0, 1, 2].map((i) => (
             <rect
               key={i}
               className="tx-gantt"
-              x={266 + i * 80}
+              x={406 + i * 76}
               y={176 + (i % 2) * 18}
-              width="96"
+              width="88"
               height="12"
               rx="2"
             />
@@ -243,7 +267,7 @@ function ThePlatform() {
       >
         <g>
           <rect className="tx-layer-q" x="60" y="250" width="680" height="250" rx="6" />
-          <Lab x={76} y={276} t="BIGQUERY · DATA WAREHOUSE" c="warm" />
+          <Lab x={724} y={276} t="BIGQUERY · DATA WAREHOUSE" c="end warm" />
           <Lab x={150} y={318} t="RAW" c="center" />
           <Db cx={150} y={332} w={100} h={120} />
           <Lab x={650} y={318} t="CURATED" c="center" />
@@ -415,6 +439,7 @@ function TheModels() {
 function Workflows() {
   return (
     <Layer steps={[4]}>
+      <DataChain id="ht-chain-w" steps={['SOURCE', 'ETL', 'OPERATIONAL WORKFLOWS']} on={[0, 1, 2]} />
       <Lab x={40} y={100} t="OPERATIONAL BUSINESS WORKFLOWS · BEYOND THE PLATFORM" c="strong" />
       <Inspectable
         id="ht-etl"
