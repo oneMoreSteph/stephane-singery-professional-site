@@ -298,3 +298,27 @@ body[data-scene="map"] .map{transition-delay:1.4s}
 body[data-scene="chapter"] :is(.destination-field,.mission-brief,.map-heading,.orbit-label,.map-bottom,.map-status){opacity:0!important;pointer-events:none}
 body[data-scene="chapter"] .map{transition:opacity .25s ease}
 body[data-scene="chapter"] .chapter{transition:opacity 1.1s cubic-bezier(.45,0,.55,1) .3s}
+/* Cockpit dashboards: a box with the image's own proportions and cover sizing, so the screens line up with the photo. */
+.cockpit{container-type:size}
+.cockpit-screens{position:absolute;left:50%;top:50%;width:max(100cqw,calc(100cqh * 1.7768));height:max(100cqh,calc(100cqw / 1.7768));transform:translate(-50%,-50%);pointer-events:none}
+.cockpit-screen{position:absolute;top:47.2%;height:16.6%;filter:drop-shadow(0 0 6px rgba(120,220,236,.35))}
+.cockpit-screen--left{left:25.3%;width:13.6%}
+.cockpit-screen--right{left:61.3%;width:13%}
+.cs-svg{display:block;width:100%;height:100%;overflow:hidden}
+.cs-t{font:700 9px var(--mono,monospace);letter-spacing:.08em;fill:#9fd8e2}.cs-t.end{text-anchor:end}.cs-t.ok{fill:#7fe0b0}
+.cs-dot{fill:#7fe0b0;animation:cs-blink 2.4s ease-in-out infinite}
+.cs-pill{fill:rgba(127,224,176,.12);stroke:#7fe0b0;stroke-width:1}
+.cs-grid path{stroke:rgba(151,224,232,.14);stroke-width:1}
+.cs-line{fill:none;stroke:#97e8f2;stroke-width:2;stroke-linejoin:round}.cs-line.dim{stroke:rgba(151,224,232,.38);stroke-width:1.4}
+.cs-area{fill:rgba(87,180,214,.18)}
+.cs-scroll{animation:cs-scroll 14s linear infinite}
+.cs-k{font:700 8px var(--mono,monospace);letter-spacing:.12em;fill:#6f97a3}
+.cs-v{font:700 19px var(--mono,monospace);fill:#e8fbff}.cs-v.warm{fill:#f6d77a}
+.cs-u{font-size:10px;fill:#8fb7c1}
+.cs-bars rect{fill:#57b4d6;transform-box:fill-box;transform-origin:50% 100%;animation:cs-bar 3.6s ease-in-out infinite alternate}
+@keyframes cs-scroll{from{transform:translateX(0)}to{transform:translateX(-280px)}}
+@keyframes cs-bar{0%{transform:scaleY(.28)}50%{transform:scaleY(.72)}100%{transform:scaleY(.46)}}
+@keyframes cs-blink{0%,100%{opacity:1}50%{opacity:.3}}
+@media(max-width:700px){.cockpit-screens{display:none}}
+@media(prefers-reduced-motion:reduce){.cs-scroll,.cs-bars rect,.cs-dot{animation:none}}
+.cockpit-screen{transition:opacity .6s ease}.cockpit-screen.is-covered{opacity:.28;filter:none}

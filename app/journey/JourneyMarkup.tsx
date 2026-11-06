@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Link } from 'react-router';
 import { countWord, pad, stopCount, stopSections } from '~/content';
 import { site } from '~/site';
+import { CockpitScreens } from './CockpitScreens';
 
 const first = stopSections[0];
 const last = stopSections[stopSections.length - 1];
@@ -32,6 +33,7 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
             alt="View from the middle seat of a spacecraft cockpit with four windows ahead, hands and legs visible"
           />
           <div className="cockpit-shade" aria-hidden="true"></div>
+          <CockpitScreens />
           <div className="cockpit-identity">
             <img className="identity-photo" src="/assets/portrait-128.webp" alt="" width="52" height="52" />
             <span>
