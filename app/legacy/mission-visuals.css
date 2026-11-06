@@ -1024,3 +1024,6 @@
 .story-svg .tx-exit{fill:#123847;stroke:#7fe0b0;stroke-width:1.5}
 .story-svg .tx-gantt.evening{fill:#f0a868}
 .story-svg .hub-mark rect,.story-svg .hub-mark path{fill:#123847}
+.story-svg .tx-app.dashed{stroke-dasharray:6 5;stroke:#5d8795}
+.story-svg .tx-run{fill:#1f6a80}.story-svg .tx-run.ko{fill:#f07a68}
+.story-svg .tx-big.small{font-size:24px}
