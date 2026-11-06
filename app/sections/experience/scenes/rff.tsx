@@ -75,40 +75,43 @@ function SharedNetwork() {
           ))}
         </g>
       </Inspectable>
-      <Panel x={X - 16} y={86} w={290} h={420} />
-      <Inspectable
-        id="rr-operators"
-        title="Every operator, the same network"
-        body="Freight and passenger trains of every operator share the same lines.|Each wants the same capacity, at the same hours."
-      >
-        <g>
-          <Lab x={X} y={116} t="ONE NETWORK, SHARED" c="warm" />
-          {(
-            [
-              ['tm-loco', 'Freight trains', 'My customers’ trains'],
-              ['tm-car other', 'Other operators', 'Passenger and freight'],
-              ['works-mark', 'Engineering works', 'Capacity taken away'],
-            ] as const
-          ).map(([c, t, s], i) => (
-            <Fragment key={t}>
-              <rect className={c} x={X} y={140 + i * 46} width="22" height="11" rx="2" />
-              <Lab x={X + 36} y={150 + i * 46} t={t.toUpperCase()} />
-              <Sub x={X + 36} y={170 + i * 46} t={s} />
-            </Fragment>
-          ))}
-        </g>
-      </Inspectable>
-      <Inspectable
-        id="rr-paths"
-        title="Train paths on one line"
-        body="A train path: one train’s slot on a line, in time and distance.|Operators compete for the same paths: where they collide, only one can run."
-      >
-        <g>
-          <Lab x={X} y={288} t="TRAIN PATHS · ONE LINE" />
-          <PathGraph />
-          <Sub x={X} y={494} t="Same paths, same hours" />
-        </g>
-      </Inspectable>
+      {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
+      <g transform="translate(0 184)">
+        <Panel x={X - 16} y={86} w={290} h={420} />
+        <Inspectable
+          id="rr-operators"
+          title="Every operator, the same network"
+          body="Freight and passenger trains of every operator share the same lines.|Each wants the same capacity, at the same hours."
+        >
+          <g>
+            <Lab x={X} y={116} t="ONE NETWORK, SHARED" c="warm" />
+            {(
+              [
+                ['tm-loco', 'Freight trains', 'My customers’ trains'],
+                ['tm-car other', 'Other operators', 'Passenger and freight'],
+                ['works-mark', 'Engineering works', 'Capacity taken away'],
+              ] as const
+            ).map(([c, t, s], i) => (
+              <Fragment key={t}>
+                <rect className={c} x={X} y={140 + i * 46} width="22" height="11" rx="2" />
+                <Lab x={X + 36} y={150 + i * 46} t={t.toUpperCase()} />
+                <Sub x={X + 36} y={170 + i * 46} t={s} />
+              </Fragment>
+            ))}
+          </g>
+        </Inspectable>
+        <Inspectable
+          id="rr-paths"
+          title="Train paths on one line"
+          body="A train path: one train’s slot on a line, in time and distance.|Operators compete for the same paths: where they collide, only one can run."
+        >
+          <g>
+            <Lab x={X} y={288} t="TRAIN PATHS · ONE LINE" />
+            <PathGraph />
+            <Sub x={X} y={494} t="Same paths, same hours" />
+          </g>
+        </Inspectable>
+      </g>
     </Layer>
   );
 }
@@ -159,38 +162,41 @@ function Customers() {
           <TrainMarker path={d} dur={[24, 14, 16][i]} begin={i * 3} />
         </g>
       ))}
-      <Panel x={X - 16} y={86} w={290} h={506} />
-      <Lab x={X} y={116} t="MY PORTFOLIO" c="warm" />
-      {portfolio.map(([t, s], i) => (
-        <Inspectable
-          key={i}
-          id={`rr-cust-${i}`}
-          title={t}
-          body={
-            i
-              ? 'A freight customer of my portfolio. Illustrative row.|Each one with its own schedules to secure.'
-              : 'Greenmodal (CMA CGM): a freight customer of my portfolio.|I represented its capacity needs on the network.'
-          }
-        >
-          <g>
-            <rect className="tx-table-row" x={X} y={132 + i * 50} width="258" height="42" rx="3" />
-            <rect className="tm-loco" x={X + 12} y={148 + i * 50} width="16" height="9" rx="2" />
-            <Lab x={X + 40} y={150 + i * 50} t={t} />
-            <Sub x={X + 40} y={168 + i * 50} t={s} />
-          </g>
-        </Inspectable>
-      ))}
-      <Lab x={X} y={318} t="FOR EACH ONE" c="strong" />
-      {process.map(([t, s, body, icon], i) => (
-        <Inspectable key={t} id={`rr-proc-${i}`} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
-          <g>
-            <g transform={`translate(${X + 4} ${376 + i * 90})`}>{icon}</g>
-            <Lab x={X + 54} y={366 + i * 90} t={t} />
-            <Sub x={X + 54} y={388 + i * 90} t={s} />
-            {i < 2 && <path className="tx-link" d={`M${X + 18} ${394 + i * 90}V${436 + i * 90}`} />}
-          </g>
-        </Inspectable>
-      ))}
+      {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
+      <g transform="translate(0 98)">
+        <Panel x={X - 16} y={86} w={290} h={506} />
+        <Lab x={X} y={116} t="MY PORTFOLIO" c="warm" />
+        {portfolio.map(([t, s], i) => (
+          <Inspectable
+            key={i}
+            id={`rr-cust-${i}`}
+            title={t}
+            body={
+              i
+                ? 'A freight customer of my portfolio. Illustrative row.|Each one with its own schedules to secure.'
+                : 'Greenmodal (CMA CGM): a freight customer of my portfolio.|I represented its capacity needs on the network.'
+            }
+          >
+            <g>
+              <rect className="tx-table-row" x={X} y={132 + i * 50} width="258" height="42" rx="3" />
+              <rect className="tm-loco" x={X + 12} y={148 + i * 50} width="16" height="9" rx="2" />
+              <Lab x={X + 40} y={150 + i * 50} t={t} />
+              <Sub x={X + 40} y={168 + i * 50} t={s} />
+            </g>
+          </Inspectable>
+        ))}
+        <Lab x={X} y={318} t="FOR EACH ONE" c="strong" />
+        {process.map(([t, s, body, icon], i) => (
+          <Inspectable key={t} id={`rr-proc-${i}`} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+            <g>
+              <g transform={`translate(${X + 4} ${376 + i * 90})`}>{icon}</g>
+              <Lab x={X + 54} y={366 + i * 90} t={t} />
+              <Sub x={X + 54} y={388 + i * 90} t={s} />
+              {i < 2 && <path className="tx-link" d={`M${X + 18} ${394 + i * 90}V${436 + i * 90}`} />}
+            </g>
+          </Inspectable>
+        ))}
+      </g>
     </Layer>
   );
 }
@@ -278,29 +284,32 @@ function LongMissions() {
 function Next() {
   return (
     <Layer steps={[3]}>
-      <Panel x={X - 16} y={86} w={290} h={250} />
-      <Inspectable
-        id="rr-nov16"
-        title="November 2016"
-        body="I moved to the passenger side of the railway: Transilien Ligne C.|From capacity years ahead to passengers, every day."
-      >
-        <g>
-          <Lab x={X} y={116} t="NOVEMBER 2016" c="warm" />
-          <T x={X} y={150} className="card-title">
-            Toward passengers
-          </T>
-          <Sub x={X} y={176} t="From capacity years ahead" />
-          <Sub x={X} y={196} t="to passengers, every day" />
-        </g>
-      </Inspectable>
-      <CaseChip
-        x={X - 4}
-        y={232}
-        w={266}
-        to="ligne-c"
-        kicker="NEXT · TRANSILIEN LIGNE C"
-        sub="Passenger care, 42 stations"
-      />
+      {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
+      <g transform="translate(0 354)">
+        <Panel x={X - 16} y={86} w={290} h={250} />
+        <Inspectable
+          id="rr-nov16"
+          title="November 2016"
+          body="I moved to the passenger side of the railway: Transilien Ligne C.|From capacity years ahead to passengers, every day."
+        >
+          <g>
+            <Lab x={X} y={116} t="NOVEMBER 2016" c="warm" />
+            <T x={X} y={150} className="card-title">
+              Toward passengers
+            </T>
+            <Sub x={X} y={176} t="From capacity years ahead" />
+            <Sub x={X} y={196} t="to passengers, every day" />
+          </g>
+        </Inspectable>
+        <CaseChip
+          x={X - 4}
+          y={232}
+          w={266}
+          to="ligne-c"
+          kicker="NEXT · TRANSILIEN LIGNE C"
+          sub="Passenger care, 42 stations"
+        />
+      </g>
     </Layer>
   );
 }

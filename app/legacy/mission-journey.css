@@ -151,7 +151,7 @@ body[data-scene="map"] .map,body[data-scene="approaching"] .map{pointer-events:n
 .story-svg .country-name{fill:#668d99;font-size:18px;letter-spacing:4px}
 .story-svg .country-name.foreign{font-size:13px;letter-spacing:2px;fill:#a8b8ab}
 .story-svg .sea-label{fill:#527987;font-size:11px;letter-spacing:2px}
-.story-svg .rfn-line{stroke:#b4d8dc;stroke-width:1.1;stroke-opacity:.45;transition:stroke .4s,stroke-opacity .4s;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.story-svg .rfn-line{stroke:#b4d8dc;stroke-width:1;stroke-opacity:.22;transition:stroke .4s,stroke-opacity .4s;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .story-svg .rfn-line.mini{stroke-width:.6;stroke-opacity:.4}
 .story-svg .rail-bed{stroke:#789298;stroke-width:3;stroke-opacity:.45}
 .story-svg .rail-sleeper{stroke:#b9d2d4;stroke-width:7;stroke-dasharray:1 7;stroke-opacity:.3}

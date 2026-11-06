@@ -87,51 +87,54 @@ const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 function MyWeek() {
   return (
     <Layer steps={[0]}>
-      <rect className="map-panel" x={X - 16} y={86} width="240" height="440" rx="4" />
-      <Inspectable
-        id="hb-week"
-        title="Evenings and weekends"
-        body="SNCF in the day; FoodChéri’s hubs in the evenings and at weekends.|From 2016 to 2019."
-      >
-        <g>
-          <Lab x={X} y={116} t="MY WEEK · 2016–2019" c="warm" />
-          {days.map((d, i) => {
-            const weekend = i > 4;
-            return (
-              <Fragment key={d}>
-                <T x={X} y={158 + i * 34} className="tx-win-t">
-                  {d}
-                </T>
-                {!weekend && (
-                  <rect className="tx-gantt" x={X + 44} y={146 + i * 34} width="96" height="16" rx="2" />
-                )}
-                <rect
-                  className="tx-gantt evening"
-                  x={weekend ? X + 44 : X + 144}
-                  y={146 + i * 34}
-                  width={weekend ? 156 : 56}
-                  height="16"
-                  rx="2"
-                />
-              </Fragment>
-            );
-          })}
-          <rect className="tx-gantt" x={X} y={404} width="16" height="12" rx="2" />
-          <Sub x={X + 24} y={415} t="SNCF" />
-          <rect className="tx-gantt evening" x={X} y={428} width="16" height="12" rx="2" />
-          <Sub x={X + 24} y={439} t="FoodChéri hubs" />
-        </g>
-      </Inspectable>
-      <Inspectable
-        id="hb-goal"
-        title="A second job, for a personal goal"
-        body="A second job alongside SNCF.|Taken to reach a personal goal."
-      >
-        <g>
-          <Lab x={X} y={480} t="A SECOND JOB" />
-          <Sub x={X} y={502} t="For a personal goal" />
-        </g>
-      </Inspectable>
+      {/* The panel sits in the map’s emptiest corner: bottom right */}
+      <g transform="translate(0 164)">
+        <rect className="map-panel" x={X - 16} y={86} width="240" height="440" rx="4" />
+        <Inspectable
+          id="hb-week"
+          title="Evenings and weekends"
+          body="SNCF in the day; FoodChéri’s hubs in the evenings and at weekends.|From 2016 to 2019."
+        >
+          <g>
+            <Lab x={X} y={116} t="MY WEEK · 2016–2019" c="warm" />
+            {days.map((d, i) => {
+              const weekend = i > 4;
+              return (
+                <Fragment key={d}>
+                  <T x={X} y={158 + i * 34} className="tx-win-t">
+                    {d}
+                  </T>
+                  {!weekend && (
+                    <rect className="tx-gantt" x={X + 44} y={146 + i * 34} width="96" height="16" rx="2" />
+                  )}
+                  <rect
+                    className="tx-gantt evening"
+                    x={weekend ? X + 44 : X + 144}
+                    y={146 + i * 34}
+                    width={weekend ? 156 : 56}
+                    height="16"
+                    rx="2"
+                  />
+                </Fragment>
+              );
+            })}
+            <rect className="tx-gantt" x={X} y={404} width="16" height="12" rx="2" />
+            <Sub x={X + 24} y={415} t="SNCF" />
+            <rect className="tx-gantt evening" x={X} y={428} width="16" height="12" rx="2" />
+            <Sub x={X + 24} y={439} t="FoodChéri hubs" />
+          </g>
+        </Inspectable>
+        <Inspectable
+          id="hb-goal"
+          title="A second job, for a personal goal"
+          body="A second job alongside SNCF.|Taken to reach a personal goal."
+        >
+          <g>
+            <Lab x={X} y={480} t="A SECOND JOB" />
+            <Sub x={X} y={502} t="For a personal goal" />
+          </g>
+        </Inspectable>
+      </g>
     </Layer>
   );
 }
@@ -198,17 +201,20 @@ function TheHubs() {
       <Bike x={345} y={307} s={0.7} />
       <Bike x={590} y={350} s={0.7} />
       <Bike x={444} y={397} s={0.7} />
-      <rect className="map-panel" x={X - 16} y={86} width="240" height="350" rx="4" />
-      <Lab x={X} y={116} t="EACH SERVICE" c="warm" />
-      {service.map(([id, t, s, body, icon], i) => (
-        <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
-          <g>
-            {icon}
-            <Lab x={X + 64} y={150 + i * 76} t={t} />
-            <Sub x={X + 64} y={170 + i * 76} t={s} />
-          </g>
-        </Inspectable>
-      ))}
+      {/* The panel sits in the map’s emptiest corner: bottom right */}
+      <g transform="translate(0 254)">
+        <rect className="map-panel" x={X - 16} y={86} width="240" height="350" rx="4" />
+        <Lab x={X} y={116} t="EACH SERVICE" c="warm" />
+        {service.map(([id, t, s, body, icon], i) => (
+          <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+            <g>
+              {icon}
+              <Lab x={X + 64} y={150 + i * 76} t={t} />
+              <Sub x={X + 64} y={170 + i * 76} t={s} />
+            </g>
+          </Inspectable>
+        ))}
+      </g>
     </Layer>
   );
 }
@@ -216,41 +222,44 @@ function TheHubs() {
 function WhatItOpened() {
   return (
     <Layer steps={[2]}>
-      <rect className="map-panel" x={X - 16} y={86} width="240" height="330" rx="4" />
-      <Inspectable
-        id="hb-inside"
-        title="Inside a food-tech company"
-        body="My first experience inside a food-tech company.|I saw how its teams used Data every day."
-      >
-        <g>
-          <Lab x={X} y={116} t="2016 · THE HUBS" />
-          <Sub x={X} y={138} t="Inside a food-tech company" />
-          <path className="tx-route" d={`M${X + 6} 156V236`} />
-          <circle className="tx-stage" cx={X + 6} cy={156} r="6" />
-          <circle className="tx-stage on" cx={X + 6} cy={250} r="9" />
-        </g>
-      </Inspectable>
-      <Inspectable
-        id="hb-data"
-        title="February 2021: the Data team"
-        body="I joined FoodChéri’s Data team in February 2021.|The door the hubs had opened."
-      >
-        <g>
-          <Lab x={X + 24} y={256} t="FEB 2021 · DATA TEAM" c="warm" />
-          <Win x={X + 24} y={276} w={180} h={100} title="DATA">
-            <Db cx={X + 66} y={306} w={50} h={58} />
-            <Bars x={X + 108} y={310} w={84} h={52} vals={[0.4, 0.7, 0.55, 0.9]} />
-          </Win>
-        </g>
-      </Inspectable>
-      <CaseChip
-        x={X - 10}
-        y={440}
-        w={240}
-        to="food-data"
-        kicker="NEXT · FOODCHÉRI DATA"
-        sub="Where I started in Data"
-      />
+      {/* The panel sits in the map’s emptiest corner: bottom right */}
+      <g transform="translate(0 190)">
+        <rect className="map-panel" x={X - 16} y={86} width="240" height="330" rx="4" />
+        <Inspectable
+          id="hb-inside"
+          title="Inside a food-tech company"
+          body="My first experience inside a food-tech company.|I saw how its teams used Data every day."
+        >
+          <g>
+            <Lab x={X} y={116} t="2016 · THE HUBS" />
+            <Sub x={X} y={138} t="Inside a food-tech company" />
+            <path className="tx-route" d={`M${X + 6} 156V236`} />
+            <circle className="tx-stage" cx={X + 6} cy={156} r="6" />
+            <circle className="tx-stage on" cx={X + 6} cy={250} r="9" />
+          </g>
+        </Inspectable>
+        <Inspectable
+          id="hb-data"
+          title="February 2021: the Data team"
+          body="I joined FoodChéri’s Data team in February 2021.|The door the hubs had opened."
+        >
+          <g>
+            <Lab x={X + 24} y={256} t="FEB 2021 · DATA TEAM" c="warm" />
+            <Win x={X + 24} y={276} w={180} h={100} title="DATA">
+              <Db cx={X + 66} y={306} w={50} h={58} />
+              <Bars x={X + 108} y={310} w={84} h={52} vals={[0.4, 0.7, 0.55, 0.9]} />
+            </Win>
+          </g>
+        </Inspectable>
+        <CaseChip
+          x={X - 10}
+          y={440}
+          w={240}
+          to="food-data"
+          kicker="NEXT · FOODCHÉRI DATA"
+          sub="Where I started in Data"
+        />
+      </g>
     </Layer>
   );
 }
