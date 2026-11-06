@@ -204,82 +204,88 @@ function Bottleneck() {
   );
 }
 
-const col = [92, 252, 412, 592, 772, 912];
-
 function Platform() {
   return (
     <Layer steps={[2]}>
       <Lab x={40} y={100} t="FOODCHÉRI’S FIRST END-TO-END DATA PLATFORM" c="strong" />
-      <Sub x={40} y={124} t="Designed block by block" />
+      <Sub x={40} y={124} t="Designed block by block · one company, two brands" />
       <Inspectable
         id="fd-redshift"
-        title="Redshift"
-        body="Redshift: the database where the raw Data was stored.|The starting point of the platform."
+        title="FoodChéri · Redshift"
+        body="Redshift: the SQL database holding FoodChéri’s raw Data.|One of the two sources of the platform."
       >
         <g>
-          <Lab x={col[0]} y={200} t="REDSHIFT" c="center" />
-          <Db cx={col[0]} y={216} w={92} h={100} />
-          <Sub x={col[0]} y={340} t="Raw Data" c="center" />
+          <Lab x={40} y={170} t="FOODCHÉRI · REDSHIFT" />
+          <Db cx={90} y={184} w={92} h={84} />
+          <Sub x={90} y={292} t="SQL tables" c="center" />
         </g>
       </Inspectable>
-      <Arrow from={[142, 266]} to={[196, 266]} />
+      <Inspectable
+        id="fd-mongo"
+        title="Seazon · MongoDB"
+        body="MongoDB: a NoSQL database storing Seazon’s Data as documents.|The second source: same company, a different structure to bring in."
+      >
+        <g>
+          <Lab x={40} y={320} t="SEAZON · MONGODB" />
+          <Win x={40} y={334} w={150} h={104} title="NOSQL DOCUMENTS">
+            <Code x={52} y={376} lh={18} lines={['{ "meal": "…",', '  "qty": 2,', '  "tags": […] }']} />
+          </Win>
+        </g>
+      </Inspectable>
+      <Link d="M140 226C200 226 200 300 252 300" />
+      <Link d="M196 386C230 386 226 316 252 316" />
       <Inspectable
         id="fd-ingest"
         title="Ingestion"
-        body="A ready-made ingestion tool, chosen after an audit.|It copies the raw Data into the warehouse, on schedule."
+        body="A ready-made ingestion tool, chosen after an audit.|It brings both sources, SQL and NoSQL, into the Data warehouse on schedule."
       >
         <g>
-          <Lab x={col[1]} y={200} t="INGESTION" c="center" />
-          <Server x={206} y={222} w={92} n={3} />
-          <Sub x={col[1]} y={340} t="Ready-made tool" c="center" />
+          <Lab x={306} y={244} t="INGESTION" c="center" />
+          <Server x={260} y={262} w={92} n={3} />
+          <Sub x={306} y={382} t="Ready-made tool" c="center" />
         </g>
       </Inspectable>
-      <Arrow from={[304, 266]} to={[358, 266]} />
+      <Arrow from={[358, 306]} to={[406, 306]} />
       <Inspectable
-        id="fd-raw"
-        title="BigQuery · raw"
-        body="BigQuery: Google’s cloud Data warehouse.|The raw layer keeps the Data as it arrives."
+        id="fd-warehouse"
+        title="BigQuery · the Data warehouse"
+        body="A Data warehouse: one place where all the company’s Data is stored for analysis. Here, BigQuery, on Google Cloud.|Both brands’ Data, side by side, raw then curated."
       >
         <g>
-          <Lab x={col[2]} y={200} t="BIGQUERY · RAW" c="center" />
-          <Db cx={col[2]} y={216} w={92} h={100} />
+          <rect className="tx-layer-q" x="412" y="180" width="460" height="230" rx="6" />
+          <Lab x={428} y={204} t="BIGQUERY · DATA WAREHOUSE" c="warm" />
+          <Lab x={470} y={244} t="RAW" c="center" />
+          <Db cx={470} y={258} w={84} h={96} />
+          <Sub x={470} y={378} t="As it arrives" c="center" />
+          <Lab x={800} y={244} t="CURATED" c="center" />
+          <Db cx={800} y={258} w={84} h={96} />
+          <Sub x={800} y={378} t="Ready to analyse" c="center" />
         </g>
       </Inspectable>
-      <Arrow from={[462, 266]} to={[508, 266]} />
+      <Arrow from={[514, 306]} to={[556, 306]} />
       <Inspectable
         id="fd-models"
         title="SQL models"
-        body="SQL transformations that clean and join the raw Data.|They produce tables ready for analysis."
+        body="SQL transformations that clean and join the raw Data.|They write the curated tables, inside the warehouse."
       >
-        <Win x={514} y={196} w={156} h={140} title="SQL MODELS">
+        <Win x={560} y={240} w={150} h={132} title="SQL MODELS">
           <Code
-            x={526}
-            y={244}
+            x={572}
+            y={286}
             lh={22}
-            lines={['SELECT', '  order_id,', '  hub, total', 'FROM raw.orders']}
+            lines={['SELECT', '  order_id,', '  brand, total', 'FROM raw.orders']}
           />
         </Win>
       </Inspectable>
-      <Arrow from={[674, 266]} to={[720, 266]} />
-      <Inspectable
-        id="fd-curated"
-        title="BigQuery · curated"
-        body="Curated tables: clean, documented, ready to query.|What every team analyses."
-      >
-        <g>
-          <Lab x={col[4]} y={200} t="BIGQUERY · CURATED" c="center" />
-          <Db cx={col[4]} y={216} w={92} h={100} />
-          <Sub x={col[4]} y={340} t="Ready to analyse" c="center" />
-        </g>
-      </Inspectable>
-      <Arrow from={[822, 266]} to={[862, 266]} />
+      <Arrow from={[714, 306]} to={[756, 306]} />
+      <Arrow from={[844, 306]} to={[884, 306]} />
       <Inspectable
         id="fd-bi"
         title="BI"
         body="The BI tool reads the curated tables.|Teams build their analysis on them."
       >
-        <Win x={866} y={216} w={94} h={100} title="BI">
-          <Bars x={878} y={248} w={70} h={56} vals={[0.35, 0.6, 0.5, 0.85]} />
+        <Win x={888} y={256} w={72} h={100} title="BI">
+          <Bars x={898} y={290} w={52} h={52} vals={[0.35, 0.6, 0.5, 0.85]} />
         </Win>
       </Inspectable>
       <Inspectable
@@ -288,8 +294,8 @@ function Platform() {
         body="I designed the platform block by block.|I built its pipelines and its SQL models."
       >
         <g>
-          <path className="tx-promise" d="M206 404V420H822V404" />
-          <Lab x={514} y={448} t="I BUILT THE PIPELINES AND THE MODELS" c="center warm" />
+          <path className="tx-promise" d="M260 440V456H872V440" />
+          <Lab x={566} y={484} t="I BUILT THE PIPELINES AND THE MODELS" c="center warm" />
         </g>
       </Inspectable>
       <Inspectable
@@ -298,11 +304,11 @@ function Platform() {
         body="I audited the ingestion tools available.|A ready-made tool, chosen on the audit’s result."
       >
         <g>
-          <Lab x={40} y={540} t="INGESTION TOOL · CHOSEN AFTER AN AUDIT" />
+          <Lab x={40} y={560} t="INGESTION TOOL · CHOSEN AFTER AN AUDIT" />
           {[0, 1, 2].map((i) => (
             <Fragment key={i}>
-              <Server x={40 + i * 130} y={566} w={96} n={2} />
-              <Check x={150 + i * 130} y={582} ok={i === 1} />
+              <Server x={40 + i * 130} y={580} w={96} n={2} />
+              <Check x={150 + i * 130} y={596} ok={i === 1} />
             </Fragment>
           ))}
         </g>
@@ -545,7 +551,7 @@ function Beneath() {
       <Inspectable
         id="fd-beneath"
         title="What happens beneath"
-        body="Storage, pipelines, models and orchestration: the engineering under every analysis.|What drew me toward Data Engineering."
+        body="The Data warehouse, pipelines, models and orchestration: the engineering under every analysis.|What drew me toward Data Engineering."
       >
         <g>
           <rect className="tx-layer" x="40" y="286" width="920" height="250" rx="4" />
@@ -558,7 +564,7 @@ function Beneath() {
           <Sub x={431} y={490} t="Pipelines" c="center" />
           <Arrow from={[492, 410]} to={[566, 410]} />
           <Db cx={630} y={356} w={110} h={110} />
-          <Sub x={630} y={490} t="Warehouse" c="center" />
+          <Sub x={630} y={490} t="Data warehouse" c="center" />
           <Arrow from={[690, 410]} to={[764, 410]} />
           <Win x={770} y={350} w={160} h={120} title="ORCHESTRATION">
             {[0, 1, 2].map((i) => (
