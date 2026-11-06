@@ -53,4 +53,17 @@ export default {
     labels: ['Why this role', 'The plans', 'On the ground', 'The measure'],
     note: 'Schematic line: 42 station marks, two named as examples. The station and the measures drawn on it are illustrative. Indicators are shown without values.',
   },
+  timeline: {
+    lane: 'ops',
+    from: 2016.85,
+    to: 2019.7,
+    label: 'SNCF VOYAGEURS',
+    tight: true,
+    passenger: true,
+    org: 'SNCF · TRANSILIEN LIGNE C',
+    period: 'Nov 2016–Aug 2019',
+    title: 'Passenger Care and Information Manager',
+    fact: 'Care plans for works, events and incidents, and the first mechanism to assess them.',
+    metric: ['42', 'Covered by care plans', 'stations'],
+  },
 } satisfies Case;

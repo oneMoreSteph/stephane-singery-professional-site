@@ -1,18 +1,28 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { ABOUT_SLUG, findStopByKey, stopSections } from '~/content';
+import type { mountInstrument as MountInstrument, mountView as MountView } from '~/career/mount';
 import type { mountCase as MountCase } from '~/cases/mountCase';
 import type { Journey, startJourney as StartJourney } from '~/legacy/journey.js';
 
-type Loaded = { startJourney: typeof StartJourney; mountCase: typeof MountCase };
+type Loaded = {
+  startJourney: typeof StartJourney;
+  mountCase: typeof MountCase;
+  mountInstrument: typeof MountInstrument;
+  mountView: typeof MountView;
+};
 import { JourneyMarkup } from './JourneyMarkup';
 
 // The 3D journey and Three.js load only when needed: never for the cockpit alone.
 const loadJourney = () =>
-  Promise.all([import('~/legacy/journey.js'), import('~/cases/mountCase')]).then(([journey, cases]) => ({
-    startJourney: journey.startJourney,
-    mountCase: cases.mountCase,
-  }));
+  Promise.all([import('~/legacy/journey.js'), import('~/cases/mountCase'), import('~/career/mount')]).then(
+    ([journey, cases, career]) => ({
+      startJourney: journey.startJourney,
+      mountCase: cases.mountCase,
+      mountInstrument: career.mountInstrument,
+      mountView: career.mountView,
+    }),
+  );
 
 /** Old "#earth?case=rail" addresses become "/experience/rail". */
 function fromOldHash(hash: string): string | null {
@@ -37,9 +47,11 @@ export function JourneyIsland() {
 
   /** Creates the journey once its code has loaded. Returns null if this island has gone meanwhile. */
   const create = useCallback(
-    ({ startJourney, mountCase }: Loaded) => {
+    ({ startJourney, mountCase, mountInstrument, mountView }: Loaded) => {
       journey.current ??= startJourney({
         mountCase,
+        mountInstrument,
+        mountView,
         stops: stopSections,
         aboutSlug: ABOUT_SLUG,
         // The journey reports its own moves, so they are not replayed when the address changes.

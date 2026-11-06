@@ -51,4 +51,23 @@ export default {
     labels: ['Self-taught', 'Jedha', 'The maturity', 'Where it led'],
     note: 'Illustrative views and code. Programme blocks as described by Jedha; hours approximate.',
   },
+  timeline: {
+    lane: 'study',
+    from: 2019.5,
+    to: 2021.1,
+    label: 'SELF-TAUGHT · DATA',
+    labelPos: 'below',
+    org: 'SELF-TAUGHT, THEN JEDHA',
+    period: '2019–2021',
+    title: 'Self-taught in Data, then a Data Science Developer programme',
+    fact: 'Self-directed Python first, then the Jedha Data Science Developer programme.',
+    metric: ['~450', 'Intensive, certified programme', 'hours'],
+  },
+  orbit: {
+    r: 205,
+    label: 'SELF-TAUGHT · DATA',
+    period: '2019–2021',
+    led: 'Led to the FoodChéri Data team, Feb 2021',
+    angle: -40,
+  },
 } satisfies Case;

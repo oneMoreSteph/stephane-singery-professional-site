@@ -69,6 +69,41 @@ export interface Drawing {
   mapSources?: boolean;
 }
 
+/** Where a case sits on the career timeline. Years are decimal; boundaries within a year are approximate. */
+export interface TimelineSpan {
+  lane: 'ops' | 'data' | 'study';
+  from: number;
+  /** A year, or 'now' for a role in progress. */
+  to: number | 'now';
+  label: string;
+  labelPos?: 'above' | 'below';
+  /** A side activity: drawn thinner, below its lane. */
+  thin?: boolean;
+  tight?: boolean;
+  passenger?: boolean;
+  live?: boolean;
+  /** A period that runs into the future: the part after today is drawn as a track. */
+  expected?: boolean;
+  org: string;
+  period: string;
+  title: string;
+  fact: string;
+  /** [figure, caption, unit] shown in the wide view. */
+  metric?: [figure: string, caption: string, unit?: string];
+}
+
+/** A study period drawn as an orbit around work on Earth. */
+export interface StudyOrbit {
+  r: number;
+  label: string;
+  period: string;
+  /** What the period led to. */
+  led: string;
+  /** Where the craft sits when motion is reduced, in degrees. */
+  angle: number;
+  inProgress?: boolean;
+}
+
 export interface Case {
   /** Address segment and drawing key, e.g. "verisure". */
   slug: string;
@@ -82,6 +117,8 @@ export interface Case {
   takeaway: string;
   beats: Beat[];
   drawing?: Drawing;
+  timeline?: TimelineSpan;
+  orbit?: StudyOrbit;
 }
 
 export interface Section {

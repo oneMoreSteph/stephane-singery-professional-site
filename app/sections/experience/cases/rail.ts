@@ -46,4 +46,15 @@ export default {
     labels: ['A contested network', 'My customers', 'The long missions', 'Next'],
     note: 'Schematic rail links, France at true proportions. Routes and timings are illustrative; customer rows beyond the named one are illustrative.',
   },
+  timeline: {
+    lane: 'ops',
+    from: 2012,
+    to: 2016.7,
+    label: 'SNCF RÉSEAU',
+    org: 'SNCF RÉSEAU',
+    period: '2012–2016',
+    title: 'Rail Capacity Consultation Officer',
+    fact: 'Securing freight customers’ capacity, two or three years ahead.',
+    metric: ['2–3', 'From two or three years ahead to the day of circulation', 'years ahead'],
+  },
 } satisfies Case;

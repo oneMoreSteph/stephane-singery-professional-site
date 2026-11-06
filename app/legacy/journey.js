@@ -1,9 +1,8 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import { renderCareerTimeline, renderStudyOrbit, renderTrackView, renderOrbitView } from './career-visuals.js';
 
 // Started by app/journey/JourneyIsland.tsx. All content comes from the section list.
-export function startJourney({ stops, navigate, aboutSlug, mountCase }) {
+export function startJourney({ stops, navigate, aboutSlug, mountCase, mountInstrument, mountView }) {
 let unmountCase = null;
 const releaseCase = () => { unmountCase?.(); unmountCase = null; };
 const listeners = [];
@@ -46,7 +45,7 @@ let worldReady = false, worldPromise, cameraMove = null, globeMove = null, curre
 const europePose = { rotationY: -1.74, tiltX: .82 };
 let pointerX = 0, pointerY = 0, globeDrag = null, suppressClick = false, globeAngle = europePose.rotationY, globeTilt = europePose.tiltX;
 let lastDetailTrigger = null, lastMapTrigger = null, detailHasHistoryEntry = false;
-let activeView = null, viewHandle = null, viewHasHistoryEntry = false, lastViewTrigger = null;
+let activeView = null, viewHandle = null, viewHasHistoryEntry = false, lastViewTrigger = null, chapterInstrument = null;
 let returnTrip = null;
 const devices = {};
 const orbitLines = [];
@@ -165,8 +164,7 @@ function openCaseFrom(key, trigger, origin = { dest: activeDestination, caseKey:
 }
 
 // Wide instrument views open over the globe; a case opened from one returns to it when closed.
-const viewRenderers = { track: renderTrackView, orbit: renderOrbitView };
-const instruments = Object.fromEntries(stops.filter(s => s.stop.instrument).map(s => [s.stop.key, [s.stop.instrument, viewRenderers[s.stop.instrument]]]));
+const instruments = Object.fromEntries(stops.filter(s => s.stop.instrument).map(s => [s.stop.key, [s.stop.instrument]]));
 function openView(kind, selected = null, trigger = null, withHistory = true) {
   const entry = Object.values(instruments).find(([name]) => name === kind);
   if (!entry || instruments[activeDestination]?.[0] !== kind) return;
@@ -174,7 +172,7 @@ function openView(kind, selected = null, trigger = null, withHistory = true) {
   lastViewTrigger = trigger || document.querySelector('.chapter-reading .cv-expand');
   activeView = kind;
   viewHasHistoryEntry = withHistory;
-  viewHandle = entry[1]({ selected, onOpen: (key, button) => openCaseFrom(key, button), onClose: () => closeView(), openLabel: key => awayFrom(key) ? `OPEN IN ${destinations[awayFrom(key)].name.toUpperCase()}` : 'OPEN THE CASE' });
+  viewHandle = mountView(kind, { selected, onOpen: (key, button) => openCaseFrom(key, button), onClose: () => closeView(), openLabel: key => awayFrom(key) ? `OPEN IN ${destinations[awayFrom(key)].name.toUpperCase()}` : 'OPEN THE CASE' });
   viewHost.replaceChildren(viewHandle.root);
   viewHost.hidden = false;
   chapter.inert = true;
@@ -185,7 +183,7 @@ function openView(kind, selected = null, trigger = null, withHistory = true) {
 function closeView(withHistory = true) {
   if (!activeView) return;
   const returnThroughHistory = withHistory && viewHasHistoryEntry;
-  activeView = null; viewHandle = null; viewHasHistoryEntry = false;
+  activeView = null; viewHandle?.unmount(); viewHandle = null; viewHasHistoryEntry = false;
   viewHost.hidden = true; viewHost.replaceChildren();
   chapter.inert = activeScene !== 'chapter' || !detail.hidden;
   if (returnThroughHistory) history.back();
@@ -223,9 +221,9 @@ function renderChapter(id) {
   const nextIndex = route.indexOf(data.next);
   document.getElementById('next-destination').textContent = nextIndex === 0 ? `BACK TO STOP 1 · ${destinations[data.next].heading.toUpperCase()}  ↺` : `NEXT STOP ${nextIndex + 1} · ${destinations[data.next].heading.toUpperCase()}  →`;
   const field = document.getElementById('chapter-items'); field.replaceChildren();
-  document.querySelector('.chapter-reading .career-visual')?.remove();
-  const instrument = { track: renderCareerTimeline, orbit: renderStudyOrbit }[sectionOf[id].stop.instrument];
-  if (instrument) field.before(instrument((key, trigger) => openView(instruments[id][0], key, trigger)));
+  if (chapterInstrument) { chapterInstrument.unmount(); chapterInstrument.node.remove(); chapterInstrument = null; }
+  const instrument = sectionOf[id].stop.instrument;
+  if (instrument) { chapterInstrument = mountInstrument(instrument, (key, trigger) => openView(instrument, key, trigger)); field.before(chapterInstrument.node); }
   data.items.forEach(item => {
     const button = document.createElement('button'); button.className = 'chapter-item'; button.type = 'button'; button.dataset.case = item.key;
     const icon = document.createElement('span'); icon.className = 'item-logo';
@@ -705,6 +703,8 @@ function start(pathname, search) {
 
 function destroy() {
   releaseCase();
+  chapterInstrument?.unmount();
+  viewHandle?.unmount();
   cancelAnimationFrame(frameId);
   stopSweep();
   listeners.forEach(off => off());

@@ -47,4 +47,22 @@ export default {
     labels: ['The discipline', 'The maturity', 'What it still gives me'],
     note: 'Illustrative views. Programme content as taught in logistics and transport DUTs; pipeline times are examples.',
   },
+  timeline: {
+    lane: 'study',
+    from: 2008.7,
+    to: 2010.5,
+    label: 'IUT CHARTRES',
+    labelPos: 'below',
+    org: 'IUT CHARTRES',
+    period: '2008–2010',
+    title: 'Logistics and transport',
+    fact: 'University diploma in logistics and transportation management. It opened the way to rail operations.',
+  },
+  orbit: {
+    r: 150,
+    label: 'IUT CHARTRES',
+    period: '2008–2010',
+    led: 'Led to SNCF rail operations, 2010',
+    angle: -150,
+  },
 } satisfies Case;

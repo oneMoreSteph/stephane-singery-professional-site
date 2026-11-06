@@ -72,4 +72,16 @@ export default {
     labels: ['The audit', 'The conclusion', 'The platform', 'The BI migration', 'Adoption', 'Next'],
     note: 'Platform reconstruction. Data examples illustrate the architecture, not company records.',
   },
+  timeline: {
+    lane: 'data',
+    from: 2021.1,
+    to: 2022.5,
+    label: 'FOODCHÉRI',
+    labelPos: 'above',
+    org: 'FOODCHÉRI / SEAZON',
+    period: 'Feb 2021–2022',
+    title: 'BI Engineer / Data Product Owner',
+    fact: 'A first Data Platform, and analysis opened to the whole company.',
+    metric: ['2 → 25', '', 'active analysis producers'],
+  },
 } satisfies Case;

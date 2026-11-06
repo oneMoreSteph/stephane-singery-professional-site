@@ -43,4 +43,15 @@ export default {
     labels: ['A promised arrival', 'Obtain it', 'Next'],
     note: 'Schematic rail links, France at true proportions. The route and shift times are illustrative.',
   },
+  timeline: {
+    lane: 'ops',
+    from: 2010,
+    to: 2011.9,
+    label: 'VFLI',
+    org: 'SNCF · VFLI',
+    period: '2010–2012',
+    title: 'Rail Resources Manager',
+    fact: 'Keeping freight trains moving, day and night.',
+    metric: ['24/7', 'Last-minute solutions, in 3×8 shifts', 'three shifts a day'],
+  },
 } satisfies Case;

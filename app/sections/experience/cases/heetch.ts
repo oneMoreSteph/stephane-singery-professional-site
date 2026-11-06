@@ -78,4 +78,15 @@ export default {
     ],
     note: 'Representative transformation flow, not a reproduction of production code or company data.',
   },
+  timeline: {
+    lane: 'data',
+    from: 2022.6,
+    to: 2025.6,
+    label: 'HEETCH',
+    org: 'HEETCH',
+    period: '2022–2025',
+    title: 'Data Engineer',
+    fact: 'The transformation core of a near-real-time Data Platform.',
+    metric: ['Toward hourly', 'From a daily refresh'],
+  },
 } satisfies Case;

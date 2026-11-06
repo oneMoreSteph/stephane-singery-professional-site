@@ -78,4 +78,17 @@ export default {
     ],
     note: 'Illustrative signal and operating model. Portfolio scope: Data quality and observability.',
   },
+  timeline: {
+    lane: 'data',
+    from: 2025.7,
+    to: 'now',
+    label: 'VERISURE',
+    labelPos: 'above',
+    live: true,
+    org: 'VERISURE',
+    period: '2025–present',
+    title: 'Analytics Engineer · apprenticeship',
+    fact: 'From a request for Data tests to a Data Quality and Observability platform.',
+    metric: ['525', 'One square: 5 tests', 'automated Data tests a day'],
+  },
 } satisfies Case;

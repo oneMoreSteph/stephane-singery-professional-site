@@ -36,4 +36,16 @@ export default {
     note: 'Real Paris arrondissement boundaries. Hub positions and rounds are illustrative.',
     mapSources: true,
   },
+  timeline: {
+    lane: 'ops',
+    from: 2016,
+    to: 2020,
+    thin: true,
+    label: 'FOODCHÉRI HUBS',
+    org: 'FOODCHÉRI · HUB MANAGER',
+    period: '2016–2019 · evenings and weekends',
+    title: 'Hub Manager',
+    fact: 'Stock, order dispatch and multi-order rider routes, connected in a live service.',
+    metric: ['6', '', 'Paris delivery hubs'],
+  },
 } satisfies Case;
