@@ -1078,3 +1078,11 @@
 .story-svg .vs-col{transform-box:fill-box;transform-origin:bottom;animation:vs-grow 6s ease-in-out infinite;animation-delay:calc(var(--i)*.25s)}
 @media(prefers-reduced-motion:reduce){.story-svg .vs-fill,.story-svg .vs-col{animation:none}}
 .story-svg .tx-link.vs-back{stroke:#f6d77a}.story-svg .tx-head.vs-back{fill:#f6d77a}
+/* FoodChéri adoption loop */
+.story-svg .fd-core{fill:#123847;stroke:#97e0e8;stroke-width:2}
+.story-svg .fd-loop .tx-stage{animation:fd-loop 9s ease-in-out infinite;animation-delay:calc(var(--i)*3s)}
+@keyframes fd-loop{0%,18%{fill:rgba(246,215,122,.18);stroke:#f6d77a}30%,100%{fill:#0d2a36;stroke:#97e0e8}}
+@media(prefers-reduced-motion:reduce){.story-svg .fd-loop .tx-stage{animation:none}}
+/* Ligne C: the four parts of the role, lit in turn */
+.story-svg .lc-mode .tx-stage{animation:fd-loop 8s ease-in-out infinite;animation-delay:calc(var(--i)*2s)}
+@media(prefers-reduced-motion:reduce){.story-svg .lc-mode .tx-stage{animation:none}}

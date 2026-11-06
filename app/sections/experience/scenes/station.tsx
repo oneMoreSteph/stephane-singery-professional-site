@@ -1,11 +1,13 @@
-// Earth · Transilien Ligne C: the line on top; below, one picture per step: communication, the plans, the ground, the measure.
+// Earth · Transilien Ligne C: step 1, a role built on communication; then the line on top and one picture per step: the plans, the ground, the measure.
 // Station layout, plan content and indicator values are illustrative.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
 import {
+  Arrow,
   Bars,
   CaseChip,
   Lab,
+  Move,
   OpsDefs,
   Packet,
   Spark,
@@ -90,7 +92,7 @@ function Line42() {
       <T x={40} y={30} className="mini-label rer-tag">
         TRANSILIEN LIGNE C · 42 STATIONS IN MY SCOPE · SCHEMATIC
       </T>
-      <Layer steps={[0, 1, 2]} bare className="lens">
+      <Layer steps={[1, 2]} bare className="lens">
         <circle className="lens-ring" cx={lens[0].toFixed(1)} cy="100" r="11" />
       </Layer>
     </g>
@@ -98,18 +100,6 @@ function Line42() {
 }
 
 // ---------- Small domain objects ----------
-const Radio = ({ x, y }: { x: number; y: number }) => (
-  <g className="tx-icon" transform={`translate(${x} ${y})`}>
-    <rect x="-9" y="-14" width="18" height="30" rx="3" />
-    <path d="M-4-14V-26M-4-6H4M-4 0H4" />
-  </g>
-);
-const Speaker = ({ x, y }: { x: number; y: number }) => (
-  <g className="tx-icon" transform={`translate(${x} ${y})`}>
-    <path d="M-12-6H-5L5-14V14L-5 6H-12Z" />
-    <path d="M10-8C14-4 14 4 10 8M14-13C21-6 21 6 14 13" />
-  </g>
-);
 const Sheet = ({ x, y }: { x: number; y: number }) => (
   <g transform={`translate(${x} ${y})`}>
     <rect className="tx-doc" width="16" height="20" rx="2" />
@@ -277,57 +267,191 @@ function Actor({ x, y, label, sheet }: { x: number; y: number; label?: string; s
   );
 }
 
+// Step 1: passengers at the centre, the four parts of the role around them, internal and external communication.
+const hub = { x: 500, y: 320, r: 130 };
+const roleIcon = {
+  action: <path d="M3-15L-9 3H0L-3 15 9-3H0Z" />,
+  reaction: <path d="M12-5A13 13 0 1 0 13 5M12-13V-5H4" />,
+  planning: (
+    <>
+      <rect x="-13" y="-11" width="26" height="25" rx="2" />
+      <path d="M-13-3H13M-6-16V-7M6-16V-7" />
+    </>
+  ),
+  coordination: (
+    <>
+      <circle cy="-10" r="4" />
+      <circle cx="-11" cy="9" r="4" />
+      <circle cx="11" cy="9" r="4" />
+      <path d="M-2-6L-9 5M2-6L9 5M-7 9H7" />
+    </>
+  ),
+  person: (
+    <>
+      <circle cy="-8" r="5" />
+      <path d="M-11 13V7A11 9 0 0 1 11 7V13" />
+    </>
+  ),
+  team: (
+    <>
+      <circle cx="-8" cy="-6" r="4" />
+      <circle cx="8" cy="-6" r="4" />
+      <path d="M-16 11V6A8 7 0 0 1 0 6V11M0 11V6A8 7 0 0 1 16 6V11" />
+    </>
+  ),
+  town: <path d="M-14 13H14M-11 13V-1M11 13V-1M-14-1H14L0-12ZM-4 13V4H4V13" />,
+  info: (
+    <>
+      <circle r="13" />
+      <path d="M0-1V8M0-7V-6" />
+    </>
+  ),
+  calendar: (
+    <>
+      <rect x="-12" y="-10" width="24" height="22" rx="2" />
+      <path d="M-12-2H12M-6-14V-6M6-14V-6" />
+    </>
+  ),
+  crowd: (
+    <>
+      <circle cx="-14" cy="-4" r="5" />
+      <circle cy="-8" r="6" />
+      <circle cx="14" cy="-4" r="5" />
+      <path d="M-24 14V9A10 8 0 0 1-6 7M6 7A10 8 0 0 1 24 9V14M-10 14V7A10 9 0 0 1 10 7V14" />
+    </>
+  ),
+};
+const modes: [string, string, number, React.ReactNode][] = [
+  ['ACTION', 'Act on what happens now', -90, roleIcon.action],
+  ['REACTION', 'Answer the unexpected', 0, roleIcon.reaction],
+  ['PLANNING', 'Prepare known events', 90, roleIcon.planning],
+  ['COORDINATION', 'Bring every team together', 180, roleIcon.coordination],
+];
+const onHub = (deg: number, r = hub.r): Pt => {
+  const a = (deg * Math.PI) / 180;
+  return [+(hub.x + r * Math.cos(a)).toFixed(1), +(hub.y + r * Math.sin(a)).toFixed(1)];
+};
+const sides: [string, string, string, string, [string, string, React.ReactNode, number][]][] = [
+  [
+    'lc-internal',
+    'Internal communication',
+    'Radio, phone and briefings with the station staff and SNCF teams.|Everyone acts on the same information.',
+    'INTERNAL',
+    [
+      ['STATION STAFF', 'In the stations', roleIcon.person, 230],
+      ['SNCF TEAMS', 'Across the line', roleIcon.team, 410],
+    ],
+  ],
+  [
+    'lc-external',
+    'External communication',
+    'Local authorities, welcome providers, and information for passengers.|Passengers know what happens and where to go.',
+    'EXTERNAL',
+    [
+      ['LOCAL AUTHORITIES', 'Around the stations', roleIcon.town, 230],
+      ['WELCOME PROVIDERS', 'Passenger welcome', roleIcon.info, 410],
+    ],
+  ],
+];
+
 function WhyThisRole() {
   return (
     <Layer steps={[0]}>
-      <StationSection />
-      <StationTrain y={ST.t1} mode="stop" />
-      <StationTrain y={ST.t2} mode="stop" begin={6} dir="west" />
+      <Lab x={40} y={92} t="A ROLE BUILT ON COMMUNICATION" c="strong" />
+      <circle className="tx-ring" cx={hub.x} cy={hub.y} r={hub.r} />
+      <Move
+        path={`M${hub.x} ${hub.y - hub.r}A${hub.r} ${hub.r} 0 1 1 ${hub.x - 0.1} ${hub.y - hub.r}Z`}
+        dur={8}
+      >
+        <circle className="tx-alert" r="6" />
+      </Move>
       <Inspectable
-        id="lc-internal"
-        title="Internal communication"
-        body="Radio, phone and briefings with the station staff and SNCF teams.|Everyone in the station acts on the same information."
+        id="lc-passengers"
+        title="Passengers"
+        body="Passengers of 42 Ligne C stations: their safety, their information, their experience.|The centre of every decision in the role."
       >
         <g>
-          <Actor x={560} y={322} label="STATION STAFF" />
-          <Actor x={680} y={322} label="SNCF TEAMS" />
-          <Radio x={586} y={308} />
-          <Actor x={480} y={440} label="STAFF" />
-        </g>
-      </Inspectable>
-      <Inspectable
-        id="lc-external"
-        title="External communication"
-        body="Information screens, announcements, local authorities and welcome providers.|Passengers know what happens and where to go."
-      >
-        <g>
-          <Actor x={520} y={230} label="LOCAL AUTHORITIES" />
-          <Actor x={800} y={230} label="WELCOME PROVIDERS" />
-          <Speaker x={380} y={290} />
-        </g>
-      </Inspectable>
-      <Lab x={40} y={540} t="AFTER CAPACITY PLANNING · A ROLE BUILT ON COMMUNICATION" c="strong" />
-      {(
-        [
-          ['ACTION', 'Act on what happens now'],
-          ['REACTION', 'Answer the unexpected'],
-          ['PLANNING', 'Prepare known events'],
-          ['COORDINATION', 'Bring every team together'],
-        ] as const
-      ).map(([t, sub], i) => (
-        <Inspectable
-          key={t}
-          id={`lc-mode-${i}`}
-          title={t.charAt(0) + t.slice(1).toLowerCase()}
-          body={`${sub}.|One of the four parts of the role, every day.`}
-        >
-          <g>
-            <circle className="tx-stage" cx={56 + i * 230} cy={590} r="12" />
-            <Lab x={78 + i * 230} y={586} t={t} />
-            <Sub x={78 + i * 230} y={608} t={sub} />
+          <circle className="fd-core" cx={hub.x} cy={hub.y} r="62" />
+          <g className="tx-icon" transform={`translate(${hub.x} ${hub.y - 12})`}>
+            {roleIcon.crowd}
           </g>
-        </Inspectable>
-      ))}
+          <Lab x={hub.x} y={hub.y + 34} t="PASSENGERS" c="center warm" />
+        </g>
+      </Inspectable>
+      {modes.map(([t, sub, deg, icon], i) => {
+        const [x, y] = onHub(deg);
+        const side = deg === 0 ? 1 : deg === 180 ? -1 : 0;
+        return (
+          <Inspectable
+            key={t}
+            id={`lc-mode-${i}`}
+            title={t.charAt(0) + t.slice(1).toLowerCase()}
+            body={`${sub}.|One of the four parts of the role, every day.`}
+          >
+            <g className="lc-mode" style={vars({ '--i': i })}>
+              <circle className="tx-stage" cx={x} cy={y} r="30" />
+              <g className="tx-icon" transform={`translate(${x} ${y})`}>
+                {icon}
+              </g>
+              <Lab
+                x={side ? x + side * 42 : x}
+                y={side ? y + 5 : deg < 0 ? y - 44 : y + 54}
+                t={t}
+                c={side > 0 ? '' : side < 0 ? 'end' : 'center'}
+              />
+            </g>
+          </Inspectable>
+        );
+      })}
+      {sides.map(([id, title, body, head, actors], s) => {
+        const left = s === 0;
+        const cx = left ? 66 : 800;
+        return (
+          <Inspectable key={id} id={id} title={title} body={body}>
+            <g>
+              <Lab x={left ? 40 : 774} y={180} t={head} c="warm" />
+              {actors.map(([t, sub, icon, y]) => {
+                const [hx, hy] = onHub(left ? (y < hub.y ? 220 : 140) : y < hub.y ? -40 : 40, hub.r + 6);
+                const d = left ? `M232 ${y}L${hx} ${hy}` : `M${hx} ${hy}L774 ${y}`;
+                return (
+                  <Fragment key={t}>
+                    <circle className="tx-stage" cx={cx} cy={y} r="26" />
+                    <g className="tx-icon" transform={`translate(${cx} ${y}) scale(.9)`}>
+                      {icon}
+                    </g>
+                    <Lab x={cx + 36} y={y - 4} t={t} />
+                    <Sub x={cx + 36} y={y + 16} t={sub} />
+                    <path className="tx-link" d={d} />
+                    <Packet path={d} delay={y > hub.y ? 2 : 0} />
+                  </Fragment>
+                );
+              })}
+            </g>
+          </Inspectable>
+        );
+      })}
+      <path className="tx-div" d="M40 566H960" />
+      <Inspectable
+        id="lc-sides"
+        title="Both sides of rail"
+        body="From capacity planning for rail companies to passenger transport.|I know rail from both sides: capacity and passengers."
+      >
+        <g>
+          <Lab x={40} y={600} t="BOTH SIDES OF RAIL" c="warm" />
+          <Sub x={40} y={624} t="From capacity planning to passenger transport." />
+          <circle className="tx-stage" cx={620} cy={604} r="22" />
+          <g className="tx-icon" transform="translate(620 604) scale(.8)">
+            {roleIcon.calendar}
+          </g>
+          <Sub x={652} y={609} t="Capacity" />
+          <Arrow from={[730, 604]} to={[800, 604]} />
+          <circle className="tx-stage vs-on" cx={836} cy={604} r="22" />
+          <g className="tx-icon" transform="translate(836 604) scale(.8)">
+            {roleIcon.person}
+          </g>
+          <Sub x={868} y={609} t="Passengers" />
+        </g>
+      </Inspectable>
     </Layer>
   );
 }
@@ -548,7 +672,9 @@ export default function StationScene() {
           <rect x="40" y="170" width="920" height="320" />
         </clipPath>
       </defs>
-      <Line42 />
+      <Layer steps={[1, 2, 3]} bare>
+        <Line42 />
+      </Layer>
       <WhyThisRole />
       <Plans />
       <OnTheGround />

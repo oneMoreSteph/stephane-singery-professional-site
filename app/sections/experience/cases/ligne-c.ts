@@ -15,6 +15,7 @@ export default {
       [
         'After capacity planning, a role built on communication, internal and external.',
         'Action, reaction, planning and coordination, every day.',
+        'I moved to passenger transport to cover both sides of rail: capacity and passengers.',
       ],
     ],
     [
