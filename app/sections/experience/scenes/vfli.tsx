@@ -120,6 +120,27 @@ const obtained: [string, string, string, string, React.ReactNode][] = [
     <User x={X + 20} y={42} s={1.1} c="on" />,
   ],
   [
+    'vf-agents',
+    'PREPARATION AGENTS',
+    'Ready to leave, received on arrival',
+    'Agents who prepare a train for departure, or receive it on arrival.|I obtained them where our trains needed them.',
+    <g>
+      <User x={X + 8} y={42} s={0.9} c="on" />
+      <User x={X + 36} y={42} s={0.9} c="on" />
+    </g>,
+  ],
+  [
+    'vf-yard',
+    'A YARD',
+    'To store the trains safely',
+    'A marshalling yard: tracks where trains and wagons wait between runs.|I obtained a place to store our trains safely.',
+    <g className="tx-icon">
+      <path d={`M${X} 36L${X + 22} 24H${X + 56}M${X} 36H${X + 56}M${X} 36L${X + 22} 48H${X + 56}`} />
+      <rect x={X + 30} y={19} width="18" height="9" rx="2" />
+      <rect x={X + 30} y={43} width="18" height="9" rx="2" />
+    </g>,
+  ],
+  [
     'vf-events',
     'EVERY UNEXPECTED EVENT',
     'With the regional coordinators',
@@ -167,9 +188,9 @@ function ObtainIt() {
       {obtained.map(([id, t, s, body, icon], i) => (
         <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
           <g>
-            <g transform={`translate(694 ${296 + i * 92}) scale(0.75) translate(${-X} 0)`}>{icon}</g>
-            <Lab x={748} y={310 + i * 92} t={t} />
-            <Sub x={748} y={332 + i * 92} t={s} />
+            <g transform={`translate(694 ${296 + i * 64}) scale(0.75) translate(${-X} 0)`}>{icon}</g>
+            <Lab x={748} y={310 + i * 64} t={t} />
+            <Sub x={748} y={332 + i * 64} t={s} />
           </g>
         </Inspectable>
       ))}
