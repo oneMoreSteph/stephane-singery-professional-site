@@ -6,11 +6,13 @@ export function Layer({
   steps,
   className = '',
   bare = false,
+  transform,
   children,
 }: {
   steps: number[];
   className?: string;
   bare?: boolean;
+  transform?: string;
   children: React.ReactNode;
 }) {
   const { step } = useDrawing();
@@ -23,6 +25,7 @@ export function Layer({
           .filter(Boolean)
           .join(' ')}
         data-states={steps.join(' ')}
+        transform={transform}
         aria-hidden={!shown}
       >
         {children}

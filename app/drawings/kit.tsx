@@ -83,17 +83,25 @@ export function Move({
   path,
   dur,
   begin = 0,
+  rotate,
   children,
 }: {
   path: string;
   dur: number;
   begin?: number;
+  rotate?: 'auto';
   children: React.ReactNode;
 }) {
   return (
     <g>
       {children}
-      <animateMotion path={path} dur={`${dur}s`} begin={`-${begin}s`} repeatCount="indefinite" />
+      <animateMotion
+        path={path}
+        dur={`${dur}s`}
+        begin={`-${begin}s`}
+        repeatCount="indefinite"
+        rotate={rotate}
+      />
     </g>
   );
 }
@@ -459,3 +467,18 @@ export function CaseChip({
 
 /** Position of an item in a cycling sequence (seq3–6, cap3–5, trigger, cover-case): sets --n for timing and data-n for styles. */
 export const seqN = (n: number) => ({ style: vars({ '--n': n }), 'data-n': n });
+
+/** A small packet travelling a path, on a 7 s loop. */
+export const Packet = ({
+  path,
+  delay = 0,
+  colour = '#b2f0ea',
+}: {
+  path: string;
+  delay?: number;
+  colour?: string;
+}) => (
+  <rect x="-4" y="-3" width="8" height="6" rx="1" fill={colour} className="moving-packet">
+    <animateMotion dur="7s" begin={`-${delay}s`} repeatCount="indefinite" path={path} />
+  </rect>
+);

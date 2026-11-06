@@ -23,4 +23,4 @@ for f in sorted(paris['features'],key=lambda x:x['properties']['c_ar']):
     p=f['properties']; g=f['geometry']; polys=g['coordinates'] if g['type']=='MultiPolygon' else [g['coordinates']]
     xy=proj(p['geom_x_y']['lon'],p['geom_x_y']['lat'])
     arr.append({'number':p['c_ar'],'d':' '.join(path(poly,proj,2) for poly in polys),'center':xy})
-Path('app/legacy/mission-geography.js').write_text('// Boundary geometry only. Attribution in assets/geography/README.md.\nexport const countries = '+json.dumps(features,separators=(',',':'))+';\nexport const arrondissements = '+json.dumps(arr,separators=(',',':'))+';\n')
+Path('app/drawings/data/geography.ts').write_text('// Boundary geometry only. Attribution in assets/geography/README.md.\nexport const countries = '+json.dumps(features,separators=(',',':'))+';\nexport const arrondissements = '+json.dumps(arr,separators=(',',':'))+';\n')

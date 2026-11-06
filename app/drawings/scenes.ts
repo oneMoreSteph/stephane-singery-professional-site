@@ -1,8 +1,7 @@
 import type { ComponentType } from 'react';
 
 /**
- * Drawings converted to React, by scene name: every app/sections/<section>/scenes/<name>.tsx, found automatically.
- * A scene not found here still comes from app/legacy through LegacyScene until it is converted.
+ * Drawings by scene name: every app/sections/<section>/scenes/<name>.tsx, found automatically.
  */
 const files = import.meta.glob<{ default: ComponentType }>('../sections/*/scenes/*.tsx', { eager: true });
 

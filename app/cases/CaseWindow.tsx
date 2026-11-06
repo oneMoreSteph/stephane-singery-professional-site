@@ -3,7 +3,6 @@ import { lines, pad } from '~/content';
 import { DrawingContext } from '~/drawings/context';
 import { Palette } from '~/drawings/Palette';
 import { scenes } from '~/drawings/scenes';
-import { LegacyScene } from '~/legacy/LegacyScene';
 import type { Case } from '~/sections/types';
 import { tourTargets, useHighlightTour, type TourTarget } from './useHighlightTour';
 
@@ -151,9 +150,7 @@ export function CaseWindow({ item, onOpenCase }: { item: Case; onOpenCase: (key:
                 data-pick={pick ?? undefined}
                 style={{ transform: `translate(${500 - 500 * zoom}px,${365 - 365 * zoom}px) scale(${zoom})` }}
               >
-                <DrawingContext.Provider value={state}>
-                  {Scene ? <Scene /> : <LegacyScene name={drawing.scene} />}
-                </DrawingContext.Provider>
+                <DrawingContext.Provider value={state}>{Scene ? <Scene /> : null}</DrawingContext.Provider>
               </g>
             </svg>
             <div className="scene-tools" aria-label="Illustration controls">

@@ -34,9 +34,9 @@ for f in json.load(open(sys.argv[1]))['features']:
     d = ' '.join(filter(None, (ring_path(r) for p in polys for r in p[:1])))
     (members if name in EU else context).append({'name': name, 'd': d})
 assert len(members) == 27, len(members)
-Path('app/legacy/mission-geography-eu.js').write_text(
+Path('app/drawings/data/geography-eu.ts').write_text(
     '// Boundary geometry only. Attribution in assets/geography/README.md.\n'
     f'export const euMembers = {json.dumps(sorted(members, key=lambda c: c["name"]), ensure_ascii=False, separators=(",", ":"))};\n'
     f'export const euContext = {json.dumps(sorted(context, key=lambda c: c["name"]), ensure_ascii=False, separators=(",", ":"))};\n'
-    f'export const euPoint = (lon, lat) => [{X0} + (lon + 11) * {KX}, {Y0} + (71 - lat) * {KY}];\n')
+    f'export const euPoint = (lon: number, lat: number): [number, number] => [{X0} + (lon + 11) * {KX}, {Y0} + (71 - lat) * {KY}];\n')
 print(len(members), len(context))

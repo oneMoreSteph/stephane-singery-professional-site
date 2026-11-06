@@ -1,6 +1,6 @@
 // France at true proportions, with the main rail links. Shared by the rail and network scenes.
 import { Fragment } from 'react';
-import { countries } from '~/legacy/mission-geography.js';
+import { countries } from '~/drawings/data/geography';
 import type { Pt } from './kit';
 
 export const cities: Record<string, Pt> = {

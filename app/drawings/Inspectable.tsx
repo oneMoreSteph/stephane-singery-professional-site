@@ -1,5 +1,5 @@
 import { useContext, useLayoutEffect, useRef, useState } from 'react';
-import { concepts } from '~/legacy/case-concepts.js';
+import { concepts } from '~/drawings/data/concepts';
 import { LayerVisible, useDrawing } from './context';
 
 interface Props {
@@ -18,7 +18,7 @@ export function Inspectable({ id, title, body = '', className = '', children }: 
   const visible = useContext(LayerVisible);
   const ref = useRef<SVGGElement>(null);
   const [hit, setHit] = useState<DOMRect | null>(null);
-  const concept = (concepts as Record<string, string[]>)[id];
+  const concept = concepts[id];
 
   // A transparent area 7 units around the element makes thin drawings easy to click.
   useLayoutEffect(() => {
