@@ -1018,3 +1018,7 @@
 .story-svg .active-route.warm-route{stroke:#f6d77a}
 .story-svg .tx-tpath{fill:none;stroke:#7f9ba6;stroke-width:2.5;stroke-linecap:round}.story-svg .tx-tpath.mine{stroke:#f0a868}
 .story-svg .tx-conflict{fill:rgba(240,122,104,.14);stroke:#f07a68;stroke-width:1.5;stroke-dasharray:4 4}
+.story-svg .tx-win-t.late{fill:#f0a868}
+.story-svg .tx-tile-s{fill:#1f6a80;stroke:#97e0e8;animation:tx-pulse 4s ease-in-out infinite;animation-delay:calc(var(--i)*.08s)}
+.story-svg .tx-gates{fill:none;stroke:#97e0e8;stroke-width:3;stroke-linecap:round}
+.story-svg .tx-exit{fill:#123847;stroke:#7fe0b0;stroke-width:1.5}

@@ -1,11 +1,10 @@
-// Earth · Transilien Ligne C: the line on top, one station in cross-section below, each step adding its answer.
-// Station layout and measures are illustrative.
+// Earth · Transilien Ligne C: the line on top; below, one picture per step: communication, the plans, the ground, the measure.
+// Station layout, plan content and indicator values are illustrative.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
-import { OpsDefs, T, vars, type Pt, seqN } from '~/drawings/kit';
+import { Arrow, Bars, CaseChip, Lab, OpsDefs, Spark, Sub, T, User, vars, Win, type Pt } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
-import { Crew, FlowArrow, Line, Pill } from '~/drawings/ops';
-import { SvgButton } from '~/drawings/spokenName';
+import { Line } from '~/drawings/ops';
 
 // ---------- The line: schematic, 42 station marks ----------
 const trunk: Pt[] = Array.from({ length: 17 }, (_, i) => [240 + (520 * (i + 1)) / 18, 100]);
@@ -85,588 +84,399 @@ function Line42() {
   );
 }
 
-// ---------- The station in cross-section, the same for every step ----------
-function Stairs({ x, y1, y2, dir = 1 }: { x: number; y1: number; y2: number; dir?: number }) {
-  const n = 5;
-  const w = 44;
-  const h = (y2 - y1) / n;
-  return (
-    <path
-      className="stn-stairs"
-      d={`M${x} ${y1}${Array.from({ length: n }, () => `h${(w / n) * dir}v${h}`).join('')}`}
-    />
-  );
-}
-/** A passenger information board: a departure board with an "i" badge. */
-function Screen({ x, y, id }: { x: number; y: number; id: string }) {
-  return (
-    <g className="stn-screen" data-id={id} transform={`translate(${x} ${y})`}>
-      <rect width="64" height="26" rx="3" />
-      <circle className="scr-badge" cx="13" cy="13" r="7" />
-      <path className="scr-i" d="M13 10v7M13 7.5v.5" />
-      <path className="scr-lines" d="M26 9h30M26 14h22M26 19h26" />
-    </g>
-  );
-}
-function Track({ y }: { y: number }) {
-  return (
-    <g className="stn-track">
-      <rect className="stn-ballast" x="110" y={y} width="780" height="22" />
-      <Line d={`M110 ${y + 11}H890`} c="stn-ties" />
-      <Line d={`M110 ${y + 5}H890`} c="stn-railline" />
-      <Line d={`M110 ${y + 17}H890`} c="stn-railline" />
-    </g>
-  );
-}
+// ---------- Small domain objects ----------
+const Radio = ({ x, y }: { x: number; y: number }) => (
+  <g className="tx-icon" transform={`translate(${x} ${y})`}>
+    <rect x="-9" y="-14" width="18" height="30" rx="3" />
+    <path d="M-4-14V-26M-4-6H4M-4 0H4" />
+  </g>
+);
+const Phone = ({ x, y }: { x: number; y: number }) => (
+  <g className="tx-icon" transform={`translate(${x} ${y})`}>
+    <rect x="-10" y="-17" width="20" height="34" rx="4" />
+    <path d="M-3 11H3" />
+  </g>
+);
+const Speaker = ({ x, y }: { x: number; y: number }) => (
+  <g className="tx-icon" transform={`translate(${x} ${y})`}>
+    <path d="M-12-6H-5L5-14V14L-5 6H-12Z" />
+    <path d="M10-8C14-4 14 4 10 8M14-13C21-6 21 6 14 13" />
+  </g>
+);
+const TownHall = ({ x, y }: { x: number; y: number }) => (
+  <g className="tx-icon" transform={`translate(${x} ${y})`}>
+    <path d="M-18-6L0-18 18-6Z" />
+    <path d="M-15-6V14M-5-6V14M5-6V14M15-6V14M-19 14H19" />
+  </g>
+);
+const Sheet = ({ x, y }: { x: number; y: number }) => (
+  <g transform={`translate(${x} ${y})`}>
+    <rect className="tx-doc" width="16" height="20" rx="2" />
+    <path className="tx-grid" d="M3 6H13M3 11H13M3 16H10" />
+  </g>
+);
 
-function Station() {
-  return (
-    <g className="stn-base">
-      <rect className="stn-frame" x="40" y="190" width="920" height="430" rx="4" />
-      {[
-        [300, 246, 60, 54],
-        [372, 262, 42, 38],
-        [430, 236, 54, 64],
-        [880, 250, 50, 50],
-      ].map(([x, y, w, h]) => (
-        <rect key={x} className="stn-building" x={x} y={y} width={w} height={h} />
-      ))}
-      <Line d="M40 300H960" c="stn-ground" />
-      <g className="stn-bus">
-        <path d="M916 300V262" />
-        <rect x="904" y="250" width="24" height="14" rx="2" />
-      </g>
-      <T x={916} y={316} className="center stn-tag">
-        BUS STOP
-      </T>
-      <rect className="stn-hall" x="110" y="330" width="780" height="100" rx="2" />
-      <Stairs x={150} y1={300} y2={330} />
-      <Stairs x={806} y1={300} y2={330} dir={-1} />
-      <T x={190} y={292} className="center stn-door">
-        A
-      </T>
-      <T x={810} y={292} className="center stn-door">
-        B
-      </T>
-      <g className="stn-gates">
-        {[468, 482, 496, 510, 524].map((x) => (
-          <path key={x} d={`M${x} 368V408`} />
-        ))}
-      </g>
-      <T x={496} y={424} className="center stn-tag">
-        GATES
-      </T>
-      <Screen x={290} y={342} id="scr-hall" />
-      <rect className="stn-tube" x="110" y="456" width="780" height="150" rx="2" />
-      <Stairs x={250} y1={430} y2={520} />
-      <Stairs x={750} y1={430} y2={520} dir={-1} />
-      <Track y={498} />
-      <rect className="stn-platform" x="110" y="522" width="780" height="40" />
-      <Line d="M110 525H890" c="stn-edge" />
-      <Line d="M110 559H890" c="stn-edge" />
-      <Track y={564} />
-      <T x={124} y={545} className="mini-label stn-plat-label">
-        PLATFORM
-      </T>
-      <T x={876} y={495} className="end stn-tag">
-        TRACK 1
-      </T>
-      <T x={876} y={600} className="end stn-tag">
-        TRACK 2
-      </T>
-      <g className="stn-pass">
-        <rect x="-160" y="-11" width="160" height="20" rx="5" />
-        {[0, 1, 2, 3].map((i) => (
-          <rect key={i} className="stn-window" x={-148 + i * 38} y="-6" width="24" height="7" rx="1" />
-        ))}
-        <animateMotion path="M110 573H1050" dur="9s" repeatCount="indefinite" />
-      </g>
-      <g className="stn-train">
-        <rect x="330" y="480" width="320" height="22" rx="5" />
-        {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-          <rect key={i} className="stn-window" x={346 + i * 42} y="486" width="26" height="8" rx="1" />
-        ))}
-      </g>
-      <path className="stn-pole" d="M182 492V522" />
-      <Screen x={150} y={466} id="scr-quai" />
-      <T x={182} y={460} className="center stn-tag stn-info-tag">
-        INFO
-      </T>
-      <T x={322} y={336} className="center stn-tag stn-info-tag">
-        INFO
-      </T>
-      <T x={56} y={214} className="mini-label stn-level">
-        STREET
-      </T>
-      <T x={878} y={348} className="end mini-label stn-level">
-        TICKET HALL
-      </T>
-      <T x={860} y={474} className="end mini-label stn-level">
-        PLATFORMS
-      </T>
-      <T x={944} y={612} className="end stn-tag">
-        THE RINGED STATION · ILLUSTRATIVE
-      </T>
-    </g>
-  );
-}
-
-// ---------- 01 · Why this role: every counterpart drawn where they are ----------
-const contacts: ['in' | 'out', string, string, number, number][] = [
-  ['in', 'Station staff', 'At the gates and on the platforms', 520, 388],
-  ['in', 'SNCF teams', 'Running the line', 180, 392],
-  ['out', 'Passengers', 'In the stations and on the trains', 800, 540],
-  ['out', 'Local authorities', 'Around the stations', 610, 252],
-  ['out', 'Welcome providers', 'At the entrances', 820, 252],
+const internal: [string, string, React.ReactNode][] = [
+  ['Radio', 'Station staff', <Radio key="r" x={70} y={276} />],
+  ['Phone', 'SNCF teams', <Phone key="p" x={70} y={344} />],
+  [
+    'Briefing',
+    'Before each shift',
+    <g key="b" transform="translate(58 398)">
+      <rect className="tx-doc" width="26" height="32" rx="2" />
+      <path className="tx-grid" d="M5 9H21M5 16H21M5 23H16" />
+    </g>,
+  ],
 ];
 
 function WhyThisRole() {
   return (
     <Layer steps={[0]}>
-      {contacts.map(([, title, sub, x, y], i) => (
-        <g key={title} className="seq5" {...seqN(i)}>
-          <Inspectable id={`who-${i}`} title={title} body={sub}>
-            <g className="contact" transform={`translate(${x} ${y})`}>
-              <circle className="contact-ring" r="26" />
-              <Crew x={0} y={0} s={0.9} />
-              <T x={0} y={-30} className="center contact-name">
-                {title.toUpperCase()}
-              </T>
-            </g>
-          </Inspectable>
+      <Lab x={40} y={200} t="AFTER CAPACITY PLANNING · A ROLE BUILT ON COMMUNICATION" c="strong" />
+      <Inspectable
+        id="lc-internal"
+        title="Internal communication"
+        body="Radio, phone and briefings with the station staff and SNCF teams.|Everyone on the line acts on the same information."
+      >
+        <g>
+          <Lab x={40} y={236} t="INTERNAL" c="warm" />
+          {internal.map(([t, s, icon], i) => (
+            <Fragment key={t}>
+              {icon}
+              <Lab x={110} y={272 + i * 68} t={t.toUpperCase()} />
+              <Sub x={110} y={292 + i * 68} t={s} />
+            </Fragment>
+          ))}
         </g>
-      ))}
-      <g className="seq-caption">
-        {contacts.map(([side, title, sub], i) => (
-          <g key={title} className="cap5" {...seqN(i)}>
-            <rect className="map-panel" x="52" y="222" width="290" height="64" rx="3" />
-            <T
-              x={68}
-              y={244}
-              className="mini-label seq-head"
-            >{`${i + 1} / 5 · ${side === 'in' ? 'INTERNAL' : 'EXTERNAL'}`}</T>
-            <T x={68} y={270} className="label tiny">{`${title} · ${sub.toLowerCase()}`}</T>
+      </Inspectable>
+      <Inspectable
+        id="lc-external"
+        title="External communication"
+        body="Information screens, announcements, local authorities and welcome providers.|Passengers know what happens and where to go."
+      >
+        <g>
+          <Lab x={520} y={236} t="EXTERNAL" c="warm" />
+          <Win x={520} y={250} w={200} h={110} title="NEXT TRAINS">
+            {['C · 14:02 · On time', 'C · 14:09 · Delayed', 'C · 14:17 · On time'].map((t, i) => (
+              <Fragment key={t}>
+                <rect className="tx-table-row" x="532" y={284 + i * 24} width="176" height="18" rx="2" />
+                <T x={540} y={297 + i * 24} className={`tx-win-t${i === 1 ? ' late' : ''}`}>
+                  {t}
+                </T>
+              </Fragment>
+            ))}
+          </Win>
+          <Speaker x={760} y={280} />
+          <Sub x={786} y={285} t="Announcements" />
+          <TownHall x={760} y={334} />
+          <Sub x={786} y={339} t="Local authorities" />
+          <User x={760} y={402} s={0.8} c="on" />
+          <Sub x={786} y={393} t="Welcome providers" />
+          <Sub x={520} y={384} t="Passenger information" />
+        </g>
+      </Inspectable>
+      <Lab x={40} y={500} t="EVERY DAY" />
+      {(
+        [
+          ['ACTION', 'Act on what happens now'],
+          ['REACTION', 'Answer the unexpected'],
+          ['PLANNING', 'Prepare known events'],
+          ['COORDINATION', 'Bring every team together'],
+        ] as const
+      ).map(([t, s], i) => (
+        <Inspectable
+          key={t}
+          id={`lc-mode-${i}`}
+          title={t.charAt(0) + t.slice(1).toLowerCase()}
+          body={`${s}.|One of the four parts of the role, every day.`}
+        >
+          <g>
+            <circle className="tx-stage" cx={70 + i * 230} cy={556} r="14" />
+            <Lab x={96 + i * 230} y={552} t={t} />
+            <Sub x={96 + i * 230} y={574} t={s} />
           </g>
-        ))}
-      </g>
-      <rect className="map-panel" x="40" y="630" width="520" height="62" rx="4" />
-      <T x={58} y={652} className="mini-label muted-label">
-        BEFORE · SNCF RÉSEAU
-      </T>
-      <T x={58} y={676} className="label small">
-        Capacity, years ahead
-      </T>
-      <FlowArrow d="M300 671H330" />
-      <T x={342} y={652} className="mini-label warm">
-        LIGNE C
-      </T>
-      <T x={342} y={676} className="label small">
-        The day itself, with passengers
-      </T>
-      <rect className="map-panel" x="570" y="630" width="390" height="62" rx="4" />
-      <T x={586} y={652} className="mini-label">
-        EVERY DAY
-      </T>
-      {['ACTION', 'REACTION', 'PLANNING', 'COORDINATION'].map((t, i) => (
-        <Pill key={t} x={586 + i * 88} y={662} w={i === 3 ? 102 : 82} label={t} c="pill-tag" />
+        </Inspectable>
       ))}
     </Layer>
   );
 }
-
-// ---------- 02 · The plans: one situation at a time ----------
-const triggers: [string, string][] = [
-  ['PLANNED', 'Engineering works'],
-  ['PLANNED', 'Festive public event'],
-  ['UNEXPECTED', 'Incident on the line'],
-];
-const Hatch = ({ x, y, w, h }: { x: number; y: number; w: number; h: number }) => (
-  <rect className="cov-safety" x={x} y={y} width={w} height={h} />
-);
-const Walk = ({ pts }: { pts: Pt[] }) => (
-  <path className="cov-route" d={`M${pts.map((p) => p.join(' ')).join('L')}`} markerEnd="url(#opsArrow)" />
-);
-function Welcome({ x, y, label = 'WELCOME' }: { x: number; y: number; label?: string }) {
-  return (
-    <g className="cov-welcome" transform={`translate(${x} ${y})`}>
-      <circle r="9" />
-      <path d="M-3 0h6M0-3v6" />
-      <T x={14} y={4} className="cov-tag">
-        {label}
-      </T>
-    </g>
-  );
-}
-function Info({ x, y }: { x: number; y: number }) {
-  return (
-    <>
-      <g className="cov-screen">
-        <Screen x={x} y={y} id="i" />
-      </g>
-      <T x={x + 32} y={y + 42} className="center cov-tag">
-        INFORMATION
-      </T>
-    </>
-  );
-}
-const Note = ({ x, y, t }: { x: number; y: number; t: string }) => (
-  <T x={x} y={y} className="center cov-note">
-    {t}
-  </T>
-);
-// The way out through entrance A: platform → stairs → hall → stairs → street.
-const outA = (start: number): Pt[] => [
-  [start, 542],
-  [300, 542],
-  [294, 524],
-  [252, 434],
-  [204, 422],
-  [196, 334],
-  [154, 304],
-  [150, 290],
-];
-const situations: React.ReactNode[] = [
-  <>
-    <Hatch x={600} y={522} w={290} h={40} />
-    <Note x={745} y={548} t="CLOSED FOR WORKS" />
-    <path className="cov-closed" d="M716 462l24 24M740 462l-24 24" />
-    <Walk pts={[...outA(580), [90, 290]]} />
-    <Welcome x={232} y={396} />
-    <Info x={290} y={342} />
-  </>,
-  <>
-    <g className="cov-crowd">
-      {Array.from({ length: 18 }, (_, i) => (
-        <circle key={i} cx={70 + (i % 6) * 13 + (i > 11 ? 6 : 0)} cy={262 + Math.floor(i / 6) * 10} r="3.2" />
-      ))}
-    </g>
-    <Hatch x={458} y={360} w={76} h={54} />
-    <Note x={496} y={446} t="CAPACITY AT THE GATES" />
-    <Walk
-      pts={[
-        [150, 290],
-        [154, 304],
-        [196, 334],
-        [210, 396],
-        [452, 396],
-      ]}
-    />
-    <T x={130} y={252} className="center cov-tag cov-tag--route">
-      IN
-    </T>
-    <Walk
-      pts={[
-        [540, 396],
-        [760, 396],
-        [764, 334],
-        [806, 304],
-        [850, 290],
-      ]}
-    />
-    <T x={870} y={252} className="center cov-tag cov-tag--route">
-      OUT
-    </T>
-    <Welcome x={232} y={270} />
-    <Welcome x={760} y={270} />
-  </>,
-  <>
-    <g className="cov-alert" transform="translate(490 470)">
-      <path d="M0-14L13 8H-13Z" />
-      <path d="M0-6v6M0 3v1" />
-    </g>
-    <T x={512} y={474} className="cov-note">
-      TRAIN STOPPED
-    </T>
-    <Hatch x={330} y={522} w={320} h={40} />
-    <Note x={490} y={548} t="PLATFORM CLOSED" />
-    <Walk pts={[...outA(320), [880, 290]]} />
-    <Welcome x={860} y={262} label="" />
-    <T x={916} y={242} className="center cov-tag">
-      ALTERNATIVE
-    </T>
-    <Info x={290} y={342} />
-    <Info x={150} y={466} />
-  </>,
-];
 
 function Plans() {
   return (
     <Layer steps={[1]}>
-      {triggers.map(([k, t], i) => (
-        <SvgButton
-          key={t}
-          className="trigger"
-          data-pick={i}
-          purpose={`show the plan for ${t.toLowerCase()}`}
-          {...seqN(i)}
-          transform={`translate(${250 + i * 168} 198)`}
-        >
-          <rect width="160" height="38" rx="3" />
-          <T x={12} y={15} className="mini-label">
-            {k}
-          </T>
-          <T x={12} y={31} className="label tiny">
-            {t}
-          </T>
-          <T x={148} y={25} className="end trigger-cue">
-            ›
-          </T>
-        </SvgButton>
-      ))}
-      {situations.map((c, i) => (
-        <g key={i} className="cover-case" {...seqN(i)}>
-          {c}
+      <Inspectable
+        id="lc-plan"
+        title="A passenger-care plan"
+        body="One plan per station: what happens for passengers when an event hits it.|I built the plans of 42 Ligne C stations."
+      >
+        <Win x={40} y={186} w={460} h={330} title="CARE PLAN · SAINT-MICHEL NOTRE-DAME">
+          {(
+            [
+              ['SAFETY', 'Passengers’ safety', 'M-10-12L0-16 10-12V0C10 8 0 14 0 14S-10 8-10 0Z'],
+              ['REDIRECTION', 'Where passengers go instead', 'M-12 0H8M2-7L9 0 2 7M-12-12V12'],
+              [
+                'EXPERIENCE',
+                'Their experience in our stations',
+                'M-8-4A8 8 0 1 1 8-4M-12 12C-12 4 12 4 12 12',
+              ],
+            ] as const
+          ).map(([t, s, d], i) => (
+            <Fragment key={t}>
+              <rect className="tx-table-row" x="58" y={226 + i * 90} width="424" height="74" rx="3" />
+              <g className="tx-icon" transform={`translate(90 ${263 + i * 90})`}>
+                <path d={d} />
+              </g>
+              <Lab x={126} y={256 + i * 90} t={t} />
+              <Sub x={126} y={278 + i * 90} t={s} />
+            </Fragment>
+          ))}
+        </Win>
+      </Inspectable>
+      <Lab x={580} y={200} t="FOR PLANNED EVENTS" c="warm" />
+      <Inspectable
+        id="lc-festive"
+        title="Festive public events"
+        body="Large public events near a station.|The plan prepares the crowd flows in advance."
+      >
+        <g>
+          <g className="tx-icon" transform="translate(600 246)">
+            <path d="M0-14V14M-14 0H14M-10-10L10 10M10-10L-10 10" />
+          </g>
+          <Lab x={630} y={244} t="FESTIVE PUBLIC EVENTS" />
         </g>
-      ))}
-      <rect className="map-panel" x="40" y="630" width="920" height="62" rx="4" />
-      <T x={58} y={652} className="mini-label">
-        WHAT EACH PLAN COVERS
-      </T>
-      <g transform="translate(58 664)">
-        <Hatch x={0} y={0} w={26} h={16} />
-        <T x={36} y={13} className="label small">
-          Passengers’ safety
-        </T>
-      </g>
-      <g transform="translate(270 664)">
-        <path className="cov-route" d="M0 8h26" markerEnd="url(#opsArrow)" />
-        <T x={36} y={13} className="label small">
-          Their redirection
-        </T>
-      </g>
-      <g transform="translate(470 672)">
-        <g className="cov-welcome">
-          <circle cx="10" r="9" />
-          <path d="M7 0h6M10-3v6" />
+      </Inspectable>
+      <Inspectable
+        id="lc-works"
+        title="Engineering works"
+        body="Works that close tracks or entrances for a period.|The plan redirects passengers before they arrive."
+      >
+        <g>
+          <rect className="works-mark" x="586" y="282" width="28" height="16" rx="2" />
+          <Lab x={630} y={296} t="ENGINEERING WORKS" />
         </g>
-        <T x={30} y={5} className="label small">
-          Their experience in our stations
-        </T>
-      </g>
-      <T x={944} y={676} className="end mini-label warm">
-        A PLAN FOR EACH STATION
-      </T>
+      </Inspectable>
+      <Lab x={580} y={360} t="FOR THE UNEXPECTED" c="warm" />
+      <Inspectable
+        id="lc-incident"
+        title="Incidents affecting circulation"
+        body="An incident that stops or slows trains.|The plan says who does what, at once."
+      >
+        <g>
+          <path className="tx-alert" d="M600 388L614 412H586Z" />
+          <Lab x={630} y={406} t="INCIDENTS ON THE LINE" />
+        </g>
+      </Inspectable>
+      <Arrow from={[572, 260]} to={[508, 300]} />
+      <Arrow from={[572, 400]} to={[508, 380]} />
+      <Inspectable
+        id="lc-42"
+        title="42 stations, one plan each"
+        body="Every station in my scope had its own plan.|Each station has its own exits, flows and partners."
+      >
+        <g>
+          <Lab x={40} y={560} t="42 STATIONS · ONE PLAN EACH" c="strong" />
+          {Array.from({ length: 42 }, (_, i) => (
+            <rect
+              key={i}
+              className="tx-tile-s"
+              x={40 + i * 21}
+              y={578}
+              width="16"
+              height="20"
+              rx="2"
+              style={vars({ '--i': i })}
+            />
+          ))}
+        </g>
+      </Inspectable>
     </Layer>
   );
 }
 
-// ---------- 03 · On the ground: everyone named where they stand, holding the same plan sheet ----------
-function NameTag({
-  x,
-  y,
-  label,
-  kind,
-  anchor = 'start',
-}: {
-  x: number;
-  y: number;
-  label: string;
-  kind: string;
-  anchor?: string;
-}) {
-  const w = label.length * 7.4 + 18;
-  const x0 = anchor === 'middle' ? x - w / 2 : x;
+// The station from above: platforms, hall, exits, street.
+function StationPlan() {
   return (
-    <g className={`name-tag name-tag--${kind}`}>
-      <rect x={x0.toFixed(1)} y={y - 13} width={w.toFixed(1)} height="20" rx="2" />
-      <T x={x0 + 9} y={y + 1.5} className="tag-text">
-        {label}
+    <g>
+      <rect className="tx-layer" x="40" y="200" width="620" height="300" rx="4" />
+      {[236, 296].map((y) => (
+        <rect key={y} className="tx-layer top" x="70" y={y} width="560" height="36" rx="2" />
+      ))}
+      <T x={80} y={258} className="tx-win-t">
+        PLATFORM · TRACK 1
+      </T>
+      <T x={80} y={318} className="tx-win-t">
+        PLATFORM · TRACK 2
+      </T>
+      <rect className="tx-layer" x="200" y="360" width="300" height="90" rx="3" />
+      <T x={210} y={380} className="tx-win-t">
+        TICKET HALL
+      </T>
+      <path className="tx-gates" d="M260 440V420M280 440V420M300 440V420M320 440V420" />
+      {[
+        [120, 'EXIT A'],
+        [580, 'EXIT B'],
+      ].map(([x, t]) => (
+        <Fragment key={t}>
+          <rect className="tx-exit" x={(x as number) - 30} y="476" width="60" height="22" rx="2" />
+          <T x={x} y={491} className="center tx-win-t">
+            {t}
+          </T>
+        </Fragment>
+      ))}
+      <path className="tx-route" d="M40 540H960" />
+      <T x={48} y={532} className="tx-win-t">
+        STREET
+      </T>
+      <rect className="tx-exit" x="860" y="548" width="70" height="22" rx="2" />
+      <T x={895} y={563} className="center tx-win-t">
+        BUS STOP
       </T>
     </g>
   );
 }
-function Sheet({ x, y }: { x: number; y: number }) {
-  return (
-    <g className="kit" transform={`translate(${x} ${y})`}>
-      <rect width="11" height="14" rx="1" />
-      <path d="M2.5 4.5h6M2.5 8h6M2.5 11h4" />
-    </g>
-  );
-}
-const posts: [string, string, string, Pt[], [number, number, string, string?][]][] = [
+
+const actors: [string, string, string, string, Pt[]][] = [
   [
-    'prov',
-    'Welcome providers',
-    'External providers who greet and direct passengers at the entrances.',
+    'lc-staff',
+    'STATION STAFF',
+    'Coordinated',
+    'The station staff concerned, on the platforms and at the gates.|I coordinated them, each with the tools and information to act.',
     [
-      [132, 284],
-      [836, 284],
-    ],
-    [
-      [132, 240, 'WELCOME PROVIDER', 'middle'],
-      [836, 240, 'WELCOME PROVIDER', 'middle'],
+      [380, 270],
+      [440, 330],
+      [340, 430],
     ],
   ],
   [
-    'auth',
-    'Local authorities',
-    'The city side: public space, access and safety around the station.',
+    'lc-welcome',
+    'WELCOME PROVIDERS',
+    'What each would do, negotiated',
+    'Teams who greet and guide passengers at the entrances.|I negotiated what each would do and obtained their commitment.',
     [
-      [624, 284],
-      [676, 284],
+      [120, 466],
+      [580, 466],
     ],
-    [[650, 240, 'LOCAL AUTHORITIES', 'middle']],
   ],
   [
-    'staff',
-    'Station staff',
-    'The SNCF agents of the station, coordinated by me.',
-    [
-      [548, 396],
-      [440, 548],
-      [726, 474],
-    ],
-    [
-      [570, 392, 'STATION STAFF'],
-      [462, 552, 'STATION STAFF'],
-      [748, 478, 'STATION STAFF'],
-    ],
+    'lc-authorities',
+    'LOCAL AUTHORITIES',
+    'Commitment obtained',
+    'The town authorities around the station.|I obtained their commitment, or coordinated an existing arrangement.',
+    [[760, 590]],
   ],
-];
-const postCaptions = [
-  'Greet and direct passengers at the entrances',
-  'Public space, access and safety outside',
-  'Carry out the plan in the station',
 ];
 
 function OnTheGround() {
   return (
     <Layer steps={[2]}>
-      {posts.map(([kind, title, body, pts, tags], i) => (
-        <g key={kind} className="seq3" {...seqN(i)}>
-          <Inspectable id={`post-${i}`} title={title} body={body}>
-            <g className="post">
-              {pts.map(([x, y]) => (
-                <Fragment key={`${x}${y}`}>
-                  <Crew x={x} y={y} s={0.85} />
-                  <Sheet x={x + 12} y={y - 4} />
+      <StationPlan />
+      {actors.map(([id, t, s, body, pts], i) => (
+        <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+          <g>
+            {pts.map(([x, y], j) =>
+              id === 'lc-authorities' ? (
+                <TownHall key={j} x={x} y={y} />
+              ) : (
+                <Fragment key={j}>
+                  <User x={x} y={y} s={0.75} c="on" />
+                  <Sheet x={x + 12} y={y - 26} />
                 </Fragment>
-              ))}
-              {tags.map(([x, y, l, an]) => (
-                <NameTag key={`${x}${y}`} x={x} y={y} label={l} kind={kind} anchor={an} />
-              ))}
-            </g>
-          </Inspectable>
-        </g>
-      ))}
-      <rect className="map-panel" x="40" y="630" width="920" height="62" rx="4" />
-      <g transform="translate(60 646)" className="kit kit--big">
-        <rect width="22" height="28" rx="2" />
-        <path d="M5 8h12M5 14h12M5 20h8" />
-      </g>
-      <T x={98} y={654} className="mini-label warm">
-        IN EVERYONE’S HANDS
-      </T>
-      <T x={98} y={678} className="label small">
-        The plan I built, with the tools and information to act
-      </T>
-      <g className="seq-caption">
-        {posts.map(([kind, title], i) => (
-          <g key={kind} className="cap3" {...seqN(i)}>
-            <Line d="M560 640V682" c="fine-rule" />
-            <T x={580} y={654} className="mini-label seq-head">{`${i + 1} / 3 · ${title.toUpperCase()}`}</T>
-            <T x={580} y={678} className="label small">
-              {postCaptions[i]}
-            </T>
+              ),
+            )}
+            <Lab x={700} y={226 + i * 92} t={t} />
+            <Sub x={700} y={248 + i * 92} t={s} />
           </g>
-        ))}
-      </g>
+        </Inspectable>
+      ))}
+      <Inspectable
+        id="lc-tools"
+        title="The tools and information to act"
+        body="Each person got the plan’s part that concerned them.|They could act without waiting for instructions."
+      >
+        <g>
+          <Sheet x={700} y={490} />
+          <Lab x={726} y={506} t="EACH WITH THE TOOLS" c="warm" />
+          <Sub x={726} y={526} t="And the information to act" />
+        </g>
+      </Inspectable>
     </Layer>
   );
 }
 
-// ---------- 04 · The measure: two indicators per station ----------
-const measureSteps: [string, string, string][] = [
-  ['DEFINE', 'Indicators for', 'each station'],
-  ['MONITOR', '', ''],
-  ['FOLLOW', 'Measures required', 'and incentivised'],
+const rows: [string, number, number][] = [
+  ['Saint-Michel N.-D.', 0.9, 0.8],
+  ['Austerlitz', 0.75, 0.95],
+  ['Station 3', 0.6, 0.7],
+  ['Station 4', 0.85, 0.55],
 ];
 
 function Measure() {
   return (
     <Layer steps={[3]}>
-      <rect className="map-panel" x="90" y="220" width="820" height="330" rx="4" />
-      <T x={116} y={252} className="mini-label warm">
-        THE FIRST MECHANISM TO ASSESS THE PLANS
-      </T>
-      {measureSteps.map(([k, a, b], i) => (
-        <g key={k} className="seq3" {...seqN(i)}>
-          <g transform={`translate(${116 + i * 270} 276)`}>
-            <rect className="step-box" width="240" height="220" rx="3" />
-            <T x={16} y={26} className="mini-label">{`0${i + 1} · ${k}`}</T>
-            {a ? (
-              <>
-                <T x={16} y={62} className="card-title">
-                  {a}
-                </T>
-                <T x={16} y={86} className="card-title">
-                  {b}
-                </T>
-              </>
-            ) : null}
-          </g>
-        </g>
-      ))}
-      <FlowArrow d="M358 386H384" />
-      <FlowArrow d="M628 386H654" />
-      <g className="seq3" {...seqN(1)}>
-        <Inspectable id="ind-staff" title="Staff work" body="How the people on site carried out the plan.">
-          <g transform="translate(402 318)">
-            <rect className="ind" width="208" height="72" rx="3" />
-            <rect className="ind-swatch" x="14" y="16" width="6" height="14" />
-            <T x={28} y={28} className="mini-label">
-              STAFF WORK
-            </T>
-            <T x={14} y={56} className="label tiny">
-              The plan carried out on site
-            </T>
-          </g>
-        </Inspectable>
-        <Inspectable
-          id="ind-equip"
-          title="Fixed equipment"
-          body="The measures installed in stations and whether they did their job."
-        >
-          <g transform="translate(402 404)">
-            <rect className="ind" width="208" height="72" rx="3" />
-            <rect className="ind-swatch ind-swatch--equip" x="14" y="16" width="6" height="14" />
-            <T x={28} y={28} className="mini-label">
-              FIXED EQUIPMENT
-            </T>
-            <T x={14} y={56} className="label tiny">
-              Installed, and doing its job
-            </T>
-          </g>
-        </Inspectable>
-      </g>
-      <g className="seq3" {...seqN(2)}>
-        <T x={672} y={400} className="card-title">
-          by Île-de-France
-        </T>
-        <T x={672} y={424} className="card-title">
-          Mobilités
-        </T>
-      </g>
-      <T x={116} y={530} className="label small">
-        Under each station on the line: its two indicators.
-      </T>
-      <SvgButton
-        className="case-link"
-        transform="translate(40 630)"
-        data-open-case="verisure"
-        purpose="open the Verisure experience"
+      <Inspectable
+        id="lc-indicators"
+        title="Indicators for each station"
+        body="Two indicators per station: staff work, and fixed equipment doing its job.|The first mechanism to assess the plans."
       >
-        <rect width="920" height="62" rx="3" />
-        <T x={18} y={24} className="mini-label">
-          THE SAME QUESTION, LATER IN DATA
-        </T>
-        <T x={18} y={46} className="label small">
-          Does the system do its job? Data Quality and Observability at Verisure
-        </T>
-        <T x={900} y={38} className="chip-arrow end">
-          ↗
-        </T>
-      </SvgButton>
+        <Win x={40} y={186} w={520} h={300} title="INDICATORS · FIRST ASSESSMENT">
+          <Lab x={250} y={232} t="STAFF WORK" c="center" />
+          <Lab x={430} y={232} t="FIXED EQUIPMENT" c="center" />
+          {rows.map(([t, a, b], i) => (
+            <Fragment key={t}>
+              <Sub x={58} y={272 + i * 52} t={t} />
+              {[a, b].map((v, j) => (
+                <Fragment key={j}>
+                  <rect
+                    className="tx-gauge"
+                    x={180 + j * 180}
+                    y={260 + i * 52}
+                    width="140"
+                    height="14"
+                    rx="3"
+                  />
+                  <rect
+                    className="tx-gauge-on"
+                    x={180 + j * 180}
+                    y={260 + i * 52}
+                    width={140 * v}
+                    height="14"
+                    rx="3"
+                  />
+                </Fragment>
+              ))}
+            </Fragment>
+          ))}
+          <Sub x={58} y={470} t="… for each of the 42 stations · illustrative values" />
+        </Win>
+      </Inspectable>
+      <Inspectable
+        id="lc-idfm"
+        title="Measures required by Île-de-France Mobilités"
+        body="The transport authority requires and incentivises some measures.|The indicators let us follow them."
+      >
+        <Win x={600} y={186} w={360} h={190} title="ÎLE-DE-FRANCE MOBILITÉS · FOLLOW-UP">
+          <Bars x={620} y={226} w={150} h={120} vals={[0.55, 0.62, 0.7, 0.78]} />
+          <Spark x={790} y={230} w={150} h={110} vals={[0.3, 0.45, 0.5, 0.7, 0.82]} c="on" />
+        </Win>
+      </Inspectable>
+      <Inspectable
+        id="lc-question"
+        title="Does the system do its job?"
+        body="Measuring whether a system does its job.|A question I met again in Data."
+      >
+        <g>
+          <Lab x={600} y={420} t="DOES THE SYSTEM DO ITS JOB?" c="warm" />
+          <Sub x={600} y={442} t="A question I met again in Data" />
+        </g>
+      </Inspectable>
+      <CaseChip
+        x={40}
+        y={560}
+        w={560}
+        to="verisure"
+        kicker="THE SAME QUESTION, LATER IN DATA"
+        sub="Data Quality and Observability at Verisure"
+      />
     </Layer>
   );
 }
@@ -676,7 +486,6 @@ export default function StationScene() {
     <>
       <OpsDefs />
       <Line42 />
-      <Station />
       <WhyThisRole />
       <Plans />
       <OnTheGround />
