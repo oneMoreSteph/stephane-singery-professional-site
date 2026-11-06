@@ -1,8 +1,8 @@
 // Earth · SNCF Réseau: one shared network, my portfolio of rail customers, the years each request lasted, and next.
 import { Fragment } from 'react';
-import { at, mid, route } from '~/drawings/france';
+import { at, mid, project, route } from '~/drawings/france';
 import { Inspectable } from '~/drawings/Inspectable';
-import { CaseChip, Lab, Sub, T, User } from '~/drawings/kit';
+import { CaseChip, Lab, Sub, T, User, type Pt } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 import { Line, TrainMarker } from '~/drawings/ops';
 import { Panel, RailBase, RailCities } from '~/drawings/rail';
@@ -125,9 +125,9 @@ const portfolio: [string, string, 'freight' | 'passenger', string][] = [
   ],
   [
     'Thello',
-    'Paris – Milan – Venice',
+    'Passenger · Paris – Milan – Venice',
     'passenger',
-    'Thello: trains between Paris, Milan and Venice, among the first non-French operators in France.|I managed its train paths on the French network.',
+    'Thello: a passenger rail company, running trains between Paris, Milan and Venice; among the first non-French operators in France.|I managed its train paths on the French network.',
   ],
   [
     'Freight customer',
@@ -136,8 +136,10 @@ const portfolio: [string, string, 'freight' | 'passenger', string][] = [
     'A freight customer of my portfolio. Illustrative row.|Each one with its own schedules to secure.',
   ],
 ];
-// Thello, schematic: Paris to Milan, then on to Venice past the map’s edge.
-const thello = route(['Paris', 'Milan']);
+// Thello’s itinerary: Paris, Dijon, Lyon, Vallorbe, Turin, Milan, then on to Venice past the map’s edge.
+const vallorbe = project([6.38, 46.71]);
+const thelloStops: Pt[] = [at('Paris'), at('Dijon'), at('Lyon'), vallorbe, at('Turin'), at('Milan')];
+const thello = `M${thelloStops.map((p) => p.map((v) => v.toFixed(1)).join(' ')).join('L')}`;
 const [milanX, milanY] = at('Milan');
 const process: [string, string, string, React.ReactNode][] = [
   [
@@ -183,7 +185,7 @@ function Customers() {
       <Inspectable
         id="rr-thello-route"
         title="Thello · Paris – Milan – Venice"
-        body="Thello’s trains between Paris, Milan and Venice. Route schematic.|One of the first non-French operators on the French network, in my portfolio."
+        body="Thello’s passenger trains: Paris, Dijon, Lyon, Vallorbe, Turin, Milan, then Venice.|One of the first non-French operators on the French network, in my portfolio."
       >
         <g>
           <Line d={thello} c="route-glow" />
@@ -196,6 +198,8 @@ function Customers() {
             d="M2 0L-9-6V6Z"
           />
           <Sub x={milanX + 6} y={milanY - 30} t="Venice" />
+          <circle className="city-dot" cx={vallorbe[0]} cy={vallorbe[1]} r="3.5" />
+          <Sub x={vallorbe[0] + 8} y={vallorbe[1] + 4} t="Vallorbe" />
         </g>
       </Inspectable>
       {/* The panel sits in the map’s emptiest corner: top right, above the labels */}
@@ -260,59 +264,57 @@ function LongMissions() {
         kicker="HIGH-STAKES · TOUR"
         sub="Level crossings, five years"
       />
-      <g transform="translate(0 520)">
+      {/* The original timeline, restored: a request path that draws itself and bends around the obstacles. */}
+      <g className="long-clock" transform="translate(0 520)">
         <Panel x={40} y={0} w={920} h={170} />
-        <Lab x={60} y={30} t="ONE CUSTOMER REQUEST · YEARS AHEAD" c="warm" />
-        <Inspectable
-          id="rr-years"
-          title="Two or three years ahead"
-          body="Each request started two or three years before the train ran.|I kept it alive until the day of circulation."
-        >
-          <g>
-            <path className="tx-route" d="M60 100H940" />
-            {ticks.map(([l, x]) => (
-              <Fragment key={l}>
-                <circle className={l === 'D' ? 'tx-stage on' : 'tx-stage'} cx={x} cy={100} r="7" />
-                <T x={x} y={132} className="center tx-win-t">
-                  {l}
-                </T>
-              </Fragment>
-            ))}
-          </g>
-        </Inspectable>
+        <T x={60} y={30} className="mini-label">
+          YEARS AHEAD · ONE CUSTOMER REQUEST
+        </T>
+        <Line d="M60 100H940" c="clock-axis" />
+        {ticks.map(([l, x]) => (
+          <Fragment key={l}>
+            <Line d={`M${x} 94V106`} c="clock-axis" />
+            <T x={x} y={128} className="center axis-label">
+              {l}
+            </T>
+          </Fragment>
+        ))}
         <Inspectable
           id="rr-wk"
           title="Engineering works"
           body="Works take capacity away for a period.|The request had to hold through them."
         >
           <g>
-            <rect className="works-window" x="330" y="64" width="150" height="20" rx="2" />
-            <Lab x={405} y={56} t="WORKS" c="center" />
+            <rect className="works-window" x="330" y="74" width="150" height="20" rx="2" />
+            <T x={405} y={66} className="center mini-label warm">
+              WORKS
+            </T>
           </g>
         </Inspectable>
         <Inspectable
           id="rr-od"
-          title="Competing demands"
+          title="Other demands"
           body="Other operators wanted the same capacity.|The request had to hold against them."
         >
           <g>
-            <rect className="tx-conflict" x="580" y="64" width="120" height="20" rx="2" />
-            <Lab x={640} y={56} t="COMPETING DEMANDS" c="center" />
+            <rect className="other-use" x="580" y="74" width="120" height="20" rx="2" />
+            <T x={640} y={66} className="center mini-label">
+              OTHER DEMANDS
+            </T>
           </g>
         </Inspectable>
+        <Line
+          d="M60 84H310C322 84 322 110 334 110H476C488 110 488 84 500 84H566C574 84 574 110 586 110H694C706 110 706 84 718 84H940"
+          c="clock-path"
+        />
         <Inspectable
           id="rr-runs"
-          title="Until the train ran"
-          body="The day of circulation: the train runs on its agreed path.|The end of years of work on one request."
+          title="The train runs"
+          body="The day of circulation: the train runs on its agreed path.|I followed each request until that day."
         >
-          <g>
-            {/* The request’s path bends around the works and the competing demands, and holds. */}
-            <path
-              className="tx-promise"
-              d="M60 74H312C324 74 324 96 336 96H474C486 96 486 74 498 74H568C578 74 578 96 590 96H690C702 96 702 74 714 74H940"
-            />
-            <Lab x={940} y={160} t="THE TRAIN RUNS" c="end warm" />
-          </g>
+          <T x={940} y={150} className="end mini-label warm">
+            THE TRAIN RUNS
+          </T>
         </Inspectable>
       </g>
     </Layer>

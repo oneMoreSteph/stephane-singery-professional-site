@@ -20,7 +20,7 @@ export default {
       'A portfolio of rail customers.',
       [
         'A portfolio of freight customers, such as Greenmodal (CMA CGM).',
-        'And Thello: trains between Paris, Milan and Venice, among the first non-French operators in France.',
+        'And Thello, a passenger rail company: trains between Paris, Milan and Venice, among the first non-French operators in France.',
         'For each one, I built the requests: the train schedules that best fit their business.',
         'I defended them before the entity granting the agreements.',
         'I obtained the schedules.',
