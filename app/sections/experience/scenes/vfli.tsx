@@ -1,10 +1,10 @@
-// Earth · VFLI: the promised arrival, what I obtained at any hour in 3×8 shifts, and the years before it.
+// Earth · VFLI: the promised arrival, what I obtained in 3×8 shifts whatever the constraints, and the years before it.
 import { Fragment } from 'react';
-import { at, route } from '~/drawings/france';
+import { at, mid, route } from '~/drawings/france';
 import { Inspectable } from '~/drawings/Inspectable';
-import { CaseChip, T, vars, type Pt } from '~/drawings/kit';
+import { CaseChip, Lab, Sub, T, User, vars } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
-import { Crew, Line, TrainMarker } from '~/drawings/ops';
+import { Console, Line, TrainMarker } from '~/drawings/ops';
 import { Panel, RailBase, RailCities } from '~/drawings/rail';
 
 const freight = route(['Lille', 'Paris', 'Dijon', 'Lyon', 'Marseille']);
@@ -13,126 +13,119 @@ const abroad = [
   route(['Lyon', 'Geneva']),
   route(['Lyon', 'Turin', 'Milan']),
 ];
-const [dx, dy] = at('Dijon');
 const [mx, my] = at('Marseille');
-const shifts = [
-  ['06:00', '14:00'],
-  ['14:00', '22:00'],
-  ['22:00', '06:00'],
-];
+// The right-hand column, clear of the map.
+const X = 700;
+
+/** A small locomotive, side view. */
+const Loco = ({ x, y }: { x: number; y: number }) => (
+  <g className="tx-veh" transform={`translate(${x} ${y})`}>
+    <rect x="0" y="6" width="54" height="18" rx="2" />
+    <rect x="34" y="-6" width="20" height="14" rx="2" />
+    <circle cx="12" cy="27" r="5" />
+    <circle cx="42" cy="27" r="5" />
+  </g>
+);
+
+/** A signed document: the circulation agreement. */
+const Agreement = ({ x, y }: { x: number; y: number }) => (
+  <g transform={`translate(${x} ${y})`}>
+    <rect className="tx-doc" width="40" height="50" rx="3" />
+    <path className="tx-grid" d="M7 12H33M7 21H33M7 30H26" />
+    <circle className="tx-stage on" cx="31" cy="41" r="7" />
+  </g>
+);
 
 function PromisedArrival() {
   return (
     <Layer steps={[0]}>
+      <Panel x={X - 16} y={96} w={292} h={300} />
       <Inspectable
-        id="promise"
-        title="Promised arrival"
-        body="The customer pays for a train that reaches a given place at a given hour."
+        id="vf-order"
+        title="A transport order"
+        body="What a freight customer buys: a train at a given place and a given hour.|The promise every shift worked to keep."
       >
-        <g transform={`translate(${mx} ${my})`}>
-          <circle className="promise-ring" r="15" />
-          <path className="promise-hand" d="M0 0V-8M0 0l6 3" />
+        <g>
+          <Lab x={X} y={126} t="TRANSPORT ORDER" c="warm" />
+          {(
+            [
+              ['TRAIN', 'Freight train'],
+              ['TO', 'A given place'],
+              ['ARRIVAL', 'A given hour'],
+            ] as const
+          ).map(([k, v], i) => (
+            <Fragment key={k}>
+              <rect className="tx-table-row" x={X} y={144 + i * 44} width="260" height="36" rx="3" />
+              <Lab x={X + 12} y={167 + i * 44} t={k} />
+              <Sub x={X + 110} y={167 + i * 44} t={v} />
+            </Fragment>
+          ))}
+          <Sub x={X} y={300} t="Lille → Marseille, illustrative" />
         </g>
       </Inspectable>
       <Inspectable
-        id="pays"
-        title="What the customer pays for"
-        body="A freight train at a given place and a given hour. Route illustrative."
+        id="vf-arrival"
+        title="The promised arrival"
+        body="The place and hour the customer paid for.|Every disruption on the way put it at risk."
+      >
+        <g transform={`translate(${mx} ${my})`}>
+          <circle className="tx-promise" r="16" />
+          <path className="tx-promise" d="M0 0V-9M0 0l7 4" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="vf-breaks"
+        title="A plan can break at any moment"
+        body="Incidents, works, missing resources: the network keeps moving.|Each one can stop a train short of its promise."
       >
         <g>
-          <Panel x={700} y={110} w={270} h={120} />
-          <T x={720} y={140} className="mini-label warm">
-            WHAT THE CUSTOMER PAYS FOR
-          </T>
-          <T x={720} y={170} className="card-title">
-            A train at a given place
-          </T>
-          <T x={720} y={194} className="card-title">
-            and a given hour
-          </T>
-          <T x={720} y={216} className="mini-label muted-label">
-            Lille → Marseille, illustrative
-          </T>
+          {[mid('Paris', 'Dijon'), mid('Lyon', 'Marseille'), mid('Lille', 'Paris')].map(([x, y], i) => (
+            <circle
+              key={i}
+              className="tx-ping"
+              cx={x}
+              cy={y}
+              r="12"
+              style={vars({ animationDelay: `${i * 0.5}s` })}
+            />
+          ))}
+          <Lab x={X} y={350} t="THE NETWORK KEEPS MOVING" />
+          <Sub x={X} y={372} t="A plan can break at any moment" />
         </g>
       </Inspectable>
     </Layer>
   );
 }
 
-const Stamp = ({ x, y }: { x: number; y: number }) => (
-  <g transform={`translate(${x} ${y})`}>
-    <circle className="fx-stamp" r="13" />
-    <path className="fx-tick" d="M-6 0l4 4 8-9" />
-  </g>
-);
-
-/** The four things obtained, each played out on the map while its row is lit. */
-function Effects() {
-  const [px, py] = at('Paris');
-  const [lx, ly] = at('Lyon');
-  const [bx, by] = at('Basel');
-  const [gx, gy] = at('Geneva');
-  const [ix, iy] = at('Milan');
-  const ev: Pt = [(px + dx) / 2, (py + dy) / 2];
-  return (
-    <>
-      <g className="fx fx-ob-0">
-        {abroad.map((d, i) => (
-          <circle key={i} className="fx-packet" r="5">
-            <animateMotion path={d} dur="2.4s" repeatCount="indefinite" />
-          </circle>
-        ))}
-        <Stamp x={bx} y={by - 22} />
-        <Stamp x={gx} y={gy - 22} />
-        <Stamp x={ix} y={iy - 22} />
-        <T x={ix + 20} y={iy - 34} className="mini-label fx-label">
-          AGREED, LAST MINUTE
-        </T>
-      </g>
-      <g className="fx fx-ob-1">
-        <path className="fx-trail" d={`M${lx} ${ly}L${dx} ${dy}`} />
-        <g className="fx-loco">
-          <rect x="-11" y="-6" width="22" height="12" rx="3" />
-          <animateMotion path={`M${lx} ${ly}L${dx} ${dy}`} dur="2s" repeatCount="indefinite" />
-        </g>
-        <T x={lx + 14} y={ly + 28} className="mini-label fx-label">
-          LOCOMOTIVE FROM ANOTHER COMPANY
-        </T>
-      </g>
-      <g className="fx fx-ob-2">
-        <path className="fx-trail" d={`M${px} ${py}L${dx} ${dy}`} />
-        <g className="fx-driver">
-          <Crew x={0} y={0} s={0.75} />
-          <animateMotion path={`M${px} ${py}L${dx} ${dy}`} dur="2s" repeatCount="indefinite" />
-        </g>
-        <T x={px + 14} y={py - 14} className="mini-label fx-label">
-          DRIVER FROM ANOTHER COMPANY
-        </T>
-      </g>
-      <g className="fx fx-ob-3">
-        <g transform={`translate(${ev[0]} ${ev[1]})`}>
-          <circle className="fx-alarm" r="16" />
-          <path className="fx-warn" d="M0-12L11 8H-11Z" />
-        </g>
-        {[at('Lyon'), at('Paris')].map(([x, y], i) => (
-          <Fragment key={i}>
-            <circle className="fx-coord" cx={x} cy={y} r="14" />
-            <path className="fx-call" d={`M${x} ${y}L${ev[0]} ${ev[1]}`} />
-          </Fragment>
-        ))}
-        <T x={ev[0] + 22} y={ev[1] + 4} className="mini-label fx-label">
-          EVENT HANDLED WITH THE COORDINATORS
-        </T>
-      </g>
-    </>
-  );
-}
-
-const obtained: [string, string][] = [
-  ['Circulation agreements', 'Last minute, France and abroad'],
-  ['A shunting locomotive', 'I convinced a company to provide one'],
-  ['A driver', 'I convinced a company to provide one'],
-  ['Every unexpected event', 'Handled with regional coordinators'],
+const obtained: [string, string, string, string, React.ReactNode][] = [
+  [
+    'vf-agreement',
+    'CIRCULATION AGREEMENTS',
+    'Last minute, France and abroad',
+    'Permission for a train to run on a given route and time.|I obtained them at the last minute, in France and abroad.',
+    <Agreement x={X} y={0} />,
+  ],
+  [
+    'vf-loco',
+    'A SHUNTING LOCOMOTIVE',
+    'Provided by a company I convinced',
+    'The engine that moves wagons in a yard.|When ours was missing, I convinced another company to make one available.',
+    <Loco x={X - 6} y={10} />,
+  ],
+  [
+    'vf-driver',
+    'A DRIVER',
+    'Provided by a company I convinced',
+    'A qualified driver for the route and the engine.|When one was missing, I convinced another company to make one available.',
+    <User x={X + 20} y={42} s={1.1} c="on" />,
+  ],
+  [
+    'vf-events',
+    'EVERY UNEXPECTED EVENT',
+    'With the regional coordinators',
+    'Incidents on our trains, day and night.|I handled each one with the regional network coordinators.',
+    <Console x={X + 20} y={26} s={0.8} />,
+  ],
 ];
 
 function ObtainIt() {
@@ -141,116 +134,99 @@ function ObtainIt() {
       {abroad.map((d, i) => (
         <Fragment key={i}>
           <Line d={d} c="route-glow" />
-          <Line d={d} c="international-route" />
+          <Line d={d} c="active-route warm-route" />
         </Fragment>
       ))}
-      <Effects />
-      <circle className="partner-ring" cx={dx} cy={dy} r="18" />
-      <Line d={`M${dx + 18} ${dy - 4}L650 170`} c="leader" />
-      <Panel x={650} y={96} w={320} h={264} />
-      <T x={670} y={124} className="mini-label warm">
-        WHAT I OBTAINED, AT ANY HOUR
-      </T>
-      {obtained.map(([t, s2], i) => (
-        <Inspectable key={t} id={`ob-${i}`} title={t} body={`${s2}.`}>
-          <g transform={`translate(670 ${150 + i * 52})`}>
-            <rect
-              className="tm-loco"
-              x="0"
-              y="-2"
-              width="14"
-              height="8"
-              rx="2"
-              style={i === 3 ? vars({ fill: 'var(--data)' }) : undefined}
-            />
-            <T x={24} y={6} className="card-title small-title">
-              {t}
-            </T>
-            <T x={24} y={26} className="card-body">
-              {s2}
-            </T>
+      <Panel x={682} y={86} w={290} h={590} />
+      <Inspectable
+        id="vf-shifts"
+        title="3×8 shifts, day and night"
+        body="Three eight-hour shifts covered the whole day.|Trains run at any hour: so did my job."
+      >
+        <g>
+          <Lab x={X} y={114} t="3×8 · DAY AND NIGHT" c="warm" />
+          {[0, 1, 2].map((i) => {
+            const a0 = (i * 120 - 90) * (Math.PI / 180);
+            const a1 = ((i + 1) * 120 - 92) * (Math.PI / 180);
+            const [cx, cy, r] = [X + 60, 186, 46];
+            return (
+              <path
+                key={i}
+                className={`tx-arc${i === 2 ? ' night' : ''}`}
+                d={`M${cx + r * Math.cos(a0)} ${cy + r * Math.sin(a0)}A${r} ${r} 0 0 1 ${cx + r * Math.cos(a1)} ${cy + r * Math.sin(a1)}`}
+              />
+            );
+          })}
+          <circle className="tx-stop" cx={X + 60} cy={186} r="4" />
+          {['06–14', '14–22', '22–06'].map((t, i) => (
+            <Sub key={t} x={X + 140} y={160 + i * 26} t={t} />
+          ))}
+        </g>
+      </Inspectable>
+      <Lab x={X} y={270} t="WHAT I OBTAINED" c="strong" />
+      {obtained.map(([id, t, s, body, icon], i) => (
+        <Inspectable key={id} id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+          <g>
+            <g transform={`translate(694 ${296 + i * 92}) scale(0.75) translate(${-X} 0)`}>{icon}</g>
+            <Lab x={748} y={310 + i * 92} t={t} />
+            <Sub x={748} y={332 + i * 92} t={s} />
           </g>
         </Inspectable>
-      ))}
-      <Panel x={40} y={560} w={920} h={120} />
-      <T x={60} y={590} className="mini-label">
-        3×8 · DAY AND NIGHT
-      </T>
-      {shifts.map(([a, b], i) => (
-        <g key={a} transform={`translate(${60 + i * 300} 610)`}>
-          <rect className="shift" width="280" height="40" rx="3" />
-          <T x={14} y={26} className="chip-label strong">{`${a} → ${b}`}</T>
-        </g>
       ))}
     </Layer>
   );
 }
 
-const ticks: [string, number][] = [
-  ['Y−3', 60],
-  ['Y−2', 290],
-  ['Y−1', 520],
-  ['D−1', 800],
-  ['D', 940],
-];
-const clockPath =
-  'M60 66H310C322 66 322 92 334 92H476C488 92 488 66 500 66H566C574 66 574 92 586 92H694C706 92 706 66 718 66H940';
-const clockNodes: [number, string, string][] = [
-  [60, 'REQUEST', 'The customer’s need, two or three years ahead.'],
-  [520, 'NEGOTIATE', 'Defended before the entity granting the agreements.'],
-  [800, 'AGREED', 'I obtained the path and kept it until the day the train runs.'],
+const ahead: [string, number][] = [
+  ['Y−3', 0],
+  ['Y−2', 1],
+  ['Y−1', 2],
+  ['D', 3.4],
 ];
 
 function YearsBefore() {
   return (
-    <Layer steps={[2]} transform="translate(0 470)">
-      <Panel x={40} y={0} w={920} h={180} />
-      <T x={60} y={32} className="mini-label warm">
-        THE YEARS BEFORE · ONE CUSTOMER PATH
-      </T>
-      <Line d="M60 82H940" c="clock-axis" />
-      {ticks.map(([l, x]) => (
-        <Fragment key={l}>
-          <Line d={`M${x} 76V88`} c="clock-axis" />
-          <T x={x} y={110} className="center axis-label">
-            {l}
-          </T>
-        </Fragment>
-      ))}
+    <Layer steps={[2]}>
+      <Panel x={X - 16} y={86} w={292} h={330} />
       <Inspectable
-        id="wk-v"
-        title="Engineering works"
-        body="Works close sections of the network for a period: paths are built around them years ahead."
+        id="vf-day"
+        title="The day itself"
+        body="At VFLI: the day of circulation, live.|Where I learned what a train needs to run."
       >
         <g>
-          <rect className="works-window" x="330" y="56" width="150" height="20" rx="2" />
-          <T x={405} y={50} className="center mini-label warm">
-            WORKS
-          </T>
+          <Lab x={X} y={114} t="AT VFLI · THE DAY ITSELF" />
+          <circle className="tx-stage on" cx={X + 250} cy={160} r="10" />
         </g>
       </Inspectable>
-      <Inspectable id="ot-v" title="Other traffic" body="Other operators want the same capacity.">
+      <Inspectable
+        id="vf-years"
+        title="The years before it"
+        body="Network capacity is planned two or three years ahead.|My next role started there."
+      >
         <g>
-          <rect className="other-use" x="580" y="56" width="120" height="20" rx="2" />
-          <T x={640} y={50} className="center mini-label">
-            OTHER TRAFFIC
-          </T>
+          <path className="tx-route" d={`M${X} 160H${X + 250}`} />
+          {ahead.map(([t, k]) => (
+            <Fragment key={t}>
+              <circle className={k === 3.4 ? 'tx-stop' : 'tx-stage'} cx={X + k * 73} cy={160} r="6" />
+              <T x={X + k * 73} y={190} className="center tx-win-t">
+                {t}
+              </T>
+            </Fragment>
+          ))}
+          <path className="tx-beam" d={`M${X + 240} 216H${X + 10}`} />
+          <Lab x={X} y={250} t="2012 · SNCF RÉSEAU" c="warm" />
+          <Sub x={X} y={272} t="Manager of the French rail network" />
+          <Sub x={X} y={294} t="Goal: network capacity for freight" />
         </g>
       </Inspectable>
-      <Line d={clockPath} c="clock-path" />
-      <circle className="clock-dot" r="6">
-        <animateMotion path={clockPath} dur="7s" repeatCount="indefinite" />
-      </circle>
-      {clockNodes.map(([x, l, body]) => (
-        <Inspectable key={l} id={`ck-${l}`} title={l.charAt(0) + l.slice(1).toLowerCase()} body={body}>
-          <g>
-            <circle className="clock-node" cx={x} cy="66" r="5" />
-            <T x={x + 8} y={140} className="mini-label">
-              {l}
-            </T>
-          </g>
-        </Inspectable>
-      ))}
+      <CaseChip
+        x={X - 6}
+        y={330}
+        w={272}
+        to="rail"
+        kicker="NEXT · SNCF RÉSEAU"
+        sub="Network capacity, years ahead"
+      />
     </Layer>
   );
 }
@@ -266,16 +242,6 @@ export default function VfliScene() {
       <PromisedArrival />
       <ObtainIt />
       <YearsBefore />
-      <Layer steps={[2]}>
-        <CaseChip
-          x={640}
-          y={96}
-          w={320}
-          to="rail"
-          kicker="NEXT · SNCF RÉSEAU"
-          sub="Network capacity, years ahead"
-        />
-      </Layer>
     </>
   );
 }

@@ -1012,3 +1012,7 @@
 .mv-hour{fill:#57b4d6}
 .mv-year{fill:#10303d;stroke:#3f6b79}.mv-year.done{fill:#57b4d6;stroke:#57b4d6}.mv-year.now{fill:#f6d77a;stroke:#f6d77a;animation:tx-pulse 2s ease-in-out infinite}.mv-year.next{fill:none;stroke-dasharray:4 4}
 @media(prefers-reduced-motion:reduce){.mv-seq,.mv-fill,.mv-ping,.mv-year.now,.mv-test.ko{animation:none}}
+/* Experience and high-stakes redraw (6 Nov 2026): small additions to the domain-view kit */
+.story-svg .tx-table-row{fill:#0b2230;stroke:#2f5e70}
+.story-svg .tx-arc{fill:none;stroke:#57b4d6;stroke-width:12;stroke-linecap:butt}.story-svg .tx-arc.night{stroke:#2f5e70}
+.story-svg .active-route.warm-route{stroke:#f6d77a}
