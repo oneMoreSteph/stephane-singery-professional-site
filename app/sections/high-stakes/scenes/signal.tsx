@@ -1,177 +1,168 @@
-// ISS · Verisure, signal or noise: alerts that are right and still noise, and the override that requalifies them.
+// ISS · Verisure, signal or noise: the stakes, why an override, what it brings, the result.
+// Queue contents, names and dates are illustrative.
+import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
-import { Header, OpsDefs, T, vars } from '~/drawings/kit';
+import { Arrow, Check, Code, Header, Lab, Link, OpsDefs, Sub, T, User, Win } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
-import { FlowArrow, Line, ReadoutChip } from '~/drawings/ops';
 
-// ---------- 01 · The stakes: real alerts buried under valid but harmless ones ----------
-const rain = Array.from({ length: 14 }, (_, i) => ({
-  x: 90 + ((i * 53) % 420),
-  real: [3, 8, 12].includes(i),
-  d: (i * 0.43) % 6,
-}));
+/** An alert row: `critical` ones need action, the others are valid but harmless. */
+const Alert = ({ x, y, w, critical }: { x: number; y: number; w: number; critical?: boolean }) => (
+  <g>
+    <rect className={`sg-alert${critical ? ' critical' : ''}`} x={x} y={y} width={w} height="16" rx="2" />
+    <path className="tx-grid" d={`M${x + 10} ${y + 8}H${x + w * 0.5}`} />
+  </g>
+);
+const Bell = ({ x, y, muted }: { x: number; y: number; muted?: boolean }) => (
+  <g className="tx-icon" transform={`translate(${x} ${y})`}>
+    <path d="M-10 6V-2A10 10 0 0 1 10-2V6L13 10H-13Z" />
+    <path d="M-3 14H3" />
+    {muted && <path className="sg-cross" d="M-15-15L15 15" />}
+  </g>
+);
+const queue = [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0];
 
 function Stakes() {
   return (
     <Layer steps={[0]}>
-      <T x={60} y={150} className="mini-label">
-        TESTS FIRING
-      </T>
-      {Array.from({ length: 24 }, (_, i) => (
-        <circle
-          key={i}
-          className="test-dot"
-          style={vars({ '--i': i })}
-          cx={80 + (i % 12) * 36}
-          cy={180 + Math.floor(i / 12) * 30}
-          r="7"
-        />
-      ))}
-      {rain.map(({ x, real, d }, i) => (
-        <g key={i} className={`drop ${real ? 'is-real' : ''}`}>
-          <rect x="-22" y="-9" width="44" height="18" rx="3" />
-          <animateMotion
-            path={`M${x} 240L${600 + (x % 5) * 8} 560`}
-            dur="6s"
-            begin={`-${d.toFixed(2)}s`}
-            repeatCount="indefinite"
-          />
-        </g>
-      ))}
       <Inspectable
-        id="queue"
-        title="The team’s queue"
-        body="Every valid alert reached the team, harmless or not. The real ones were buried under the rest."
+        id="sg-valid"
+        title="Valid, and harmless"
+        body="Some tests raised alerts technically valid but operationally harmless.|Right on the Data, nothing for the team to do."
       >
-        <g transform="translate(580 420)">
-          <rect className="queue" width="300" height="230" rx="4" />
-          {Array.from({ length: 9 }, (_, i) => (
-            <rect
-              key={i}
-              className={`q-item ${i === 6 ? 'is-real' : ''}`}
-              x="16"
-              y={14 + i * 23}
-              width="268"
-              height="16"
-              rx="2"
-            />
+        <Win x={40} y={96} w={280} h={170} title="TEST RESULT">
+          <Code x={56} y={140} lh={22} lines={['test: accepted_values', 'status: FAIL', 'rows: 3']} />
+          <Lab x={56} y={226} t="VALID · HARMLESS" c="warm" />
+        </Win>
+      </Inspectable>
+      <Arrow from={[326, 180]} to={[396, 180]} />
+      <Inspectable
+        id="sg-queue"
+        title="The team’s alert queue"
+        body="Left as they were, harmless alerts flooded the teams.|They buried the alerts on business-critical Data."
+      >
+        <Win x={402} y={96} w={300} h={330} title="TEAM ALERT QUEUE">
+          {queue.map((c, i) => (
+            <Alert key={i} x={418} y={130 + i * 22} w={268} critical={!!c} />
           ))}
-          <T x={0} y={-12} className="mini-label">
-            A TEAM’S ALERT QUEUE
-          </T>
+        </Win>
+      </Inspectable>
+      <Inspectable
+        id="sg-buried"
+        title="Critical alerts, buried"
+        body="Alerts on business-critical Data sat among the harmless ones.|Easy to miss."
+      >
+        <g>
+          <Alert x={740} y={140} w={60} critical />
+          <Lab x={812} y={154} t="BUSINESS-CRITICAL" />
+          <Alert x={740} y={176} w={60} />
+          <Lab x={812} y={190} t="HARMLESS" />
+          <Sub x={740} y={226} t="Buried in the same queue" />
         </g>
       </Inspectable>
       <Inspectable
-        id="noise"
-        title="Right, and still noise"
-        body="An alert technically valid but operationally harmless. Each one costs attention."
+        id="sg-options"
+        title="Leave them, or silence them"
+        body="Left as they were: they flooded the teams. Silenced: they would hide real problems.|Neither option was acceptable."
       >
-        <g transform="translate(60 520)">
-          <rect className="legend-chip" width="44" height="18" rx="3" />
-          <T x={56} y={14} className="label small">
-            Valid but harmless
-          </T>
-        </g>
-      </Inspectable>
-      <Inspectable
-        id="real"
-        title="A real problem"
-        body="An alert on business-critical Data that needs action. Lost in the flood, it waits."
-      >
-        <g transform="translate(60 556)">
-          <rect className="legend-chip is-real" width="44" height="18" rx="3" />
-          <T x={56} y={14} className="label small">
-            Needs action
-          </T>
+        <g>
+          <rect className="tx-conflict" x="40" y="470" width="430" height="110" rx="4" />
+          <Bell x={80} y={520} />
+          <Lab x={110} y={510} t="LEFT AS THEY WERE" />
+          <Sub x={110} y={532} t="They flood the teams" />
+          <rect className="tx-conflict" x="530" y="470" width="430" height="110" rx="4" />
+          <Bell x={570} y={520} muted />
+          <Lab x={600} y={510} t="SILENCED" />
+          <Sub x={600} y={532} t="They would hide real problems" />
         </g>
       </Inspectable>
     </Layer>
   );
 }
 
-// ---------- 02 · Why an override: detection keeps running; a qualification gate decides who is alerted ----------
 function WhyOverride() {
   return (
     <Layer steps={[1]}>
       <Inspectable
-        id="detect"
+        id="sg-test"
+        title="The test keeps running"
+        body="The test keeps running and detecting, every day.|Nothing is switched off."
+      >
+        <Win x={40} y={120} w={220} h={150} title="DATA TEST">
+          <Check x={64} y={170} />
+          <Sub x={84} y={175} t="Runs every day" />
+          <Check x={64} y={210} />
+          <Sub x={84} y={215} t="Detects" />
+        </Win>
+      </Inspectable>
+      <Arrow from={[266, 195]} to={[316, 195]} />
+      <Inspectable
+        id="sg-detect"
         title="Detection"
-        body="Every test keeps running and detecting. An override never switches a test off."
+        body="The anomaly is detected, as before.|Detection stays exactly the same."
       >
-        <g transform="translate(60 300)">
-          <rect className="layer-band" width="260" height="120" rx="4" />
-          <T x={20} y={34} className="mini-label">
-            DETECTION
+        <g>
+          <circle className="tx-stage" cx={370} cy={195} r="34" />
+          <Lab x={370} y={256} t="DETECTION" c="center" />
+        </g>
+      </Inspectable>
+      <Arrow from={[408, 195]} to={[468, 195]} />
+      <Inspectable
+        id="sg-qualify"
+        title="Qualification, with the override"
+        body="The override only changes how the alert is qualified.|Detection and qualification, separated."
+      >
+        <g>
+          <circle className="tx-stage on" cx={530} cy={195} r="34" />
+          <Lab x={530} y={256} t="QUALIFICATION" c="center warm" />
+          <rect className="tx-ticket" x="478" y="96" width="104" height="30" rx="4" />
+          <T x={530} y={116} className="center tx-win-t dark">
+            OVERRIDE
           </T>
-          <T x={20} y={64} className="label small">
-            Every test keeps running
-          </T>
-          <T x={20} y={88} className="label small">
-            525 a day
-          </T>
+          <path className="tx-link" d="M530 126V160" />
+        </g>
+      </Inspectable>
+      <Link d="M566 182C640 150 690 140 760 140" />
+      <Link d="M566 208C640 240 690 250 760 250" />
+      <Inspectable
+        id="sg-routes"
+        title="Two routes"
+        body="Alerts that need action go to the teams; harmless ones stay on record.|Every alert keeps its trace."
+      >
+        <g>
+          <Alert x={766} y={132} w={70} critical />
+          <Lab x={846} y={146} t="TO THE TEAMS" />
+          <Alert x={766} y={242} w={70} />
+          <Lab x={846} y={256} t="ON RECORD" />
         </g>
       </Inspectable>
       <Inspectable
-        id="gate"
-        title="Qualification, in the common layer"
-        body="I made requalifying an alert a capability of the common layer, available to every observability domain, not a workaround for only one of them."
+        id="sg-common"
+        title="A capability of the common layer"
+        body="Requalifying an alert became a capability of the common layer.|Available to every observability domain, not a workaround for one."
       >
-        <g transform="translate(520 360)">
-          <path className="prism" d="M-50 -70L50 0 -50 70Z" />
-          <T x={-28} y={6} className="mini-label warm">
-            QUALIFY
-          </T>
-        </g>
-      </Inspectable>
-      <Line d="M320 360H468" c="lane" />
-      <Line d="M570 360C650 360 690 230 900 230" c="lane lane--team" />
-      <Line d="M570 360C650 360 690 500 900 500" c="lane lane--log" />
-      {Array.from({ length: 6 }, (_, k) => {
-        const real = k % 3 === 0;
-        return (
-          <circle key={k} className={`particle ${real ? 'is-real' : ''}`} r="7">
-            <animateMotion
-              path={`M320 360H520${real ? 'C650 360 690 230 900 230' : 'C650 360 690 500 900 500'}`}
-              dur="4.2s"
-              begin={`-${(k * 0.7).toFixed(1)}s`}
-              repeatCount="indefinite"
-            />
-          </circle>
-        );
-      })}
-      <Inspectable
-        id="to-team"
-        title="To the teams"
-        body="Alerts that need action still reach the teams, at once."
-      >
-        <g transform="translate(700 160)">
-          <T x={0} y={0} className="mini-label">
-            TO THE TEAMS
-          </T>
-          <T x={0} y={22} className="label small">
-            What needs action
-          </T>
-        </g>
-      </Inspectable>
-      <Inspectable
-        id="to-log"
-        title="Requalified, on record"
-        body="Harmless alerts leave the teams’ queue but stay on record, with their override."
-      >
-        <g transform="translate(700 560)">
-          <T x={0} y={0} className="mini-label">
-            REQUALIFIED · ON RECORD
-          </T>
-          <T x={0} y={22} className="label small">
-            Harmless, still visible
-          </T>
+        <g>
+          <rect className="tx-layer top" x="40" y="380" width="920" height="60" rx="4" />
+          <Lab x={60} y={416} t="COMMON LAYER · OVERRIDES FOR EVERY DOMAIN" c="warm" />
+          {['DOMAIN 1 · DBT TESTS', 'NEXT DOMAIN', 'NEXT DOMAIN'].map((t, i) => (
+            <Fragment key={i}>
+              <rect
+                className={`tx-app${i ? ' dashed' : ''}`}
+                x={40 + i * 320}
+                y={480}
+                width="280"
+                height="54"
+                rx="4"
+              />
+              <Sub x={60 + i * 320} y={512} t={t} />
+              <path className="tx-link" d={`M${180 + i * 320} 440V480`} />
+            </Fragment>
+          ))}
         </g>
       </Inspectable>
     </Layer>
   );
 }
 
-// ---------- 03 · What it brings: an override is filled in like a permit, and it runs out ----------
 const fields: [string, string][] = [
   ['JUSTIFICATION', 'Why this alert is harmless'],
   ['OWNER', 'Who answers for it'],
@@ -183,140 +174,122 @@ const fields: [string, string][] = [
 function WhatItBrings() {
   return (
     <Layer steps={[2]}>
-      <g transform="translate(90 160)">
-        <rect className="permit" width="440" height="420" rx="6" />
-        <T x={26} y={40} className="mini-label warm">
-          OVERRIDE
-        </T>
-        <T x={26} y={70} className="card-title">
-          One alert, requalified
-        </T>
-        {fields.map(([k, v], i) => (
-          <Inspectable
-            key={k}
-            id={`field-${i}`}
-            title={k.charAt(0) + k.slice(1).toLowerCase()}
-            body={`${v}.`}
-          >
-            <g
-              className="permit-field"
-              style={vars({ '--i': i })}
-              transform={`translate(26 ${100 + i * 60})`}
-            >
-              <rect width="388" height="48" rx="3" />
-              <path className="pf-check" d="M14 24l6 6 11-13" />
-              <T x={44} y={20} className="mini-label">
-                {k}
-              </T>
-              <T x={44} y={38} className="label tiny">
-                {v}
-              </T>
-            </g>
-          </Inspectable>
-        ))}
-      </g>
       <Inspectable
-        id="expiry"
-        title="Nothing silenced for good"
-        body="When its duration ends, the override lapses and the alert goes back to its normal qualification."
+        id="sg-record"
+        title="An override record"
+        body="Each override: a justification, an owner, a review date, a duration.|Always traceable."
       >
-        <g transform="translate(760 330)">
-          <circle className="cd-track" r="100" />
-          <circle className="cd-ring" r="100" pathLength={1} transform="rotate(-90)">
-            <animate attributeName="stroke-dashoffset" values="0;1" dur="8s" repeatCount="indefinite" />
-          </circle>
-          <T x={0} y={-6} className="center mini-label">
-            DURATION
-          </T>
-          <T x={0} y={18} className="center label small">
-            then it lapses
-          </T>
+        <Win x={40} y={96} w={440} h={340} title="OVERRIDE · ONE ALERT, REQUALIFIED">
+          {fields.map(([k, v], i) => (
+            <Fragment key={k}>
+              <rect className="tx-table-row" x="58" y={132 + i * 58} width="404" height="46" rx="3" />
+              <Check x={80} y={155 + i * 58} />
+              <Lab x={102} y={150 + i * 58} t={k} />
+              <Sub x={102} y={170 + i * 58} t={v} />
+            </Fragment>
+          ))}
+        </Win>
+      </Inspectable>
+      <Inspectable
+        id="sg-owner"
+        title="Owned"
+        body="Every override has an owner.|Someone answers for each exception."
+      >
+        <g>
+          <User x={600} y={170} s={1.3} c="on" />
+          <Lab x={640} y={150} t="OWNED" />
+          <Sub x={640} y={172} t="Someone answers for it" />
         </g>
       </Inspectable>
-      <T x={660} y={470} className="label">
-        Owned, reviewed, visible.
-      </T>
-      <T x={660} y={496} className="label">
-        The exception never hides.
-      </T>
+      <Inspectable
+        id="sg-duration"
+        title="When the duration ends"
+        body="When the duration ends, the alert returns to its normal qualification.|Nothing silenced for good."
+      >
+        <g>
+          <Lab x={560} y={260} t="DURATION" />
+          <rect className="tx-gauge" x="560" y="276" width="380" height="20" rx="3" />
+          <rect className="tx-gauge-on" x="560" y="276" width="380" height="20" rx="3">
+            <animate
+              attributeName="width"
+              values="380;0;0"
+              keyTimes="0;.8;1"
+              dur="10s"
+              repeatCount="indefinite"
+            />
+          </rect>
+          <path className="tx-promise" d="M940 266V306" />
+          <Lab x={560} y={340} t="THEN, BACK TO NORMAL QUALIFICATION" c="warm" />
+          <Sub x={560} y={362} t="Nothing silenced for good" />
+        </g>
+      </Inspectable>
+      <Lab x={40} y={500} t="OWNED · REVIEWED · VISIBLE" c="strong" />
+      <Sub x={40} y={524} t="The exception never hides" />
     </Layer>
-  );
-}
-
-// ---------- 04 · The result: what reaches the teams is worth acting on ----------
-function Box({ x, title, children }: { x: number; title: string; children: React.ReactNode }) {
-  return (
-    <g transform={`translate(${x} 170)`}>
-      <T x={0} y={0} className="mini-label">
-        {title}
-      </T>
-      <rect className="queue" y="16" width="380" height="300" rx="4" />
-      {children}
-    </g>
   );
 }
 
 function Result() {
   return (
     <Layer steps={[3]}>
-      <Inspectable id="before" title="Before" body="Every valid alert rang, harmless or not.">
-        <Box x={60} title="BEFORE · EVERY ALERT RINGS">
-          {Array.from({ length: 12 }, (_, i) => (
-            <rect
-              key={i}
-              className={`q-item ${[4, 9].includes(i) ? 'is-real' : ''}`}
-              x="16"
-              y={32 + i * 23}
-              width="348"
-              height="16"
-              rx="2"
-            />
-          ))}
-        </Box>
-      </Inspectable>
       <Inspectable
-        id="after"
+        id="sg-before"
+        title="Before"
+        body="Every valid alert reached the team, harmless or not.|The real ones were buried."
+      >
+        <Win x={40} y={96} w={280} h={330} title="BEFORE · EVERY ALERT RINGS">
+          {queue.map((c, i) => (
+            <Alert key={i} x={56} y={130 + i * 22} w={248} critical={!!c} />
+          ))}
+        </Win>
+      </Inspectable>
+      <Arrow from={[326, 260]} to={[376, 260]} />
+      <Inspectable
+        id="sg-after"
         title="After"
-        body="What reaches the teams is worth acting on, so they act on it, and trust it."
+        body="Harmless alerts leave the teams’ queue and stay on record.|What reaches the teams is worth acting on."
       >
-        <Box x={560} title="AFTER · WHAT REACHES THE TEAMS">
-          {[0, 1].map((i) => (
-            <rect
-              key={i}
-              className="q-item is-real pulse"
-              x="16"
-              y={32 + i * 30}
-              width="348"
-              height="22"
-              rx="2"
-            />
-          ))}
-          <T x={16} y={290} className="label small">
-            Every one worth acting on
-          </T>
-        </Box>
+        <g>
+          <Win x={382} y={96} w={280} h={150} title="AFTER · TO THE TEAMS">
+            <Alert x={398} y={130} w={248} critical />
+            <Alert x={398} y={152} w={248} critical />
+          </Win>
+          <Win x={382} y={276} w={280} h={150} title="ON RECORD · HARMLESS">
+            {queue.slice(0, 5).map((_, i) => (
+              <Alert key={i} x={398} y={310 + i * 20} w={248} />
+            ))}
+          </Win>
+        </g>
       </Inspectable>
-      <FlowArrow d="M450 320H550" />
       <Inspectable
-        id="tests"
+        id="sg-volume"
         title="525 tests a day"
-        body="Automated Data tests running every day on the platform."
+        body="525 tests a day, about 60,000 executions so far.|The volume behind every alert."
       >
-        <ReadoutChip x={60} y={520} value="525 / day" label="AUTOMATED DATA TESTS" w={240} />
+        <g>
+          <T x={720} y={140} className="tx-big">
+            525 / day
+          </T>
+          <Sub x={720} y={166} t="Automated Data tests" />
+          <T x={720} y={240} className="tx-big">
+            ~60,000
+          </T>
+          <Sub x={720} y={266} t="Executions so far" />
+        </g>
       </Inspectable>
       <Inspectable
-        id="runs"
-        title="About 60,000 executions"
-        body="Executions so far, every one qualified the same way."
+        id="sg-trust"
+        title="Teams trust their alerts"
+        body="Teams act on what they receive.|Teams trust their alerts."
       >
-        <ReadoutChip x={320} y={520} value="~60,000" label="EXECUTIONS SO FAR" w={240} />
-      </Inspectable>
-      <Inspectable
-        id="trust"
-        title="Trust in alerts"
-        body="Teams act on the alerts they receive. Trust in Data has improved across the company."
-      >
-        <ReadoutChip x={580} y={520} value="Trusted" label="ALERTS TEAMS ACT ON" w={240} />
+        <g>
+          {[0, 1, 2].map((i) => (
+            <User key={i} x={740 + i * 50} y={380} c="on" />
+          ))}
+          <Check x={900} y={360} />
+          <Lab x={720} y={420} t="TRUSTED" c="warm" />
+          <Sub x={720} y={442} t="Alerts teams act on" />
+        </g>
       </Inspectable>
     </Layer>
   );

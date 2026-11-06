@@ -1039,3 +1039,5 @@
 .story-svg .tx-track.late-day{fill:rgba(240,122,104,.3);stroke:#f07a68}
 .story-svg .tx-tile-dim{fill:#123847;stroke:#3f6b79}.story-svg .tx-tile-dim.off{fill:#0b1f2a;stroke:#2a4651}
 .story-svg .tx-table-row.top{stroke:#f6d77a}
+.story-svg .sg-alert{fill:#2a4651;stroke:#3f6b79}.story-svg .sg-alert.critical{fill:rgba(240,122,104,.55);stroke:#f07a68}
+.story-svg .sg-cross{stroke:#f07a68;stroke-width:2.5}
