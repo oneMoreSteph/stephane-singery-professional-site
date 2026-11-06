@@ -17,9 +17,10 @@ export default {
     ],
     [
       '02 / MY CUSTOMERS',
-      'A portfolio of freight customers.',
+      'A portfolio of rail customers.',
       [
         'A portfolio of freight customers, such as Greenmodal (CMA CGM).',
+        'And Thello: trains between Paris, Milan and Venice, among the first non-French operators in France.',
         'For each one, I built the requests: the train schedules that best fit their business.',
         'I defended them before the entity granting the agreements.',
         'I obtained the schedules.',
@@ -44,7 +45,7 @@ export default {
   drawing: {
     scene: 'rff',
     labels: ['A contested network', 'My customers', 'The long missions', 'Next'],
-    note: 'Real network: lines in operation, SNCF Réseau open data. Train routes are schematic links between cities; timings and customer rows beyond the named one are illustrative.',
+    note: 'Real network: lines in operation, SNCF Réseau open data. Train routes are schematic links between cities; timings and customer rows beyond the named ones are illustrative.',
     mapSources: true,
   },
   timeline: {

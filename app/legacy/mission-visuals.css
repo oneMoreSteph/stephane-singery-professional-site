@@ -1045,3 +1045,5 @@
 .story-svg .dc-t{font:700 12px var(--mono);letter-spacing:.5px;fill:#5d8795}.story-svg .dc-t.on{fill:#d8eef2}
 .story-svg .dc-arrow{fill:none;stroke:#5d8795;stroke-width:1.5}
 .story-svg .tx-bucket{fill:#123847;stroke:#97e0e8;stroke-width:2}
+.story-svg .active-route.passenger-route{stroke:#c9b6f2;stroke-dasharray:7 5}
+.story-svg .tm-car.passenger,.story-svg .train-marker.passenger .tm-loco,.story-svg .train-marker.passenger .tm-car{fill:#c9b6f2}

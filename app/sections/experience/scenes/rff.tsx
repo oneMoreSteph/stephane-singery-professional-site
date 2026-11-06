@@ -1,6 +1,6 @@
-// Earth · SNCF Réseau: one shared network, my portfolio of freight customers, the years each request lasted, and next.
+// Earth · SNCF Réseau: one shared network, my portfolio of rail customers, the years each request lasted, and next.
 import { Fragment } from 'react';
-import { mid, route } from '~/drawings/france';
+import { at, mid, route } from '~/drawings/france';
 import { Inspectable } from '~/drawings/Inspectable';
 import { CaseChip, Lab, Sub, T, User } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
@@ -116,11 +116,29 @@ function SharedNetwork() {
   );
 }
 
-const portfolio: [string, string][] = [
-  ['Greenmodal (CMA CGM)', 'Freight customer'],
-  ['Freight customer', 'Illustrative'],
-  ['Freight customer', 'Illustrative'],
+const portfolio: [string, string, 'freight' | 'passenger', string][] = [
+  [
+    'Greenmodal (CMA CGM)',
+    'Freight customer',
+    'freight',
+    'Greenmodal (CMA CGM): a freight customer of my portfolio.|I represented its capacity needs on the network.',
+  ],
+  [
+    'Thello',
+    'Paris – Milan – Venice',
+    'passenger',
+    'Thello: trains between Paris, Milan and Venice, among the first non-French operators in France.|I managed its train paths on the French network.',
+  ],
+  [
+    'Freight customer',
+    'Illustrative',
+    'freight',
+    'A freight customer of my portfolio. Illustrative row.|Each one with its own schedules to secure.',
+  ],
 ];
+// Thello, schematic: Paris to Milan, then on to Venice past the map’s edge.
+const thello = route(['Paris', 'Milan']);
+const [milanX, milanY] = at('Milan');
 const process: [string, string, string, React.ReactNode][] = [
   [
     'BUILT THE REQUESTS',
@@ -162,24 +180,40 @@ function Customers() {
           <TrainMarker path={d} dur={[24, 14, 16][i]} begin={i * 3} />
         </g>
       ))}
+      <Inspectable
+        id="rr-thello-route"
+        title="Thello · Paris – Milan – Venice"
+        body="Thello’s trains between Paris, Milan and Venice. Route schematic.|One of the first non-French operators on the French network, in my portfolio."
+      >
+        <g>
+          <Line d={thello} c="route-glow" />
+          <Line d={thello} c="active-route passenger-route" />
+          <TrainMarker path={thello} dur={18} begin={4} c="passenger" />
+          <path className="tx-link" d={`M${milanX} ${milanY}L${milanX + 40} ${milanY - 22}`} />
+          <path
+            className="tx-head"
+            transform={`translate(${milanX + 40} ${milanY - 22}) rotate(-29)`}
+            d="M2 0L-9-6V6Z"
+          />
+          <Sub x={milanX + 6} y={milanY - 30} t="Venice" />
+        </g>
+      </Inspectable>
       {/* The panel sits in the map’s emptiest corner: bottom right, over the sea */}
       <g transform="translate(0 98)">
         <Panel x={X - 16} y={86} w={290} h={506} />
         <Lab x={X} y={116} t="MY PORTFOLIO" c="warm" />
-        {portfolio.map(([t, s], i) => (
-          <Inspectable
-            key={i}
-            id={`rr-cust-${i}`}
-            title={t}
-            body={
-              i
-                ? 'A freight customer of my portfolio. Illustrative row.|Each one with its own schedules to secure.'
-                : 'Greenmodal (CMA CGM): a freight customer of my portfolio.|I represented its capacity needs on the network.'
-            }
-          >
+        {portfolio.map(([t, s, kind, body], i) => (
+          <Inspectable key={i} id={`rr-cust-${i}`} title={t} body={body}>
             <g>
               <rect className="tx-table-row" x={X} y={132 + i * 50} width="258" height="42" rx="3" />
-              <rect className="tm-loco" x={X + 12} y={148 + i * 50} width="16" height="9" rx="2" />
+              <rect
+                className={kind === 'passenger' ? 'tm-car passenger' : 'tm-loco'}
+                x={X + 12}
+                y={148 + i * 50}
+                width="16"
+                height="9"
+                rx="2"
+              />
               <Lab x={X + 40} y={150 + i * 50} t={t} />
               <Sub x={X + 40} y={168 + i * 50} t={s} />
             </g>
