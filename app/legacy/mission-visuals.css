@@ -682,7 +682,7 @@
 /* The real rail network covers the whole map: its highlight is a gold line colour, not a glow. */
 .scene-camera.is-touring .rfn-network [data-inspect]{opacity:1}
 .scene-camera .rfn-network [data-inspect].is-toured,.scene-camera .rfn-network [data-inspect].is-inspected,.scene-camera .rfn-network [data-inspect]:hover{filter:none}
-.scene-camera .rfn-network .is-toured .rfn-line,.scene-camera .rfn-network .is-inspected .rfn-line,.scene-camera .rfn-network [data-inspect]:hover .rfn-line{stroke:#f6d77a;stroke-opacity:.7}
+.scene-camera .rfn-network .is-toured .rfn-line,.scene-camera .rfn-network .is-inspected .rfn-line,.scene-camera .rfn-network [data-inspect]:hover .rfn-line{stroke:#f6d77a;stroke-opacity:.3}
 /* Toyota: the line from the Dutch border to the south-west, and the coordination around it */
 .story-svg .small-city{font-size:12px}
 .story-svg .sw-zone{fill:rgba(240,168,104,.14);stroke:#f0a868;stroke-width:1.6;stroke-dasharray:4 4}
