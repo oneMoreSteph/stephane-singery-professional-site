@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { CountryMap, project } from '~/drawings/france';
 import { RfnNetwork } from '~/drawings/rail';
 import { Inspectable } from '~/drawings/Inspectable';
-import { Arrow, Check, Header, Lab, OpsDefs, Sub, T, User, Win, type Pt } from '~/drawings/kit';
+import { Arrow, Check, Header, Lab, Link, Move, OpsDefs, Sub, T, User, Win, type Pt } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 import { Console, Line } from '~/drawings/ops';
 // The line the vehicle trains ran on: from the Dutch border, through Belgium and France, to the south-west. Schematic.
@@ -259,13 +259,33 @@ function NextMorning() {
         body="My main contact, the freight company’s director and Toyota Europe’s European CLO.|The people the answer had to convince."
       >
         <g>
-          <rect className="tx-app" x="140" y="300" width="400" height="150" rx="75" />
-          <User x={230} y={290} s={1.2} />
-          <Sub x={230} y={250} t="Main contact" c="center" />
-          <User x={450} y={290} s={1.2} />
-          <Sub x={450} y={250} t="Freight company director" c="center" />
-          <User x={340} y={510} s={1.2} c="on" />
-          <Sub x={340} y={540} t="Toyota Europe’s European CLO" c="center" />
+          <rect className="tx-app" x="160" y="300" width="290" height="150" rx="14" />
+          <User x={305} y={292} s={1.2} />
+          <Sub x={305} y={244} t="Main contact" c="center" />
+          <User x={305} y={506} s={1.2} />
+          <Sub x={305} y={530} t="Freight company director" c="center" />
+          <User x={82} y={398} s={1.2} c="on" />
+          <Lab x={82} y={432} t="EUROPEAN CLO" c="center" />
+          <Sub x={82} y={452} t="Toyota Europe" c="center" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="ty-me"
+        title="Me, for SNCF Réseau"
+        body="I represented the network at the table.|I explained the causes and presented the solutions."
+      >
+        <g>
+          <circle className="ty-halo" cx={498} cy={376} r="34" />
+          <User x={498} y={398} s={1.2} c="on" />
+          <Lab x={498} y={432} t="ME" c="center warm" />
+          <Sub x={498} y={452} t="SNCF Réseau" c="center" />
+          <rect className="tx-doc" x="388" y="361" width="22" height="28" rx="2" />
+          <rect className="tx-doc" x="416" y="361" width="22" height="28" rx="2" />
+          <Move path="M400 375H190" dur={6}>
+            <rect className="tx-doc ty-sheet" x="-11" y="-14" width="22" height="28" rx="2" />
+          </Move>
+          <Link d="M532 362L600 220" />
+          <Link d="M532 392L600 420" />
         </g>
       </Inspectable>
       <Inspectable
@@ -306,8 +326,8 @@ function NextMorning() {
           )}
         </Win>
       </Inspectable>
-      <Lab x={340} y={160} t="REPRESENT THE NETWORK" c="center warm" />
-      <Sub x={340} y={182} t="With a workable answer" c="center" />
+      <Lab x={305} y={160} t="REPRESENT THE NETWORK" c="center warm" />
+      <Sub x={305} y={182} t="With a workable answer" c="center" />
     </Layer>
   );
 }

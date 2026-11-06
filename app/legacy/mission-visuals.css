@@ -1092,3 +1092,20 @@
 .story-svg .lc-station{fill:#0d2a36;stroke:#97e0e8;stroke-width:2;animation:lc-station 8.4s linear infinite;animation-delay:calc(var(--i)*.2s)}
 @keyframes lc-station{0%,4%{fill:#f6d77a;stroke:#f6d77a}10%,100%{fill:#2f7f97;stroke:#97e0e8}}
 @media(prefers-reduced-motion:reduce){.story-svg .lc-gauge-on{animation:none;stroke-dashoffset:.35}.story-svg .lc-station{animation:none}}
+.story-svg .ty-halo{fill:rgba(246,215,122,.1);stroke:#f6d77a;stroke-width:2;animation:ty-halo 3s ease-in-out infinite}
+@keyframes ty-halo{0%,100%{stroke-opacity:.35}50%{stroke-opacity:1}}
+@media(prefers-reduced-motion:reduce){.story-svg .ty-halo{animation:none}}
+.story-svg .tx-doc.ty-sheet{fill:#f6d77a;stroke:#f6d77a;opacity:.85}
+/* FoodChéri, six weeks */
+.story-svg .dl-week{fill:none;stroke:#2f5e70;stroke-width:16;stroke-linecap:round;animation:dl-week 12s linear infinite;animation-delay:calc(var(--i)*2s)}
+@keyframes dl-week{0%,14%{stroke:#f6d77a}20%,100%{stroke:#2f5e70}}
+.story-svg .dl-cell{fill:#123847}
+.story-svg .dl-cell.used{fill:#57b4d6;animation:dl-used 6s ease-in-out infinite;animation-delay:calc(var(--i)*.5s)}
+@keyframes dl-used{0%,12%{fill:#f6d77a}24%,100%{fill:#57b4d6}}
+.story-svg .dl-tenth{fill:#57b4d6;animation:dl-used 6s ease-in-out infinite;animation-delay:calc(var(--i)*.5s)}
+.story-svg .dl-rank .tx-stage{animation:fd-loop 6s ease-in-out infinite;animation-delay:calc(var(--i)*2s)}
+.story-svg .dl-day{fill:#f0a868;opacity:.85;animation:dl-day 7s ease-in-out infinite;animation-delay:calc(var(--i)*1s)}
+@keyframes dl-day{0%,14%{opacity:1;fill:#f6d77a}24%,100%{opacity:.75;fill:#f0a868}}
+.story-svg .dl-lane{fill:none;stroke-width:6;stroke-linecap:round}
+.story-svg .dl-lane.old{stroke:#2f5e70}.story-svg .dl-lane.new{stroke:#f6d77a}
+@media(prefers-reduced-motion:reduce){.story-svg .dl-week,.story-svg .dl-cell.used,.story-svg .dl-tenth,.story-svg .dl-rank .tx-stage,.story-svg .dl-day{animation:none}}
