@@ -1036,3 +1036,6 @@
 .story-svg .st-platform{fill:#1a4a5c;stroke:#97e0e8;stroke-width:1.5}
 .story-svg .st-edge{fill:none;stroke:#f6d77a;stroke-width:2;stroke-dasharray:8 6}
 .story-svg .tx-win-t.dim{fill:#5d8795}
+.story-svg .tx-track.late-day{fill:rgba(240,122,104,.3);stroke:#f07a68}
+.story-svg .tx-tile-dim{fill:#123847;stroke:#3f6b79}.story-svg .tx-tile-dim.off{fill:#0b1f2a;stroke:#2a4651}
+.story-svg .tx-table-row.top{stroke:#f6d77a}
