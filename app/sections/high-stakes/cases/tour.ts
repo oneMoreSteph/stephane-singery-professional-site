@@ -6,7 +6,7 @@ export default {
   tag: 'SNCF RÉSEAU · NATIONAL EVENT',
   title: 'Tour de France: five years of rail coordination',
   summary: 'Align changing race stages, level crossings and live regional rail regulation.',
-  category: 'SNCF RÉSEAU / TOUR DE FRANCE',
+  category: 'TOUR DE FRANCE',
   takeaway:
     'For five years, I brought a moving national race route and live rail regulation into the same operational plan.',
   beats: [

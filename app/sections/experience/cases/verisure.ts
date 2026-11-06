@@ -6,7 +6,7 @@ export default {
   tag: 'VERISURE · APPRENTICESHIP WITH EFREI · 2025–PRESENT',
   title: 'Analytics Engineer',
   summary: 'From a request for Data tests to a Data Quality and Observability platform.',
-  category: 'VERISURE / ANALYTICS ENGINEER · APPRENTICESHIP',
+  category: 'ANALYTICS ENGINEER · APPRENTICESHIP',
   takeaway:
     'I turned a request for Data tests into an automated platform that watches the health of Verisure’s Data.',
   beats: [

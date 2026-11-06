@@ -6,7 +6,7 @@ export default {
   tag: 'SNCF RÉSEAU · 2012–2016',
   title: 'Rail Capacity Consultation Officer',
   summary: 'Securing freight customers’ capacity, two or three years ahead.',
-  category: 'SNCF RÉSEAU / NETWORK CAPACITY',
+  category: 'NETWORK CAPACITY',
   takeaway:
     'I represented freight customers’ capacity needs on a shared national network, from two or three years ahead to the day of circulation.',
   beats: [

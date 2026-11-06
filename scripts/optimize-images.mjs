@@ -27,6 +27,17 @@ for (const [from, to, options] of images) {
   console.log(`${to}  ${Math.round(info.size / 1024)} KB`);
 }
 
+// The portrait: a square crop on the face, at two sizes (cockpit badge, contact page), for sharp 2× screens.
+for (const size of [128, 320]) {
+  const to = `assets/portrait-${size}.webp`;
+  const info = await sharp(src('portrait.jpg'))
+    .extract({ left: 33, top: 150, width: 760, height: 760 })
+    .resize(size, size)
+    .webp({ effort: 6, quality: 84 })
+    .toFile(out(to));
+  console.log(`${to}  ${Math.round(info.size / 1024)} KB`);
+}
+
 // Favicons from one SVG.
 await copyFile(src('favicon.svg'), out('favicon.svg'));
 await sharp(src('favicon.svg'), { density: 300 }).resize(32, 32).png().toFile(out('favicon-32.png'));

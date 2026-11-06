@@ -6,7 +6,7 @@ export default {
   tag: 'VERISURE · DATA QUALITY & OBSERVABILITY',
   title: 'Signal or noise',
   summary: 'Governed overrides: harmless alerts stop flooding the teams, nothing is silenced for good.',
-  category: 'VERISURE / SIGNAL OR NOISE',
+  category: 'SIGNAL OR NOISE',
   takeaway:
     'I made overrides a governed part of the platform: harmless alerts stop flooding the teams, nothing is silenced for good, and the alerts that remain are trusted.',
   beats: [

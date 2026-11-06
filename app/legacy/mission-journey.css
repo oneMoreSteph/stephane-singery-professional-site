@@ -284,3 +284,6 @@ body[data-scene="approaching"] :is(.destination-field,.mission-brief,.map-headin
 .item-logo--icon .ic-fill-soft{fill:rgba(246,215,122,.16)}
 .chapter-item:hover .item-logo--icon svg,.chapter-item:focus-visible .item-logo--icon svg{filter:drop-shadow(0 0 6px rgba(246,215,122,.7))}
 .story-svg [data-states].layer-hidden{opacity:0;visibility:hidden;pointer-events:none}
+
+.identity-photo{width:52px;height:52px;border-radius:50%;border:1px solid rgba(174,221,233,.8);object-fit:cover;box-shadow:0 4px 18px rgba(0,0,0,.45)}
+@media(max-width:700px){.identity-photo{width:40px;height:40px}}

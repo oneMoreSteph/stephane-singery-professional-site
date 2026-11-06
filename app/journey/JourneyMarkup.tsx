@@ -33,7 +33,7 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
           />
           <div className="cockpit-shade" aria-hidden="true"></div>
           <div className="cockpit-identity">
-            <span className="identity-mark">S</span>
+            <img className="identity-photo" src="/assets/portrait-128.webp" alt="" width="52" height="52" />
             <span>
               {site.name.toUpperCase()}
               <small>{site.role.toUpperCase()}</small>
@@ -66,7 +66,7 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
           <div className="cockpit-bottom">
             <span>01 / COCKPIT</span>
             <span>
-              {stopsWord} · FROM {first.stop.name.toUpperCase()} TO{' '}
+              {stopsWord} · FROM {first.title.replace(/^Professional /, '').toUpperCase()} TO{' '}
               {last.title.replace(/^Why /, '').toUpperCase()}
             </span>
             <button

@@ -7,7 +7,7 @@ export default {
   title: 'Toyota Europe: a network response in one afternoon',
   summary:
     'Weeks of disruption, many constraints: I coordinated several regional teams to a solution in under a day.',
-  category: 'SNCF RÉSEAU / TOYOTA EUROPE',
+  category: 'TOYOTA EUROPE',
   takeaway:
     'In one afternoon, I coordinated several regional SNCF Réseau teams to find a solution across many constraints, then presented it to Toyota Europe’s logistics leadership the next morning.',
   beats: [

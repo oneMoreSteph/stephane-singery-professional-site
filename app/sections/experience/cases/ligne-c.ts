@@ -6,7 +6,7 @@ export default {
   tag: 'SNCF · TRANSILIEN LIGNE C · NOV 2016–AUG 2019',
   title: 'Passenger Care and Information Manager',
   summary: 'Passenger-care plans for 42 stations, and the first way to measure them.',
-  category: 'SNCF / TRANSILIEN LIGNE C',
+  category: 'TRANSILIEN LIGNE C',
   takeaway: 'I built the passenger-care plans of 42 Ligne C stations and the first mechanism to assess them.',
   beats: [
     [

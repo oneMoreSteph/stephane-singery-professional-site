@@ -6,7 +6,7 @@ export default {
   tag: 'FOODCHÉRI / SEAZON · FEB 2021–AUG 2022',
   title: 'BI Engineer / Data Product Owner',
   summary: 'A first Data Platform, and analysis opened to the whole company.',
-  category: 'FOODCHÉRI & SEAZON / BI ENGINEER · DATA PRODUCT OWNER',
+  category: 'BI ENGINEER · DATA PRODUCT OWNER',
   takeaway:
     'I designed FoodChéri’s first Data Platform and led the BI migration that took active analysis producers from 2 to 25.',
   beats: [

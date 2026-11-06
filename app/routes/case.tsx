@@ -12,7 +12,7 @@ export default function CasePage() {
   const { section, item } = found;
   return (
     <article>
-      <p className="eyebrow">{item.category}</p>
+      <p className="eyebrow">{item.tag}</p>
       <h1>{item.title}</h1>
       <p className="lede">{item.takeaway}</p>
       <Beats beats={item.beats} />

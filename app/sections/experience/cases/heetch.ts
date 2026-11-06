@@ -6,7 +6,7 @@ export default {
   tag: 'HEETCH · AUG 2022–AUG 2025',
   title: 'Data Engineer',
   summary: 'The transformation core of a near-real-time Data Platform.',
-  category: 'HEETCH / DATA ENGINEER',
+  category: 'DATA ENGINEER',
   takeaway: 'I built most of Heetch’s new Data Platform, taking its Data from a daily refresh toward hourly.',
   beats: [
     [

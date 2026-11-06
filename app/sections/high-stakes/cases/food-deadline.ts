@@ -6,7 +6,7 @@ export default {
   tag: 'FOODCHÉRI · SIX WEEKS',
   title: 'Six weeks, 600 dashboards',
   summary: 'The licence was ending: I rebuilt only what the company could not run without.',
-  category: 'FOODCHÉRI & SEAZON / SIX WEEKS',
+  category: 'SIX WEEKS',
   takeaway:
     'Six weeks before the Tableau licence ended, I rebuilt the reporting the company could not run without. The board kept its views on day one.',
   beats: [

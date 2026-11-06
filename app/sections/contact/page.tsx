@@ -12,6 +12,13 @@ export default function ContactPage() {
     <div className="page">
       <SiteNav />
       <main className="page__main">
+        <img
+          className="portrait"
+          src="/assets/portrait-320.webp"
+          alt={`Portrait of ${site.name}`}
+          width="120"
+          height="120"
+        />
         <p className="eyebrow">CONTACT</p>
         <h1>Let’s talk.</h1>
         <p className="lede">

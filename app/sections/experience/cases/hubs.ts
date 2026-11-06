@@ -6,7 +6,7 @@ export default {
   tag: 'FOODCHÉRI · 2016–2019 · EVENINGS AND WEEKENDS',
   title: 'Hub Manager',
   summary: 'Six Paris delivery hubs, my door into a tech company.',
-  category: 'FOODCHÉRI / HUB MANAGER',
+  category: 'HUB MANAGER',
   takeaway: 'Alongside SNCF, I ran six FoodChéri delivery hubs in the evenings and at weekends.',
   beats: [
     [
