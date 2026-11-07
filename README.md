@@ -49,6 +49,8 @@ The sitemap is written at build time once `site.url` is set in `app/site.ts`; `r
 | Path                     | Content                                                                                 |
 | ------------------------ | --------------------------------------------------------------------------------------- |
 | `app/sections/`          | **The content.** One folder per section; `index.ts` lists them in order                 |
+| `app/sections/courses/`  | Courses, their teachers and projects; the NYC Taxi project                              |
+| `projects/nyc-taxi/`     | Reproducible analysis, source data, executed notebook and evidence                      |
 | `app/sections/types.ts`  | The content model: section, stop, case                                                  |
 | `app/content.ts`         | Everything derived from the section list: addresses, numbering, lookups                 |
 | `app/routes.ts`          | Pages, generated from the section list                                                  |

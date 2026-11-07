@@ -15,7 +15,9 @@
     "test": "playwright test",
     "validate:html": "node scripts/validate-html.mjs",
     "lighthouse": "node scripts/lighthouse.mjs",
-    "verify": "npm run check && npm run build && npm run validate:html && npm test && npm run lighthouse"
+    "verify": "npm run check && npm run build && npm run validate:html && npm test && npm run lighthouse",
+    "taxi:analyse": "python3 projects/nyc-taxi/analyse.py",
+    "taxi:notebook": "python3 projects/nyc-taxi/build_notebook.py"
   },
   "engines": {
     "node": ">=22"

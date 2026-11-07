@@ -1,0 +1,7 @@
+pandas>=2.2,<4
+numpy>=2,<3
+plotly>=6,<8
+missingno==0.5.2
+
+# Optional: open and rerun the executed supporting notebook interactively.
+# python -m pip install jupyterlab nbformat

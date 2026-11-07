@@ -7,6 +7,7 @@ import difference from './difference';
 import education from './education';
 import europeanSpace from './european-space';
 import howIBuild from './how-i-build';
+import courses from './courses';
 import contact from './contact';
 
 export const sections: Section[] = [
@@ -16,5 +17,6 @@ export const sections: Section[] = [
   education,
   europeanSpace,
   howIBuild,
+  courses,
   contact,
 ];

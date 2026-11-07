@@ -13,6 +13,7 @@ export default [
     ]),
   ]),
   ...pageSections.map((s) => route(s.slug, `sections/${s.slug}/page.tsx`)),
+  route('courses/nyc-taxi', 'sections/courses/nyc-taxi/page.tsx'),
   route('mission-journey.html', 'routes/old-entry.tsx'),
   route('*', 'routes/not-found.tsx'),
 ] satisfies RouteConfig;

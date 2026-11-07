@@ -13,6 +13,11 @@ body.page-body {
   height: auto;
   overflow: auto;
 }
+/* The journey stylesheet locks html and body; it stays loaded after a click from the cockpit. */
+html:has(body.page-body) {
+  height: auto;
+  overflow: auto;
+}
 
 .page-text,
 .page {
@@ -195,9 +200,20 @@ body.page-body {
 .cockpit-bottom .text-link {
   text-decoration: none;
 }
+.cockpit-bottom a[href='/courses'] {
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+}
 @media (max-width: 767px) {
   .cockpit-bottom .text-link + .text-link {
     margin-left: 0;
+  }
+  .cockpit-bottom {
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+  .cockpit-bottom .text-link {
+    font-size: 7px;
   }
 }
 

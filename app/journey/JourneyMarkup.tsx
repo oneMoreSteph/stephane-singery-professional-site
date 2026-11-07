@@ -82,6 +82,9 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
             <Link className="text-link" to="/contact">
               CONTACT ↗
             </Link>
+            <Link className="text-link" to="/courses">
+              COURSES ↗
+            </Link>
           </div>
         </section>
 
@@ -216,6 +219,7 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
                   OPEN CV ↗
                 </a>
                 <Link to="/how-i-build">HOW I BUILD ↗</Link>
+                <Link to="/courses">COURSES ↗</Link>
                 <Link to="/contact">CONTACT ↗</Link>
               </span>
             </div>

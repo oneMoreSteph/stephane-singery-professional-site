@@ -5,7 +5,19 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   // app/legacy is the previous site's code, converted to React in Phase 2; web/ is the previous site itself.
-  { ignores: ['build/', '.react-router/', 'node_modules/', 'web/', 'app/legacy/', 'tests/__screens__/'] },
+  {
+    ignores: [
+      'build/',
+      '.react-router/',
+      'node_modules/',
+      'web/',
+      'app/legacy/',
+      'tests/__screens__/',
+      'public/courses/nyc-taxi/vendor/',
+      '**/.venv/',
+      '**/__pycache__/',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

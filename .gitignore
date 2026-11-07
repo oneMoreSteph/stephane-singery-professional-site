@@ -18,3 +18,7 @@ playwright-report/
 .react-router/
 build/
 lighthouse-report/
+**/.venv/
+**/__pycache__/
+**/.cache/
+projects/nyc-taxi/reports/verification.log

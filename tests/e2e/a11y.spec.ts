@@ -53,6 +53,16 @@ const views: [string, string, (page: Page) => Promise<void>][] = [
     async (page) => void (await expect(page.locator('.tv-panel')).toBeVisible({ timeout: 30_000 })),
   ],
   ['how I build', '/how-i-build', async (page) => void (await expect(page.locator('h1')).toBeVisible())],
+  ['courses', '/courses', async (page) => void (await expect(page.locator('h1')).toBeVisible())],
+  [
+    'NYC Taxi investigation',
+    '/courses/nyc-taxi',
+    async (page) => {
+      await expect(page.locator('.taxi-case__visual')).toContainText('97,408', {
+        timeout: 30_000,
+      });
+    },
+  ],
   ['contact', '/contact', async (page) => void (await expect(page.locator('h1')).toBeVisible())],
   ['404', '/no-such-page', async (page) => void (await expect(page.locator('h1')).toBeVisible())],
 ];
@@ -75,7 +85,10 @@ test('the case page without the site scripts meets WCAG 2.2 AA', async ({ page }
 });
 
 // Every case window and "Why this destination?" page, each with its own drawing.
-const detailPages = builtPages.map((p) => p.path).filter((p) => p.split('/').filter(Boolean).length === 2);
+// Course project pages are full pages with their own test above, not journey windows.
+const detailPages = builtPages
+  .map((p) => p.path)
+  .filter((p) => p.split('/').filter(Boolean).length === 2 && !p.startsWith('/courses/'));
 for (const path of detailPages) {
   test(`${path} window meets WCAG 2.2 AA`, async ({ page }) => {
     await page.goto(path);
