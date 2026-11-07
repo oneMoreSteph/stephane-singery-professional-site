@@ -329,11 +329,11 @@ function Next() {
         <Panel x={X - 16} y={86} w={290} h={250} />
         <Inspectable
           id="rr-nov16"
-          title="November 2016"
-          body="I moved to the passenger side of the railway: Transilien Ligne C.|From capacity years ahead to passengers, every day."
+          title="June 2016"
+          body="I moved to the passenger side of the railway: Transilien Ligne C. Until November, both roles in the same day.|From capacity years ahead to passengers, every day."
         >
           <g>
-            <Lab x={X} y={116} t="NOVEMBER 2016" c="warm" />
+            <Lab x={X} y={116} t="JUNE 2016" c="warm" />
             <T x={X} y={150} className="card-title">
               Toward passengers
             </T>

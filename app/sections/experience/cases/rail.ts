@@ -39,7 +39,10 @@ export default {
     [
       '04 / NEXT',
       'Toward passengers.',
-      ['November 2016: a role on the passenger side of the railway.', 'Transilien Ligne C.'],
+      [
+        'June 2016: a role on the passenger side of the railway, Transilien Ligne C.',
+        'Until November 2016, both roles: two jobs in one day.',
+      ],
     ],
   ],
   value: {
@@ -56,7 +59,7 @@ export default {
   timeline: {
     lane: 'ops',
     from: 2012,
-    to: 2016.7,
+    to: 2016.85,
     label: 'SNCF RÉSEAU',
     org: 'SNCF RÉSEAU',
     period: '2012–2016',

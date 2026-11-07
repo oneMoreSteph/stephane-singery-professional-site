@@ -3,7 +3,7 @@ import type { Case } from '../../types';
 export default {
   slug: 'ligne-c',
   logo: '/assets/sncf-logo.svg',
-  tag: 'SNCF · TRANSILIEN LIGNE C · NOV 2016–AUG 2019',
+  tag: 'SNCF · TRANSILIEN LIGNE C · JUN 2016–AUG 2019',
   title: 'Passenger Care and Information Manager',
   summary: 'Passenger-care plans for 42 stations, and the first way to measure them.',
   category: 'TRANSILIEN LIGNE C',
@@ -16,6 +16,7 @@ export default {
         'After capacity planning, a role built on communication, internal and external.',
         'Action, reaction, planning and coordination, every day.',
         'I moved to passenger transport to cover both sides of rail: capacity and passengers.',
+        'From June to November 2016, alongside my SNCF Réseau role: two jobs in one day.',
       ],
     ],
     [
@@ -64,13 +65,13 @@ export default {
   },
   timeline: {
     lane: 'ops',
-    from: 2016.85,
+    from: 2016.45,
     to: 2019.7,
     label: 'SNCF VOYAGEURS',
     tight: true,
     passenger: true,
     org: 'SNCF · TRANSILIEN LIGNE C',
-    period: 'Nov 2016–Aug 2019',
+    period: 'Jun 2016–Aug 2019',
     title: 'Passenger Care and Information Manager',
     fact: 'Care plans for works, events and incidents, and the first mechanism to assess them.',
     metric: ['42', 'Covered by care plans', 'stations'],

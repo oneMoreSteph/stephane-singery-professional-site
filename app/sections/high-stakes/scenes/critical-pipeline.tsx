@@ -165,8 +165,8 @@ function TheStakes() {
       <Flow d="M486 290H546" dur={1.6} />
       <Inspectable
         id="cp-detect"
-        title="Bad driver behaviour, detected"
-        body="The pipeline detects bad driver behaviour automatically.|A critical side of a ride-hailing company’s activity."
+        title="Driver behaviour, analysed"
+        body="The pipeline analyses driver behaviour automatically.|A critical side of a ride-hailing company’s activity."
       >
         <g>
           <Win x={552} y={200} w={210} h={180} title="DRIVER BEHAVIOUR">
@@ -182,7 +182,7 @@ function TheStakes() {
               </Fragment>
             ))}
           </Win>
-          <Sub x={657} y={404} t="Detected automatically" c="center" />
+          <Sub x={657} y={404} t="Analysed automatically" c="center" />
         </g>
       </Inspectable>
       <Arrow from={[768, 290]} to={[812, 290]} />
@@ -203,7 +203,7 @@ function TheStakes() {
       </Inspectable>
       <Close
         t="ONE OF THE MOST CRITICAL PIPELINES"
-        s="Bad driver behaviour, detected automatically, every hour."
+        s="Driver behaviour, analysed automatically, every hour."
       />
     </Layer>
   );

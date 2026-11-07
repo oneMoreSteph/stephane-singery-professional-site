@@ -16,7 +16,7 @@ export default {
       'One of the most critical pipelines.',
       [
         'At Heetch, I inherited several ETL pipelines to maintain.',
-        'One of the most critical: the automatic detection of bad driver behaviour.',
+        'One of the most critical: the automatic analysis of driver behaviour.',
         'Several sources: Redshift, S3 and a third-party service platform.',
         'A large hourly volume, growing.',
       ],

@@ -21,6 +21,29 @@ function geometry(key: string, now: number) {
   return { s, top, h, bx, bw };
 }
 
+/** Where two full-height periods of the same lane run at once: two jobs in the same days. */
+function overlaps(now: number) {
+  const full = spans.filter((s) => !s.thin);
+  const out: { from: number; to: number; lane: keyof typeof lane }[] = [];
+  full.forEach((a, i) =>
+    full.slice(i + 1).forEach((b) => {
+      if (a.lane !== b.lane) return;
+      const end = (s: typeof a) => (s.to === 'now' ? now : s.to);
+      const from = Math.max(a.from, b.from);
+      const to = Math.min(end(a), end(b));
+      if (to > from) out.push({ from, to, lane: a.lane });
+    }),
+  );
+  return out;
+}
+
+/** An inside label moves past an overlap that starts its bar, so the marker never covers it. */
+function shift(key: string) {
+  const s = byKey(key);
+  const ov = overlaps(nowYear()).find((o) => o.lane === s.lane && o.from === s.from && !s.thin);
+  return ov ? x(ov.to) - x(ov.from) : 0;
+}
+
 function TrackDrawing({
   shown,
   pinned,
@@ -123,7 +146,7 @@ function TrackDrawing({
               ) : (
                 <text
                   className={`tl-label tl-label--inside${s.tight ? ' tl-label--tight' : ''}`}
-                  x={bx + (s.tight ? 8 : 10)}
+                  x={bx + (s.tight ? 8 : 10) + shift(s.key)}
                   y={top + h / 2 + 4.5}
                 >
                   {s.label}
@@ -133,6 +156,14 @@ function TrackDrawing({
           );
         })}
       </g>
+      {overlaps(now).map(({ from, to, lane: ln }) => (
+        <g key={`${from}-${ln}`} className="tl-overlap" aria-hidden="true">
+          <rect x={x(from)} y={lane[ln] - 2} width={Math.max(3, x(to) - x(from))} height="34" rx="2" />
+          <text textAnchor="middle" x={(x(from) + x(to)) / 2} y={lane[ln] - 8}>
+            2 JOBS
+          </text>
+        </g>
+      ))}
       <g className="tl-now">
         <path d={`M${x(now)} 56V${AXIS}`} />
         <text x={x(now)} y={lane.ops - 26}>

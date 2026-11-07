@@ -1145,3 +1145,5 @@
 .story-svg .cs-weeks{fill:rgba(240,122,104,.25);stroke:#f07a68}
 .story-svg .cs-week{fill:#f07a68;opacity:.75;animation:dl-day 9s ease-in-out infinite;animation-delay:calc(var(--i)*.4s)}
 @media(prefers-reduced-motion:reduce){.story-svg .cs-week{animation:none}}
+.tl-overlap rect{fill:rgba(246,215,122,.45);stroke:#f6d77a;stroke-width:1.2;pointer-events:none}
+.tl-overlap text{fill:#f6d77a;font-size:8.5px;letter-spacing:.12em;font-weight:700}
