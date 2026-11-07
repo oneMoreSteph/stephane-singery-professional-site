@@ -16,7 +16,7 @@ const destinations = Object.fromEntries(stops.map((s, i) => [s.stop.key, {
   name: s.stop.name, heading: s.title, preview: s.description, action: s.stop.action, eyebrow: s.stop.eyebrow,
   title: s.stop.titleHtml, intro: s.stop.intro, hardware: s.stop.hardware, next: route[(i + 1) % route.length],
   position: vec(s.stop.position), camera: vec(s.stop.camera), look: vec(s.stop.look),
-  items: s.cases.map(c => ({ key: c.slug, logo: c.logo, icon: c.icon, symbol: c.symbol, tag: c.tag, title: c.title, summary: c.summary })),
+  items: s.cases.map(c => ({ key: c.slug, logo: c.logo, icon: c.icon, symbol: c.symbol, tag: c.tag, title: c.title, summary: c.summary, levers: c.value?.levers ?? [] })),
 }]));
 const destinationVisuals = Object.fromEntries(stops.filter(s => s.stop.visual).map(s => [s.stop.key, s.stop.visual]));
 const hardwareFacts = Object.fromEntries(stops.map(s => [s.stop.key, s.stop.about]));
@@ -75,6 +75,13 @@ function historyFor(id, caseKey = null, replace = false) {
   navigate(pathFor(id, caseKey), { replace });
 }
 
+/** The business levers a case served, as small tags. */
+function valueTags(levers, list = document.createElement('span')) {
+  list.classList.add('value-tags');
+  list.replaceChildren(...levers.map(l => Object.assign(document.createElement('span'), { textContent: l })));
+  return list;
+}
+
 /** The image with this id, created in place the first time it is needed: an empty <img> is not valid HTML. */
 const imageIn = (parent, id, before) => document.getElementById(id) ?? parent.insertBefore(Object.assign(document.createElement('img'), { id, alt: '' }), before);
 function detailContent(title, category, beats, caseKey = null, url = null, takeaway = '') {
@@ -85,6 +92,10 @@ function detailContent(title, category, beats, caseKey = null, url = null, takea
   detailLogo.hidden = !logo;
   if (logo) detailLogo.src = logo;
   document.getElementById('detail-eyebrow').textContent = caseKey ? 'INSIDE THE WORK' : 'EXPLORE THE DESTINATION';
+  const levers = document.getElementById('detail-levers');
+  const tags = (caseKey && cases[caseKey]?.value?.levers) || [];
+  valueTags(tags, levers);
+  levers.hidden = !tags.length;
   const lede = document.getElementById('detail-lede');
   lede.textContent = takeaway;
   lede.hidden = !takeaway;
@@ -237,6 +248,7 @@ function renderChapter(id) {
     const title = document.createElement('strong'); title.textContent = item.title;
     const summary = document.createElement('em'); summary.textContent = item.summary;
     copy.append(tag, title, summary);
+    if (item.levers.length) copy.append(valueTags(item.levers));
     const home = awayFrom(item.key, id);
     const arrow = document.createElement('span'); arrow.className = home ? 'item-arrow item-arrow--jump' : 'item-arrow'; arrow.textContent = home ? `${destinations[home].name.toUpperCase()} ↗` : '↗'; arrow.setAttribute('aria-hidden', 'true');
     if (home) button.setAttribute('aria-label', `${item.title}. Opens in ${destinations[home].name}.`);

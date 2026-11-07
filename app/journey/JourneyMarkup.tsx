@@ -245,6 +245,7 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
               </span>
               <h2 id="detail-title"></h2>
               <p className="detail-lede" id="detail-lede" hidden></p>
+              <p className="value-tags" id="detail-levers" hidden></p>
               <div className="detail-beats" id="detail-beats"></div>
               <p className="detail-source" id="detail-source"></p>
             </div>

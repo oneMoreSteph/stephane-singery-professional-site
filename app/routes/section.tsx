@@ -19,6 +19,13 @@ export default function SectionPage() {
             <Link to={casePath(section, c)}>{c.title}</Link>
             <small>{c.tag}</small>
             <p>{c.summary}</p>
+            {c.value && (
+              <p className="value-tags">
+                {c.value.levers.map((l) => (
+                  <span key={l}>{l}</span>
+                ))}
+              </p>
+            )}
           </li>
         ))}
       </ul>
