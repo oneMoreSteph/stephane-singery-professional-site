@@ -1109,3 +1109,12 @@
 .story-svg .dl-lane{fill:none;stroke-width:6;stroke-linecap:round}
 .story-svg .dl-lane.old{stroke:#2f5e70}.story-svg .dl-lane.new{stroke:#f6d77a}
 @media(prefers-reduced-motion:reduce){.story-svg .dl-week,.story-svg .dl-cell.used,.story-svg .dl-tenth,.story-svg .dl-rank .tx-stage,.story-svg .dl-day{animation:none}}
+/* Heetch · the models and operational workflows */
+.story-svg .ht-seq .tx-stage{animation:fd-loop 8s ease-in-out infinite;animation-delay:calc(var(--i)*2s)}
+.story-svg .ht-stage .tx-stage{animation:fd-loop 10s ease-in-out infinite;animation-delay:calc(var(--i)*2s)}
+.story-svg .tx-track.ht-hour{animation:ht-hour 12s linear infinite;animation-delay:calc(var(--i)*.5s)}
+@keyframes ht-hour{0%{fill:#97e0e8}6%,100%{fill:#1f6a80}}
+@media(prefers-reduced-motion:reduce){.story-svg .ht-seq .tx-stage,.story-svg .ht-stage .tx-stage,.story-svg .tx-track.ht-hour{animation:none}}
+/* European Space · learning in progress, applied */
+.story-svg .tx-stage.tr-learn{stroke-dasharray:7 7;animation:dash-run 8s linear infinite}
+@media(prefers-reduced-motion:reduce){.story-svg .tx-stage.tr-learn{animation:none}}

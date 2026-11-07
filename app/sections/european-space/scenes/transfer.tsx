@@ -442,30 +442,40 @@ function EuropeanSpace() {
   return (
     <Layer steps={[3]}>
       <Lab x={40} y={92} t="A SPACE SYSTEM, AND WHAT I WOULD PLUG INTO IT" c="strong" />
+      <circle className="tx-stage tr-learn" cx={700} cy={87} r="8" />
+      <Sub x={716} y={92} t="Learning in progress" />
+      <Check x={870} y={87} />
+      <Sub x={886} y={92} t="Applied" />
       {items.map(([t, icon], i) => (
         <Inspectable key={t} id={`col-${i}`} title={t.charAt(0) + t.slice(1).toLowerCase()}>
           <g>
-            <circle className="tx-stage" cx={cx[i]} cy="186" r="48" />
+            <circle className={`tx-stage${i < 2 ? ' tr-learn' : ''}`} cx={cx[i]} cy="186" r="48" />
             <g className="tx-icon" transform={`translate(${cx[i]} 186)`}>
               {icon}
             </g>
             <Lab x={cx[i]} y={126} t={t} c="center" />
+            {i > 1 && (
+              <g transform={`translate(${cx[i] + 36} 150) scale(1.4)`}>
+                <Check x={0} y={0} />
+              </g>
+            )}
           </g>
         </Inspectable>
       ))}
       {[0, 1, 2].map((i) => (
         <Arrow key={i} from={[cx[i] + 54, 186]} to={[cx[i + 1] - 56, 186]} />
       ))}
-      <Inspectable id="mx-3" title="Still learning">
+      <Inspectable id="mx-3" title="Learning in progress">
         <g>
           <path className="tx-promise dashed" d={`M${cx[0]} 240V262H${cx[1]}V240`} />
-          <Lab x={240} y={292} t="TO LEARN · EFREI" c="center warm" />
+          <Lab x={240} y={292} t="LEARNING IN PROGRESS · EFREI" c="center warm" />
           <Sub x={240} y={314} t="Not prior space experience" c="center" />
         </g>
       </Inspectable>
       <Inspectable id="mx-2" title="Engineering under the answer">
         <g>
           <Arrow from={[cx[2], 276]} to={[cx[2], 240]} />
+          <Check x={cx[2] - 92} y={295} />
           <Lab x={cx[2]} y={300} t="HEETCH · VERISURE" c="center" />
           <Sub x={cx[2]} y={322} t="Transformation, tests, monitoring" c="center" />
         </g>
@@ -473,6 +483,7 @@ function EuropeanSpace() {
       <Inspectable id="mx-1" title="Capabilities others can use">
         <g>
           <Arrow from={[cx[3], 276]} to={[cx[3], 240]} />
+          <Check x={cx[3] - 56} y={295} />
           <Lab x={cx[3]} y={300} t="FOODCHÉRI" c="center" />
           <Sub x={cx[3]} y={322} t="Access, training, support" c="center" />
         </g>
@@ -486,6 +497,7 @@ function EuropeanSpace() {
       <Inspectable id="mx-0" title="Decisions inside moving systems">
         <g>
           <Arrow from={[500, 458]} to={[500, 422]} />
+          <Check x={464} y={477} />
           <Lab x={500} y={482} t="SNCF" c="center" />
           <Sub x={500} y={504} t="Decisions while the system runs" c="center" />
         </g>

@@ -7,18 +7,18 @@ import {
   Arrow,
   Bars,
   CaseChip,
-  Check,
   Code,
   Db,
   Graph,
   Header,
   Lab,
   Link,
+  Move,
   OpsDefs,
-  Server,
   Sub,
   T,
   User,
+  vars,
   Win,
 } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
@@ -363,117 +363,217 @@ function ThePlatform() {
   );
 }
 
+// ---------- shared vocabulary (European Space style) ----------
+const icon = {
+  db: (
+    <>
+      <ellipse cy="-10" rx="13" ry="5" />
+      <path d="M-13-10V10A13 5 0 0 0 13 10V-10M-13 0A13 5 0 0 0 13 0" />
+    </>
+  ),
+  table: (
+    <>
+      <rect x="-15" y="-12" width="30" height="24" rx="2" />
+      <path d="M-15-4H15M-15 4H15M-5-12V12" />
+    </>
+  ),
+  sql: <path d="M-8-11L-17 0-8 11M8-11L17 0 8 11M3-13L-3 13" />,
+  tests: (
+    <>
+      <path d="M0-15L13-10V0C13 8 7 13 0 16C-7 13-13 8-13 0V-10Z" />
+      <path d="M-6 0L-2 5 7-5" />
+    </>
+  ),
+  etl: (
+    <>
+      <ellipse cx="-7" cy="-9" rx="8" ry="3" />
+      <path d="M-15-9V7A8 3 0 0 0 1 7V-9M4 0H16M10-6L16 0 10 6" />
+    </>
+  ),
+  micro: (
+    <>
+      <rect x="-16" y="-14" width="12" height="12" rx="2" />
+      <rect x="4" y="-14" width="12" height="12" rx="2" />
+      <rect x="-6" y="4" width="12" height="12" rx="2" />
+      <path d="M-4-8H4M-10-2L-4 6M10-2L4 6" />
+    </>
+  ),
+  flow: (
+    <>
+      <rect x="-16" y="-15" width="14" height="10" rx="2" />
+      <rect x="2" y="5" width="14" height="10" rx="2" />
+      <path d="M-9-5V10H-1M-4 7L-1 10-4 13M-2-10H9V1M6-2L9 1 12-2" />
+    </>
+  ),
+  team: (
+    <>
+      <circle cx="-7" cy="-7" r="5" />
+      <circle cx="8" cy="-7" r="5" />
+      <path d="M-16 12C-16 2-12-1-7-1S2 2 2 12M2 12C2 3 4-1 8-1S16 2 16 12" />
+    </>
+  ),
+};
+
+function Medal({ x, y, r = 44, i }: { x: number; y: number; r?: number; i: React.ReactNode }) {
+  return (
+    <>
+      <circle className="tx-stage" cx={x} cy={y} r={r} />
+      <g className="tx-icon" transform={`translate(${x} ${y}) scale(${(r / 44) * 1.25})`}>
+        {i}
+      </g>
+    </>
+  );
+}
+
+function Close({ t, s }: { t: string; s: string }) {
+  return (
+    <>
+      <path className="tx-div" d="M40 566H960" />
+      <Lab x={40} y={600} t={t} c="warm" />
+      <Sub x={40} y={624} t={s} />
+    </>
+  );
+}
+
+// ---------- 4 · The models ----------
+const MY = 220;
+const model: [string, number, string, string, string, string, React.ReactNode][] = [
+  [
+    'ht-raw',
+    130,
+    'RAW · BIGQUERY',
+    'Rows arrive',
+    'The raw layer of BigQuery, the Data warehouse.|New rows land in it every hour.',
+    'Raw · BigQuery',
+    icon.db,
+  ],
+  [
+    'ht-incremental',
+    370,
+    'INCREMENTAL MODEL',
+    'Only new, updated, late rows',
+    'An incremental model processes only new, updated or late rows.|Fresh results each hour, without rebuilding everything.',
+    'Incremental model · Dataform',
+    icon.sql,
+  ],
+  [
+    'ht-tests',
+    610,
+    'REUSABLE DATA TESTS',
+    'Written once, on every model',
+    'Data tests written once in Dataform, reused on many models.|My first step into observability.',
+    'Reusable Data tests',
+    icon.tests,
+  ],
+  [
+    'ht-curated',
+    850,
+    'CURATED · BIGQUERY',
+    'Fresh each hour',
+    'The curated layer: tested tables, ready for BI and AI.|Updated each hour.',
+    'Curated · BigQuery',
+    icon.table,
+  ],
+];
+const HX = 170;
+const hx = (i: number) => HX + i * 32;
+
 function TheModels() {
   return (
     <Layer steps={[3]}>
-      <Inspectable
-        id="ht-incremental"
-        title="Incremental models"
-        body="An incremental model processes only new, updated or late rows.|Fresh results each hour, without rebuilding everything."
-      >
-        <g>
-          <Win x={40} y={96} w={380} h={230} title="DATAFORM · INCREMENTAL MODEL">
-            <Code
-              x={56}
-              y={144}
-              lh={22}
-              lines={[
-                'config { type: "incremental",',
-                '         tags: ["hourly"] }',
-                'SELECT * FROM ${ref("rides")}',
-                '${when(incremental(),',
-                '  `WHERE updated_at >',
-                '   (SELECT MAX(updated_at)',
-                '    FROM ${self()})`)}',
-              ]}
-            />
-          </Win>
-          <Lab x={470} y={120} t="ONLY WHAT CHANGED" />
-          {(
-            [
-              ['NEW', ''],
-              ['UPDATED', ''],
-              ['LATE', ' late'],
-            ] as const
-          ).map(([t, c], i) => (
-            <Fragment key={t}>
-              <rect className={`tx-gantt${c}`} x={470} y={140 + i * 40} width="90" height="22" rx="3" />
-              <T x={515} y={156 + i * 40} className="center tx-win-t dark">
-                {t}
-              </T>
-              <Link d={`M564 ${151 + i * 40}C620 ${151 + i * 40} 620 190 680 190`} />
-            </Fragment>
-          ))}
-          <Db cx={740} y={140} w={110} h={110} />
-          <Sub x={740} y={274} t="Curated table" c="center" />
-        </g>
-      </Inspectable>
-      <Inspectable
-        id="ht-tests"
-        title="Reusable Data tests"
-        body="Data tests written once, applied to many models in Dataform.|My first step into observability."
-      >
-        <g>
-          <Lab x={40} y={380} t="REUSABLE DATA TESTS" />
-          {['Not null', 'Unique key', 'Accepted values'].map((t, i) => (
-            <Fragment key={t}>
-              <Check x={52} y={414 + i * 34} />
-              <Sub x={72} y={419 + i * 34} t={t} />
-            </Fragment>
-          ))}
-          <Sub x={40} y={540} t="My first step into observability" c="warm" />
-        </g>
-      </Inspectable>
+      <DataChain id="ht-chain-m" steps={['SOURCE', 'ELT', 'DATA WAREHOUSE', 'BI / ANALYTICS']} on={[1, 2]} />
+      <Lab x={40} y={92} t="DATAFORM · INCREMENTAL MODELS, EACH HOUR" c="strong" />
+      {model.map(([id, x, t, s, body, title, i], k) => (
+        <Inspectable key={id} id={id} title={title} body={body}>
+          <g className="ht-seq" style={vars({ '--i': k })}>
+            <Medal x={x} y={MY} i={i} />
+            <Lab x={x} y={152} t={t} c={`center${k === 1 ? ' warm' : ''}`} />
+            <Sub x={x} y={290} t={s} c="center" />
+          </g>
+        </Inspectable>
+      ))}
+      {[0, 1, 2].map((k) => (
+        <Arrow key={k} from={[model[k][1] + 52, MY]} to={[model[k + 1][1] - 54, MY]} />
+      ))}
+      <Move path={`M130 ${MY}H850`} dur={7}>
+        <circle className="tx-alert" r="6" />
+      </Move>
       <Inspectable
         id="ht-tags"
-        title="Dataform schedules and a tag policy"
-        body="Each model carries tags that say when and with what it runs.|Logic safer to change, easier to maintain."
+        title="Orchestration and a tag policy"
+        body="Each model carries tags that say when it runs, and Dataform schedules run each tag.|Logic safer to change, easier to maintain."
       >
         <g>
-          <Lab x={470} y={380} t="ORCHESTRATION · TAG POLICY" />
-          {['hourly', 'daily', 'finance', 'rides'].map((t, i) => (
+          <Lab x={40} y={360} t="ORCHESTRATION · TAG POLICY" />
+          <Sub x={40} y={382} t="Each tag sets when its models run" />
+          {(
+            [
+              ['#hourly', 412, 'all'],
+              ['#daily', 462, 6],
+            ] as const
+          ).map(([t, y, lit]) => (
             <Fragment key={t}>
-              <rect className="tx-ticket" x={470 + i * 112} y={398} width="100" height="26" rx="13" />
-              <T x={520 + i * 112} y={416} className="center tx-win-t dark">{`#${t}`}</T>
+              <rect className="tx-ticket" x={40} y={y} width="104" height="26" rx="13" />
+              <T x={92} y={y + 18} className="center tx-win-t dark">
+                {t}
+              </T>
+              {Array.from({ length: 24 }, (_, i) => (
+                <rect
+                  key={i}
+                  className={`tx-track${lit === 'all' ? ' done ht-hour' : i === lit ? ' done' : ''}`}
+                  style={lit === 'all' ? vars({ '--i': i }) : undefined}
+                  x={hx(i)}
+                  y={y}
+                  width="26"
+                  height="26"
+                  rx="3"
+                />
+              ))}
             </Fragment>
           ))}
-          <Sub x={470} y={584} t="Illustrative tags" />
-          <Win x={470} y={444} w={440} h={110} title="RUNS BY TAG">
-            {[0, 1, 2].map((i) => (
-              <rect
-                key={i}
-                className="tx-gantt"
-                x={490 + i * 120}
-                y={484 + (i % 2) * 22}
-                width="140"
-                height="14"
-                rx="2"
-              />
-            ))}
-          </Win>
+          {['00:00', '06:00', '12:00', '18:00'].map((t, i) => (
+            <T key={t} x={hx(i * 6)} y={512} className="tx-win-t">
+              {t}
+            </T>
+          ))}
+          <Sub x={40} y={512} t="Illustrative tags" />
         </g>
       </Inspectable>
+      <Close t="INCREMENTAL MODELS, SAFE TO CHANGE" s="I wrote nearly all the SQL models in Dataform." />
     </Layer>
   );
 }
+
+// ---------- 5 · Operational workflows ----------
+const W = { src: [110, 260], etl: [380, 180], micro: [380, 340], ops: [650, 260], team: [880, 260] } as const;
+const stages = ['REQUIREMENTS', 'DESIGN', 'BUILD', 'PRODUCTION', 'SUPPORT'];
+const sx = (k: number) => 120 + k * 190;
+const SY = 484;
 
 function Workflows() {
   return (
     <Layer steps={[4]}>
       <DataChain id="ht-chain-w" steps={['SOURCE', 'ETL', 'OPERATIONAL WORKFLOWS']} on={[0, 1, 2]} />
-      <Lab x={40} y={100} t="OPERATIONAL BUSINESS WORKFLOWS · BEYOND THE PLATFORM" c="strong" />
+      <Lab x={40} y={92} t="OPERATIONAL BUSINESS WORKFLOWS · BEYOND THE PLATFORM" c="strong" />
+      <Inspectable
+        id="ht-src"
+        title="Sources"
+        body="The systems where operational Data starts.|What each workflow reads."
+      >
+        <g className="ht-seq" style={vars({ '--i': 0 })}>
+          <Medal x={W.src[0]} y={W.src[1]} r={40} i={icon.db} />
+          <Lab x={W.src[0]} y={198} t="SOURCES" c="center" />
+          <Sub x={W.src[0]} y={322} t="Operational Data" c="center" />
+        </g>
+      </Inspectable>
       <Inspectable
         id="ht-etl"
         title="ETL pipelines"
-        body="Pipelines that extract, transform and load Data for business operations.|They run the workflows teams rely on."
+        body="ETL pipelines extract, transform, then load Data for business operations.|The Data each workflow needs, where it needs it."
       >
-        <g>
-          <Lab x={40} y={160} t="ETL PIPELINES" />
-          <Db cx={90} y={180} w={80} h={80} />
-          <Arrow from={[136, 220]} to={[186, 220]} />
-          <Server x={192} y={186} w={100} n={3} />
-          <Arrow from={[298, 220]} to={[348, 220]} />
-          <Db cx={400} y={180} w={80} h={80} />
+        <g className="ht-seq" style={vars({ '--i': 1 })}>
+          <Medal x={W.etl[0]} y={W.etl[1]} r={40} i={icon.etl} />
+          <Lab x={W.etl[0]} y={124} t="ETL PIPELINES" c="center" />
         </g>
       </Inspectable>
       <Inspectable
@@ -481,33 +581,61 @@ function Workflows() {
         title="Microservices"
         body="Small services, each doing one job, called by other systems.|They serve operational workflows directly."
       >
-        <g>
-          <Lab x={520} y={160} t="MICROSERVICES" />
-          {[0, 1, 2].map((i) => (
-            <Fragment key={i}>
-              <rect className="tx-app" x={520 + i * 140} y={186} width="110" height="66" rx="6" />
-              <T x={575 + i * 140} y={224} className="center tx-win-t">{`SERVICE ${i + 1}`}</T>
-            </Fragment>
-          ))}
-          <Link d="M630 219H660M770 219H800" />
+        <g className="ht-seq" style={vars({ '--i': 2 })}>
+          <Medal x={W.micro[0]} y={W.micro[1]} r={40} i={icon.micro} />
+          <Lab x={W.micro[0]} y={406} t="MICROSERVICES" c="center" />
         </g>
       </Inspectable>
+      <Inspectable
+        id="ht-ops"
+        title="Operational business workflows"
+        body="The daily processes business teams run on Data.|Beyond analytics: Data that runs operations."
+      >
+        <g className="ht-seq" style={vars({ '--i': 3 })}>
+          <Medal x={W.ops[0]} y={W.ops[1]} i={icon.flow} />
+          <Lab x={W.ops[0]} y={198} t="OPERATIONAL WORKFLOWS" c="center warm" />
+          <Sub x={W.ops[0]} y={326} t="Business processes" c="center" />
+          <Arrow from={[698, 260]} to={[832, 260]} />
+          <Medal x={W.team[0]} y={W.team[1]} r={40} i={icon.team} />
+          <Lab x={W.team[0]} y={198} t="BUSINESS TEAMS" c="center" />
+          <Sub x={W.team[0]} y={322} t="Who rely on them" c="center" />
+        </g>
+      </Inspectable>
+      {(
+        [
+          [152, 246, 338, 194],
+          [152, 274, 338, 326],
+          [422, 194, 604, 246],
+          [422, 326, 604, 274],
+        ] as const
+      ).map(([x1, y1, x2, y2], k) => (
+        <Fragment key={k}>
+          <Arrow from={[x1, y1]} to={[x2, y2]} />
+          <Move path={`M${x1} ${y1}L${x2} ${y2}`} dur={3} begin={(k % 2) * 1.5 + (k > 1 ? 3 : 0)}>
+            <circle className="tx-alert" r="5" />
+          </Move>
+        </Fragment>
+      ))}
       <Inspectable
         id="ht-e2e"
         title="Owned end to end"
         body="From requirements to production support, I owned each workflow.|One person accountable from the need to the running system."
       >
         <g>
-          <Lab x={40} y={380} t="OWNED END TO END" c="warm" />
-          {['REQUIREMENTS', 'DESIGN', 'BUILD', 'PRODUCTION', 'SUPPORT'].map((t, i) => (
-            <Fragment key={t}>
-              <circle className={`tx-stage${i === 4 ? ' on' : ''}`} cx={80 + i * 200} cy={430} r="12" />
-              <Lab x={80 + i * 200} y={470} t={t} c="center" />
-              {i < 4 && <Arrow from={[98 + i * 200, 430]} to={[262 + i * 200, 430]} />}
-            </Fragment>
+          <path className="tx-route" d={`M${sx(0)} ${SY}H${sx(4)}`} />
+          <path className="tx-draw" pathLength={1} d={`M${sx(0)} ${SY}H${sx(4)}`} />
+          {stages.map((t, k) => (
+            <g key={t} className="ht-stage" style={vars({ '--i': k })}>
+              <circle className="tx-stage" cx={sx(k)} cy={SY} r="10" />
+              <Lab x={sx(k)} y={SY + 36} t={t} c={`center${k === 4 ? ' warm' : ''}`} />
+            </g>
           ))}
+          <Move path={`M${sx(0)} ${SY}H${sx(4)}`} dur={10}>
+            <circle className="tx-alert" r="6" />
+          </Move>
         </g>
       </Inspectable>
+      <Close t="OWNED END TO END" s="From requirements to production support." />
     </Layer>
   );
 }
