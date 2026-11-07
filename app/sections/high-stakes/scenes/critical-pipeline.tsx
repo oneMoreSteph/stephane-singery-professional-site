@@ -219,7 +219,7 @@ function TheBreak() {
       <Inspectable
         id="cp-runs"
         title="Hourly runs of 90 minutes"
-        body="A run started every hour and took 90 minutes for one hour of Data.|As the volume grew, the pipeline failed every two hours."
+        body="A run started every hour and took 90 minutes for one hour of Data.|Each run blocked the next hour’s run: the pipeline failed every two hours."
       >
         <g>
           <path className="tx-promise" d={`M${H0} 140V132H${H0 + HW * 1.5}V140`} />

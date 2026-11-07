@@ -79,7 +79,7 @@ export default {
   value: {
     org: 'VERISURE',
     levers: ['Trust and risk'],
-    line: 'Data errors surface before the business finds them. Trust in Data rose at every level, with fewer manual controls.',
+    line: 'Data errors surface and are fixed before the business finds them. Trust in Data rose at every level, with fewer manual controls.',
   },
   drawing: {
     scene: 'system-verisure',

@@ -47,6 +47,7 @@ export default {
       [
         'I followed the solutions through the teams.',
         'Circulation improved.',
+        'The freight company kept Toyota Europe’s traffic, for years after.',
         'Found through the coordination of several regional teams, across many constraints.',
         'From first call to validated answer: one afternoon and one morning.',
       ],
@@ -55,7 +56,7 @@ export default {
   value: {
     org: 'SNCF RÉSEAU',
     levers: ['Customers'],
-    line: 'A customer at risk had a workable answer the next morning. Circulation improved.',
+    line: 'A customer at risk had a workable answer the next morning. The freight company kept Toyota Europe’s traffic for years after.',
   },
   drawing: {
     scene: 'toyota',

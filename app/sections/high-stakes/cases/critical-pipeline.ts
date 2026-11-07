@@ -27,7 +27,7 @@ export default {
       [
         'Orchestrated to run every hour, on the last hour’s Data.',
         'Each run took 90 minutes for one hour of Data.',
-        'As the volume grew, the pipeline failed every two hours.',
+        'Each 90-minute run blocked the next hour’s run: the pipeline failed every two hours.',
         'By evening, half of the day’s Data was missing.',
         'Critical operational dashboards filled a day late.',
       ],

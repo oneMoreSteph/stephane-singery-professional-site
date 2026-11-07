@@ -44,15 +44,15 @@ export default {
       'The board kept its views on day one.',
       [
         'The critical views ran on the new stack before the licence ended.',
-        'The date held.',
+        'The date held: the Tableau renewal avoided.',
         'Then access for every team: the start of the move from 2 to 25 active analysis producers.',
       ],
     ],
   ],
   value: {
     org: 'FOODCHÉRI',
-    levers: ['Commitments met', 'Continuity'],
-    line: 'The board steered on day one, and the licence ended on its date.',
+    levers: ['Commitments met', 'Continuity', 'Cost'],
+    line: 'The board steered on day one. The Tableau licence ended on its date, its renewal avoided.',
   },
   drawing: {
     scene: 'deadline',

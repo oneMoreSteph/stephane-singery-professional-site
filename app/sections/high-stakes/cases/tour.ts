@@ -40,7 +40,7 @@ export default {
   value: {
     org: 'SNCF RÉSEAU',
     levers: ['Commitments met'],
-    line: 'Five Tours de France crossed active rail lines, with live traffic regulated around the race.',
+    line: 'Five Tours de France crossed active rail lines at full race pace, with live traffic regulated around them.',
   },
   drawing: {
     scene: 'crossing',

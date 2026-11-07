@@ -1135,3 +1135,13 @@
 .story-svg .cp-run.ko{fill:rgba(240,122,104,.25);stroke:#f07a68}
 .story-svg .cp-miss{fill:none;stroke:#f07a68;stroke-width:1.5;stroke-dasharray:4 4}
 .story-svg .cp-fast{fill:#57b4d6;stroke:#f6d77a;stroke-width:2}
+/* Castor works */
+.story-svg .cs-seine{fill:none;stroke:#1f4f63;stroke-width:16;stroke-linecap:round;opacity:.55}
+.story-svg .cs-closed{fill:none;stroke:#f07a68;stroke-width:4;stroke-dasharray:8 6;stroke-linejoin:round}
+.story-svg .cs-open{fill:none;stroke:#97e0e8;stroke-width:4}
+.story-svg .cs-stop{fill:#071923;stroke:#f07a68;stroke-width:2.5}
+.story-svg .cs-term{fill:#f6d77a;stroke:#f6d77a}
+.story-svg .cs-shutter{fill:rgba(240,122,104,.1);stroke:#f07a68;stroke-width:2;stroke-dasharray:5 4}
+.story-svg .cs-weeks{fill:rgba(240,122,104,.25);stroke:#f07a68}
+.story-svg .cs-week{fill:#f07a68;opacity:.75;animation:dl-day 9s ease-in-out infinite;animation-delay:calc(var(--i)*.4s)}
+@media(prefers-reduced-motion:reduce){.story-svg .cs-week{animation:none}}

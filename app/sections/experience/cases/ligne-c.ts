@@ -24,6 +24,7 @@ export default {
       [
         'Passenger-care plans for 42 Ligne C stations, such as Saint-Michel Notre-Dame and Austerlitz.',
         'For planned events: festive public events, engineering works.',
+        'Among them, each summer, the Castor works: central Paris closed for six weeks.',
         'For unexpected incidents affecting circulation.',
         'Each plan: passengers’ safety, their redirection, their experience in our stations.',
       ],
@@ -45,14 +46,16 @@ export default {
         'The first mechanism to assess the plans.',
         'Indicators defined and monitored: staff work and fixed equipment.',
         'A way to follow the measures required and incentivised by Île-de-France Mobilités.',
+        'Other Transilien lines sent counterparts to benchmark our plans.',
+        'RATP’s RER B recognised the quality of our plans and of our operational follow-up.',
         'Measuring whether a system does its job: a question I met again in Data.',
       ],
     ],
   ],
   value: {
     org: 'SNCF · LIGNE C',
-    levers: ['Commitments met'],
-    line: '42 stations covered by care plans, and the first way to follow what Île-de-France Mobilités requires and incentivises.',
+    levers: ['Commitments met', 'Customers'],
+    line: '42 stations covered by care plans, followed as Île-de-France Mobilités requires. Other Transilien lines came to benchmark them; RATP’s RER B recognised their quality.',
   },
   drawing: {
     scene: 'station',

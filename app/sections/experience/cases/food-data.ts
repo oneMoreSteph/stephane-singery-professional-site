@@ -48,6 +48,7 @@ export default {
         'Market explored, tools benchmarked and trialled.',
         'Metabase defended before the board.',
         'I deployed and maintained Metabase on Google App Engine, Google Cloud’s application hosting.',
+        'From a Tableau licence of several tens of thousands of euros a year to the open-source Metabase, in one container I deployed myself.',
         'The whole migration led, critical board dashboards delivered within six weeks.',
       ],
     ],
@@ -70,8 +71,8 @@ export default {
   ],
   value: {
     org: 'FOODCHÉRI',
-    levers: ['Autonomy', 'Speed of decision'],
-    line: 'Teams answered their own questions: from 2 to 25 active analysis producers, on one platform.',
+    levers: ['Autonomy', 'Speed of decision', 'Cost'],
+    line: 'Teams answered their own questions: from 2 to 25 active analysis producers. A yearly licence of tens of thousands of euros became the cost of one container in the cloud.',
   },
   drawing: {
     scene: 'system-food',
