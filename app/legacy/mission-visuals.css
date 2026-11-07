@@ -1109,12 +1109,24 @@
 .story-svg .dl-lane{fill:none;stroke-width:6;stroke-linecap:round}
 .story-svg .dl-lane.old{stroke:#2f5e70}.story-svg .dl-lane.new{stroke:#f6d77a}
 @media(prefers-reduced-motion:reduce){.story-svg .dl-week,.story-svg .dl-cell.used,.story-svg .dl-tenth,.story-svg .dl-rank .tx-stage,.story-svg .dl-day{animation:none}}
-/* Heetch · the models and operational workflows */
-.story-svg .ht-seq .tx-stage{animation:fd-loop 8s ease-in-out infinite;animation-delay:calc(var(--i)*2s)}
-.story-svg .ht-stage .tx-stage{animation:fd-loop 10s ease-in-out infinite;animation-delay:calc(var(--i)*2s)}
+/* Heetch */
 .story-svg .tx-track.ht-hour{animation:ht-hour 12s linear infinite;animation-delay:calc(var(--i)*.5s)}
 @keyframes ht-hour{0%{fill:#97e0e8}6%,100%{fill:#1f6a80}}
-@media(prefers-reduced-motion:reduce){.story-svg .ht-seq .tx-stage,.story-svg .ht-stage .tx-stage,.story-svg .tx-track.ht-hour{animation:none}}
+.story-svg .ht-before .tx-win-bg,.story-svg .ht-before .tx-db path,.story-svg .ht-before .tx-db ellipse,.story-svg .ht-before .tx-bucket{stroke-dasharray:5 5}
+.story-svg .ht-faint{opacity:.5}
+.story-svg .ht-gap{fill:rgba(246,215,122,.1);stroke:#f6d77a;stroke-dasharray:5 5}
+.story-svg .ht-hand{stroke:#f6d77a;stroke-width:2.5;stroke-linecap:round;fill:none}
+.story-svg .tx-app.ht-mine{stroke:#f6d77a}
+.story-svg .ht-test{animation:vs-ok 6s ease-in-out infinite;animation-delay:calc(var(--i)*.5s)}
+.story-svg .ht-row.upd{fill:rgba(246,215,122,.25);stroke:#f6d77a;stroke-width:1.5}
+.story-svg .ht-row.late{fill:#f0a868}
+.story-svg .ht-row.new{fill:#57b4d6}
+.story-svg .ht-row{transform-box:fill-box;transform-origin:left;animation:vs-fill 6s ease-in-out infinite;animation-delay:calc(var(--i)*.3s)}
+.story-svg .ht-inner{fill:none;stroke:#3f6b79;stroke-width:1.5;stroke-dasharray:4 6}
+.story-svg .ht-tick{stroke:#57b4d6;stroke-width:7;stroke-linecap:round;fill:none;animation:ht-tick 12s linear infinite;animation-delay:calc(var(--i)*.5s)}
+.story-svg .ht-tick.before{stroke:#7fa9b6;stroke-dasharray:3 4;stroke-width:5;animation:none}
+@keyframes ht-tick{0%{stroke:#d8f6fa}8%,100%{stroke:#57b4d6}}
+@media(prefers-reduced-motion:reduce){.story-svg .tx-track.ht-hour,.story-svg .ht-test,.story-svg .ht-row,.story-svg .ht-tick{animation:none}}
 /* European Space · learning in progress, applied */
 .story-svg .tx-stage.tr-learn{stroke-dasharray:7 7;animation:dash-run 8s linear infinite}
 @media(prefers-reduced-motion:reduce){.story-svg .tx-stage.tr-learn{animation:none}}
