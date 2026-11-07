@@ -170,52 +170,52 @@ function StartingPoint() {
         <Inspectable
           id="ht-s3"
           title="S3 · raw files"
-          body="S3: Amazon’s object storage, where raw Data arrived as files.|The first stop of the Data before the warehouse."
+          body="S3: Amazon’s object storage, where raw Data arrived as files.|One of the two sources Dataiku read."
         >
           <g>
-            <Lab x={100} y={168} t="S3 · RAW FILES" c="center" />
-            <Bucket x={40} y={196} />
-            <Sub x={100} y={300} t="Object storage" c="center" />
+            <Lab x={105} y={146} t="S3 · RAW FILES" c="center" />
+            <Bucket x={45} y={158} />
+            <Sub x={105} y={248} t="Object storage" c="center" />
           </g>
         </Inspectable>
-        <Arrow from={[166, 230]} to={[226, 230]} />
         <Inspectable
           id="ht-redshift"
           title="Redshift · the Data warehouse"
-          body="Redshift: Amazon’s cloud Data warehouse, where all the Data was stored.|Raw and curated Data were mixed in it."
+          body="Redshift: Amazon’s cloud Data warehouse, beside S3.|Raw and curated Data were mixed in it."
         >
           <g>
-            <Lab x={300} y={168} t="REDSHIFT" c="center" />
-            <Db cx={300} y={180} w={130} h={110} />
+            <Lab x={105} y={290} t="REDSHIFT" c="center" />
+            <Db cx={105} y={302} w={110} h={90} />
             {[0, 1, 2, 3].map((i) => (
               <rect
                 key={i}
                 className={`tx-gantt${i % 2 ? ' late' : ''}`}
-                x={258}
-                y={226 + i * 14}
-                width="84"
-                height="8"
+                x={70}
+                y={336 + i * 12}
+                width="70"
+                height="7"
                 rx="2"
               />
             ))}
-            <Sub x={300} y={318} t="Raw and curated, mixed" c="center" />
+            <Sub x={105} y={414} t="Raw and curated, mixed" c="center" />
           </g>
         </Inspectable>
-        <Arrow from={[372, 230]} to={[426, 230]} />
+        <Arrow from={[172, 196]} to={[294, 250]} />
+        <Arrow from={[166, 346]} to={[294, 292]} />
         <Inspectable
           id="ht-dataiku"
           title="Dataiku"
-          body="Dataiku: a Data science platform used for most transformations.|Where I developed a lot."
+          body="Dataiku: a Data science platform used for most transformations, reading S3 and Redshift.|Where I developed a lot."
         >
           <g>
-            <Win x={432} y={168} w={220} h={126} title="DATAIKU · FLOWS">
+            <Win x={300} y={206} w={240} h={130} title="DATAIKU · FLOWS">
               <Graph
                 nodes={[
-                  [466, 222],
-                  [466, 268],
-                  [540, 245],
-                  [618, 222],
-                  [618, 268],
+                  [340, 252],
+                  [340, 304],
+                  [420, 278],
+                  [500, 252],
+                  [500, 304],
                 ]}
                 edges={[
                   [0, 2],
@@ -225,39 +225,40 @@ function StartingPoint() {
                 ]}
               />
             </Win>
-            <Sub x={542} y={318} t="Where I developed a lot" c="center" />
+            <Sub x={420} y={360} t="Where I developed a lot" c="center" />
           </g>
         </Inspectable>
-        <Arrow from={[658, 230]} to={[712, 230]} />
+        <Arrow from={[546, 271]} to={[614, 271]} />
         <Inspectable
           id="ht-looker"
           title="Looker, refreshed once a day"
           body="Looker: the BI tool for dashboards.|Its Data was refreshed once a day."
         >
           <g>
-            <Win x={718} y={168} w={170} h={126} title="LOOKER">
-              <Bars x={734} y={200} w={138} h={80} vals={[0.4, 0.6, 0.5, 0.75, 0.7]} />
+            <Win x={620} y={206} w={200} h={130} title="LOOKER · DASHBOARDS">
+              <Bars x={638} y={240} w={164} h={80} vals={[0.4, 0.6, 0.5, 0.75, 0.7]} />
             </Win>
-            <Sub x={803} y={318} t="Refreshed once a day" c="center" />
+            <Sub x={720} y={360} t="Refreshed once a day" c="center" />
           </g>
         </Inspectable>
-        {[196, 232, 268].map((y) => (
-          <User key={y} x={930} y={y + 12} s={0.75} />
+        <Arrow from={[826, 271]} to={[866, 271]} />
+        {[232, 272, 312].map((y) => (
+          <User key={y} x={900} y={y + 12} s={0.75} />
         ))}
       </g>
-      <Flow d="M166 230H226" dur={8} />
-      <Flow d="M372 230H426" dur={8} begin={6} />
-      <Flow d="M658 230H712" dur={8} begin={4} />
+      <Flow d="M172 196L294 250" dur={8} />
+      <Flow d="M166 346L294 292" dur={8} begin={4} />
+      <Flow d="M546 271H614" dur={8} begin={2} />
       <Inspectable
         id="ht-daily"
         title="One refresh a day"
         body="Fresh Data arrived once, early in the day.|Decisions during the day used yesterday’s figures."
       >
         <g>
-          <Lab x={40} y={386} t="REFRESH · ONCE A DAY" />
-          <Hours x={250} y={370} lit={[6]} />
+          <Lab x={40} y={462} t="REFRESH · ONCE A DAY" />
+          <Hours x={250} y={446} lit={[6]} />
           {['00:00', '06:00', '12:00', '18:00'].map((t, i) => (
-            <T key={t} x={250 + i * 6 * 29} y={414} className="tx-win-t dim">
+            <T key={t} x={250 + i * 6 * 29} y={536} className="tx-win-t dim">
               {t}
             </T>
           ))}
@@ -269,8 +270,8 @@ function StartingPoint() {
         body="The company needed fresh Data every hour.|The stack refreshed once a day."
       >
         <g>
-          <Lab x={40} y={466} t="NEED · EVERY HOUR" c="warm" />
-          <Hours x={250} y={450} lit="all" sweep />
+          <Lab x={40} y={506} t="NEED · EVERY HOUR" c="warm" />
+          <Hours x={250} y={490} lit="all" sweep />
         </g>
       </Inspectable>
       <Close t="A DAILY REFRESH" s="The company needed Data every hour." />
