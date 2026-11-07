@@ -121,14 +121,14 @@ function Systems() {
       <Inspectable
         id="bigdata"
         title="Big Data · where my path goes"
-        body="Big Data: Data whose volume, velocity and variety exceed ordinary tools. Variety: structured tables, semi-structured documents, unstructured files, images and signals.|The environment my path leads to: the field of my engineering degree, and the Data space systems produce."
+        body="Big Data: Data whose volume, velocity and variety exceed ordinary tools, with two more Vs: veracity, how far it can be trusted, and value, what it brings. Variety: structured tables, semi-structured documents, unstructured files, images and signals.|The environment my path leads to: the field of my engineering degree, and the Data space systems produce."
       >
         <g>
           <Lab x={580} y={120} t="BIG DATA · WHERE MY PATH GOES" c="warm" />
-          {['VOLUME', 'VELOCITY', 'VARIETY'].map((t, i) => (
+          {['VOLUME', 'VELOCITY', 'VARIETY', 'VERACITY', 'VALUE'].map((t, i) => (
             <Fragment key={t}>
-              <rect className="tx-track done" x={580 + i * 128} y={136} width="118" height="28" rx="14" />
-              <T x={639 + i * 128} y={155} className="center tx-win-t">
+              <rect className="tx-track done" x={580 + i * 76} y={136} width="70" height="28" rx="14" />
+              <T x={615 + i * 76} y={155} className="center tx-win-t">
                 {t}
               </T>
             </Fragment>

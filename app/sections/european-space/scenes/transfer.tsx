@@ -438,9 +438,148 @@ const items: [string, React.ReactNode][] = [
   ],
 ];
 
-function EuropeanSpace() {
+// ---------- Big Data · the five Vs ----------
+const vx = (k: number) => 125 + k * 187.5;
+const VY = 300;
+const fiveVs: [string, string, string, string, string, string, string, React.ReactNode, boolean][] = [
+  [
+    'tr-v-volume',
+    'VOLUME',
+    'How much Data',
+    'EFREI',
+    'Learning in progress',
+    'study-efrei',
+    'Volume: Data too large for one machine or ordinary tools.|I am learning to work at that scale in my engineering degree at EFREI.',
+    <>
+      <ellipse cy="-12" rx="15" ry="5" />
+      <path d="M-15-12V12A15 5 0 0 0 15 12V-12M-15 0A15 5 0 0 0 15 0" />
+    </>,
+    false,
+  ],
+  [
+    'tr-v-velocity',
+    'VELOCITY',
+    'How fast it is ready',
+    'HEETCH',
+    'Daily → hourly',
+    'heetch',
+    'Velocity: how fast Data arrives and must be ready to use.|At Heetch, I took Data from a daily refresh toward hourly and near real time.',
+    <>
+      <circle cx="5" r="13" />
+      <path d="M5-7V0L10 4M-24-6H-14M-26 0H-14M-24 6H-14" />
+    </>,
+    true,
+  ],
+  [
+    'tr-v-variety',
+    'VARIETY',
+    'How many forms',
+    'HEETCH · FOODCHÉRI',
+    'Files, tables, NoSQL',
+    'food-data',
+    'Variety: structured tables, semi-structured documents, unstructured files.|At Heetch, GCS files of any structure; at FoodChéri, Redshift alongside MongoDB, a NoSQL database.',
+    <>
+      <rect x="-25" y="-10" width="15" height="20" rx="1" />
+      <path d="M-25-3H-10M-25 4H-10M-1-10C-5-10-3-1-6 0-3 1-5 10-1 10M5-10C9-10 7-1 10 0 7 1 9 10 5 10M15-10H22L25-7V10H15Z" />
+    </>,
+    true,
+  ],
+  [
+    'tr-v-veracity',
+    'VERACITY',
+    'How far it can be trusted',
+    'VERISURE',
+    '525 Data tests a day',
+    'verisure',
+    'Veracity: how far the Data can be trusted.|At Verisure, 525 automated Data tests a day, and each anomaly fixed.',
+    <>
+      <path d="M0-15L13-10V0C13 8 7 13 0 16C-7 13-13 8-13 0V-10Z" />
+      <path d="M-6 0L-2 5 7-5" />
+    </>,
+    true,
+  ],
+  [
+    'tr-v-value',
+    'VALUE',
+    'What it brings',
+    'FOODCHÉRI',
+    '2 → 25 analysis producers',
+    'food-data',
+    'Value: what the Data brings to the people who use it.|At FoodChéri, active analysis producers went from 2 to 25.',
+    <>
+      <path d="M-15-14V13H15" />
+      <path d="M-10 6L-3-2 3 3 13-9M8-9H13V-4" />
+    </>,
+    true,
+  ],
+];
+
+const chipName = ['EFREI · Galileo', 'Heetch', 'FoodChéri Data', 'Verisure', 'FoodChéri Data'];
+
+function FiveVs() {
   return (
     <Layer steps={[3]}>
+      <Lab x={40} y={92} t="BIG DATA · THE FIVE VS, WHERE I COVERED THEM" c="strong" />
+      <circle className="tx-stage tr-learn" cx={700} cy={87} r="8" />
+      <Sub x={716} y={92} t="Learning in progress" />
+      <Check x={870} y={87} />
+      <Sub x={886} y={92} t="Applied" />
+      <Inspectable
+        id="tr-v-stream"
+        title="One Data stream"
+        body="Data of every form, flowing from its sources to the people who use it.|Each V is one question it must answer."
+      >
+        <g>
+          <path className="tx-route" d={`M40 ${VY}H960`} />
+          <path className="tx-draw" pathLength={1} d={`M40 ${VY}H960`} />
+          <Move path={`M40 ${VY}H960`} dur={9}>
+            <rect className="tx-alert" x="-6" y="-6" width="12" height="12" rx="2" />
+          </Move>
+          <Move path={`M40 ${VY}H960`} dur={9} begin={3}>
+            <circle className="tx-alert" r="6" />
+          </Move>
+          <Move path={`M40 ${VY}H960`} dur={9} begin={6}>
+            <path className="tx-alert" d="M-5-7H3L6-4V7H-5Z" />
+          </Move>
+        </g>
+      </Inspectable>
+      {fiveVs.map(([id, t, def, who, fact, to, body, icon, done], k) => (
+        <Fragment key={id}>
+          <Inspectable id={id} title={t.charAt(0) + t.slice(1).toLowerCase()} body={body}>
+            <g>
+              <Lab x={vx(k)} y={204} t={t} c={`center${done ? '' : ' warm'}`} />
+              <Sub x={vx(k)} y={226} t={def} c="center" />
+              <circle className={`tx-stage${done ? '' : ' tr-learn'}`} cx={vx(k)} cy={VY} r="50" />
+              <g className="tx-icon" transform={`translate(${vx(k)} ${VY}) scale(1.5)`}>
+                {icon}
+              </g>
+              {done && (
+                <g transform={`translate(${vx(k) + 38} ${VY - 38}) scale(1.4)`}>
+                  <Check x={0} y={0} />
+                </g>
+              )}
+              <Lab x={vx(k)} y={388} t={who} c={`center${done ? '' : ' warm'}`} />
+              <Sub x={vx(k)} y={410} t={fact} c="center" />
+            </g>
+          </Inspectable>
+          <CaseChip
+            x={vx(k) - 84}
+            y={442}
+            w={168}
+            to={to}
+            kicker={done ? 'THE PROOF' : 'IN PROGRESS'}
+            sub={chipName[k]}
+          />
+        </Fragment>
+      ))}
+      <Bring t="Four Vs applied in production; Volume, in progress at EFREI.">{null}</Bring>
+    </Layer>
+  );
+}
+
+function EuropeanSpace() {
+  return (
+    <Layer steps={[4]}>
       <Lab x={40} y={92} t="A SPACE SYSTEM, AND WHAT I WOULD PLUG INTO IT" c="strong" />
       <circle className="tx-stage tr-learn" cx={700} cy={87} r="8" />
       <Sub x={716} y={92} t="Learning in progress" />
@@ -517,6 +656,7 @@ export default function TransferScene() {
       <Network />
       <SharedCapability />
       <Beneath />
+      <FiveVs />
       <EuropeanSpace />
     </>
   );

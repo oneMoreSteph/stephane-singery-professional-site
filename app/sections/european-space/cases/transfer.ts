@@ -36,14 +36,31 @@ export default {
       ],
     ],
     [
-      '04 / MY NEXT FIELD',
+      '04 / BIG DATA',
+      'Four Vs applied, the fifth in progress.',
+      [
+        'Velocity: Heetch, from a daily refresh toward hourly.',
+        'Variety: files of any structure at Heetch; NoSQL beside Redshift at FoodChéri.',
+        'Veracity: Verisure, 525 automated Data tests a day.',
+        'Value: FoodChéri, from 2 to 25 active analysis producers.',
+        'Volume: in progress, at EFREI.',
+      ],
+    ],
+    [
+      '05 / MY NEXT FIELD',
       'I want to apply that experience in European space.',
       ['Next: the systems that generate, move and use Data.', 'For Europe’s technological sovereignty.'],
     ],
   ],
   drawing: {
     scene: 'transfer',
-    labels: ['Live operations', 'Shared Data capability', 'Dependable information', 'European space'],
+    labels: [
+      'Live operations',
+      'Shared Data capability',
+      'Dependable information',
+      'Big Data · five Vs',
+      'European space',
+    ],
     note: 'Professional experience and the contribution I aim to bring to European space. Team names are examples. Rail network: SNCF Réseau open data.',
     mapSources: true,
   },
