@@ -51,6 +51,11 @@ export default {
       ],
     ],
   ],
+  value: {
+    org: 'VERISURE',
+    levers: ['Trust and risk'],
+    line: 'Teams spend their time on alerts worth acting on, and trust them.',
+  },
   drawing: {
     scene: 'signal',
     labels: ['The stakes', 'Severity operational measurement', 'What it brings', 'The result'],

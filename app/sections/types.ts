@@ -69,6 +69,13 @@ export interface Drawing {
   mapSources?: boolean;
 }
 
+/** What the work brought to the company: the organisation, the business levers it served, one line. */
+export interface Value {
+  org: string;
+  levers: string[];
+  line: string;
+}
+
 /** Where a case sits on the career timeline. Years are decimal; boundaries within a year are approximate. */
 export interface TimelineSpan {
   lane: 'ops' | 'data' | 'study';
@@ -117,6 +124,8 @@ export interface Case {
   takeaway: string;
   beats: Beat[];
   drawing?: Drawing;
+  /** What the work brought to the company, shown at the end of the story. */
+  value?: Value;
   timeline?: TimelineSpan;
   orbit?: StudyOrbit;
 }

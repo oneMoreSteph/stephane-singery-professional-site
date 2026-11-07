@@ -49,6 +49,11 @@ export default {
       ],
     ],
   ],
+  value: {
+    org: 'FOODCHÉRI',
+    levers: ['Commitments met', 'Continuity'],
+    line: 'The board steered on day one, and the licence ended on its date.',
+  },
   drawing: {
     scene: 'deadline',
     labels: ['The clock', 'The way', 'The build', 'Delivered'],

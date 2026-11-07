@@ -3,7 +3,7 @@ import { lines, pad } from '~/content';
 import { DrawingContext } from '~/drawings/context';
 import { Palette } from '~/drawings/Palette';
 import { scenes } from '~/drawings/scenes';
-import type { Case } from '~/sections/types';
+import type { Case, Value } from '~/sections/types';
 import { tourTargets, useHighlightTour, type TourTarget } from './useHighlightTour';
 
 const DEFAULT_INFO = {
@@ -201,6 +201,7 @@ export function CaseWindow({ item, onOpenCase }: { item: Case; onOpenCase: (key:
               <li key={l}>{l}</li>
             ))}
           </ul>
+          {step === last && item.value && <CaseValue value={item.value} />}
           <div className="story-navigation">
             <button
               type="button"
@@ -231,5 +232,20 @@ export function CaseWindow({ item, onOpenCase }: { item: Case; onOpenCase: (key:
         </div>
       </div>
     </section>
+  );
+}
+
+/** What the work brought to the company, closing the last step. */
+export function CaseValue({ value }: { value: Value }) {
+  return (
+    <div className="case-value">
+      <span className="case-value-k">What it brought · {value.org}</span>
+      <p>{value.line}</p>
+      <ul className="case-value-levers" aria-label="Business levers">
+        {value.levers.map((l) => (
+          <li key={l}>{l}</li>
+        ))}
+      </ul>
+    </div>
   );
 }

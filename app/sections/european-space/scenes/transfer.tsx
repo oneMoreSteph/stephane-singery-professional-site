@@ -446,15 +446,15 @@ const fiveVs: [string, string, string, string, string, string, string, React.Rea
     'tr-v-volume',
     'VOLUME',
     'How much Data',
-    'EFREI',
-    'Learning in progress',
-    'study-efrei',
-    'Volume: Data too large for one machine or ordinary tools.|I am learning to work at that scale in my engineering degree at EFREI.',
+    'HEETCH',
+    '90 min → 11 min',
+    'critical-pipeline',
+    'Volume: Data too large for one machine or ordinary tools.|At Heetch, a critical pipeline outgrown by its hourly volume: I took it from 90 minutes for one hour of Data to 11 minutes for a full day.',
     <>
       <ellipse cy="-12" rx="15" ry="5" />
       <path d="M-15-12V12A15 5 0 0 0 15 12V-12M-15 0A15 5 0 0 0 15 0" />
     </>,
-    false,
+    true,
   ],
   [
     'tr-v-velocity',
@@ -514,14 +514,12 @@ const fiveVs: [string, string, string, string, string, string, string, React.Rea
   ],
 ];
 
-const chipName = ['EFREI · Galileo', 'Heetch', 'FoodChéri Data', 'Verisure', 'FoodChéri Data'];
+const chipName = ['Heetch · pipeline', 'Heetch', 'FoodChéri Data', 'Verisure', 'FoodChéri Data'];
 
 function FiveVs() {
   return (
     <Layer steps={[3]}>
       <Lab x={40} y={92} t="BIG DATA · THE FIVE VS, WHERE I COVERED THEM" c="strong" />
-      <circle className="tx-stage tr-learn" cx={700} cy={87} r="8" />
-      <Sub x={716} y={92} t="Learning in progress" />
       <Check x={870} y={87} />
       <Sub x={886} y={92} t="Applied" />
       <Inspectable
@@ -572,7 +570,7 @@ function FiveVs() {
           />
         </Fragment>
       ))}
-      <Bring t="Four Vs applied in production; Volume, in progress at EFREI.">{null}</Bring>
+      <Bring t="All five Vs, applied in production.">{null}</Bring>
     </Layer>
   );
 }

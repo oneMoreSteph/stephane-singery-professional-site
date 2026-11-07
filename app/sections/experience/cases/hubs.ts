@@ -30,6 +30,11 @@ export default {
       ['My first experience inside a food-tech company.', 'Where I joined the Data team, in February 2021.'],
     ],
   ],
+  value: {
+    org: 'FOODCHÉRI',
+    levers: ['Continuity'],
+    line: 'Six hubs delivered every evening and weekend: stock, orders, riders, customers.',
+  },
   drawing: {
     scene: 'paris',
     labels: ['Why', 'The hubs', 'What it opened'],

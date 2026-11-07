@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router';
+import { CaseValue } from '~/cases/CaseWindow';
 import { Beats } from '~/components/Beats';
 import { findCase, sectionPath } from '~/content';
 import { metaForPath } from '~/meta';
@@ -16,6 +17,7 @@ export default function CasePage() {
       <h1>{item.title}</h1>
       <p className="lede">{item.takeaway}</p>
       <Beats beats={item.beats} />
+      {item.value && <CaseValue value={item.value} />}
       <p>
         <Link to={sectionPath(section)}>← {section.title}</Link>
       </p>

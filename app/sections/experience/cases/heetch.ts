@@ -53,6 +53,7 @@ export default {
       'Beyond the platform.',
       [
         'ETL pipelines and microservices for operational business workflows.',
+        'A critical pipeline, from 90 minutes for each hour of Data to 11 minutes for a full day.',
         'Owned end to end, from requirements to production support.',
       ],
     ],
@@ -67,6 +68,11 @@ export default {
       ],
     ],
   ],
+  value: {
+    org: 'HEETCH',
+    levers: ['Speed of decision', 'Continuity'],
+    line: 'BI and AI moved toward the last hour’s Data. Country operations teams start each morning with complete Data on driver behaviour.',
+  },
   drawing: {
     scene: 'system-heetch',
     labels: [

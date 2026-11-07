@@ -3,13 +3,14 @@ import toyota from './cases/toyota';
 import tour from './cases/tour';
 import foodDeadline from './cases/food-deadline';
 import signal from './cases/signal';
+import criticalPipeline from './cases/critical-pipeline';
 
 const section: Section = {
   slug: 'high-stakes',
   kind: 'stop',
   title: 'High-stakes case studies',
   description:
-    'Four situations where a decision had consequences: one afternoon, five years of race stages, a six-week deadline, an alert that was right and still noise.',
+    'Five situations where a decision had consequences: one afternoon, five years of race stages, a six-week deadline, a pipeline failing one run in two, an alert that was right and still noise.',
   stop: {
     key: 'iss',
     label: 'ISS / COLUMBUS',
@@ -20,7 +21,7 @@ const section: Section = {
     eyebrow: 'UNDER PRESSURE',
     titleHtml: 'High-stakes<br><em>case studies.</em>',
     intro:
-      'Four situations, four shapes: one afternoon, five years of race stages, a six-week deadline and an alert that was right and still noise.',
+      'Five situations, five shapes: one afternoon, five years of race stages, a six-week deadline, a pipeline failing one run in two and an alert that was right and still noise.',
     hardware: 'ISS / COLUMBUS',
     position: [-3.4, 1.65, 0.6],
     camera: [-2.1, 1.8, 4.9],
@@ -56,7 +57,7 @@ const section: Section = {
       ],
     },
   },
-  cases: [toyota, tour, foodDeadline, signal],
+  cases: [toyota, tour, foodDeadline, criticalPipeline, signal],
 };
 
 export default section;

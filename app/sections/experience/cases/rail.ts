@@ -42,6 +42,11 @@ export default {
       ['November 2016: a role on the passenger side of the railway.', 'Transilien Ligne C.'],
     ],
   ],
+  value: {
+    org: 'SNCF RÉSEAU',
+    levers: ['Customers'],
+    line: 'Freight customers ran the schedules their business needed, on a contested network.',
+  },
   drawing: {
     scene: 'rff',
     labels: ['A contested network', 'My customers', 'The long missions', 'Next'],

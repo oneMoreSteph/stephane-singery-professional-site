@@ -49,6 +49,11 @@ export default {
       ],
     ],
   ],
+  value: {
+    org: 'SNCF · LIGNE C',
+    levers: ['Commitments met'],
+    line: '42 stations covered by care plans, and the first way to follow what Île-de-France Mobilités requires and incentivises.',
+  },
   drawing: {
     scene: 'station',
     labels: ['Why this role', 'The plans', 'On the ground', 'The measure'],

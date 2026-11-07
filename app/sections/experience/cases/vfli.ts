@@ -38,6 +38,11 @@ export default {
       ],
     ],
   ],
+  value: {
+    org: 'VFLI',
+    levers: ['Continuity', 'Customers'],
+    line: 'Customers’ freight trains ran, day and night, whatever the constraints.',
+  },
   drawing: {
     scene: 'vfli',
     labels: ['A promised arrival', 'Obtain it', 'Next'],

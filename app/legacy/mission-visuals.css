@@ -1130,3 +1130,8 @@
 /* European Space · learning in progress, applied */
 .story-svg .tx-stage.tr-learn{stroke-dasharray:7 7;animation:dash-run 8s linear infinite}
 @media(prefers-reduced-motion:reduce){.story-svg .tx-stage.tr-learn{animation:none}}
+/* Heetch · a critical pipeline */
+.story-svg .cp-run{fill:#1f6a80;stroke:#97e0e8;stroke-width:1.5}
+.story-svg .cp-run.ko{fill:rgba(240,122,104,.25);stroke:#f07a68}
+.story-svg .cp-miss{fill:none;stroke:#f07a68;stroke-width:1.5;stroke-dasharray:4 4}
+.story-svg .cp-fast{fill:#57b4d6;stroke:#f6d77a;stroke-width:2}

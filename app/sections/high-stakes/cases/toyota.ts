@@ -52,6 +52,11 @@ export default {
       ],
     ],
   ],
+  value: {
+    org: 'SNCF RÉSEAU',
+    levers: ['Customers'],
+    line: 'A customer at risk had a workable answer the next morning. Circulation improved.',
+  },
   drawing: {
     scene: 'toyota',
     labels: ['The stakes', 'One afternoon', 'Next morning', 'Afterwards'],

@@ -68,6 +68,11 @@ export default {
       ['Drawn toward what happens beneath Data analysis.', 'August 2022: Data Engineering at Heetch.'],
     ],
   ],
+  value: {
+    org: 'FOODCHÉRI',
+    levers: ['Autonomy', 'Speed of decision'],
+    line: 'Teams answered their own questions: from 2 to 25 active analysis producers, on one platform.',
+  },
   drawing: {
     scene: 'system-food',
     labels: ['The audit', 'The conclusion', 'The platform', 'The BI migration', 'Adoption', 'Next'],

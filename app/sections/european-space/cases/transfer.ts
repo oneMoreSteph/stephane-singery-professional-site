@@ -37,13 +37,13 @@ export default {
     ],
     [
       '04 / BIG DATA',
-      'Four Vs applied, the fifth in progress.',
+      'Five Vs, applied in production.',
       [
+        'Volume: Heetch, a critical pipeline from 90 minutes an hour to 11 minutes a day.',
         'Velocity: Heetch, from a daily refresh toward hourly.',
         'Variety: files of any structure at Heetch; NoSQL beside Redshift at FoodChéri.',
         'Veracity: Verisure, 525 automated Data tests a day.',
         'Value: FoodChéri, from 2 to 25 active analysis producers.',
-        'Volume: in progress, at EFREI.',
       ],
     ],
     [
