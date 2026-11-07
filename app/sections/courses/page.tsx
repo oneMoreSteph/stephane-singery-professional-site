@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 import { SiteNav } from '~/components/SiteNav';
 import { SiteFooter } from '~/components/SiteFooter';
 import { metaForPath } from '~/meta';
-import { Breadcrumb } from './Breadcrumb';
+import { Breadcrumb } from '~/components/Breadcrumb';
 import { courses } from './catalogue';
 import { gridPoints } from './nyc-taxi/data';
 import './courses.css';
@@ -97,8 +97,12 @@ export default function CoursesPage() {
               </div>
             </header>
 
-            <div className="course__projects">
-              <h3 className="course__projects-title">Projects</h3>
+            <details className="course__projects">
+              <summary className="course__projects-title">
+                <h3>Projects</h3>
+                <span className="course__projects-count">{course.projects.length}</span>
+                <span className="course__projects-toggle" aria-hidden="true" />
+              </summary>
               {course.projects.map((project, i) => (
                 <Link key={project.slug} to={project.path} className="project-entry">
                   <div className="project-entry__copy">
@@ -125,7 +129,7 @@ export default function CoursesPage() {
                   </div>
                 </Link>
               ))}
-            </div>
+            </details>
           </section>
         ))}
       </main>

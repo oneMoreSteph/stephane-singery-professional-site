@@ -21,29 +21,6 @@
   max-width: 650px;
   margin: 16px 0 36px;
 }
-.course-breadcrumb ol {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 0;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 28px;
-  font-size: 13px;
-}
-.course-breadcrumb li + li::before {
-  content: '/';
-  margin: 0 10px;
-  opacity: 0.5;
-}
-.course-breadcrumb a {
-  text-decoration: none;
-}
-.course-breadcrumb a:hover {
-  color: var(--color-gold);
-}
-.course-breadcrumb [aria-current] {
-  color: var(--color-text);
-}
 .course {
   border-top: 1px solid var(--color-line);
   padding-top: 36px;
@@ -103,11 +80,57 @@
   border-left: 1px solid var(--color-line);
 }
 .course__projects-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  color: var(--color-gold);
+  cursor: pointer;
+  list-style: none;
+}
+.course__projects-title::-webkit-details-marker {
+  display: none;
+}
+.course__projects-title h3 {
+  margin: 0;
   font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-gold);
-  margin: 0 0 4px;
+  color: inherit;
+}
+.course__projects-count {
+  min-width: 22px;
+  padding: 1px 7px;
+  border: 1px solid var(--color-gold);
+  border-radius: 11px;
+  font-size: 11px;
+  text-align: center;
+}
+/* A chevron: points right when closed, down when open. */
+.course__projects-toggle {
+  width: 8px;
+  height: 8px;
+  margin-left: 4px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s;
+}
+.course__projects[open] .course__projects-toggle {
+  transform: rotate(45deg);
+}
+.course__projects-title:hover h3 {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.course__projects-title:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .course__projects-toggle {
+    transition: none;
+  }
 }
 .project-entry {
   display: grid;

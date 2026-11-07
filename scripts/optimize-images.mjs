@@ -27,16 +27,47 @@ for (const [from, to, options] of images) {
   console.log(`${to}  ${Math.round(info.size / 1024)} KB`);
 }
 
-// The portrait: a square crop on the face, at two sizes (cockpit badge, contact page), for sharp 2× screens.
-for (const size of [128, 320]) {
-  const to = `assets/portrait-${size}.webp`;
-  const info = await sharp(src('portrait.jpg'))
-    .extract({ left: 33, top: 150, width: 760, height: 760 })
-    .resize(size, size)
-    .webp({ effort: 6, quality: 84 })
-    .toFile(out(to));
+// Portraits: one framing for every person on the site, shown in a round frame.
+// Rule: the whole hair just inside the top, the chin at about 86% of the height, the face centred.
+// `frame` is the square to keep, in pixels of the original: { left, top, size }. It may go past the
+// photo's edges; the missing part is filled by repeating the edge pixels (background, shoulders).
+async function portrait(from, to, frame, size, encode) {
+  const { width, height } = await sharp(src(from)).metadata();
+  const pad = {
+    left: Math.max(0, -frame.left),
+    top: Math.max(0, -frame.top),
+    right: Math.max(0, frame.left + frame.size - width),
+    bottom: Math.max(0, frame.top + frame.size - height),
+  };
+  const widened = await sharp(src(from))
+    .extend({ ...pad, extendWith: 'copy' })
+    .toBuffer();
+  const square = await sharp(widened)
+    .extract({ left: frame.left + pad.left, top: frame.top + pad.top, width: frame.size, height: frame.size })
+    .toBuffer();
+  await mkdir(out(to).replace(/\/[^/]+$/, ''), { recursive: true });
+  const info = await encode(sharp(square).resize(size, size)).toFile(out(to));
   console.log(`${to}  ${Math.round(info.size / 1024)} KB`);
 }
+
+// Stéphane: 827 × 1063 photo; hair from the top, chin at 910 px. Two sizes: cockpit badge, contact page.
+for (const size of [128, 320]) {
+  await portrait(
+    'portrait.jpg',
+    `assets/portrait-${size}.webp`,
+    { left: -118, top: 0, size: 1063 },
+    size,
+    (s) => s.webp({ effort: 6, quality: 84 }),
+  );
+}
+// Mano Mathew (Data Visualisation & BI): 320 × 320 copy of his LinkedIn photo; hair at the top edge, chin at 232 px.
+await portrait(
+  'courses/mano-mathew.jpg',
+  'assets/courses/mano-mathew.jpg',
+  { left: 7, top: -10, size: 280 },
+  320,
+  (s) => s.jpeg({ quality: 86, mozjpeg: true }),
+);
 
 // Favicons from one SVG.
 await copyFile(src('favicon.svg'), out('favicon.svg'));

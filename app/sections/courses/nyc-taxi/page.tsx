@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { SiteNav } from '~/components/SiteNav';
 import { SiteFooter } from '~/components/SiteFooter';
 import { metaForPath } from '~/meta';
-import { Breadcrumb } from '../Breadcrumb';
+import { Breadcrumb } from '~/components/Breadcrumb';
 import { courseOf } from '../catalogue';
 import {
   ActivityChart,

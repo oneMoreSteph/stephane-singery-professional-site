@@ -1,3 +1,4 @@
+import { Breadcrumb } from '~/components/Breadcrumb';
 import { ContactLinks } from '~/components/ContactLinks';
 import { SiteFooter } from '~/components/SiteFooter';
 import { SiteNav } from '~/components/SiteNav';
@@ -12,6 +13,7 @@ export default function ContactPage() {
     <div className="page">
       <SiteNav />
       <main className="page__main">
+        <Breadcrumb trail={[['Contact']]} />
         <img
           className="portrait"
           src="/assets/portrait-320.webp"

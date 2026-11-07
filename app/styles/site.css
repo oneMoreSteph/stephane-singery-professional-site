@@ -316,3 +316,42 @@ html:has(body.page-body) {
   margin: 0 0 var(--space-4);
   object-fit: cover;
 }
+
+/* The path from the cockpit to the page, at the top of full pages. */
+.course-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  font-size: 13px;
+}
+.course-breadcrumb li + li::before {
+  content: '/';
+  margin: 0 10px;
+  opacity: 0.5;
+}
+.course-breadcrumb a {
+  text-decoration: none;
+}
+.course-breadcrumb a:hover {
+  color: var(--color-gold);
+}
+.course-breadcrumb [aria-current] {
+  color: var(--color-text);
+}
+
+/* Cockpit: the UTC clock over the left screen, in orange, larger than the other labels, never dimmed. */
+.cockpit-clock {
+  filter: none;
+}
+.cs-t.cs-clock {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0;
+  fill: #ff9d4d;
+  paint-order: stroke;
+  stroke: #02121b;
+  stroke-width: 2.4px;
+}

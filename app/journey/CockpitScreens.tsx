@@ -29,31 +29,47 @@ function useDrift(centre: number, spread: number, decimals: number) {
   return v.toFixed(decimals);
 }
 
+/** The current date and time in UTC, e.g. "2026-11-07 01:58:12 UTC", updated every second.
+ *  Empty on the pre-rendered page, so the server and the browser render the same markup. */
 function useClock() {
-  const [s, setS] = useState(521);
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const id = setInterval(() => setS((x) => x + 1), 1000);
-    return () => clearInterval(id);
+    const tick = () => setNow(new Date());
+    const first = setTimeout(tick, 0);
+    const id = setInterval(tick, 1000);
+    return () => {
+      clearTimeout(first);
+      clearInterval(id);
+    };
   }, []);
-  const p = (n: number) => String(n).padStart(2, '0');
-  return `T+ ${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}`;
+  return now ? `${now.toISOString().slice(0, 19).replace('T', ' ')} UTC` : '';
+}
+
+/** The UTC clock, drawn over the left screen's header on its own layer: it stays bright when that screen dims. */
+function UtcClock() {
+  const clock = useClock();
+  return (
+    <div className="cockpit-screen cockpit-screen--left cockpit-clock">
+      <svg className="cs-svg" viewBox="0 0 300 205" preserveAspectRatio="none">
+        <text className="cs-t end cs-clock" x="290" y="18">
+          {clock}
+        </text>
+      </svg>
+    </div>
+  );
 }
 
 function Telemetry() {
   const alt = useDrift(408.2, 0.6, 1);
   const vel = useDrift(7.66, 0.02, 2);
   const g = useDrift(1.02, 0.03, 2);
-  const clock = useClock();
   return (
     <svg className="cs-svg" viewBox="0 0 300 205" preserveAspectRatio="none">
       <circle className="cs-dot" cx="12" cy="14" r="3" />
       <text className="cs-t" x="20" y="17">
         TELEMETRY · ASCENT
       </text>
-      <text className="cs-t end" x="290" y="17">
-        {clock}
-      </text>
+
       <g className="cs-grid">
         {[44, 74, 104, 134].map((y) => (
           <path key={y} d={`M10 ${y}H290`} />
@@ -183,6 +199,7 @@ export function CockpitScreens() {
       <div className="cockpit-screen cockpit-screen--right">
         <DataLink />
       </div>
+      <UtcClock />
     </div>
   );
 }
