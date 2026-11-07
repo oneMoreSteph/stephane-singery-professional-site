@@ -795,7 +795,9 @@ def build():
     os.environ.setdefault("MPLBACKEND", "module://matplotlib_inline.backend_inline")
     ExecutePreprocessor(timeout=600, kernel_name="python3").preprocess(nb, {"metadata": {"path": str(ROOT)}})
     nbformat.write(nb, NOTEBOOK)
-    body, _ = HTMLExporter(template_name="lab").from_notebook_node(nb)
+    # The browser tab of the HTML copy shows the project's name.
+    body, _ = HTMLExporter(template_name="lab").from_notebook_node(
+        nb, resources={"metadata": {"name": "NYC Taxi: one day, different journeys · Stéphane Singery"}})
     HTML.parent.mkdir(parents=True, exist_ok=True)
     HTML.write_text(body, encoding="utf-8")
     print(f"Wrote {NOTEBOOK.name} ({len(nb.cells)} cells) and {HTML.relative_to(ROOT)}")

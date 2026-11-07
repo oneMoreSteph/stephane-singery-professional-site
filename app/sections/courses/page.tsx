@@ -77,7 +77,6 @@ export default function CoursesPage() {
                     alt={course.teacher.name}
                     width={88}
                     height={88}
-                    loading="lazy"
                   />
                 )}
                 <dl className="course__teacher">
