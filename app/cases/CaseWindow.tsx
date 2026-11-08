@@ -14,15 +14,31 @@ const DEFAULT_INFO = {
 const reducedMotion = () =>
   typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/** The step a reload returns to: `?step=4` on the case's own address. */
+function stepFromAddress(item: Case) {
+  if (typeof location === 'undefined' || !location.pathname.endsWith(`/${item.slug}`)) return 0;
+  const n = Number(new URLSearchParams(location.search).get('step'));
+  return Number.isInteger(n) && n >= 1 && n <= item.beats.length ? n - 1 : 0;
+}
+/** Writes the current step into the address, so a reload stays on it; the router’s own state is kept. */
+function keepStepInAddress(item: Case, step: number) {
+  if (!location.pathname.endsWith(`/${item.slug}`)) return;
+  const url = new URL(location.href);
+  if (step > 0) url.searchParams.set('step', String(step + 1));
+  else url.searchParams.delete('step');
+  history.replaceState(history.state, '', url);
+}
+
 /** The interactive window of a case: step buttons, drawing, story column and the "what it is" panel. */
 export function CaseWindow({ item, onOpenCase }: { item: Case; onOpenCase: (key: string) => void }) {
   const drawing = item.drawing!;
   const Scene = scenes[drawing.scene];
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(() => stepFromAddress(item));
   // Every step button press replays the step, even the current one, as the previous engine did.
   const [visit, setVisit] = useState(0);
   const go = (next: number) => {
     setStep(next);
+    keepStepInAddress(item, next);
     setVisit((v) => v + 1);
   };
   const [zoom, setZoom] = useState(1);

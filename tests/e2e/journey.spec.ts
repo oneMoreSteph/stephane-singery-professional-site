@@ -116,12 +116,17 @@ test.describe('arrivals go straight to their place', () => {
   });
   const scenes = (page: Page) => page.evaluate(() => (window as unknown as { __scenes: string[] }).__scenes);
 
-  test('a reload stays on the same section and case', async ({ page }) => {
+  test('a reload stays on the same section, case and step', async ({ page }) => {
     await page.goto('/high-stakes/castor');
     await expect(page.locator('#detail-overlay')).toBeVisible(ARRIVE);
+    await page.locator('#detail-overlay .case-stages button').nth(2).click();
+    await expect(page).toHaveURL(/\/high-stakes\/castor\?step=3$/);
     await page.reload();
     await expect(page.locator('#detail-overlay')).toBeVisible(ARRIVE);
-    await expect(page).toHaveURL(/\/high-stakes\/castor$/);
+    await expect(page.locator('#detail-overlay .case-stages button').nth(2)).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
     expect(await scenes(page)).not.toContain('cockpit');
   });
 

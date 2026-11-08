@@ -721,10 +721,16 @@ async function land(id, view, caseKey) {
   closeView(false);
   activeDestination = id;
   previewDestination = id;
+  // Everything the address names opens in the same instant, without entrance animations.
+  body.classList.add('landing');
   renderChapter(id);
   setScene('chapter');
-  const title = document.getElementById('chapter-title'); title.tabIndex = -1; title.focus({ preventScroll: true });
-  restoreFromHash(view, caseKey);
+  const title = document.getElementById('chapter-title'); title.tabIndex = -1;
+  if (view) openView(view, null, null, false);
+  if (caseKey?.startsWith('hardware-')) openHardware(document.getElementById('hardware-info'), false);
+  else if (caseKey) openCase(caseKey, viewHost.querySelector('.tv-open') || title, false);
+  else if (!view) title.focus({ preventScroll: true });
+  requestAnimationFrame(() => requestAnimationFrame(() => body.classList.remove('landing')));
   if (!(await initWorld()) || !camera) return;
   const data = destinations[id];
   cameraMove = null;
