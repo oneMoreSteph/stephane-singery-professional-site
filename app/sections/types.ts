@@ -1,3 +1,4 @@
+import type { Lever } from './levers';
 // Content model. One section = one folder under app/sections, listed once in app/sections/index.ts.
 
 /** [label, heading, bullet lines] */
@@ -72,7 +73,7 @@ export interface Drawing {
 /** What the work brought to the company: the organisation, the business levers it served, one line. */
 export interface Value {
   org: string;
-  levers: string[];
+  levers: Lever[];
   line: string;
 }
 

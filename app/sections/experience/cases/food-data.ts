@@ -71,7 +71,7 @@ export default {
   ],
   value: {
     org: 'FOODCHÉRI',
-    levers: ['Autonomy', 'Speed of decision', 'Cost'],
+    levers: ['Team autonomy', 'Speed of decision', 'Cost'],
     line: 'Teams answered their own questions: from 2 to 25 active analysis producers. A yearly licence of tens of thousands of euros became the cost of one container in the cloud.',
   },
   drawing: {

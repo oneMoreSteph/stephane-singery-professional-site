@@ -39,7 +39,7 @@ export default {
   ],
   value: {
     org: 'SNCF RÉSEAU',
-    levers: ['Commitments met'],
+    levers: ['Commitments met', 'Continuity'],
     line: 'Five Tours de France crossed active rail lines at full race pace, with live traffic regulated around them.',
   },
   drawing: {

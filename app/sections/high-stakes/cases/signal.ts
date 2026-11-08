@@ -53,7 +53,7 @@ export default {
   ],
   value: {
     org: 'VERISURE',
-    levers: ['Trust and risk'],
+    levers: ['Trust and risk', 'Speed of decision'],
     line: 'Teams spend their time on alerts worth acting on, and trust them.',
   },
   drawing: {

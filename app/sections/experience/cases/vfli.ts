@@ -40,7 +40,7 @@ export default {
   ],
   value: {
     org: 'VFLI',
-    levers: ['Continuity', 'Customers'],
+    levers: ['Continuity', 'Customers', 'Commitments met'],
     line: 'Customers’ freight trains ran, day and night, whatever the constraints.',
   },
   drawing: {

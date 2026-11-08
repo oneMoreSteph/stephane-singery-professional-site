@@ -55,7 +55,7 @@ export default {
   ],
   value: {
     org: 'SNCF RÉSEAU',
-    levers: ['Customers'],
+    levers: ['Customers', 'Commitments met', 'Speed of decision'],
     line: 'A customer at risk had a workable answer the next morning. The freight company kept Toyota Europe’s traffic for years after.',
   },
   drawing: {

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { LEVERS } from '~/sections/levers';
 
 // Started by app/journey/JourneyIsland.tsx. All content comes from the section list.
 export function startJourney({ stops, navigate, aboutSlug, mountCase, mountInstrument, mountView }) {
@@ -75,11 +76,28 @@ function historyFor(id, caseKey = null, replace = false) {
   navigate(pathFor(id, caseKey), { replace });
 }
 
-/** The business levers a case served, as small tags. */
+/** The business levers a case served, as small tags after a "Brought" label; each tag carries its meaning. */
 function valueTags(levers, list = document.createElement('span')) {
   list.classList.add('value-tags');
-  list.replaceChildren(...levers.map(l => Object.assign(document.createElement('span'), { textContent: l })));
+  const label = Object.assign(document.createElement('small'), { className: 'value-tags-k', textContent: 'Brought ·' });
+  list.replaceChildren(label, ...levers.map(l => Object.assign(document.createElement('span'), { textContent: l })));
+  list.querySelectorAll('span').forEach((tag, i) => { tag.dataset.def = LEVERS[levers[i]]; });
   return list;
+}
+
+/** The key above a section's cases: what the gold tags are, and what each one means. */
+function valueKey(items) {
+  const key = document.getElementById('chapter-key');
+  const used = Object.keys(LEVERS).filter(l => items.some(item => item.levers.includes(l)));
+  key.hidden = !used.length;
+  if (!used.length) return;
+  const intro = Object.assign(document.createElement('p'), { className: 'value-key-intro' });
+  intro.append(Object.assign(document.createElement('strong'), { textContent: 'Gold tags' }), ' · what each piece of work brought to the company.');
+  const details = document.createElement('details');
+  const list = document.createElement('dl');
+  used.forEach(l => list.append(Object.assign(document.createElement('dt'), { textContent: l }), Object.assign(document.createElement('dd'), { textContent: LEVERS[l] })));
+  details.append(Object.assign(document.createElement('summary'), { textContent: 'What the tags mean' }), list);
+  key.replaceChildren(intro, details);
 }
 
 /** The image with this id, created in place the first time it is needed: an empty <img> is not valid HTML. */
@@ -259,6 +277,7 @@ function renderChapter(id) {
     button.addEventListener('focus', () => link(true)); button.addEventListener('blur', () => link(false));
     field.append(button);
   });
+  valueKey(data.items);
   document.querySelector('.chapter-reading').scrollTop = 0;
 }
 

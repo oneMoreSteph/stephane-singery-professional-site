@@ -56,7 +56,7 @@ export default {
   ],
   value: {
     org: 'HEETCH',
-    levers: ['Continuity', 'Trust and risk'],
+    levers: ['Continuity', 'Trust and risk', 'Speed of decision'],
     line: 'Country operations teams start each morning with complete, correct Data on a critical side of the business.',
   },
   drawing: {

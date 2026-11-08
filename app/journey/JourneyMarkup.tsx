@@ -211,6 +211,7 @@ export const JourneyMarkup = memo(function JourneyMarkup({ onStart }: { onStart:
               <h2 id="chapter-title"></h2>
               <p id="chapter-intro"></p>
             </div>
+            <div className="value-key" id="chapter-key" hidden></div>
             <div className="chapter-items" id="chapter-items"></div>
             <div className="chapter-next">
               <button className="secondary-action" id="next-destination" type="button"></button>

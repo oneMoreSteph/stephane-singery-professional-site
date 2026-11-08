@@ -32,7 +32,7 @@ export default {
   ],
   value: {
     org: 'FOODCHÉRI',
-    levers: ['Continuity'],
+    levers: ['Continuity', 'Customers'],
     line: 'Six hubs delivered every evening and weekend: stock, orders, riders, customers.',
   },
   drawing: {

@@ -70,7 +70,7 @@ export default {
   ],
   value: {
     org: 'HEETCH',
-    levers: ['Speed of decision', 'Continuity'],
+    levers: ['Speed of decision', 'Continuity', 'Trust and risk'],
     line: 'BI and AI moved toward the last hour’s Data. Country operations teams start each morning with complete Data on driver behaviour.',
   },
   drawing: {

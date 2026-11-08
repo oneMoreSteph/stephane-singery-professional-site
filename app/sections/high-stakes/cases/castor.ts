@@ -50,7 +50,7 @@ export default {
   ],
   value: {
     org: 'SNCF · LIGNE C',
-    levers: ['Customers', 'Commitments met', 'Continuity'],
+    levers: ['Customers', 'Commitments met', 'Trust and risk'],
     line: 'Several hundred thousand passengers kept moving through six weeks of closure in central Paris, every summer.',
   },
   drawing: {

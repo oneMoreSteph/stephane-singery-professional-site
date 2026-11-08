@@ -47,7 +47,7 @@ export default {
   ],
   value: {
     org: 'SNCF RÉSEAU',
-    levers: ['Customers'],
+    levers: ['Customers', 'Commitments met'],
     line: 'Freight customers ran the schedules their business needed, on a contested network.',
   },
   drawing: {

@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router';
 import { aboutPath, casePath, findSection, plain } from '~/content';
+import { LEVERS } from '~/sections/levers';
 import { metaForPath } from '~/meta';
 import type { Route } from './+types/section';
 
@@ -21,8 +22,11 @@ export default function SectionPage() {
             <p>{c.summary}</p>
             {c.value && (
               <p className="value-tags">
+                <small className="value-tags-k">Brought ·</small>
                 {c.value.levers.map((l) => (
-                  <span key={l}>{l}</span>
+                  <span key={l} title={`${l}: ${LEVERS[l]}`}>
+                    {l}
+                  </span>
                 ))}
               </p>
             )}

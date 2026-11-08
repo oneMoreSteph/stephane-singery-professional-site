@@ -3,6 +3,7 @@ import { lines, pad } from '~/content';
 import { DrawingContext } from '~/drawings/context';
 import { Palette } from '~/drawings/Palette';
 import { scenes } from '~/drawings/scenes';
+import { LEVERS } from '~/sections/levers';
 import type { Case, Value } from '~/sections/types';
 import { tourTargets, useHighlightTour, type TourTarget } from './useHighlightTour';
 
@@ -259,7 +260,9 @@ export function CaseValue({ value }: { value: Value }) {
       <p>{value.line}</p>
       <ul className="case-value-levers" aria-label="Business levers">
         {value.levers.map((l) => (
-          <li key={l}>{l}</li>
+          <li key={l} data-def={LEVERS[l]}>
+            {l}
+          </li>
         ))}
       </ul>
     </div>
