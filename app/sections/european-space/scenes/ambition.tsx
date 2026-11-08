@@ -446,7 +446,7 @@ function ThePath() {
             body={`${t.charAt(0)}${t.slice(1).toLowerCase()} · ${s}.|A domain that sharpened my skills, and a team I grew with.`}
           >
             <g>
-              <circle className={`tx-planet ${planet}`} cx={x} cy={y} r={planet === 'venus' ? 10 : 12} />
+              <circle className="ap-eu-planet" cx={x} cy={y} r={planet === 'venus' ? 10 : 12} />
               {k === 0 && <circle className="ap-moon" cx={x + 18} cy={y - 14} r="4" />}
               <circle className="ap-mark" cx={mx} cy={my} r="11" />
               <T x={mx} y={my + 4} className="center tx-win-t dark">
@@ -514,9 +514,9 @@ function ThePath() {
               ))}
             </g>
           </g>
-          <circle className="tx-planet jupiter" cx={JUP.x} cy={JUP.y} r="40" />
+          <circle className="ap-eu-planet goal" cx={JUP.x} cy={JUP.y} r="40" />
           <path
-            className="tx-bands"
+            className="ap-eu-bands"
             d={`M${JUP.x - 36} ${JUP.y - 13}Q${JUP.x} ${JUP.y - 5} ${JUP.x + 36} ${JUP.y - 13}M${JUP.x - 39} ${JUP.y + 4}Q${JUP.x} ${JUP.y + 14} ${JUP.x + 39} ${JUP.y + 4}M${JUP.x - 31} ${JUP.y + 21}Q${JUP.x} ${JUP.y + 28} ${JUP.x + 31} ${JUP.y + 21}`}
           />
           <Lab x={JUP.x} y={JUP.y + 82} t="EUROPEAN SPACE" c="center warm" />

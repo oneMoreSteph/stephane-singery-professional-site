@@ -1162,7 +1162,10 @@
 .story-svg .fw-stop{stroke:#f07a68;stroke-width:5;stroke-linecap:round;fill:none}
 /* European space · the path */
 .story-svg .ap-moon{fill:#c9d3d8}
-.story-svg .ap-eu{opacity:.7}.story-svg .ap-eu path{fill:#f6d77a}
+.story-svg .ap-eu{opacity:.7}
+.story-svg .ap-eu-planet{fill:#003399;stroke:#7f9fe8;stroke-width:1.5}
+.story-svg .ap-eu-planet.goal{stroke:#f6d77a;stroke-width:2}
+.story-svg .ap-eu-bands{fill:none;stroke:#3a63c4;stroke-width:3;opacity:.8}.story-svg .ap-eu path{fill:#f6d77a}
 .story-svg .ap-traj{fill:none;stroke:#bfe7ee;stroke-width:2;stroke-linejoin:round;opacity:.9}
 .story-svg .ap-mark{fill:#f6d77a;stroke:#071923;stroke-width:1.5}
 .story-svg .ap-cruise{fill:none;stroke:#f6d77a;stroke-width:1.8;stroke-dasharray:6 7;animation:dash-run 8s linear infinite}
