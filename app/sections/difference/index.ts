@@ -6,18 +6,18 @@ import dataSystem from './cases/data-system';
 const section: Section = {
   slug: 'difference',
   kind: 'stop',
-  title: 'What makes the difference',
+  title: 'How I have been working',
   description:
     'Three habits that run through every role: find a way, the need behind the need, build for production.',
   stop: {
     key: 'sentinel',
     label: 'SENTINEL-6',
     name: 'Sentinel-6',
-    tagline: 'WHAT I BRING',
+    tagline: 'HOW I HAVE BEEN WORKING',
     spokenName: 'Sentinel-6',
-    action: 'VIEW WHAT I BRING',
+    action: 'VIEW HOW I WORK',
     eyebrow: 'ACROSS EVERY ROLE',
-    titleHtml: 'What makes<br><em>the difference.</em>',
+    titleHtml: 'How I have<br><em>been working.</em>',
     intro:
       'Three habits, from rail operations to Data: find a way, look for the need behind the need, and build for production.',
     hardware: 'SENTINEL-6',
@@ -39,7 +39,7 @@ const section: Section = {
       credit: 'Sentinel-6 rendering: NASA',
     },
     about: {
-      title: 'Why Sentinel-6 opens what makes the difference',
+      title: 'Why Sentinel-6 opens how I have been working',
       url: 'https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-6/Facts_and_figures',
       beats: [
         [

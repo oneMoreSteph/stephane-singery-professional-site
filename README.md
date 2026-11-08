@@ -16,7 +16,7 @@ The site opens on a **cockpit**. From there, a 3D map leads to five stops, each 
 | -------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------ |
 | 🌍 **Professional experience**   | Earth          | Seven roles since 2010 on one timeline: rail operations at SNCF, then Data at FoodChéri, Heetch and Verisure |
 | 🛰️ **High-stakes case studies**  | ISS / Columbus | Four situations where a decision had consequences                                                            |
-| 🌊 **What makes the difference** | Sentinel-6     | Three habits: find a way, the need behind the need, build for production                                     |
+| 🌊 **How I have been working**   | Sentinel-6     | Three habits: find a way, the need behind the need, build for production                                     |
 | 🎓 **Education and development** | Galileo        | Logistics and transport, self-taught Data then a certified programme, an engineering degree at EFREI         |
 | 🪐 **Why European space**        | Juice          | The next step, and how this experience transfers to it                                                       |
 

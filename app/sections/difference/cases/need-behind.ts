@@ -6,7 +6,7 @@ export default {
   tag: 'FOODCHÉRI · LIGNE C · VERISURE',
   title: 'The need behind the need',
   summary: 'Go past the request to the problem, then solve that problem.',
-  category: 'WHAT MAKES THE DIFFERENCE / THE NEED BEHIND THE NEED',
+  category: 'HOW I HAVE BEEN WORKING / THE NEED BEHIND THE NEED',
   takeaway: 'I go past the request to the problem behind it, then build what solves that problem.',
   beats: [
     [

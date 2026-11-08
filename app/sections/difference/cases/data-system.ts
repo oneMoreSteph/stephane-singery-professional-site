@@ -6,7 +6,7 @@ export default {
   tag: 'FOODCHÉRI · HEETCH · VERISURE',
   title: 'Build for production',
   summary: 'One Data system, three layers: access, transformation, observability.',
-  category: 'DATA ENGINEERING / TECHNICAL VIEW',
+  category: 'HOW I HAVE BEEN WORKING / BUILD FOR PRODUCTION',
   takeaway: 'One Data system, three layers: what I built at each, technically.',
   beats: [
     [

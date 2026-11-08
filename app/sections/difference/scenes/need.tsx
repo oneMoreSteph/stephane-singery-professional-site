@@ -1,20 +1,18 @@
-// Sentinel · The need behind the need: in each role, what was asked on top, what I built below.
+// Sentinel · The need behind the need: asked, seen, needed, built, in three roles.
+// Test names, tables and curves are illustrative; figures are from each role.
 import { Fragment } from 'react';
 import { Inspectable } from '~/drawings/Inspectable';
 import {
   Arrow,
   Bars,
+  CaseChip,
   Check,
-  Code,
   Db,
-  Divider,
   Header,
   Lab,
-  Lane,
   Link,
   Move,
   OpsDefs,
-  Server,
   Spark,
   Sub,
   T,
@@ -24,275 +22,471 @@ import {
 } from '~/drawings/kit';
 import { Layer } from '~/drawings/Layer';
 
-const usedTiles = [3, 14, 21, 28, 37, 46];
+// ---------- shared ----------
+function Close({ t, s, children }: { t: string; s: string; children?: React.ReactNode }) {
+  return (
+    <>
+      <path className="tx-div" d="M40 566H960" />
+      <Lab x={40} y={600} t={t} c="warm" />
+      <Sub x={40} y={624} t={s} />
+      {children}
+    </>
+  );
+}
+function Medal({
+  x,
+  y,
+  r = 30,
+  i,
+  on,
+}: {
+  x: number;
+  y: number;
+  r?: number;
+  i: React.ReactNode;
+  on?: boolean;
+}) {
+  return (
+    <>
+      <circle className={`tx-stage${on ? ' vs-on' : ''}`} cx={x} cy={y} r={r} />
+      <g className="tx-icon" transform={`translate(${x} ${y}) scale(${(r / 44) * 1.6})`}>
+        {i}
+      </g>
+    </>
+  );
+}
+/** The gold line between what was asked and what was built. */
+function Needed({ t }: { t: string }) {
+  const w = t.length * 8.4 + 40;
+  return (
+    <>
+      <path className="tx-div" d={`M40 300H${500 - w / 2}M${500 + w / 2} 300H960`} />
+      <Lab x={500} y={305} t={t} c="center warm" />
+    </>
+  );
+}
+function Built({ s }: { s: string }) {
+  return (
+    <>
+      <Lab x={40} y={342} t="BUILT" />
+      <Sub x={100} y={342} t={s} />
+    </>
+  );
+}
+const Sheet = ({ x, y, s = 1 }: { x: number; y: number; s?: number }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`}>
+    <path className="tx-doc" d="M0 0H16L21 5V28H0Z" />
+    <path className="tx-grid" d="M4 11H17M4 17H17M4 23H12" />
+  </g>
+);
+const icon = {
+  lens: (
+    <>
+      <circle cx="-3" cy="-3" r="10" />
+      <path d="M4 4L14 14" />
+    </>
+  ),
+  training: <path d="M-16-4L0-11 16-4 0 3ZM-9 0V7C-5 11 5 11 9 7V0M14-3V7" />,
+  phone: (
+    <>
+      <rect x="-7" y="-12" width="14" height="24" rx="2" />
+      <path d="M-2 8H2" />
+    </>
+  ),
+  badge: (
+    <>
+      <circle cy="-6" r="5" />
+      <path d="M-10 12V8A10 8 0 0 1 10 8V12M4 0H10V6H4Z" />
+    </>
+  ),
+  building: <path d="M-12 12V-4L0-12 12-4V12ZM-5 12V3H5V12" />,
+  board: (
+    <>
+      <rect x="-13" y="-10" width="26" height="16" rx="2" />
+      <path d="M-8-4H8M-8 1H4M0 6V12" />
+    </>
+  ),
+  speaker: <path d="M-12-5H-6L2-11V11L-6 5H-12ZM6-6C9-3 9 3 6 6M9-9C14-4 14 4 9 9" />,
+  detect: (
+    <>
+      <circle r="12" />
+      <circle r="5" />
+      <path d="M0-16V-8M0 8V16M-16 0H-8M8 0H16" />
+    </>
+  ),
+  qualify: (
+    <>
+      <path d="M-13-10H3L13 0 3 10H-13Z" />
+      <circle cx="-6" cy="0" r="2.5" />
+    </>
+  ),
+  prioritise: <path d="M-12-8H12M-12-1H6M-12 6H0M-12 13H-6" />,
+  notify: <path d="M-10 6V-1A10 10 0 0 1 10-1V6L13 10H-13ZM-3 13A3 3 0 0 0 3 13" />,
+  fix: <path d="M8-13A7 7 0 0 0 2-3L-11 10A2.5 2.5 0 0 0-7 14L6 1A7 7 0 0 0 13-8L8-4 4-8Z" />,
+  govern: (
+    <>
+      <path d="M0-14L12-9V0C12 7 7 12 0 15C-7 12-12 7-12 0V-9Z" />
+      <path d="M-5 0L-1 4 6-4" />
+    </>
+  ),
+};
 
+// ---------- 1 · FoodChéri ----------
 function FoodCheri() {
   return (
     <Layer steps={[0]}>
-      <Lane y={92} t="ASKED" s="More dashboards" />
-      <Inspectable id="nb-queue" title="A bottleneck">
+      <Lab x={40} y={92} t="FOODCHÉRI · ASKED: MORE DASHBOARDS" c="strong" />
+      <Inspectable
+        id="nd-requests"
+        title="Requests, one by one"
+        body="Every team asked the Data team for more dashboards.|Each request waited for one of two people."
+      >
         <g>
-          <Lab x={60} y={160} t="DASHBOARD REQUESTS" />
-          <path className="tx-funnel" d="M225 172L316 196M225 248L316 224" />
+          <Lab x={40} y={134} t="REQUESTS" />
           {[0, 1, 2, 3, 4].map((i) => (
-            <Move key={i} path="M60 210H292" dur={5} begin={i}>
-              <rect className="tx-ticket" x="-11" y="-8" width="22" height="16" rx="2" />
-            </Move>
+            <Sheet key={i} x={40 + i * 30} y={152} />
           ))}
-          <User x={345} y={226} c="on" />
-          <User x={388} y={226} c="on" />
-          <Lab x={366} y={160} t="2 PRODUCERS" c="center" />
+          <Move path="M40 166H226" dur={4}>
+            <circle className="tx-alert" r="5" />
+          </Move>
+          <Arrow from={[196, 166]} to={[226, 166]} />
+          {[0, 1].map((i) => (
+            <User key={i} x={250 + i * 34} y={190} s={1.1} c="on" />
+          ))}
+          <Lab x={267} y={134} t="2 PRODUCERS" c="center" />
+          <Sub x={267} y={216} t="The Data team" c="center" />
         </g>
       </Inspectable>
-      <Arrow from={[415, 210]} to={[468, 210]} />
-      <Inspectable id="nb-stones" title="A graveyard of dashboards">
+      <Arrow from={[306, 166]} to={[346, 166]} />
+      <Inspectable
+        id="nd-graveyard"
+        title="A graveyard of 600"
+        body="More than 600 Tableau dashboards, about one in ten used regularly.|More dashboards would only feed it."
+      >
         <g>
-          <Lab x={480} y={110} t="TABLEAU · 600+ DASHBOARDS" />
-          {Array.from({ length: 60 }, (_, i) => {
-            const x = 480 + (i % 10) * 46;
-            const y = 122 + Math.floor(i / 10) * 32;
-            return (
-              <g key={i} className={`tx-tile ${usedTiles.includes(i) ? 'used' : ''}`}>
-                <rect x={x} y={y} width="40" height="26" rx="2" />
-                <path
-                  d={`M${x + 6} ${y + 20}V${y + 14}M${x + 14} ${y + 20}V${y + 9}M${x + 22} ${y + 20}V${y + 12}M${x + 30} ${y + 20}V${y + 6}`}
-                />
-              </g>
-            );
-          })}
-          <Sub x={480} y={334} t="Lit: about 1 in 10, used regularly" />
+          <Win x={352} y={112} w={300} h={150} title="TABLEAU · 600+ DASHBOARDS">
+            {Array.from({ length: 75 }, (_, i) => (
+              <rect
+                key={i}
+                className={i % 10 === 6 ? 'dl-tenth' : 'dl-cell'}
+                style={i % 10 === 6 ? vars({ '--i': Math.floor(i / 10) }) : undefined}
+                x={368 + (i % 15) * 18.5}
+                y={146 + Math.floor(i / 15) * 21}
+                width="14"
+                height="14"
+                rx="2"
+              />
+            ))}
+          </Win>
+          <Sub x={352} y={282} t="A graveyard: about 1 in 10 used" />
         </g>
       </Inspectable>
-      <Divider y={352} t="NEEDED: TEAMS BUILDING THEIR OWN ANALYSES" />
-      <Lane y={392} t="BUILT" s="A platform, a tool and training" />
-      <Inspectable id="nb-platform" title="The Data Platform">
+      <Inspectable
+        id="nd-seen"
+        title="Seen: a bottleneck"
+        body="The problem was not the number of dashboards: it was two people producing all of them.|The need behind the request."
+      >
         <g>
-          <Lab x={120} y={428} t="DATA PLATFORM" c="center" />
-          <Db cx={120} y={440} w={130} h={110} />
-          <Sub x={120} y={572} t="Curated tables" c="center" />
-          <Sub x={120} y={592} t="In a Data warehouse" c="center" />
+          <Medal x={724} y={186} r={30} i={icon.lens} on />
+          <Lab x={768} y={180} t="SEEN" c="warm" />
+          <Sub x={768} y={200} t="A bottleneck of two people" />
         </g>
       </Inspectable>
-      <Arrow from={[190, 495]} to={[278, 495]} />
-      <Inspectable id="nb-metabase" title="Metabase">
-        <Win x={285} y={420} w={280} h={190} title="METABASE · SELF-SERVICE BI">
-          <Bars x={310} y={460} w={230} h={130} vals={[0.35, 0.6, 0.45, 0.8, 0.55, 0.95, 0.7]} />
+      <Needed t="NEEDED · TEAMS BUILDING THEIR OWN ANALYSES" />
+      <Built s="A platform, a tool and training" />
+      <Inspectable
+        id="nd-platform"
+        title="The Data Platform"
+        body="FoodChéri’s first Data Platform: curated tables in BigQuery, the Data warehouse.|Clean Data anyone can query."
+      >
+        <g>
+          <Db cx={100} y={368} w={100} h={96} />
+          <Sub x={100} y={488} t="BigQuery · curated" c="center" />
+        </g>
+      </Inspectable>
+      <Arrow from={[154, 416]} to={[208, 416]} />
+      <Inspectable
+        id="nd-metabase"
+        title="Metabase, self-service BI"
+        body="Metabase: a BI tool usable after a short training.|Teams build their own questions and dashboards."
+      >
+        <Win x={214} y={360} w={220} h={136} title="METABASE · SELF-SERVICE">
+          <Bars x={230} y={392} w={188} h={92} vals={[0.4, 0.6, 0.5, 0.75, 0.7, 0.9]} />
         </Win>
       </Inspectable>
-      <Inspectable id="nb-training" title="Training">
+      <Arrow from={[440, 428]} to={[484, 428]} />
+      <Inspectable
+        id="nd-training"
+        title="Training, team by team"
+        body="Documentation, how-to videos and training for each team.|Pedagogy is the art of repetition."
+      >
         <g>
-          <Lab x={612} y={478} t="TRAINING" c="center" />
-          <Arrow from={[572, 495]} to={[652, 495]} />
+          <Medal x={520} y={428} r={30} i={icon.training} on />
+          <Lab x={520} y={482} t="TRAINING" c="center" />
         </g>
       </Inspectable>
-      <Inspectable id="nb-seats" title="Teams building their own analyses">
+      <Arrow from={[556, 428]} to={[596, 428]} />
+      <Inspectable
+        id="nd-producers"
+        title="From 2 to 25"
+        body="Active analysis producers went from 2 to 25.|Teams answer their own questions."
+      >
         <g>
           {Array.from({ length: 25 }, (_, i) => (
             <User
               key={i}
-              x={676 + (i % 5) * 36}
-              y={448 + Math.floor(i / 5) * 36}
-              s={0.72}
+              x={618 + (i % 5) * 28}
+              y={386 + Math.floor(i / 5) * 26}
+              s={0.55}
               c={i < 2 ? 'on' : 'tx-lit-seq'}
               style={vars({ '--i': i })}
             />
           ))}
-          <T x={900} y={480} className="tx-big center">
+          <T x={780} y={436} className="tx-big">
             2 → 25
           </T>
-          <Lab x={900} y={508} t="ACTIVE ANALYSIS" c="center" />
-          <Lab x={900} y={528} t="PRODUCERS" c="center" />
+          <Sub x={780} y={462} t="Active analysis producers" />
         </g>
       </Inspectable>
+      <Close t="ASKED: DASHBOARDS. NEEDED: AUTONOMY." s="From 2 to 25 active analysis producers.">
+        <CaseChip
+          x={560}
+          y={578}
+          w={400}
+          to="food-data"
+          kicker="EARTH · FOODCHÉRI DATA"
+          sub="BI Engineer / Data Product Owner"
+        />
+      </Close>
     </Layer>
   );
 }
 
-const stops = Array.from({ length: 42 }, (_, i) => 60 + (i * 880) / 41);
-const ends: [string, string, string, string][] = [
-  ['nb-agent', 'Station staff', 'STATION STAFF', 'M-9-13H9V13H-9ZM-5 8H5'],
-  ['nb-prov', 'Welcome providers', 'WELCOME PROVIDERS', 'M-7-13H7V13H-7ZM-3 8H3'],
-  ['nb-auth', 'Local authorities', 'LOCAL AUTHORITIES', 'M-11 12V-4L0-12 11-4V12ZM-4 12V3H4V12'],
-  ['nb-board', 'Platform boards', 'PLATFORM BOARDS', 'M-14-10H14V8H-14ZM-9-4H9M-9 2H3M0 8V14'],
-  ['nb-speak', 'Announcements', 'ANNOUNCEMENTS', 'M-12-4H-5L4-11V11L-5 4H-12ZM8-5Q12 0 8 5'],
+// ---------- 2 · Ligne C ----------
+const people: [string, React.ReactNode][] = [
+  ['STATION STAFF', icon.phone],
+  ['WELCOME PROVIDERS', icon.badge],
+  ['LOCAL AUTHORITIES', icon.building],
+  ['PLATFORM BOARDS', icon.board],
+  ['ANNOUNCEMENTS', icon.speaker],
 ];
-const rowY = (i: number) => 442 + i * 48;
-const train = <rect className="tx-train" x="-22" y="-7" width="44" height="14" rx="4" />;
-
+const py = (k: number) => 368 + k * 34;
 function LigneC() {
   return (
     <Layer steps={[1]}>
-      <Lane y={92} t="ASKED" s="Care plans for 42 stations" />
-      <Inspectable id="nb-line" title="RER C">
+      <Lab x={40} y={92} t="LIGNE C · ASKED: CARE PLANS FOR 42 STATIONS" c="strong" />
+      <Inspectable
+        id="nd-plans"
+        title="42 care plans"
+        body="One passenger-care plan per station, for works, events and incidents.|What was asked: plans, on paper."
+      >
         <g>
-          <Lab x={60} y={138} t="RER C · 42 STATIONS" />
-          <path className="tx-line-rail" d="M60 170H940" />
-          {stops.map((x, i) => (
-            <circle key={i} className="tx-stop" cx={x.toFixed(1)} cy="170" r={i % 10 === 0 ? 6 : 4} />
+          {Array.from({ length: 42 }, (_, i) => (
+            <Sheet key={i} x={40 + (i % 21) * 28} y={120 + Math.floor(i / 21) * 44} />
           ))}
-          <Move path="M60 170H940" dur={16}>
-            {train}
-          </Move>
-          <Move path="M940 170H60" dur={16} begin={7}>
-            {train}
-          </Move>
+          <Sub x={40} y={226} t="One plan per station, on paper" />
         </g>
       </Inspectable>
-      <Inspectable id="nb-binder" title="A care plan per station">
+      <Inspectable
+        id="nd-seen-c"
+        title="Seen: people make a plan work"
+        body="A plan works only if the people on the ground can carry it out.|The need behind the request."
+      >
         <g>
-          {stops.map((x, i) => (
-            <path key={i} className="tx-doc" d={`M${(x - 6).toFixed(1)} 190h9l3 3v13h-12z`} />
+          <Medal x={680} y={170} r={30} i={icon.lens} on />
+          <Lab x={724} y={164} t="SEEN" c="warm" />
+          <Sub x={724} y={184} t="A plan works only if people" />
+          <Sub x={724} y={204} t="on the ground can carry it out" />
+        </g>
+      </Inspectable>
+      <Needed t="NEEDED · PEOPLE ABLE TO ACT" />
+      <Built s="Tools and information for each of them" />
+      <Inspectable
+        id="nd-plan"
+        title="One plan, many hands"
+        body="Each plan says who does what, where and when.|Shared with every person who acts on it."
+      >
+        <Win x={40} y={370} w={160} h={136} title="CARE PLAN">
+          {[0, 1, 2, 3].map((i) => (
+            <Fragment key={i}>
+              <Check x={60} y={412 + i * 24} />
+              <path className="tx-grid" d={`M76 ${412 + i * 24}H186`} />
+            </Fragment>
           ))}
-          <Lab x={60} y={240} t="ONE CARE PLAN PER STATION, ON PAPER" />
-          <Lab
-            x={500}
-            y={300}
-            t="SEEN: A PLAN WORKS ONLY IF PEOPLE ON THE GROUND CAN CARRY IT OUT"
-            c="center"
-          />
-        </g>
-      </Inspectable>
-      <Divider y={352} t="NEEDED: PEOPLE ABLE TO ACT" />
-      <Lane y={392} t="BUILT" s="Tools and information for each of them" />
-      <Inspectable id="nb-source" title="Disruption information">
-        <g>
-          <Lab x={120} y={465} t="DISRUPTION INFO" c="center" />
-          <Server x={70} y={482} w={100} />
-        </g>
-      </Inspectable>
-      {ends.map(([id, title, t, d], i) => (
-        <Fragment key={id}>
-          <Link d={`M178 530L322 ${rowY(i)}`} />
-          <Link d={`M545 ${rowY(i)}L660 530`} />
-          <Inspectable id={id} title={title}>
-            <g>
-              <g className="tx-icon" transform={`translate(350 ${rowY(i)})`}>
-                <path d={d} />
-              </g>
-              <Lab x={382} y={rowY(i) + 5} t={t} />
-            </g>
-          </Inspectable>
-        </Fragment>
-      ))}
-      <Inspectable id="nb-assess" title="The first way to assess the plans">
-        <Win x={665} y={430} w={295} h={205} title="INDICATORS · FIRST ASSESSMENT">
-          <Sub x={685} y={482} t="Plan carried out" />
-          <rect className="tx-gauge" x="685" y="492" width="255" height="12" rx="3" />
-          <rect className="tx-gauge-on" x="685" y="492" width="200" height="12" rx="3" />
-          <Sub x={685} y={538} t="Equipment did its job" />
-          <rect className="tx-gauge" x="685" y="548" width="255" height="12" rx="3" />
-          <rect className="tx-gauge-on" x="685" y="548" width="165" height="12" rx="3" />
-          <Spark x={685} y={575} w={255} h={45} vals={[0.2, 0.35, 0.3, 0.5, 0.55, 0.7, 0.8]} />
         </Win>
       </Inspectable>
+      <Inspectable
+        id="nd-people"
+        title="Tools and information for each"
+        body="Station staff, welcome providers, local authorities, platform boards and announcements: each with what it needs to act.|I negotiated each one’s part, or coordinated an existing arrangement."
+      >
+        <g>
+          {people.map(([t, i], k) => (
+            <Fragment key={t}>
+              <Link d={`M206 438C260 438 270 ${py(k)} 316 ${py(k)}`} />
+              <g className="tx-icon" transform={`translate(334 ${py(k)}) scale(.8)`}>
+                {i}
+              </g>
+              <T x={356} y={py(k) + 4} className="tx-win-t">
+                {t}
+              </T>
+              <Link d={`M486 ${py(k)}C560 ${py(k)} 580 438 640 438`} />
+            </Fragment>
+          ))}
+          <Move path="M206 438C260 438 270 368 316 368" dur={2.4}>
+            <circle className="tx-alert" r="5" />
+          </Move>
+          <Move path="M486 504C560 504 580 438 640 438" dur={2.4} begin={1.2}>
+            <circle className="tx-alert" r="5" />
+          </Move>
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="nd-assess"
+        title="The first assessment"
+        body="Indicators on staff work and fixed equipment, followed as Île-de-France Mobilités requires.|The first way to know whether the plans did their job."
+      >
+        <Win x={646} y={368} w={314} h={140} title="FIRST ASSESSMENT · INDICATORS">
+          {['Staff work', 'Fixed equipment'].map((t, k) => (
+            <Fragment key={t}>
+              <Sub x={664} y={414 + k * 44} t={t} />
+              <rect className="tx-gauge" x={790} y={402 + k * 44} width="150" height="14" rx="3" />
+              <rect
+                className="vs-fill"
+                style={vars({ '--i': k })}
+                x={790}
+                y={402 + k * 44}
+                width="150"
+                height="14"
+                rx="3"
+              />
+            </Fragment>
+          ))}
+          <Sub x={664} y={496} t="Shown without values" />
+        </Win>
+      </Inspectable>
+      <Close
+        t="ASKED: PLANS. NEEDED: PEOPLE ABLE TO ACT."
+        s="Benchmarked by other Transilien lines; recognised by RATP’s RER B."
+      >
+        <CaseChip
+          x={560}
+          y={578}
+          w={400}
+          to="ligne-c"
+          kicker="EARTH · LIGNE C"
+          sub="Passenger Care and Information Manager"
+        />
+      </Close>
     </Layer>
   );
 }
 
+// ---------- 3 · Verisure ----------
+const tests: [string, string, boolean][] = [
+  ['not_null', 'orders.id', true],
+  ['unique', 'customers.id', true],
+  ['freshness', 'payments', false],
+  ['accepted', 'alarms.status', true],
+];
 const signals: [string, number[]][] = [
-  ['Test results', [0.9, 0.9, 0.4, 0.9, 0.9, 0.9, 0.9, 0.5, 0.9]],
-  ['Freshness', [0.6, 0.6, 0.6, 0.2, 0.6, 0.6, 0.6, 0.6, 0.6]],
-  ['Volume', [0.4, 0.5, 0.45, 0.55, 0.5, 0.9, 0.5, 0.45, 0.5]],
-  ['Schema changes', [0.2, 0.2, 0.2, 0.2, 0.7, 0.2, 0.2, 0.2, 0.2]],
+  ['Test results', [0.7, 0.7, 0.4, 0.7, 0.7, 0.7, 0.5, 0.7]],
+  ['Freshness', [0.6, 0.6, 0.6, 0.3, 0.6, 0.6, 0.6, 0.6]],
+  ['Volume', [0.5, 0.55, 0.5, 0.6, 0.55, 0.9, 0.55, 0.6]],
+  ['Schema changes', [0.4, 0.4, 0.4, 0.4, 0.8, 0.4, 0.4, 0.4]],
 ];
-const stages: [string, string, string, React.ReactNode][] = [
-  [
-    'nb-detect',
-    'Detect',
-    'DETECT',
-    <>
-      <circle r="14" />
-      <circle r="6" />
-      <path d="M0 0L13-6" />
-    </>,
-  ],
-  [
-    'nb-qualify',
-    'Qualify',
-    'QUALIFY',
-    <>
-      <path d="M-15-15H2L15 0 2 15H-15Z" />
-      <circle cx="-7" cy="-7" r="2.5" />
-    </>,
-  ],
-  ['nb-prio', 'Prioritise', 'PRIORITISE', <path d="M-14-11H14M-14 0H6M-14 11H-2" />],
-  ['nb-oncall', 'Notify', 'NOTIFY', <path d="M-13 10C-9 3-11-13 0-13S9 3 13 10ZM-3 14H3" />],
-  [
-    'nb-govern',
-    'Govern',
-    'GOVERN',
-    <path d="M0-16L14-10V2C14 9 6 14 0 17-6 14-14 9-14 2V-10ZM-6 0L-1 5 7-5" />,
-  ],
+const chain: [string, React.ReactNode][] = [
+  ['DETECT', icon.detect],
+  ['QUALIFY', icon.qualify],
+  ['PRIORITISE', icon.prioritise],
+  ['NOTIFY', icon.notify],
+  ['FIX', icon.fix],
+  ['GOVERN', icon.govern],
 ];
-
+const cx = (k: number) => 90 + k * 164;
 function Verisure() {
   return (
     <Layer steps={[2]}>
-      <Lane y={92} t="ASKED" s="Data tests" />
-      <Inspectable id="nb-iv" title="Automated Data tests">
-        <Win x={40} y={108} w={440} h={222} title="ELEMENTARY · DAILY TEST RUN">
-          <Check x={66} y={152} />
-          <Check x={66} y={180} />
-          <Check x={66} y={208} ok={false} />
-          <Check x={66} y={236} />
-          <Code
-            x={86}
-            y={156}
-            lh={28}
-            lines={[
-              'not_null   orders.id',
-              'unique     customers.id',
-              'freshness  payments',
-              'accepted   alarms.status',
-            ]}
-          />
-          <Lab x={60} y={300} t="525 TESTS A DAY" />
+      <Lab x={40} y={92} t="VERISURE · ASKED: DATA TESTS" c="strong" />
+      <Inspectable
+        id="nd-tests"
+        title="Data tests"
+        body="Automated tests on the Data: not null, unique, fresh, accepted values.|What was asked."
+      >
+        <Win x={40} y={112} w={300} h={164} title="ELEMENTARY · TEST RUN">
+          {tests.map(([t, tb, ok], i) => (
+            <Fragment key={t}>
+              <Check x={60} y={152 + i * 26} ok={ok} />
+              <T x={78} y={156 + i * 26} className="tx-win-t">
+                {t}
+              </T>
+              <T x={176} y={156 + i * 26} className="tx-win-t dim">
+                {tb}
+              </T>
+            </Fragment>
+          ))}
+          <T x={60} y={262} className="tx-win-t">
+            525 TESTS A DAY
+          </T>
         </Win>
       </Inspectable>
-      <Arrow from={[110, 332]} to={[110, 444]} />
-      <Inspectable id="nb-thermo" title="One signal among others">
+      <Inspectable
+        id="nd-signals"
+        title="Seen: one signal among others"
+        body="A test result is one signal; freshness, volume and schema changes are others.|To see the health of the Data, all of them together."
+      >
         <g>
-          <Lab x={530} y={118} t="SEEN: A TEST IS ONE SIGNAL AMONG OTHERS" />
+          <Lab x={380} y={124} t="SEEN · ONE SIGNAL AMONG OTHERS" c="warm" />
           {signals.map(([t, v], i) => (
             <Fragment key={t}>
-              <Sub x={530} y={160 + i * 46} t={t} />
-              <Spark x={680} y={142 + i * 46} w={270} h={30} vals={v} c={i === 0 ? 'on' : ''} />
+              <Sub x={380} y={160 + i * 32} t={t} />
+              <Spark x={540} y={146 + i * 32} w={410} h={20} vals={v} c={i === 0 ? 'on' : ''} />
             </Fragment>
           ))}
         </g>
       </Inspectable>
-      <Divider y={352} t="NEEDED: TO SEE DATA HEALTH" />
-      <Lane y={392} t="BUILT" s="A Data Quality and Observability platform" />
-      <path className="tx-link" d="M110 484H830" />
-      <path className="tx-flow" d="M110 484H830" />
-      {stages.map(([id, title, t, icon], i) => (
-        <Inspectable key={id} id={id} title={title}>
-          <g>
-            <circle className="tx-stage" cx={110 + i * 180} cy="484" r="38" />
-            <g className="tx-icon" transform={`translate(${110 + i * 180} 484)`}>
-              {icon}
-            </g>
-            <Lab x={110 + i * 180} y={544} t={t} c="center" />
-          </g>
-        </Inspectable>
-      ))}
-      <Move path="M72 484H870" dur={7}>
-        <circle className="tx-alert" r="7" />
-      </Move>
-      <Inspectable id="nb-monitor" title="Data health">
+      <Needed t="NEEDED · TO SEE DATA HEALTH" />
+      <Built s="A Data Quality and Observability platform" />
+      <Inspectable
+        id="nd-platform-v"
+        title="Detect, qualify, prioritise, notify, fix, govern"
+        body="Each anomaly detected, qualified, prioritised and sent to the team that owns it, then fixed; rules governed.|An alert is worth its fix."
+      >
         <g>
-          <Lab x={40} y={600} t="DATA HEALTH" />
-          <Sub x={40} y={620} t="And its trends" />
-          <Spark
-            x={180}
-            y={575}
-            w={780}
-            h={70}
-            vals={[0.5, 0.55, 0.45, 0.6, 0.35, 0.55, 0.65, 0.6, 0.7, 0.68, 0.75, 0.72, 0.8, 0.78, 0.85]}
-          />
-          <path className="tx-axis" d="M180 575V645H960" />
+          {chain.map(([t, i], k) => (
+            <Fragment key={t}>
+              <Medal x={cx(k)} y={392} r={26} i={i} on={t === 'FIX'} />
+              <Lab x={cx(k)} y={436} t={t} c={`center${t === 'FIX' ? ' warm' : ''}`} />
+              {k < 5 && <Arrow from={[cx(k) + 30, 392]} to={[cx(k + 1) - 32, 392]} />}
+            </Fragment>
+          ))}
+          <Move path={`M${cx(0)} 392H${cx(5)}`} dur={8}>
+            <circle className="tx-alert" r="5" />
+          </Move>
         </g>
       </Inspectable>
+      <Inspectable
+        id="nd-health"
+        title="Data health, visible"
+        body="Dashboards on the health of the Data Platform, and its trends.|What the teams needed to see."
+      >
+        <Win x={40} y={456} w={920} h={92} title="DATA HEALTH · DASHBOARD">
+          <Spark
+            x={60}
+            y={488}
+            w={880}
+            h={48}
+            vals={[0.4, 0.45, 0.35, 0.5, 0.55, 0.5, 0.62, 0.7, 0.68, 0.78, 0.82, 0.86]}
+            c="on"
+          />
+        </Win>
+      </Inspectable>
+      <Close
+        t="ASKED: DATA TESTS. NEEDED: TO SEE DATA HEALTH."
+        s="Each alert qualified, then fixed, before the business finds it."
+      >
+        <CaseChip x={560} y={578} w={400} to="verisure" kicker="EARTH · VERISURE" sub="Analytics Engineer" />
+      </Close>
     </Layer>
   );
 }
@@ -301,7 +495,7 @@ export default function NeedScene() {
   return (
     <>
       <OpsDefs />
-      <Header kicker="THE NEED BEHIND THE NEED · ASKED, THEN BUILT" />
+      <Header kicker="ACROSS EVERY ROLE · THE NEED BEHIND THE NEED" />
       <FoodCheri />
       <LigneC />
       <Verisure />

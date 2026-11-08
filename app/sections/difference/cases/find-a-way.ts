@@ -6,7 +6,7 @@ export default {
   tag: 'VFLI · SNCF RÉSEAU · TOUR DE FRANCE · FOODCHÉRI',
   title: 'Find a way',
   summary: 'Whatever the constraint, obtain what the operation needs.',
-  category: 'WHAT MAKES THE DIFFERENCE / FIND A WAY',
+  category: 'HOW I HAVE BEEN WORKING / FIND A WAY',
   takeaway: 'Whatever the constraint, my job has been to obtain what the operation needs.',
   beats: [
     [

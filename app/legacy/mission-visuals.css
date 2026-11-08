@@ -1147,3 +1147,15 @@
 @media(prefers-reduced-motion:reduce){.story-svg .cs-week{animation:none}}
 .tl-overlap rect{fill:rgba(246,215,122,.45);stroke:#f6d77a;stroke-width:1.2;pointer-events:none}
 .tl-overlap text{fill:#f6d77a;font-size:8.5px;letter-spacing:.12em;font-weight:700}
+/* Across every role · find a way */
+.story-svg .fw-noloco .ft-loco{fill:none;stroke-dasharray:4 4;opacity:.7}
+.story-svg .fw-noloco .ft-window{display:none}
+.story-svg .fw-post{stroke:#7fa9b6;stroke-width:3}
+.story-svg .fw-head{fill:#071923;stroke:#7fa9b6;stroke-width:1.5}
+.story-svg .fw-red{fill:#f07a68;filter:drop-shadow(0 0 4px rgba(240,122,104,.9))}
+.story-svg .fw-rider circle,.story-svg .fw-rider path{fill:none;stroke:#f6d77a;stroke-width:2;stroke-linecap:round}
+.story-svg .fw-other{stroke:#3f6b79;stroke-width:2;fill:none}
+.story-svg .fw-mine{fill:none;stroke:#f6d77a;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.story-svg .fw-road{fill:#123847;stroke:#3f6b79}
+.story-svg .fw-lane{stroke:#d8eef2;stroke-width:2;stroke-dasharray:10 10;opacity:.5}
+.story-svg .fw-gate{stroke:#f07a68;stroke-width:4;stroke-linecap:round}
