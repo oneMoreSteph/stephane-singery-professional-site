@@ -495,7 +495,25 @@ function ThePath() {
         body="The systems that generate, move and use Data in space, for Europe’s technological sovereignty.|Where the path leads."
       >
         <g>
-          <circle className="tx-ring" cx={JUP.x} cy={JUP.y} r="54" />
+          <g className="ap-eu" transform={`translate(${JUP.x} ${JUP.y})`}>
+            <g>
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0"
+                to="360"
+                dur="90s"
+                repeatCount="indefinite"
+              />
+              {Array.from({ length: 12 }, (_, i) => (
+                <path
+                  key={i}
+                  transform={`rotate(${i * 30}) translate(0 -58)`}
+                  d="M0.00 -4.20 L1.00 -1.38 L3.99 -1.30 L1.62 0.53 L2.47 3.40 L0.00 1.70 L-2.47 3.40 L-1.62 0.53 L-3.99 -1.30 L-1.00 -1.38Z"
+                />
+              ))}
+            </g>
+          </g>
           <circle className="tx-planet jupiter" cx={JUP.x} cy={JUP.y} r="40" />
           <path
             className="tx-bands"
