@@ -199,23 +199,23 @@ const trainPath = (pts: [number, number][]) =>
   pts.map(([h, st], k) => `${k ? 'L' : 'M'}${hx(h)} ${SY[st]}`).join('');
 /** Engineering works: a section between two stations, closed for a time window. */
 const works: [number, number, number][] = [
-  [1, 8.5, 11],
-  [3, 14, 16.5],
+  [1, 4.5, 7],
+  [1, 10.5, 13],
+  [3, 9, 11.5],
+  [3, 13.5, 16],
 ];
-/** Other operators: steady runs, 1.5 h per section, clear of the works and of my customer’s train. */
-const others = [1, 5, 13, 17.5].map((t0) =>
-  trainPath([0, 1, 2, 3, 4].map((st) => [t0 + st * 1.5, st] as [number, number])),
-);
-/** My customer’s train: it waits at B, then at D, while the next section is closed. */
-const MINE = trainPath([
-  [7, 0],
-  [8.5, 1],
-  [11, 1],
-  [12.5, 2],
-  [14, 3],
-  [16.5, 3],
-  [18, 4],
+/** Other operators. One stops at station C (the flat segment) while my customer’s train passes it. */
+const run = (t0: number) => trainPath([0, 1, 2, 3, 4].map((st) => [t0 + st * 1.5, st] as [number, number]));
+const STOPPED = trainPath([
+  [5.5, 0],
+  [7, 1],
+  [8.5, 2],
+  [10.75, 2],
+  [12.5, 3],
 ]);
+const others = [run(0.5), STOPPED, run(15), run(17.5)];
+/** My customer’s train: it runs between the works, without a stop. */
+const MINE = run(7.25);
 function Reseau() {
   return (
     <Layer steps={[1]}>
@@ -223,7 +223,7 @@ function Reseau() {
       <Inspectable
         id="fw-graph"
         title="The space–time diagram"
-        body="Each line is a train: where it is (stations, top to bottom) at each hour (left to right). A hatched block closes one section for engineering works; no train enters it.|The shared network, as it is planned."
+        body="Each line is a train: where it is (stations, top to bottom) at each hour (left to right). A hatched block closes one section for engineering works; a flat segment is a train stopped at a station.|The shared network, as it is planned."
       >
         <g>
           <Win x={40} y={116} w={600} h={420} title="TRAIN PATHS · SPACE–TIME DIAGRAM">
@@ -260,13 +260,15 @@ function Reseau() {
             <Sub x={270} y={472} t="Other operators" />
             <path className="fw-mine" d="M400 467H426" />
             <Sub x={434} y={472} t="My customer’s train" />
+            <path className="fw-stop" d="M60 494H82" />
+            <Sub x={90} y={499} t="A train stopped at a station, letting my customer’s train pass" />
           </Win>
         </g>
       </Inspectable>
       <Inspectable
         id="fw-path"
         title="My customer’s train path"
-        body="The schedule that best fit the customer’s business: it waits at a station while the next section is closed, then runs between the works and the other operators’ trains.|Built, defended, then kept alive until the train ran."
+        body="The schedule that best fit the customer’s business: it runs between the works without a stop, and another operator’s train stops at station C to let it pass.|What I defended and obtained, then kept alive until the train ran."
       >
         <g>
           <path className="fw-mine" d={MINE} />
@@ -274,12 +276,7 @@ function Reseau() {
             <circle className="tx-alert" r="6" />
           </Move>
           <Lab x={hx(7)} y={SY[0] - 14} t="MY CUSTOMER" c="warm" />
-          <T x={(hx(8.5) + hx(11)) / 2} y={SY[1] - 8} className="center tx-win-t late">
-            WAITS
-          </T>
-          <T x={(hx(14) + hx(16.5)) / 2} y={SY[3] - 8} className="center tx-win-t late">
-            WAITS
-          </T>
+          <path className="fw-stop" d={`M${hx(8.5)} ${SY[2]}H${hx(10.75)}`} />
         </g>
       </Inspectable>
       <Inspectable
