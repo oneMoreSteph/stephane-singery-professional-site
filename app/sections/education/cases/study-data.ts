@@ -25,7 +25,7 @@ export default {
         'Jedha’s Data Science Developer programme: a Bachelor’s-level title recognised by the RNCP, France’s national register of qualifications.',
         'About 450 intensive hours.',
         'Python, analysis and visualisation, machine learning, deep learning, Data engineering.',
-        'Closed by a final project.',
+        'Closed by a final project to defend.',
       ],
     ],
     [
