@@ -94,3 +94,45 @@ test.describe('on a phone', () => {
     });
   }
 });
+
+// Arriving at a section from outside the journey must go straight there: never through the cockpit or a flight.
+test.describe('arrivals go straight to their place', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      const w = window as unknown as { __scenes: string[] };
+      w.__scenes = [];
+      const record = () => {
+        const s = document.body?.dataset.scene;
+        if (s && w.__scenes.at(-1) !== s) w.__scenes.push(s);
+      };
+      document.addEventListener('DOMContentLoaded', () => {
+        record();
+        new MutationObserver(record).observe(document.body, {
+          attributes: true,
+          attributeFilter: ['data-scene'],
+        });
+      });
+    });
+  });
+  const scenes = (page: Page) => page.evaluate(() => (window as unknown as { __scenes: string[] }).__scenes);
+
+  test('a direct address opens its section, then its case', async ({ page }) => {
+    await page.goto('/experience/heetch');
+    await expect(page.locator('#detail-overlay')).toBeVisible(ARRIVE);
+    expect(await scenes(page)).not.toContain('cockpit');
+  });
+
+  for (const [from, link, to] of [
+    ['/how-i-build', '/experience/heetch', /\/experience\/heetch$/],
+    ['/contact', '/high-stakes', /\/high-stakes$/],
+    ['/courses', '/education', /\/education$/],
+  ] as const) {
+    test(`a link from ${from} to ${link}`, async ({ page }) => {
+      await page.goto(from);
+      await page.locator(`a[href="${link}"]`).first().click();
+      await expect(page).toHaveURL(to);
+      await expect(page.locator('#chapter-title')).not.toBeEmpty(ARRIVE);
+      expect(await scenes(page)).not.toContain('cockpit');
+    });
+  }
+});

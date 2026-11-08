@@ -1,4 +1,5 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, useMatches } from 'react-router';
+import { useState } from 'react';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLocation, useMatches } from 'react-router';
 import type { Route } from './+types/root';
 import { site } from './site';
 import './legacy/mission-journey.css';
@@ -18,6 +19,13 @@ export const links: Route.LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   // Journey pages are full-screen scenes; other pages scroll like documents.
   const journey = useMatches().some((m) => m.id === 'routes/journey');
+  // The first scene follows the address: a section never shows the cockpit while the 3D world loads.
+  // It is set once on entering the journey; the journey changes it itself afterwards.
+  const { pathname } = useLocation();
+  const sceneHere = pathname === '/' ? 'cockpit' : pathname === '/map' ? 'map' : 'approaching';
+  const [firstScene, setFirstScene] = useState<string | null>(null);
+  if (journey && firstScene === null) setFirstScene(sceneHere);
+  if (!journey && firstScene !== null) setFirstScene(null);
   return (
     <html lang="en">
       <head>
@@ -28,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body {...(journey ? { 'data-scene': 'cockpit' } : { className: 'page-body' })}>
+      <body {...(journey ? { 'data-scene': firstScene ?? sceneHere } : { className: 'page-body' })}>
         {children}
         <ScrollRestoration />
         <Scripts />

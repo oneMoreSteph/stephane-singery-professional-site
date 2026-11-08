@@ -714,11 +714,37 @@ async function goTo(pathname, search) {
   }
 }
 
-// First load: the cockpit needs no 3D. Any other address starts the world straight away.
+// Arriving from outside the journey (a first load, or a link from another page): the chapter appears at once,
+// and the camera is placed at the stop without a flight through the cockpit or the globe.
+async function land(id, view, caseKey) {
+  closeDetail(false);
+  closeView(false);
+  activeDestination = id;
+  previewDestination = id;
+  renderChapter(id);
+  setScene('chapter');
+  const title = document.getElementById('chapter-title'); title.tabIndex = -1; title.focus({ preventScroll: true });
+  restoreFromHash(view, caseKey);
+  if (!(await initWorld()) || !camera) return;
+  const data = destinations[id];
+  cameraMove = null;
+  camera.position.copy(data.camera);
+  currentLook.copy(data.look);
+  camera.lookAt(currentLook);
+  if (id === globeKey && earth) {
+    globeMove = null;
+    globeAngle = europePose.rotationY;
+    globeTilt = europePose.tiltX;
+    earth.rotation.set(globeTilt, globeAngle, 0);
+  }
+  setScene(activeScene);
+}
+
+// First load: the cockpit needs no 3D. Any other address starts the world straight at its place.
 function start(pathname, search) {
   const { id, caseKey, view } = parsePath(pathname, search);
   if (id === 'map') openMap(false);
-  else if (destinations[id]) approach(id, false).then(() => restoreFromHash(view, caseKey));
+  else if (destinations[id]) land(id, view, caseKey);
 }
 
 function destroy() {
