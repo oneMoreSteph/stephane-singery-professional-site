@@ -187,6 +187,28 @@ function Vfli() {
 // ---------- 2 · SNCF Réseau ----------
 const SY = [176, 236, 296, 356, 416];
 const hx = (h: number) => 120 + h * 20;
+/** A train path through the stations: [hour, station index] points; a flat segment is a wait at a station. */
+const trainPath = (pts: [number, number][]) =>
+  pts.map(([h, st], k) => `${k ? 'L' : 'M'}${hx(h)} ${SY[st]}`).join('');
+/** Engineering works: a section between two stations, closed for a time window. */
+const works: [number, number, number][] = [
+  [1, 8.5, 11],
+  [3, 14, 16.5],
+];
+/** Other operators: steady runs, 1.5 h per section, clear of the works and of my customer’s train. */
+const others = [1, 5, 13, 17.5].map((t0) =>
+  trainPath([0, 1, 2, 3, 4].map((st) => [t0 + st * 1.5, st] as [number, number])),
+);
+/** My customer’s train: it waits at B, then at D, while the next section is closed. */
+const MINE = trainPath([
+  [7, 0],
+  [8.5, 1],
+  [11, 1],
+  [12.5, 2],
+  [14, 3],
+  [16.5, 3],
+  [18, 4],
+]);
 function Reseau() {
   return (
     <Layer steps={[1]}>
@@ -194,7 +216,7 @@ function Reseau() {
       <Inspectable
         id="fw-graph"
         title="The space–time diagram"
-        body="Each line is a train: where it is (stations, top to bottom) at each hour (left to right). Hatched blocks are engineering works.|The shared network, drawn as it is planned."
+        body="Each line is a train: where it is (stations, top to bottom) at each hour (left to right). A hatched block closes one section for engineering works; no train enters it.|The shared network, as it is planned."
       >
         <g>
           <Win x={40} y={116} w={600} h={420} title="TRAIN PATHS · SPACE–TIME DIAGRAM">
@@ -208,41 +230,49 @@ function Reseau() {
               <T
                 key={h}
                 x={hx(h)}
-                y={510}
+                y={516}
                 className="center tx-win-t dim"
               >{`${String(h).padStart(2, '0')}:00`}</T>
             ))}
-            {[
-              [1, 7],
-              [5, 11],
-              [13, 19],
-              [17, 23.5],
-            ].map(([a, b], i) => (
-              <path key={i} className="fw-other" d={`M${hx(a)} ${SY[0]}L${hx(b)} ${SY[4]}`} />
+            {works.map(([st, a, b]) => (
+              <rect
+                key={st}
+                className="fw-wall"
+                x={hx(a)}
+                y={SY[st]}
+                width={hx(b) - hx(a)}
+                height={SY[st + 1] - SY[st]}
+              />
             ))}
-            <rect className="fw-wall" x={hx(8.6)} y={SY[1] + 6} width="44" height="104" rx="2" />
-            <rect className="fw-wall" x={hx(14.5)} y={SY[2] + 6} width="40" height="104" rx="2" />
+            {others.map((d) => (
+              <path key={d} className="fw-other" d={d} />
+            ))}
+            <rect className="fw-wall" x={60} y={460} width="22" height="14" />
+            <Sub x={90} y={472} t="Engineering works" />
+            <path className="fw-other" d="M236 467H262" />
+            <Sub x={270} y={472} t="Other operators" />
+            <path className="fw-mine" d="M400 467H426" />
+            <Sub x={434} y={472} t="My customer’s train" />
           </Win>
-          <Sub x={hx(8.6) + 22} y={SY[4] + 46} t="Works" c="center" />
         </g>
       </Inspectable>
       <Inspectable
         id="fw-path"
         title="My customer’s train path"
-        body="The schedule that best fit the customer’s business, threaded between works and other operators’ trains.|Built, defended, then kept alive until the train ran."
+        body="The schedule that best fit the customer’s business: it waits at a station while the next section is closed, then runs between the works and the other operators’ trains.|Built, defended, then kept alive until the train ran."
       >
         <g>
-          <path
-            className="fw-mine"
-            d={`M${hx(3)} ${SY[0]}L${hx(7.5)} ${SY[1]}L${hx(8)} ${SY[1] + 20}L${hx(10.6)} ${SY[2]}L${hx(13.4)} ${SY[3]}L${hx(15)} ${SY[4]}`}
-          />
-          <Move
-            path={`M${hx(3)} ${SY[0]}L${hx(7.5)} ${SY[1]}L${hx(8)} ${SY[1] + 20}L${hx(10.6)} ${SY[2]}L${hx(13.4)} ${SY[3]}L${hx(15)} ${SY[4]}`}
-            dur={6}
-          >
+          <path className="fw-mine" d={MINE} />
+          <Move path={MINE} dur={8}>
             <circle className="tx-alert" r="6" />
           </Move>
-          <Lab x={hx(3) - 6} y={SY[0] - 14} t="MY CUSTOMER" c="warm" />
+          <Lab x={hx(7)} y={SY[0] - 14} t="MY CUSTOMER" c="warm" />
+          <T x={(hx(8.5) + hx(11)) / 2} y={SY[1] - 8} className="center tx-win-t late">
+            WAITS
+          </T>
+          <T x={(hx(14) + hx(16.5)) / 2} y={SY[3] - 8} className="center tx-win-t late">
+            WAITS
+          </T>
         </g>
       </Inspectable>
       <Inspectable
@@ -466,7 +496,7 @@ function FoodCheri() {
           <Arrow from={[866, 206]} to={[866, 254]} />
           <rect className="tx-app" x={772} y={260} width="188" height="70" rx="6" />
           <T x={866} y={290} className="center tx-win-t">
-            ONE CONTAINER
+            METABASE · ONE CONTAINER
           </T>
           <Sub x={866} y={312} t="Open source, on App Engine" c="center" />
           <Lab x={866} y={360} t="RENEWAL AVOIDED" c="center warm" />
