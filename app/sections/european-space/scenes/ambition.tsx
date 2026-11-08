@@ -356,96 +356,110 @@ function WhyEurope() {
   );
 }
 
-// ---------- The path: orbit raising, one domain per orbit ----------
-const PX = 500;
-const PY = 500;
-const ppt = (r: number, deg: number) =>
-  [PX + r * Math.cos((deg * Math.PI) / 180), PY + r * Math.sin((deg * Math.PI) / 180)] as const;
-const parc = (r: number, a = -170, b = -10) => {
-  const [sx, sy] = ppt(r, a);
-  const [ex, ey] = ppt(r, b);
-  return `M${sx.toFixed(1)} ${sy.toFixed(1)}A${r} ${r} 0 0 1 ${ex.toFixed(1)} ${ey.toFixed(1)}`;
-};
-/** [orbit radius, label, period, status] — status: done, next (dashed), goal (gold). */
-const domains: [number, string, string, 'done' | 'next' | 'goal'][] = [
-  [92, 'RAIL', 'SNCF · 2010–2019', 'done'],
-  [142, 'FOOD-TECH', 'FoodChéri · 2016–2022', 'done'],
-  [192, 'MOBILITY', 'Heetch · 2022–2025', 'done'],
-  [242, 'HOME SECURITY', 'Verisure · since 2025', 'done'],
-  [302, 'NEXT DOMAIN', 'Open to every domain', 'next'],
-  [376, 'EUROPEAN SPACE', 'The ultimate goal', 'goal'],
+// ---------- The path: like Juice, one flyby at a time ----------
+type Stop = [number, number, string, string, 'done' | 'next' | 'goal', React.ReactNode];
+const pathStops: Stop[] = [
+  [
+    200,
+    396,
+    'RAIL',
+    'SNCF · 2010–2019',
+    'done',
+    <>
+      <rect x="-11" y="-14" width="22" height="22" rx="4" />
+      <path d="M-11 0H11M-6 8L-9 14M6 8L9 14" />
+    </>,
+  ],
+  [
+    340,
+    360,
+    'FOOD-TECH',
+    'FoodChéri · 2016–2022',
+    'done',
+    <path d="M-15-2H15A15 13 0 0 1-15-2ZM-6-7C-8-10-4-12-6-15M3-7C1-10 5-12 3-15" />,
+  ],
+  [
+    480,
+    324,
+    'MOBILITY',
+    'Heetch · 2022–2025',
+    'done',
+    <>
+      <path d="M-15 6V-2L-10-10H10L15-2V6ZM-10-2H10" />
+      <circle cx="-8" cy="9" r="3" />
+      <circle cx="8" cy="9" r="3" />
+    </>,
+  ],
+  [
+    620,
+    288,
+    'HOME SECURITY',
+    'Verisure · since 2025',
+    'done',
+    <path d="M-14-1L0-13 14-1M-10-4V13H10V-4M-4 4L-1 7 5 1" />,
+  ],
+  [760, 252, 'NEXT DOMAIN', 'Open to every domain', 'next', <path d="M0-10V10M-10 0H10" />],
 ];
-const burns: [number, number, number][] = [
-  [0, -150, -140],
-  [1, -35, -45],
-  [2, -150, -140],
-  [3, -35, -45],
-  [4, -150, -140],
-];
+const GOAL = { x: 900, y: 206 };
+const TRAJ = `M70 432Q135 410 200 396T340 360T480 324T620 288T760 252T${GOAL.x} ${GOAL.y}`;
 
 function ThePath() {
   return (
     <Layer steps={[3]}>
       <Lab x={40} y={92} t="THE PATH" c="strong" />
+      <Sub x={40} y={114} t="Like Juice, each flyby adds momentum toward the goal." />
       <Inspectable
-        id="path-earth"
-        title="Experience gathered on Earth"
-        body="Every role so far, on the ground: rail, food-tech, mobility, home security.|Where the skills were built and sharpened."
+        id="path-trajectory"
+        title="One trajectory, many flybys"
+        body="Juice reaches Jupiter through flybys: each one adds momentum. My domains work the same way.|Each role sharpened the same skills, a little further on the path."
       >
         <g>
-          <circle className="ap-earth" cx={PX} cy={PY} r="54" />
-          <path className="ap-earth-l" d={`M${PX - 54} ${PY}A54 18 0 0 0 ${PX + 54} ${PY}`} />
+          <circle className="ap-earth" cx={60} cy={440} r="26" />
+          <path className="tx-route" d={TRAJ} />
+          <path className="tx-draw" pathLength={1} d={TRAJ} />
+          <Move path={TRAJ} dur={14} rotate="auto">
+            <Satellite s={0.38} />
+          </Move>
         </g>
       </Inspectable>
-      {domains.map(([r, t, s, st], k) => {
-        const d = parc(r);
-        const [ux, uy] = ppt(r, -18);
-        const w = t.length * 8.4 + 12 + s.length * 6.4;
-        return (
-          <Inspectable
-            key={t}
-            id={`path-${k}`}
-            title={
-              st === 'goal'
-                ? 'European space, the ultimate goal'
-                : st === 'next'
-                  ? 'The next domain'
-                  : `${t.charAt(0)}${t.slice(1).toLowerCase()}`
-            }
-            body={
-              st === 'goal'
-                ? 'The systems that generate, move and use Data in space, for Europe’s technological sovereignty.|Where every orbit leads.'
-                : st === 'next'
-                  ? 'Open to every professional domain: each one sharpens the same skills.|I grow with the teams I join, and they grow with me.'
-                  : `${s}: an orbit of experience, and a team I grew with.|Each domain raised the orbit.`
-            }
-          >
-            <g>
-              <path className={`ap-orbit ${st}`} d={d} />
-              <Move path={d} dur={22 + k * 6} begin={k * 3}>
-                <circle className={st === 'goal' ? 'tx-alert' : 'ap-craft'} r={st === 'goal' ? 6 : 4.5} />
-              </Move>
-              {st === 'done' &&
-                [0, 1].map((j) => <User key={j} x={ux + j * 14} y={uy + 2} s={0.42} c="on" />)}
-              <Lab x={PX - w / 2} y={PY - r - 10} t={t} c={st === 'goal' ? 'warm' : ''} />
-              <Sub x={PX - w / 2 + t.length * 8.4 + 12} y={PY - r - 10} t={s} />
+      {pathStops.map(([x, y, t, s, st, icon], k) => (
+        <Inspectable
+          key={t}
+          id={`path-${k}`}
+          title={st === 'next' ? 'The next domain' : `${t.charAt(0)}${t.slice(1).toLowerCase()}`}
+          body={
+            st === 'next'
+              ? 'Open to every professional domain: each one sharpens the same skills.|I grow with the teams I join, and they grow with me.'
+              : `${s}.|A domain that sharpened my skills, and a team I grew with.`
+          }
+        >
+          <g>
+            <circle className={`tx-stage${st === 'next' ? ' tr-learn' : ''}`} cx={x} cy={y} r="34" />
+            <g className="tx-icon" transform={`translate(${x} ${y}) scale(1.15)`}>
+              {icon}
             </g>
-          </Inspectable>
-        );
-      })}
-      {burns.map(([i, a, b]) => {
-        const [sx, sy] = ppt(domains[i][0], a);
-        const [ex, ey] = ppt(domains[i + 1][0], b);
-        return (
-          <Fragment key={i}>
-            <path
-              className="ap-transfer"
-              d={`M${sx.toFixed(1)} ${sy.toFixed(1)}Q${((sx + ex) / 2).toFixed(1)} ${((sy + ey) / 2 + 14).toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`}
-            />
-            <circle className="ap-burn" cx={sx.toFixed(1)} cy={sy.toFixed(1)} r="4" />
-          </Fragment>
-        );
-      })}
+            <Lab x={x} y={y + 58} t={t} c="center" />
+            <Sub x={x} y={y + 78} t={s} c="center" />
+            {st === 'done' &&
+              [0, 1, 2].map((i) => <User key={i} x={x - 22 + i * 22} y={y + 112} s={0.5} c="on" />)}
+          </g>
+        </Inspectable>
+      ))}
+      <Inspectable
+        id="path-goal"
+        title="European space, the ultimate goal"
+        body="The systems that generate, move and use Data in space, for Europe’s technological sovereignty.|Where the path leads."
+      >
+        <g>
+          <circle className="tx-ring" cx={GOAL.x} cy={GOAL.y} r="62" />
+          <circle className="tx-stage vs-on" cx={GOAL.x} cy={GOAL.y} r="48" />
+          <g transform={`translate(${GOAL.x} ${GOAL.y})`}>
+            <Satellite s={0.7} />
+          </g>
+          <Lab x={GOAL.x} y={GOAL.y + 88} t="EUROPEAN SPACE" c="center warm" />
+          <Sub x={GOAL.x} y={GOAL.y + 108} t="The ultimate goal" c="center" />
+        </g>
+      </Inspectable>
       <path className="tx-div" d="M40 566H960" />
       <Lab x={40} y={600} t="EVERY DOMAIN SHARPENS THE SKILLS" c="warm" />
       <Sub x={40} y={624} t="I grow with the teams I join, and they grow with me." />
