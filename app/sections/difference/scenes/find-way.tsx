@@ -178,7 +178,14 @@ function Vfli() {
         </g>
       </Inspectable>
       <Close t="A LOCOMOTIVE, A DRIVER, AN AGREEMENT" s="Obtained, whatever the constraint.">
-        <CaseChip x={560} y={578} w={400} to="vfli" kicker="EARTH · VFLI" sub="Rail Resources Manager" />
+        <CaseChip
+          x={560}
+          y={578}
+          w={400}
+          to="vfli"
+          kicker="EARTH · EXPERIENCE · VFLI"
+          sub="Rail Resources Manager"
+        />
       </Close>
     </Layer>
   );
@@ -307,7 +314,7 @@ function Reseau() {
           y={578}
           w={400}
           to="rail"
-          kicker="EARTH · SNCF RÉSEAU"
+          kicker="EARTH · EXPERIENCE · SNCF RÉSEAU"
           sub="Rail Capacity Consultation Officer"
         />
       </Close>
@@ -407,7 +414,7 @@ function Tour() {
           y={578}
           w={400}
           to="tour"
-          kicker="ISS · TOUR DE FRANCE"
+          kicker="ISS · HIGH-STAKES · TOUR DE FRANCE"
           sub="Five years of rail coordination"
         />
       </Close>
@@ -529,7 +536,7 @@ function FoodCheri() {
           y={578}
           w={400}
           to="food-deadline"
-          kicker="ISS · SIX WEEKS"
+          kicker="ISS · HIGH-STAKES · SIX WEEKS"
           sub="600 dashboards, the full case"
         />
       </Close>

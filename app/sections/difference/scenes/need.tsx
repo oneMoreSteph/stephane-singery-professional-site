@@ -254,7 +254,7 @@ function FoodCheri() {
           y={578}
           w={400}
           to="food-data"
-          kicker="EARTH · FOODCHÉRI DATA"
+          kicker="EARTH · EXPERIENCE · FOODCHÉRI DATA"
           sub="BI Engineer / Data Product Owner"
         />
       </Close>
@@ -374,7 +374,7 @@ function LigneC() {
           y={578}
           w={400}
           to="ligne-c"
-          kicker="EARTH · LIGNE C"
+          kicker="EARTH · EXPERIENCE · LIGNE C"
           sub="Passenger Care and Information Manager"
         />
       </Close>
@@ -445,7 +445,7 @@ function Verisure() {
           ))}
         </g>
       </Inspectable>
-      <Needed t="NEEDED · TO SEE DATA HEALTH" />
+      <Needed t="NEEDED · TO MONITOR DATA HEALTH" />
       <Built s="A Data Quality and Observability platform" />
       <Inspectable
         id="nd-platform-v"
@@ -467,7 +467,7 @@ function Verisure() {
       </Inspectable>
       <Inspectable
         id="nd-health"
-        title="Data health, visible"
+        title="Data health, monitored"
         body="Dashboards on the health of the Data Platform, and its trends.|What the teams needed to see."
       >
         <Win x={40} y={456} w={920} h={92} title="DATA HEALTH · DASHBOARD">
@@ -482,10 +482,17 @@ function Verisure() {
         </Win>
       </Inspectable>
       <Close
-        t="ASKED: DATA TESTS. NEEDED: TO SEE DATA HEALTH."
+        t="ASKED: DATA TESTS. NEEDED: TO MONITOR DATA HEALTH."
         s="Each alert qualified, then fixed, before the business finds it."
       >
-        <CaseChip x={560} y={578} w={400} to="verisure" kicker="EARTH · VERISURE" sub="Analytics Engineer" />
+        <CaseChip
+          x={560}
+          y={578}
+          w={400}
+          to="verisure"
+          kicker="EARTH · EXPERIENCE · VERISURE"
+          sub="Analytics Engineer"
+        />
       </Close>
     </Layer>
   );

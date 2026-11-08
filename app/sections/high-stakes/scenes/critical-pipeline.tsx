@@ -456,7 +456,7 @@ function TheResult() {
           y={578}
           w={400}
           to="heetch"
-          kicker="EARTH · HEETCH"
+          kicker="EARTH · EXPERIENCE · HEETCH"
           sub="The Data Engineer role, in full"
         />
       </Close>

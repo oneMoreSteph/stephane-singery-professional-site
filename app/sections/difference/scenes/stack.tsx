@@ -234,7 +234,7 @@ function Access() {
           y={578}
           w={400}
           to="food-data"
-          kicker="EARTH · FOODCHÉRI DATA"
+          kicker="EARTH · EXPERIENCE · FOODCHÉRI DATA"
           sub="The first Data Platform"
         />
       </Close>
@@ -371,7 +371,14 @@ function Transformation() {
         </g>
       </Inspectable>
       <Close t="TRANSFORMATION · TESTED, EVERY HOUR" s="Incremental SQL models, from daily toward hourly.">
-        <CaseChip x={560} y={578} w={400} to="heetch" kicker="EARTH · HEETCH" sub="Data Engineer" />
+        <CaseChip
+          x={560}
+          y={578}
+          w={400}
+          to="heetch"
+          kicker="EARTH · EXPERIENCE · HEETCH"
+          sub="Data Engineer"
+        />
       </Close>
     </Layer>
   );
@@ -482,7 +489,14 @@ function Observability() {
         </g>
       </Inspectable>
       <Close t="OBSERVABILITY · EVERY ALERT FIXED" s="525 tests a day; each anomaly qualified, then fixed.">
-        <CaseChip x={560} y={578} w={400} to="verisure" kicker="EARTH · VERISURE" sub="Analytics Engineer" />
+        <CaseChip
+          x={560}
+          y={578}
+          w={400}
+          to="verisure"
+          kicker="EARTH · EXPERIENCE · VERISURE"
+          sub="Analytics Engineer"
+        />
       </Close>
     </Layer>
   );

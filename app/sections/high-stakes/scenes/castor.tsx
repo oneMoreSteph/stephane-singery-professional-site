@@ -413,7 +413,7 @@ function Recognised() {
           y={578}
           w={400}
           to="ligne-c"
-          kicker="EARTH · LIGNE C"
+          kicker="EARTH · EXPERIENCE · LIGNE C"
           sub="The Passenger Care and Information Manager role"
         />
       </Close>

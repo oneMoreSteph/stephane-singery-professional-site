@@ -30,7 +30,7 @@ export default {
     ],
     [
       '03 / VERISURE',
-      'Asked: Data tests.\nNeeded: to see Data health.',
+      'Asked: Data tests.\nNeeded: to monitor Data health.',
       [
         'Asked: Data tests.',
         'Seen: tests are one signal among others.',

@@ -136,7 +136,14 @@ function Network() {
         </g>
       </Inspectable>
       <Bring t="Decisions inside moving systems, that reach the people acting.">
-        <CaseChip x={560} y={578} w={400} to="rail" kicker="EARTH · SNCF" sub="The proof, where it lives" />
+        <CaseChip
+          x={560}
+          y={578}
+          w={400}
+          to="rail"
+          kicker="EARTH · EXPERIENCE · SNCF"
+          sub="The proof, where it lives"
+        />
       </Bring>
     </Layer>
   );
@@ -310,7 +317,7 @@ function SharedCapability() {
           y={578}
           w={400}
           to="food-data"
-          kicker="EARTH · FOODCHÉRI DATA"
+          kicker="EARTH · EXPERIENCE · FOODCHÉRI DATA"
           sub="The proof, where it lives"
         />
       </Bring>
@@ -641,7 +648,14 @@ function EuropeanSpace() {
       </Inspectable>
       <path className="tx-div" d="M40 566H960" />
       <Lab x={40} y={600} t="FOR EUROPE’S TECHNOLOGICAL SOVEREIGNTY" c="warm" />
-      <CaseChip x={560} y={578} w={400} to="study-efrei" kicker="GALILEO · EFREI" sub="What I am learning" />
+      <CaseChip
+        x={560}
+        y={578}
+        w={400}
+        to="study-efrei"
+        kicker="GALILEO · EDUCATION · EFREI"
+        sub="What I am learning"
+      />
     </Layer>
   );
 }
