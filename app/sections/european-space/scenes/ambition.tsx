@@ -4,6 +4,7 @@ import { Inspectable } from '~/drawings/Inspectable';
 import {
   Arrow,
   Bars,
+  CaseChip,
   Header,
   Lab,
   Move,
@@ -355,6 +356,111 @@ function WhyEurope() {
   );
 }
 
+// ---------- The path: orbit raising, one domain per orbit ----------
+const PX = 500;
+const PY = 500;
+const ppt = (r: number, deg: number) =>
+  [PX + r * Math.cos((deg * Math.PI) / 180), PY + r * Math.sin((deg * Math.PI) / 180)] as const;
+const parc = (r: number, a = -170, b = -10) => {
+  const [sx, sy] = ppt(r, a);
+  const [ex, ey] = ppt(r, b);
+  return `M${sx.toFixed(1)} ${sy.toFixed(1)}A${r} ${r} 0 0 1 ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+};
+/** [orbit radius, label, period, status] — status: done, next (dashed), goal (gold). */
+const domains: [number, string, string, 'done' | 'next' | 'goal'][] = [
+  [92, 'RAIL', 'SNCF · 2010–2019', 'done'],
+  [142, 'FOOD-TECH', 'FoodChéri · 2016–2022', 'done'],
+  [192, 'MOBILITY', 'Heetch · 2022–2025', 'done'],
+  [242, 'HOME SECURITY', 'Verisure · since 2025', 'done'],
+  [302, 'NEXT DOMAIN', 'Open to every domain', 'next'],
+  [376, 'EUROPEAN SPACE', 'The ultimate goal', 'goal'],
+];
+const burns: [number, number, number][] = [
+  [0, -150, -140],
+  [1, -35, -45],
+  [2, -150, -140],
+  [3, -35, -45],
+  [4, -150, -140],
+];
+
+function ThePath() {
+  return (
+    <Layer steps={[3]}>
+      <Lab x={40} y={92} t="THE PATH" c="strong" />
+      <Inspectable
+        id="path-earth"
+        title="Experience gathered on Earth"
+        body="Every role so far, on the ground: rail, food-tech, mobility, home security.|Where the skills were built and sharpened."
+      >
+        <g>
+          <circle className="ap-earth" cx={PX} cy={PY} r="54" />
+          <path className="ap-earth-l" d={`M${PX - 54} ${PY}A54 18 0 0 0 ${PX + 54} ${PY}`} />
+        </g>
+      </Inspectable>
+      {domains.map(([r, t, s, st], k) => {
+        const d = parc(r);
+        const [ux, uy] = ppt(r, -18);
+        const w = t.length * 8.4 + 12 + s.length * 6.4;
+        return (
+          <Inspectable
+            key={t}
+            id={`path-${k}`}
+            title={
+              st === 'goal'
+                ? 'European space, the ultimate goal'
+                : st === 'next'
+                  ? 'The next domain'
+                  : `${t.charAt(0)}${t.slice(1).toLowerCase()}`
+            }
+            body={
+              st === 'goal'
+                ? 'The systems that generate, move and use Data in space, for Europe’s technological sovereignty.|Where every orbit leads.'
+                : st === 'next'
+                  ? 'Open to every professional domain: each one sharpens the same skills.|I grow with the teams I join, and they grow with me.'
+                  : `${s}: an orbit of experience, and a team I grew with.|Each domain raised the orbit.`
+            }
+          >
+            <g>
+              <path className={`ap-orbit ${st}`} d={d} />
+              <Move path={d} dur={22 + k * 6} begin={k * 3}>
+                <circle className={st === 'goal' ? 'tx-alert' : 'ap-craft'} r={st === 'goal' ? 6 : 4.5} />
+              </Move>
+              {st === 'done' &&
+                [0, 1].map((j) => <User key={j} x={ux + j * 14} y={uy + 2} s={0.42} c="on" />)}
+              <Lab x={PX - w / 2} y={PY - r - 10} t={t} c={st === 'goal' ? 'warm' : ''} />
+              <Sub x={PX - w / 2 + t.length * 8.4 + 12} y={PY - r - 10} t={s} />
+            </g>
+          </Inspectable>
+        );
+      })}
+      {burns.map(([i, a, b]) => {
+        const [sx, sy] = ppt(domains[i][0], a);
+        const [ex, ey] = ppt(domains[i + 1][0], b);
+        return (
+          <Fragment key={i}>
+            <path
+              className="ap-transfer"
+              d={`M${sx.toFixed(1)} ${sy.toFixed(1)}Q${((sx + ex) / 2).toFixed(1)} ${((sy + ey) / 2 + 14).toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`}
+            />
+            <circle className="ap-burn" cx={sx.toFixed(1)} cy={sy.toFixed(1)} r="4" />
+          </Fragment>
+        );
+      })}
+      <path className="tx-div" d="M40 566H960" />
+      <Lab x={40} y={600} t="EVERY DOMAIN SHARPENS THE SKILLS" c="warm" />
+      <Sub x={40} y={624} t="I grow with the teams I join, and they grow with me." />
+      <CaseChip
+        x={560}
+        y={578}
+        w={400}
+        to="transfer"
+        kicker="JUICE · EUROPEAN SPACE · WHAT I BRING"
+        sub="How my experience transfers"
+      />
+    </Layer>
+  );
+}
+
 export default function AmbitionScene() {
   return (
     <>
@@ -363,6 +469,7 @@ export default function AmbitionScene() {
       <Pull />
       <Systems />
       <WhyEurope />
+      <ThePath />
     </>
   );
 }

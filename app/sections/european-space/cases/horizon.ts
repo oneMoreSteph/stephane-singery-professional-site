@@ -5,9 +5,10 @@ export default {
   symbol: '✦',
   tag: 'MY CAREER GOAL',
   title: 'European space ambition',
-  summary: 'Why I want to contribute to Europe’s technological sovereignty.',
+  summary: 'My ultimate goal: Europe’s technological sovereignty, in space.',
   category: 'EUROPEAN SPACE / MY GOAL',
-  takeaway: 'I want my next work to strengthen Europe’s capacity to build and operate its own technology.',
+  takeaway:
+    'European space is my ultimate goal. I reach it by gathering experience in every domain I work in.',
   beats: [
     [
       '01 / LONG-STANDING INTEREST',
@@ -36,10 +37,21 @@ export default {
         'Through space-related systems and capabilities Europe can understand, operate and rely on for itself.',
       ],
     ],
+    [
+      '04 / THE PATH',
+      'Every domain sharpens the skills.',
+      [
+        'European space is my ultimate goal.',
+        'I get there by gathering experience.',
+        'Open to every professional domain: each one sharpens my skills.',
+        'Rail, food-tech, mobility, home security: the same skills, sharper each time.',
+        'I grow with the teams I join, and they grow with me.',
+      ],
+    ],
   ],
   drawing: {
     scene: 'ambition',
-    labels: ['The pull', 'The systems', 'Why Europe'],
+    labels: ['The pull', 'The systems', 'Why Europe', 'The path'],
     note: 'My professional direction: Europe’s technological sovereignty.',
   },
 } satisfies Case;

@@ -6,7 +6,7 @@ const section: Section = {
   slug: 'european-space',
   kind: 'stop',
   title: 'Why European space',
-  description: 'The next step: why European space, and how this experience transfers to it.',
+  description: 'My ultimate goal: why European space, and how this experience transfers to it.',
   stop: {
     key: 'juice',
     label: 'JUICE',
@@ -16,8 +16,7 @@ const section: Section = {
     action: 'VIEW SPACE GOAL',
     eyebrow: 'WHY SPACE · WHAT I BRING',
     titleHtml: 'Why European<br><em>space.</em>',
-    intro:
-      'Where the interest comes from, the Big Data systems I want to work on, and how my experience maps onto them.',
+    intro: 'My ultimate goal, and the path to it: experience in every domain, and the teams I grow with.',
     hardware: 'JUICE',
     position: [-3.55, -1.75, -0.6],
     camera: [-2.2, -1.6, 3.8],

@@ -1160,3 +1160,13 @@
 .story-svg .fw-lane{stroke:#d8eef2;stroke-width:2;stroke-dasharray:10 10;opacity:.5}
 .story-svg .fw-gate{stroke:#f07a68;stroke-width:4;stroke-linecap:round}
 .story-svg .fw-stop{stroke:#f07a68;stroke-width:5;stroke-linecap:round;fill:none}
+/* European space · the path */
+.story-svg .ap-earth{fill:#1b5b78;stroke:#97e0e8;stroke-width:2}
+.story-svg .ap-earth-l{fill:none;stroke:#97e0e8;stroke-opacity:.45;stroke-width:1.2}
+.story-svg .ap-orbit{fill:none;stroke:#57b4d6;stroke-width:2.5}
+.story-svg .ap-orbit.next{stroke:#97e0e8;stroke-dasharray:7 7;animation:dash-run 8s linear infinite}
+.story-svg .ap-orbit.goal{stroke:#f6d77a;stroke-width:3}
+.story-svg .ap-craft{fill:#d8f6fa}
+.story-svg .ap-transfer{fill:none;stroke:#f6d77a;stroke-width:1.8;stroke-dasharray:4 4}
+.story-svg .ap-burn{fill:#f6d77a}
+@media(prefers-reduced-motion:reduce){.story-svg .ap-orbit.next{animation:none}}

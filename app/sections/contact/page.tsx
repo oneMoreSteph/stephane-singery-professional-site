@@ -24,7 +24,8 @@ export default function ContactPage() {
         <p className="eyebrow">CONTACT</p>
         <h1>Let’s talk.</h1>
         <p className="lede">
-          {site.name}, {site.role}. The quickest way to reach me is by email or LinkedIn.
+          {site.name}, {site.role}. Open to every domain where these skills grow, with a team to grow with.
+          The quickest way to reach me is by email or LinkedIn.
         </p>
         <ContactLinks className="contact-links contact-links--large" withText />
       </main>

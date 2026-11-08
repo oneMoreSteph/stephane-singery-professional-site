@@ -47,9 +47,13 @@ export default {
       ],
     ],
     [
-      '05 / MY NEXT FIELD',
-      'I want to apply that experience in European space.',
-      ['Next: the systems that generate, move and use Data.', 'For Europe’s technological sovereignty.'],
+      '05 / THE PATH',
+      'Every domain on the way; European space at the end.',
+      [
+        'Next: any domain where these skills grow.',
+        'At the end: the systems that generate, move and use Data.',
+        'For Europe’s technological sovereignty.',
+      ],
     ],
   ],
   drawing: {
