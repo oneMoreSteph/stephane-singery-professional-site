@@ -1161,4 +1161,9 @@
 .story-svg .fw-gate{stroke:#f07a68;stroke-width:4;stroke-linecap:round}
 .story-svg .fw-stop{stroke:#f07a68;stroke-width:5;stroke-linecap:round;fill:none}
 /* European space · the path */
-.story-svg .ap-earth{fill:#1b5b78;stroke:#97e0e8;stroke-width:2}
+.story-svg .ap-moon{fill:#c9d3d8}
+.story-svg .ap-traj{fill:none;stroke:#bfe7ee;stroke-width:2;stroke-linejoin:round;opacity:.9}
+.story-svg .ap-mark{fill:#f6d77a;stroke:#071923;stroke-width:1.5}
+.story-svg .ap-cruise{fill:none;stroke:#f6d77a;stroke-width:1.8;stroke-dasharray:6 7;animation:dash-run 8s linear infinite}
+@media(prefers-reduced-motion:reduce){.story-svg .ap-cruise{animation:none}}
+.story-svg .tx-planet.venus{fill:#e3c27a}

@@ -357,109 +357,155 @@ function WhyEurope() {
 }
 
 // ---------- The path: like Juice, one flyby at a time ----------
-type Stop = [number, number, string, string, 'done' | 'next' | 'goal', React.ReactNode];
-const pathStops: Stop[] = [
-  [
-    200,
-    396,
-    'RAIL',
-    'SNCF · 2010–2019',
-    'done',
-    <>
-      <rect x="-11" y="-14" width="22" height="22" rx="4" />
-      <path d="M-11 0H11M-6 8L-9 14M6 8L9 14" />
-    </>,
-  ],
-  [
-    340,
-    360,
-    'FOOD-TECH',
-    'FoodChéri · 2016–2022',
-    'done',
-    <path d="M-15-2H15A15 13 0 0 1-15-2ZM-6-7C-8-10-4-12-6-15M3-7C1-10 5-12 3-15" />,
-  ],
-  [
-    480,
-    324,
-    'MOBILITY',
-    'Heetch · 2022–2025',
-    'done',
-    <>
-      <path d="M-15 6V-2L-10-10H10L15-2V6ZM-10-2H10" />
-      <circle cx="-8" cy="9" r="3" />
-      <circle cx="8" cy="9" r="3" />
-    </>,
-  ],
-  [
-    620,
-    288,
-    'HOME SECURITY',
-    'Verisure · since 2025',
-    'done',
-    <path d="M-14-1L0-13 14-1M-10-4V13H10V-4M-4 4L-1 7 5 1" />,
-  ],
-  [760, 252, 'NEXT DOMAIN', 'Open to every domain', 'next', <path d="M0-10V10M-10 0H10" />],
+// Juice’s real flybys: Earth–Moon 2024, Venus 2025, Earth 2026, Earth 2029, then Jupiter in 2031. Not to scale.
+const SUN = { x: 430, y: 320 };
+const TILT = 0.7;
+const VENUS_R = 95;
+const EARTH_R = 155;
+const JUP_R = 440;
+const polar = (r: number, deg: number) =>
+  [SUN.x + r * Math.cos((deg * Math.PI) / 180), SUN.y + TILT * r * Math.sin((deg * Math.PI) / 180)] as const;
+const ease = (a: number, b: number, t: number) => a + ((b - a) * (1 - Math.cos(Math.PI * t))) / 2;
+/** Juice’s radius from the Sun along its path: [angle, radius] knots, eased between them. */
+const knots: [number, number][] = [
+  [-45, EARTH_R],
+  [150, VENUS_R],
+  [440, EARTH_R],
+  [500, 200],
+  [560, EARTH_R],
+  [720, JUP_R],
 ];
-const GOAL = { x: 900, y: 206 };
-const TRAJ = `M70 432Q135 410 200 396T340 360T480 324T620 288T760 252T${GOAL.x} ${GOAL.y}`;
+const radiusAt = (deg: number) => {
+  const k = knots.findIndex(([a], i) => i > 0 && deg <= a);
+  const [a0, r0] = knots[k - 1];
+  const [a1, r1] = knots[k];
+  return ease(r0, r1, (deg - a0) / (a1 - a0));
+};
+const trace = (from: number, to: number) =>
+  Array.from({ length: Math.round((to - from) / 4) + 1 }, (_, i) => {
+    const deg = from + i * 4;
+    const [x, y] = polar(radiusAt(deg), deg);
+    return `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`;
+  }).join('');
+const LOOPS = trace(-45, 560);
+const CRUISE = trace(560, 720);
+const FULL = `${LOOPS}${CRUISE.replace(/^M/, 'L')}`;
+const JUP = { x: SUN.x + JUP_R, y: SUN.y };
+/** Flybys: [angle on the path, label, period, flyby, planet]. */
+const FLY: [number, string, string, string, string][] = [
+  [-45, 'RAIL', 'SNCF · 2010–2019', 'Earth–Moon flyby · 2024', 'earth'],
+  [150, 'FOOD-TECH', 'FoodChéri · 2016–2022', 'Venus flyby · 2025', 'venus'],
+  [440, 'MOBILITY', 'Heetch · 2022–2025', 'Earth flyby · 2026', 'earth'],
+  [560, 'HOME SECURITY', 'Verisure · since 2025', 'Earth flyby · 2029', 'earth'],
+];
 
 function ThePath() {
   return (
     <Layer steps={[3]}>
+      {Array.from({ length: 60 }, (_, i) => (
+        <circle
+          key={i}
+          className="star"
+          cx={(((i * 151.7) % 940) + 30).toFixed(0)}
+          cy={(((i * 97.1) % 420) + 120).toFixed(0)}
+          r={(i % 3) * 0.5 + 0.6}
+          style={vars({ '--i': i % 7 })}
+        />
+      ))}
       <Lab x={40} y={92} t="THE PATH" c="strong" />
-      <Sub x={40} y={114} t="Like Juice, each flyby adds momentum toward the goal." />
+      <Sub x={40} y={114} t="Like Juice: each flyby adds momentum." />
       <Inspectable
-        id="path-trajectory"
-        title="One trajectory, many flybys"
-        body="Juice reaches Jupiter through flybys: each one adds momentum. My domains work the same way.|Each role sharpened the same skills, a little further on the path."
+        id="path-system"
+        title="Juice’s path to Jupiter"
+        body="Juice cannot fly straight to Jupiter: it gains speed from four flybys of the Moon, Earth and Venus, then cruises out.|My path works the same way: each domain adds momentum."
       >
         <g>
-          <circle className="ap-earth" cx={60} cy={440} r="26" />
-          <path className="tx-route" d={TRAJ} />
-          <path className="tx-draw" pathLength={1} d={TRAJ} />
-          <Move path={TRAJ} dur={14} rotate="auto">
-            <Satellite s={0.38} />
+          {[VENUS_R, EARTH_R].map((r) => (
+            <ellipse key={r} className="tx-orbit" cx={SUN.x} cy={SUN.y} rx={r} ry={r * TILT} />
+          ))}
+          <path
+            className="tx-orbit"
+            d={`M${polar(JUP_R, -38).join(' ')}A${JUP_R} ${JUP_R * TILT} 0 0 1 ${polar(JUP_R, 38).join(' ')}`}
+          />
+          <circle className="tx-sun" cx={SUN.x} cy={SUN.y} r="30" />
+          <Lab x={SUN.x - 40} y={SUN.y + 5} t="SUN" c="end" />
+          <path className="ap-traj" d={LOOPS} />
+          <Move path={FULL} dur={20}>
+            <Satellite s={0.42} />
           </Move>
         </g>
       </Inspectable>
-      {pathStops.map(([x, y, t, s, st, icon], k) => (
-        <Inspectable
-          key={t}
-          id={`path-${k}`}
-          title={st === 'next' ? 'The next domain' : `${t.charAt(0)}${t.slice(1).toLowerCase()}`}
-          body={
-            st === 'next'
-              ? 'Open to every professional domain: each one sharpens the same skills.|I grow with the teams I join, and they grow with me.'
-              : `${s}.|A domain that sharpened my skills, and a team I grew with.`
-          }
-        >
-          <g>
-            <circle className={`tx-stage${st === 'next' ? ' tr-learn' : ''}`} cx={x} cy={y} r="34" />
-            <g className="tx-icon" transform={`translate(${x} ${y}) scale(1.15)`}>
-              {icon}
+      {FLY.map(([deg, t, s, fly, planet], k) => {
+        const [x, y] = polar(radiusAt(deg), deg);
+        const [mx, my] = polar(radiusAt(deg) + 30, deg);
+        return (
+          <Inspectable
+            key={t}
+            id={`path-fly-${k}`}
+            title={fly}
+            body={`${t.charAt(0)}${t.slice(1).toLowerCase()} · ${s}.|A domain that sharpened my skills, and a team I grew with.`}
+          >
+            <g>
+              <circle className={`tx-planet ${planet}`} cx={x} cy={y} r={planet === 'venus' ? 10 : 12} />
+              {k === 0 && <circle className="ap-moon" cx={x + 18} cy={y - 14} r="4" />}
+              <circle className="ap-mark" cx={mx} cy={my} r="11" />
+              <T x={mx} y={my + 4} className="center tx-win-t dark">
+                {String(k + 1)}
+              </T>
             </g>
-            <Lab x={x} y={y + 58} t={t} c="center" />
-            <Sub x={x} y={y + 78} t={s} c="center" />
-            {st === 'done' &&
-              [0, 1, 2].map((i) => <User key={i} x={x - 22 + i * 22} y={y + 112} s={0.5} c="on" />)}
-          </g>
-        </Inspectable>
-      ))}
+          </Inspectable>
+        );
+      })}
+      <Inspectable
+        id="path-domains"
+        title="Four domains, four flybys"
+        body="Rail, food-tech, mobility and home security: the same skills, sharper each time.|Open to every professional domain."
+      >
+        <g>
+          {FLY.map(([, t, s], k) => (
+            <Fragment key={t}>
+              <circle className="ap-mark" cx={52} cy={180 + k * 66} r="11" />
+              <T x={52} y={184 + k * 66} className="center tx-win-t dark">
+                {String(k + 1)}
+              </T>
+              <Lab x={72} y={185 + k * 66} t={t} />
+              <Sub x={72} y={205 + k * 66} t={s} />
+            </Fragment>
+          ))}
+          {[0, 1, 2, 3, 4].map((i) => (
+            <User key={i} x={58 + i * 22} y={474} s={0.55} c="on" />
+          ))}
+          <Sub x={40} y={500} t="The teams I grew with" />
+        </g>
+      </Inspectable>
+      <Inspectable
+        id="path-next"
+        title="The next domain"
+        body="After the flybys, the cruise: the next domain, whatever it is.|I grow with the teams I join, and they grow with me."
+      >
+        <g>
+          <path className="ap-cruise" d={CRUISE} />
+          <Lab x={640} y={146} t="NEXT DOMAIN" c="center" />
+          <Sub x={640} y={166} t="Open to every domain" c="center" />
+        </g>
+      </Inspectable>
       <Inspectable
         id="path-goal"
         title="European space, the ultimate goal"
         body="The systems that generate, move and use Data in space, for Europe’s technological sovereignty.|Where the path leads."
       >
         <g>
-          <circle className="tx-ring" cx={GOAL.x} cy={GOAL.y} r="62" />
-          <circle className="tx-stage vs-on" cx={GOAL.x} cy={GOAL.y} r="48" />
-          <g transform={`translate(${GOAL.x} ${GOAL.y})`}>
-            <Satellite s={0.7} />
-          </g>
-          <Lab x={GOAL.x} y={GOAL.y + 88} t="EUROPEAN SPACE" c="center warm" />
-          <Sub x={GOAL.x} y={GOAL.y + 108} t="The ultimate goal" c="center" />
+          <circle className="tx-ring" cx={JUP.x} cy={JUP.y} r="54" />
+          <circle className="tx-planet jupiter" cx={JUP.x} cy={JUP.y} r="40" />
+          <path
+            className="tx-bands"
+            d={`M${JUP.x - 36} ${JUP.y - 13}Q${JUP.x} ${JUP.y - 5} ${JUP.x + 36} ${JUP.y - 13}M${JUP.x - 39} ${JUP.y + 4}Q${JUP.x} ${JUP.y + 14} ${JUP.x + 39} ${JUP.y + 4}M${JUP.x - 31} ${JUP.y + 21}Q${JUP.x} ${JUP.y + 28} ${JUP.x + 31} ${JUP.y + 21}`}
+          />
+          <Lab x={JUP.x} y={JUP.y + 82} t="EUROPEAN SPACE" c="center warm" />
+          <Sub x={JUP.x} y={JUP.y + 102} t="The ultimate goal" c="center" />
         </g>
       </Inspectable>
+      <Sub x={960} y={540} t="Orbits not to scale" c="end" />
       <path className="tx-div" d="M40 566H960" />
       <Lab x={40} y={600} t="EVERY DOMAIN SHARPENS THE SKILLS" c="warm" />
       <Sub x={40} y={624} t="I grow with the teams I join, and they grow with me." />
