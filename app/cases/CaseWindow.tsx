@@ -260,8 +260,12 @@ export function CaseValue({ value }: { value: Value }) {
       <p>{value.line}</p>
       <ul className="case-value-levers" aria-label="Business levers">
         {value.levers.map((l) => (
-          <li key={l} data-def={LEVERS[l]}>
+          <li key={l} className="value-tag">
             {l}
+            <span className="value-tip" aria-hidden="true">
+              <strong>{l}</strong>
+              {LEVERS[l]}
+            </span>
           </li>
         ))}
       </ul>

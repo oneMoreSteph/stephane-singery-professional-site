@@ -76,12 +76,21 @@ function historyFor(id, caseKey = null, replace = false) {
   navigate(pathFor(id, caseKey), { replace });
 }
 
-/** The business levers a case served, as small tags after a "Brought" label; each tag carries its meaning. */
+/** The business levers a case served, as small tags after a "Brought" label; hovering a tag opens a card with its meaning. */
+function valueTip(lever) {
+  const tip = Object.assign(document.createElement('span'), { className: 'value-tip' });
+  tip.setAttribute('aria-hidden', 'true');
+  tip.append(Object.assign(document.createElement('strong'), { textContent: lever }), LEVERS[lever]);
+  return tip;
+}
 function valueTags(levers, list = document.createElement('span')) {
   list.classList.add('value-tags');
   const label = Object.assign(document.createElement('small'), { className: 'value-tags-k', textContent: 'Brought ·' });
-  list.replaceChildren(label, ...levers.map(l => Object.assign(document.createElement('span'), { textContent: l })));
-  list.querySelectorAll('span').forEach((tag, i) => { tag.dataset.def = LEVERS[levers[i]]; });
+  list.replaceChildren(label, ...levers.map(l => {
+    const tag = Object.assign(document.createElement('span'), { className: 'value-tag' });
+    tag.append(l, valueTip(l));
+    return tag;
+  }));
   return list;
 }
 
