@@ -86,6 +86,16 @@ const gates: [string, string, string, string, React.ReactNode][] = [
     <path d="M12-14C2-20-14-14-14 0S2 20 12 14M-20-5H6M-20 5H6" />,
   ],
   [
+    'm-acc',
+    'Accounting',
+    'ACCOUNTING',
+    'Company accounts',
+    <>
+      <rect x="-12" y="-17" width="24" height="34" rx="3" />
+      <path d="M-7-11H7V-4H-7ZM-7 3H-4M-1.5 3H1.5M4 3H7M-7 10H-4M-1.5 10H1.5M4 10H7" />
+    </>,
+  ],
+  [
     'm-law',
     'Transport law',
     'TRANSPORT LAW',
@@ -110,7 +120,7 @@ const gates: [string, string, string, string, React.ReactNode][] = [
     </>,
   ],
 ];
-const gateX = (i: number) => 170 + i * 220;
+const gateX = (i: number) => 150 + i * 175;
 
 function Dock() {
   return (

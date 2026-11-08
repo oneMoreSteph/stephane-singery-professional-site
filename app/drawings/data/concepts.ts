@@ -233,6 +233,10 @@ export const concepts: Record<string, [what: string, why: string]> = {
     'Cost control: knowing what each step of a chain costs.',
     'Every choice has a price, so time and money go on the same scale.',
   ],
+  'm-acc': [
+    'Accounting: recording what the company spends and earns, flow by flow.',
+    'What a logistics choice really costs shows in the accounts.',
+  ],
   'm-law': [
     'Transport law: the rules on contracts, liability and each mode.',
     'A plan that breaks a rule does not run, however good it is.',
@@ -303,7 +307,7 @@ export const concepts: Record<string, [what: string, why: string]> = {
     'It tests the whole chain, end to end.',
   ],
   cert: [
-    'A state-recognised certification: Data Science Developer, from Jedha.',
+    'Data Science Developer, from Jedha: a Bachelor’s-level title recognised by the RNCP, France’s national register of qualifications.',
     'About 450 intensive hours that turned self-teaching into a qualification.',
   ],
   beneath: [
@@ -324,7 +328,7 @@ export const concepts: Record<string, [what: string, why: string]> = {
     'A model nobody uses solves nothing.',
   ],
   'led-path': [
-    'Jedha’s certified Data Science Developer programme.',
+    'Jedha’s Data Science Developer programme, recognised by the RNCP.',
     'The step between self-teaching and a Data job.',
   ],
   'led-food': [

@@ -201,7 +201,7 @@ function Programme() {
           </Win>
         </Inspectable>
       ))}
-      <Inspectable id="cert" title="A state-recognised certification">
+      <Inspectable id="cert" title="A title recognised by the RNCP">
         <g>
           <rect className="tx-gauge" x="40" y="524" width="920" height="14" rx="3" />
           <rect className="tx-gauge-on" x="40" y="524" width="920" height="14" rx="3">
@@ -214,7 +214,7 @@ function Programme() {
             />
           </rect>
           <Lab x={40} y={568} t="ABOUT 450 INTENSIVE HOURS" />
-          <Lab x={960} y={568} t="STATE-RECOGNISED CERTIFICATION" c="end warm" />
+          <Lab x={960} y={568} t="RNCP · BACHELOR’S-LEVEL TITLE" c="end warm" />
           <Sub x={960} y={590} t="Data Science Developer" c="end" />
         </g>
       </Inspectable>
@@ -304,7 +304,7 @@ function WhereItLed() {
           <Lab x={120} y={140} t="2019" c="center" />
           <Sub x={120} y={200} t="Self-taught" c="center" />
           <Lab x={370} y={140} t="JEDHA" c="center" />
-          <Sub x={370} y={200} t="Certified programme" c="center" />
+          <Sub x={370} y={200} t="RNCP-recognised programme" c="center" />
         </g>
       </Inspectable>
       <Inspectable id="led-date" title="February 2021">

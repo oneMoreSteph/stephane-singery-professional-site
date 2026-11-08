@@ -8,7 +8,7 @@ const section: Section = {
   kind: 'stop',
   title: 'Education and development',
   description:
-    'Three study periods: logistics and transport, self-taught Data then a certified programme, an engineering degree at EFREI.',
+    'Three study periods: logistics and transport, self-taught Data then a state-recognised programme, an engineering degree at EFREI.',
   stop: {
     key: 'galileo',
     label: 'GALILEO',

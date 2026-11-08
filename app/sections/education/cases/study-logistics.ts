@@ -24,7 +24,7 @@ export default {
       '02 / THE MATURITY',
       'Each block a constraint to work with.',
       [
-        'Cost control, transport law, negotiation.',
+        'Cost control, accounting, transport law, negotiation.',
         'Languages for international logistics.',
         'A company internship.',
         'Two years planning against real constraints, with real counterparts.',

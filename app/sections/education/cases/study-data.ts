@@ -5,10 +5,10 @@ export default {
   symbol: '02',
   tag: '2019–2021',
   title: 'Self-taught in Data, then a Data Science Developer programme',
-  summary: 'Self-taught, then a certified programme: the method that took me into a Data team.',
+  summary: 'Self-taught, then a state-recognised programme: the method that took me into a Data team.',
   category: 'EDUCATION / DATA SCIENCE',
   takeaway:
-    'I taught myself, then completed a certified Data Science Developer programme: the method that took me from operations into a Data team.',
+    'I taught myself, then completed Jedha’s Data Science Developer programme, a Bachelor’s-level title recognised by the RNCP: the method that took me from operations into a Data team.',
   beats: [
     [
       '01 / SELF-TAUGHT',
@@ -20,9 +20,9 @@ export default {
     ],
     [
       '02 / JEDHA',
-      'An intensive, certified programme.',
+      'An intensive, state-recognised programme.',
       [
-        'Jedha’s Data Science Developer programme: a state-recognised certification.',
+        'Jedha’s Data Science Developer programme: a Bachelor’s-level title recognised by the RNCP, France’s national register of qualifications.',
         'About 450 intensive hours.',
         'Python, analysis and visualisation, machine learning, deep learning, Data engineering.',
         'Closed by a final project.',
@@ -61,7 +61,7 @@ export default {
     period: '2019–2021',
     title: 'Self-taught in Data, then a Data Science Developer programme',
     fact: 'Self-directed Python first, then the Jedha Data Science Developer programme.',
-    metric: ['~450', 'Intensive, certified programme', 'hours'],
+    metric: ['~450', 'Intensive, RNCP-recognised programme', 'hours'],
   },
   orbit: {
     r: 205,
