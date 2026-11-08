@@ -39,12 +39,12 @@ export default {
     ],
     [
       '04 / THE PATH',
-      'Every domain sharpens the skills.',
+      'Every domain widens the view.',
       [
         'European space is my ultimate goal.',
         'I get there by gathering experience.',
-        'Open to every professional domain: each one sharpens my skills.',
-        'Rail, food-tech, mobility, home security: the same skills, sharper each time.',
+        'Open to every professional domain.',
+        'Rail, food-tech, mobility, home security: each widened my view, and each completes the others.',
         'I grow with the teams I join, and they grow with me.',
       ],
     ],

@@ -443,7 +443,7 @@ function ThePath() {
             key={t}
             id={`path-fly-${k}`}
             title={fly}
-            body={`${t.charAt(0)}${t.slice(1).toLowerCase()} · ${s}.|A domain that sharpened my skills, and a team I grew with.`}
+            body={`${t.charAt(0)}${t.slice(1).toLowerCase()} · ${s}.|A domain that widened my view, and a team I grew with.`}
           >
             <g>
               <circle className="ap-eu-planet" cx={x} cy={y} r={planet === 'venus' ? 10 : 12} />
@@ -459,7 +459,7 @@ function ThePath() {
       <Inspectable
         id="path-domains"
         title="Four domains, four flybys"
-        body="Rail, food-tech, mobility and home security: the same skills, sharper each time.|Open to every professional domain."
+        body="Rail, food-tech, mobility and home security: each widened my view, and each completes the others.|Open to every professional domain."
       >
         <g>
           {FLY.map(([, t, s], k) => (
@@ -525,7 +525,7 @@ function ThePath() {
       </Inspectable>
       <Sub x={960} y={540} t="Orbits not to scale" c="end" />
       <path className="tx-div" d="M40 566H960" />
-      <Lab x={40} y={600} t="EVERY DOMAIN SHARPENS THE SKILLS" c="warm" />
+      <Lab x={40} y={600} t="EVERY DOMAIN WIDENS THE VIEW" c="warm" />
       <Sub x={40} y={624} t="I grow with the teams I join, and they grow with me." />
       <CaseChip
         x={560}
