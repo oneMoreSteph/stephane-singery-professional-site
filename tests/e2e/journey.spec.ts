@@ -116,6 +116,15 @@ test.describe('arrivals go straight to their place', () => {
   });
   const scenes = (page: Page) => page.evaluate(() => (window as unknown as { __scenes: string[] }).__scenes);
 
+  test('a reload stays on the same section and case', async ({ page }) => {
+    await page.goto('/high-stakes/castor');
+    await expect(page.locator('#detail-overlay')).toBeVisible(ARRIVE);
+    await page.reload();
+    await expect(page.locator('#detail-overlay')).toBeVisible(ARRIVE);
+    await expect(page).toHaveURL(/\/high-stakes\/castor$/);
+    expect(await scenes(page)).not.toContain('cockpit');
+  });
+
   test('a direct address opens its section, then its case', async ({ page }) => {
     await page.goto('/experience/heetch');
     await expect(page.locator('#detail-overlay')).toBeVisible(ARRIVE);
