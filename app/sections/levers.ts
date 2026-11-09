@@ -8,7 +8,8 @@ export const LEVERS = {
   'Speed of decision': 'Decisions taken sooner, on fresher and complete Data, by the people who need them.',
   'Trust and risk':
     'Risks spotted and controlled early, from passenger safety to Data quality, so people can rely on what they see.',
-  'Team autonomy': 'Business teams answer their own questions with the Data, at their own pace.',
+  'Team autonomy':
+    'Teams act on their own, with the information and tools they need: agents through a disruption, business teams with their Data.',
   Cost: 'Money the company no longer spends: licences, manual checks, wasted effort.',
 } as const;
 

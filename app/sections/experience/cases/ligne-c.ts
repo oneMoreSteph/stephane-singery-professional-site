@@ -55,7 +55,7 @@ export default {
   ],
   value: {
     org: 'SNCF · LIGNE C',
-    levers: ['Commitments met', 'Customers', 'Trust and risk'],
+    levers: ['Commitments met', 'Customers', 'Team autonomy', 'Trust and risk'],
     line: '42 stations covered by care plans, followed as Île-de-France Mobilités requires. Other Transilien lines came to benchmark them; RATP’s RER B recognised their quality.',
   },
   drawing: {
